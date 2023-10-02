@@ -24,7 +24,7 @@ const LoginForm: FC = () => {
   };
 
   const handleNavigate = () => {
-    router.push('/join');
+    // router.push('/join');
   };
 
   return (

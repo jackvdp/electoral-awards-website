@@ -36,14 +36,13 @@ const NavbarICPS = () => {
         info
         social
         navClassName="navbar navbar-expand-lg center-nav"
-        button={<NextLink title="Join" href="/join" className="btn btn-sm btn-primary rounded" />}
       />
     </header>
   )
 }
 
 const Navbar: FC<NavbarProps> = (props) => {
-  const { navClassName, info, social, button, fancy, navOtherClass, stickyBox } =
+  const { navClassName, info, social, fancy, navOtherClass, stickyBox } =
     props;
 
   const sticky = useSticky(350);
@@ -72,9 +71,9 @@ const Navbar: FC<NavbarProps> = (props) => {
           <ul className="navbar-nav">
             {/* ===================== About nav item ===================== */}
             <ListItemLink title="Home" href='/' />
-            <ListItemLink title="Schedule" href='/events' />
+            <ListItemLink title="Programme" href='/events' />
             <ListItemLink title="Awards" href='/awards' />
-            <ListItemLink title="Judges" href='/awards' />
+            <ListItemLink title="Judges" href='/judges' />
             <ListItemLink title="Contact" href='/contact' />
           </ul>
 
@@ -104,10 +103,13 @@ const Navbar: FC<NavbarProps> = (props) => {
           )}
 
           {/* ============= Join button ============= */}
-          {!isLoggedIn && button && <li className="nav-item">{button}</li>}
+          {!isLoggedIn &&
+            <li className="nav-item">
+              <NextLink title="Register" href="/register" className="btn btn-sm btn-primary rounded" />
+            </li>}
 
           {/* ============= Sign in/out button ============= */}
-          <li className="nav-item">
+          {/* <li className="nav-item">
             {
               isLoggedIn ?
                 <NextLink
@@ -121,7 +123,7 @@ const Navbar: FC<NavbarProps> = (props) => {
                   Sign In
                 </button>
             }
-          </li>
+          </li> */}
 
 
           {/* ============= humburger button for small device ============= */}

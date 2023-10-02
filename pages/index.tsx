@@ -5,7 +5,7 @@ import { Navbar } from 'components/blocks/navbar';
 import { Footer } from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
 import FAQ from 'components/blocks/faq/FAQ';
-// import { CTAJoin } from 'components/blocks/call-to-action';
+import CTA from 'components/blocks/call-to-action/CTA';
 import { useAuth } from 'auth/AuthProvider';
 
 const Home: NextPage = () => {
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
             <FAQ />
         </div>
 
-        {/* {!isLoggedIn && <CTAJoin />} */}
+        <CTA />
         
       </main>
 
