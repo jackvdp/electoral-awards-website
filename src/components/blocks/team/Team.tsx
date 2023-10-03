@@ -6,7 +6,7 @@ import teams from 'data/team-list';
 const Team: FC = () => {
   return (
     <section
-      className="wrapper image-wrapper bg-auto no-overlay bg-image mb-14"
+      className="mb-14"
     >
       <h2 className="text-uppercase text-muted text-center">Organisers</h2>
       <div className="container">

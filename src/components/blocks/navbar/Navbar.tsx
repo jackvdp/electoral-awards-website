@@ -74,6 +74,7 @@ const Navbar: FC<NavbarProps> = (props) => {
             <ListItemLink title="Programme" href='/events' />
             <ListItemLink title="Awards" href='/awards' />
             <ListItemLink title="Judges" href='/judges' />
+            <ListItemLink title="Location" href='/location' />
             <ListItemLink title="Contact" href='/contact' />
           </ul>
 
