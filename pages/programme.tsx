@@ -13,202 +13,9 @@ const Programme: NextPage = () => {
             <main className="content-wrapper">
                 <section className="wrapper bg-light px-md-20 px-10 py-md-10 py-5 ">
 
-                    <div className="mb-3">
-                        <div className="card">
-                            <div className="card-body">
-                                <h5 className="card-title">Monday: Arrival of delegates and welcome dinner</h5>
-                                <table className="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Time</th>
-                                            <th>Event</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1000h</td>
-                                            <td>Arrival & Registration</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1800h</td>
-                                            <td>Welcome Drinks</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="mb-3">
-                        <div className="card">
-                            <div className="card-body">
-                                <h5 className="card-title">Tuesday: Event registration, Symposium opening, dinner & entertainment</h5>
-                                <table className="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Time</th>
-                                            <th>Event</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>0930h</td>
-                                            <td>Symposium Registration</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1030h</td>
-                                            <td>Symposium Opening</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1100h-1200h</td>
-                                            <td>Morning Panel: Navigating Elections in a Pandemic: Lessons Learned from COVID-19</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1200h</td>
-                                            <td>Lunch</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1330h-1430h</td>
-                                            <td>Keynote Presentation – Alberto Guevara, The Observer & the Observed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1430h-1530h</td>
-                                            <td>Afternoon Panel: The Future of Voting: Voter Identification, Biometrics, and Electronic Voting</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1545h</td>
-                                            <td>In Conversation: Wafula Chebukati, Kenya Election 2022: Success Story</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1600h-1730h</td>
-                                            <td>Fringe events: Industry demonstrations</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2000h</td>
-                                            <td>Dinner & Entertainment</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="mb-3">
-                        <div className="card">
-                            <div className="card-body">
-                                <h5 className="card-title">Wednesday Morning: Symposium closing</h5>
-                                <table className="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Time</th>
-                                            <th>Event</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>0930h</td>
-                                            <td>Symposium Opening</td>
-                                        </tr>
-                                        <tr>
-                                            <td>0945h-1015h</td>
-                                            <td>Keynote Presentation – TBC</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1030h-1130h</td>
-                                            <td>Morning Panel: Combating Disinformation: Strategies for Protecting Electoral Integrity</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1030h - 1400h</td>
-                                            <td>Fringe events: Industry demonstrations</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1145h-1215h</td>
-                                            <td>Keynote Presentation – TBC</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1230h - 1300h</td>
-                                            <td>Symposium Closing</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1300h</td>
-                                            <td>Lunch at Hotel</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="mb-3">
-                        <div className="card">
-                            <div className="card-body">
-                                <h5 className="card-title">Wednesday afternoon: rest/explore nearby places</h5>
-                                <table className="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Time</th>
-                                            <th>Event</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1400h</td>
-                                            <td>Rest and/or explore places of interest nearby before the start of the Awards Ceremony</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="mb-3">
-                        <div className="card">
-                            <div className="card-body">
-                                <h5 className="card-title">Wednesday Evening: The International Electoral Awards Ceremony</h5>
-                                <table className="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Time</th>
-                                            <th>Event</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1900h</td>
-                                            <td>The International Electoral Awards Ceremony will start at 19:00, ending at 22:00. There will be a dinner and entertainment accompanying the awards ceremony.</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="mb-3">
-                        <div className="card">
-                            <div className="card-body">
-                                <h5 className="card-title">Thursday: Departures and morning sight seeing</h5>
-                                <table className="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Time</th>
-                                            <th>Event</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1000h</td>
-                                            <td>Departures and morning sight seeing. We usually reserve this day for a day tour in the morning for delegates who have late departures, and departures throughout the day.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1000h</td>
-                                            <td>Sight seeing trip</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
+                    {schedule.map((day, index) => (
+                        <DayCard key={index} day={day} />
+                    ))}
 
                 </section>
             </main>
@@ -220,3 +27,101 @@ const Programme: NextPage = () => {
 };
 
 export default Programme;
+
+type DayCardProps = {
+    day: Day;
+};
+
+const DayCard: React.FC<DayCardProps> = ({ day }) => {
+    return (
+        <div className="mb-3">
+            <div className="card">
+                <div className="card-body">
+                    <h5 className="card-title">{day.title}</h5>
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Event</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {day.events.map((event, index) => (
+                                <tr key={index}>
+                                    <td>{event.time}</td>
+                                    <td>{event.description}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+
+type Event = {
+    time: string;
+    description: string;
+};
+
+type Day = {
+    title: string;
+    events: Event[];
+};
+
+const schedule: Day[] = [
+    {
+        title: "Monday: Arrival of delegates and welcome dinner",
+        events: [
+            { time: "1000h", description: "Arrival & Registration" },
+            { time: "1800h", description: "Welcome Drinks" }
+        ]
+    },
+    {
+        title: "Tuesday: Event registration, Symposium opening, dinner & entertainment",
+        events: [
+            { time: "0930h", description: "Symposium Registration" },
+            { time: "1030h", description: "Symposium Opening" },
+            { time: "1100h-1200h", description: "Morning Panel: Navigating Elections in a Pandemic: Lessons Learned from COVID-19" },
+            { time: "1200h", description: "Lunch" },
+            { time: "1330h-1430h", description: "Keynote Presentation – Alberto Guevara, The Observer & the Observed" },
+            { time: "1430h-1530h", description: "Afternoon Panel: The Future of Voting: Voter Identification, Biometrics, and Electronic Voting" },
+            { time: "1545h", description: "In Conversation: Wafula Chebukati, Kenya Election 2022: Success Story" },
+            { time: "1600h-1730h", description: "Fringe events: Industry demonstrations" },
+            { time: "2000h", description: "Dinner & Entertainment" }
+        ]
+    },
+    {
+        title: "Wednesday Morning: Symposium closing",
+        events: [
+            { time: "0930h", description: "Symposium Opening" },
+            { time: "0945h-1015h", description: "Keynote Presentation – TBC" },
+            { time: "1030h-1130h", description: "Morning Panel: Combating Disinformation: Strategies for Protecting Electoral Integrity" },
+            { time: "1030h - 1400h", description: "Fringe events: Industry demonstrations" },
+            { time: "1145h-1215h", description: "Keynote Presentation – TBC" },
+            { time: "1230h - 1300h", description: "Symposium Closing" },
+            { time: "1300h", description: "Lunch at Hotel" }
+        ]
+    },
+    {
+        title: "Wednesday afternoon: rest/explore nearby places",
+        events: [
+            { time: "1400h", description: "Rest and/or explore places of interest nearby before the start of the Awards Ceremony" }
+        ]
+    },
+    {
+        title: "Wednesday Evening: The International Electoral Awards Ceremony",
+        events: [
+            { time: "1900h", description: "The International Electoral Awards Ceremony will start at 19:00, ending at 22:00. There will be a dinner and entertainment accompanying the awards ceremony." }
+        ]
+    },
+    {
+        title: "Thursday: Departures and morning sight seeing",
+        events: [
+            { time: "1000h", description: "Departures and morning sight seeing. We usually reserve this day for a day tour in the morning for delegates who have late departures, and departures throughout the day." },
+            { time: "1000h", description: "Sight seeing trip" }
+        ]
+    }
+];
