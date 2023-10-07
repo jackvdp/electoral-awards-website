@@ -19,7 +19,7 @@ const Events: NextPage = () => {
 
                     <div className='row'>
                         {events.map((event, index) => (
-                            <div className='col-md-6 col-12 d-flex justify-content-center py-2'>
+                            <div key={index} className='col-md-6 col-12 d-flex justify-content-center py-2'>
                                 <EventCard event={event} index={index} />
                             </div>
                         ))}

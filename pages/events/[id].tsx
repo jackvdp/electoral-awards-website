@@ -65,32 +65,30 @@ export default EventPage
 const EventDetailsComponent: FC<EventDetailsProps> = ({ event }) => {
 
     return (
-        <div className="card">
-            <div className="card-body">
-                <div className="classic-view">
-                    <article className="post">
-                        <div className="post-content mb-5">
-                            {event.overview && <p>Overview: {event.overview}</p>}
-                            {event.talkTopic && <p>Talk Topic: {event.talkTopic}</p>}
-
-                            <div className="speakers-section">
-                                <h5 className='pb-2'>Speakers:</h5>
-                                <ol>
-                                    {event.speakers.map((speaker, index) => (
-                                        <li key={index} className="speaker-item">
-                                            <p>{speaker.name}</p>
-                                            <p className="speaker-title">{speaker.title}</p>
-                                            {speaker.organization && <p className="speaker-organization">{speaker.organization}</p>}
-                                        </li>
-                                    ))}
-                                </ol>
-                            </div>
-
-                        </div>
-                    </article>
+        <>
+            <div className="card">
+                <div className="card-body">
+                    {event.overview && <p className="card-text">{event.overview}</p>}
                 </div>
             </div>
-        </div>
+            <h3 className='pb-2 pt-4 text-center'>Speakers:</h3>
+            <div className="row">
+                {event.speakers.map((speaker, index) => (
+                    <div key={index} className="col-12 col-md-6 mb-4">
+                        <div className="card">
+                            <div className="card-body">
+                                <h5 className='card-title'>{speaker.name}</h5>
+                                {
+                                    speaker.organization ?
+                                        <p className="card-text">{speaker.title}, {speaker.organization}</p> :
+                                        <p className="card-text">{speaker.title}</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </>
     );
 }
 

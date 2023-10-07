@@ -3,7 +3,6 @@ export type Event = {
     title: string;
     time: string; // This could be further broken down into date and time objects if needed
     overview?: string;
-    talkTopic?: string; // Specific for Keynote and In Conversation
     speakers: Speaker[];
 };
 
