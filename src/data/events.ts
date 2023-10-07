@@ -6,7 +6,7 @@ export type Event = {
     speakers: Speaker[];
 };
 
-type Speaker = {
+export type Speaker = {
     name: string;
     title: string;
     organization?: string;

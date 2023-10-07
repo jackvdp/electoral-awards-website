@@ -1,16 +1,12 @@
 import { NextPage } from 'next';
 import { Fragment } from 'react';
-import { FC } from 'react';
 import PageProgress from 'components/common/PageProgress';
-import { events, Event } from 'data/events';
+import { events } from 'data/events';
 import { GetServerSidePropsContext } from 'next';
 import { Footer } from 'components/blocks/footer';
 import { Navbar } from 'components/blocks/navbar';
 import NextLink from 'components/reuseable/links/NextLink';
-
-interface EventDetailsProps {
-    event: Event;
-}
+import { EventDetailsProps, EventDetails } from 'components/blocks/events/EventDetails';
 
 const EventPage: NextPage<EventDetailsProps> = ({ event }) => {
     return (
@@ -47,7 +43,7 @@ const EventPage: NextPage<EventDetailsProps> = ({ event }) => {
                     <div className="container py-6 py-md-8">
                         <div className="row">
                             <div className="col-lg-10 mx-auto">
-                                <EventDetailsComponent event={event} />
+                                <EventDetails event={event} />
                             </div>
                         </div>
                     </div>
@@ -61,36 +57,6 @@ const EventPage: NextPage<EventDetailsProps> = ({ event }) => {
 };
 
 export default EventPage
-
-const EventDetailsComponent: FC<EventDetailsProps> = ({ event }) => {
-
-    return (
-        <>
-            <div className="card">
-                <div className="card-body">
-                    {event.overview && <p className="card-text">{event.overview}</p>}
-                </div>
-            </div>
-            <h3 className='pb-2 pt-4 text-center'>Speakers:</h3>
-            <div className="row">
-                {event.speakers.map((speaker, index) => (
-                    <div key={index} className="col-12 col-md-6 mb-4">
-                        <div className="card">
-                            <div className="card-body">
-                                <h5 className='card-title'>{speaker.name}</h5>
-                                {
-                                    speaker.organization ?
-                                        <p className="card-text">{speaker.title}, {speaker.organization}</p> :
-                                        <p className="card-text">{speaker.title}</p>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </>
-    );
-}
 
 
 export const getServerSideProps = (context: GetServerSidePropsContext) => {
