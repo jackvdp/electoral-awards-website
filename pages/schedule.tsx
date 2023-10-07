@@ -1,33 +1,21 @@
 import { NextPage } from 'next';
-import { useState, useEffect, Fragment } from 'react';
+import { useState, Fragment } from 'react';
 // -------- custom component -------- //
 import { Navbar } from 'components/blocks/navbar';
 import { Footer } from 'components/blocks/footer';
 import { schedule, Day } from 'data/schedule';
+import SimpleBanner from 'components/blocks/banner/SimpleBanner';
 
 const Programme: NextPage = () => {
     return (
         <Fragment>
             <Navbar />
 
-            <section
-                className="wrapper image-wrapper bg-image bg-overlay text-white"
-                style={{ backgroundImage: 'url(/img/photos/bg22.png)' }}
-            >
-                <div className="container py-10 text-center">
-                    <div className="row">
-                        <div className="col-md-10 col-lg-8 col-xl-7 col-xxl-6 mx-auto">
-                            <h1 className="display-1 text-white">Schedule</h1>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <SimpleBanner title={"Schedule"} />
 
             <main className="content-wrapper">
                 <section className="wrapper bg-light px-md-20 px-10 py-md-10 py-5 ">
-
                     <EventTabsAndTables />
-
                 </section>
             </main>
 
