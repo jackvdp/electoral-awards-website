@@ -6,6 +6,7 @@ import { useAuth } from 'auth/AuthProvider';
 import NextLink from 'components/reuseable/links/NextLink';
 import SocialLinks from 'components/reuseable/links/SocialLinks';
 import ListItemLink from 'components/reuseable/links/ListItemLink';
+import DropdownToggleLink from 'components/reuseable/links/DropdownToggleLink';
 // -------- partial header component -------- //
 import Info from './partials/Info';
 import Signin from './partials/Signin';
@@ -69,11 +70,17 @@ const Navbar: FC<NavbarProps> = (props) => {
 
         <div className="offcanvas-body ms-lg-auto d-flex flex-column h-100">
           <ul className="navbar-nav">
-            {/* ===================== About nav item ===================== */}
             <ListItemLink title="Home" href='/' />
-            <ListItemLink title="Programme" href='/events' />
-            <ListItemLink title="Awards" href='/awards' />
-            <ListItemLink title="Judges" href='/judges' />
+            <ListItemLink title="Programme" href='/programme' />
+
+            <li className="nav-item dropdown">
+              <DropdownToggleLink title="Awards" className="nav-link dropdown-toggle" />
+              <ul className="dropdown-menu">
+                <ListItemLink href="/categories" title="Categories" linkClassName="dropdown-item" />
+                <ListItemLink href="/judges" title="Judges" linkClassName="dropdown-item" />
+              </ul>
+            </li>
+
             <ListItemLink title="Location" href='/location' />
             <ListItemLink title="Contact" href='/contact' />
           </ul>

@@ -9,7 +9,7 @@ const FAQ: FC = () => {
       <h2 className="text-uppercase text-muted mb-3 text-center">About</h2>
       <p className="mb-10 px-lg-12 px-xl-15 text-center">
         Welcome to the 19th International Electoral Affairs Symposium &amp; Awards Ceremony, an extraordinary four-day event held from <b>13th to 16th November 2023</b>.<br />
-        Organized by the <b>International Centre for Parliamentary Studies</b> in collaboration with the <b>Portuguese National Electoral Commission</b>, this symposium will draw together leading figures in the world of electoral affairs.<br />
+        Organized by the <b>International Centre for Parliamentary Studies</b> in collaboration with the <b>Portuguese National Electoral Commission</b>, this symposium will draw together leading figures in the world of electoral affairs, and recognise excellence in electoral management.<br />
       </p>
 
       <div className="accordion-wrapper" id="accordion">
