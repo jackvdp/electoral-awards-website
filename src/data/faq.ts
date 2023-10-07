@@ -1,5 +1,5 @@
 // used in the faq-1 block
-export const accordionList1 = [
+export const FAQs = [
   [
     {
       no: 'One',
