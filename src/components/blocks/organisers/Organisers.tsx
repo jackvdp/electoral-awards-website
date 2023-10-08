@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import TeamCard from './TeamCard';
+import TeamCard from './OrganiserCard';
 // -------- data -------- //
-import teams from 'data/team-list';
+import organisers from 'data/organisers';
 
 const Team: FC = () => {
   return (
@@ -12,7 +12,7 @@ const Team: FC = () => {
       <div className="container">
         <div className="row">
           <div className="row grid-view gy-6 gy-xl-0 p-6">
-            {teams.map((item) => (
+            {organisers.map((item) => (
               <div className="col-md-12 col-xl-6" key={item.id}>
                 <TeamCard {...item} />
               </div>

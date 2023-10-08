@@ -1,4 +1,4 @@
-const teams = [
+const organisers = [
   {
     id: 1,
     name: 'International Centre of Parliamentary Stduies',
@@ -15,4 +15,4 @@ const teams = [
   }
 ];
 
-export default teams;
+export default organisers;

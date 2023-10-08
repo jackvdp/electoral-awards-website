@@ -4,19 +4,18 @@ import { Fragment } from 'react';
 import { Navbar } from 'components/blocks/navbar';
 import { Footer } from 'components/blocks/footer';
 import SimpleBanner from 'components/blocks/banner/SimpleBanner';
+import Judges from 'components/blocks/judges/Judges';
 
-const SubmitNomination: NextPage = () => {
+const JudgesPage: NextPage = () => {
     return (
         <Fragment>
             <Navbar />
 
-            <SimpleBanner title={"Submit a Nomination"} />
+            <SimpleBanner title={"Judges"} />
 
             <main className="content-wrapper">
 
-                <p className='p-md-20 p-10 text-center'>
-                    <b>The window for submitting a nomination has now closed.</b><br/> The winners of each award will be announced at the International Electoral Awards Ceremony, Wednesday 15th November 2023.                
-                </p>
+                <Judges />
 
             </main>
 
@@ -25,4 +24,4 @@ const SubmitNomination: NextPage = () => {
     );
 };
 
-export default SubmitNomination;
+export default JudgesPage;
