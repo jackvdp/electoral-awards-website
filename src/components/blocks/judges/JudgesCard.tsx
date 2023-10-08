@@ -6,7 +6,7 @@ export const JudgeCard: FC<Judge> = (props) => {
   const { name, country, organisation, title, image } = props;
 
   return (
-    <div className={`card shadow-lg`}>
+    <div className={`card`}>
       <div className="card-body">
         
         <div className="rounded-circle w-20 mb-4 overflow-hidden">
