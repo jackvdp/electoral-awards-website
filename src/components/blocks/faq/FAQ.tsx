@@ -9,13 +9,11 @@ const FAQ: FC = () => {
       <h2 className="text-muted text-center">FAQ</h2>
 
       <div className="accordion-wrapper" id="accordion">
-        <div className="row gy-6 gy-xl-0 p-6">
-          {FAQs.map((items, i) => {
+        <div className="row gy-md-6 gy-xl-0 p-md-6">
+          {FAQs.map((item, i) => {
             return (
               <div className="col-md-6" key={i}>
-                {items.map((item) => (
-                  <Accordion key={item.no} {...item} />
-                ))}
+                <Accordion key={item.no} {...item} />
               </div>
             );
           })}

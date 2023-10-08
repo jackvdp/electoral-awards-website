@@ -13,7 +13,7 @@ const TeamCard: FC<TeamCardProps> = (props) => {
   const { name, description, designation, image } = props;
 
   return (
-    <div className={`card shadow-lg`}>
+    <div className="card">
       <div className="card-body">
         
         <div className="w-20 mb-4 overflow-hidden">

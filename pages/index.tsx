@@ -6,7 +6,7 @@ import { Footer } from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
 import FAQ from 'components/blocks/faq/FAQ';
 import CTA from 'components/blocks/call-to-action/CTA';
-import Team from 'components/blocks/organisers/Organisers';
+import Organisers from 'components/blocks/organisers/Organisers';
 import { useAuth } from 'auth/AuthProvider';
 import NextLink from 'components/reuseable/links/NextLink';
 
@@ -26,7 +26,7 @@ const Home: NextPage = () => {
           className="wrapper image-wrapper bg-image bg-overlay text-white"
           style={{ backgroundImage: 'url(/img/photos/bg22.png)' }}
         >
-          <div className="container pt-18 pt-md-20 pb-18 pb-md-20 text-center">
+          <div className="container pt-10 pt-md-20 pb-10 pb-md-20 text-center">
             <div className="row">
               <div className="col-md-10 col-lg-8 col-xl-7 col-xxl-6 mx-auto">
                 <h1 className="display-1 text-white mb-3">19th Annual International Electoral Awards</h1>
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
 
         </div>
 
-        <Team />
+        <Organisers />
 
         <CTA />
 

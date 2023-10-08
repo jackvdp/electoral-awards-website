@@ -9,7 +9,7 @@ const CTA: FC = () => {
         >
             <div className="container">
                 <div className="row">
-                    <div className="py-18 col-lg-6 col-xl-5 mx-auto">
+                    <div className="py-md-18 col-lg-6 col-xl-5 mx-auto">
                         <h2 className="display-4 mb-3 text-center">Want to attend?</h2>
 
                         <p className="lead mb-5 px-md-16 px-lg-3">
