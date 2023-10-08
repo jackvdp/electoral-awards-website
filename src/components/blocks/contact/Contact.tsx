@@ -4,6 +4,7 @@ const Contact: FC<ContactProp> = ({ title, subtitle, showMessage, sendButtonTitl
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
+        console.log("Sending email")
         const emailElement = document.getElementById("form_email") as HTMLInputElement;
         const nameElement = document.getElementById("form_name") as HTMLInputElement;
         const lastNameElement = document.getElementById("form_lastname") as HTMLInputElement;
@@ -21,7 +22,7 @@ const Contact: FC<ContactProp> = ({ title, subtitle, showMessage, sendButtonTitl
             const phone = phoneElement.value;
             const title = titleElement.value;
 
-            const cobinedMessage = `
+            const combinedMessage = `
                 Name: ${name}
                 Last Name: ${lastName}
                 Email: ${email}
@@ -31,15 +32,13 @@ const Contact: FC<ContactProp> = ({ title, subtitle, showMessage, sendButtonTitl
                 Message: ${message}
               `;
 
-            const fullMessage = { message: cobinedMessage }
-
             try {
                 const response = await fetch('/api/send-email', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ message: fullMessage }),
+                    body: JSON.stringify({ message: combinedMessage }),
                 });
 
                 if (response.ok) {
