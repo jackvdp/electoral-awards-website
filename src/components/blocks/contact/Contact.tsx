@@ -13,12 +13,15 @@ const Contact: FC<ContactProp> = ({ title, subtitle, showMessage, sendButtonTitl
         const phoneElement = document.getElementById("form_phone") as HTMLTextAreaElement;
         const titleElement = document.getElementById("form_jobtitle") as HTMLTextAreaElement;
 
-        if (emailElement && nameElement && lastNameElement && messageElement && organisationElement) {
+        if (
+            emailElement && nameElement && lastNameElement &&
+            organisationElement && phoneElement && titleElement
+        ) {
             const email = emailElement.value;
             const name = nameElement.value;
             const lastName = lastNameElement.value;
             const organisation = organisationElement.value;
-            const message = messageElement.value;
+            const message = messageElement ? messageElement.value : 'Registration form';
             const phone = phoneElement.value;
             const title = titleElement.value;
 
@@ -55,6 +58,8 @@ const Contact: FC<ContactProp> = ({ title, subtitle, showMessage, sendButtonTitl
             } catch (error) {
                 console.error('There was an error sending the email', error);
             }
+        } else {
+            alert('Please provide information for all fields.')
         }
 
     }
