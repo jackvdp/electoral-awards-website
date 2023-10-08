@@ -15,7 +15,7 @@ const Events: NextPage = () => {
             <SimpleBanner title={"Events"}></SimpleBanner>
 
             <main className="content-wrapper">
-                <section className="wrapper bg-light px-md-20 px-10 py-md-10 py-5 container">
+                <section className="wrapper bg-light px-md-20 px-2 py-md-10 py-5 container">
 
                     <div className='row'>
                         {events.map((event, index) => (

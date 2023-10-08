@@ -6,7 +6,7 @@ import { Footer } from 'components/blocks/footer';
 import SimpleBanner from 'components/blocks/banner/SimpleBanner';
 import { AwardCategory, categories } from 'data/award-categories';
 import Accordion from 'components/reuseable/accordion';
-import { TabBarAndContent } from 'components/reuseable/TabBar';
+import { DropdownTabs } from 'components/reuseable/Dropdown';
 
 const Categories: NextPage = () => {
 
@@ -50,9 +50,9 @@ const Categories: NextPage = () => {
             <SimpleBanner title={"Award Categories"} />
 
             <main className="content-wrapper">
-                <section className="wrapper bg-light px-md-20 px-10 py-md-10 py-5 ">
+                <section className="wrapper bg-light px-md-20 px-5 py-md-10 py-5 ">
 
-                    <TabBarAndContent items={tabItems} />
+                    <DropdownTabs items={tabItems} />
 
                 </section>
             </main>
