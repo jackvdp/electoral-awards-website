@@ -21,7 +21,7 @@ const Contact: FC<ContactProp> = ({ title, subtitle, showMessage, sendButtonTitl
             const phone = phoneElement.value;
             const title = titleElement.value;
 
-            const fullMessage = `
+            const cobinedMessage = `
                 Name: ${name}
                 Last Name: ${lastName}
                 Email: ${email}
@@ -30,6 +30,8 @@ const Contact: FC<ContactProp> = ({ title, subtitle, showMessage, sendButtonTitl
                 Job Title: ${title}
                 Message: ${message}
               `;
+
+            const fullMessage = { message: cobinedMessage }
 
             try {
                 const response = await fetch('/api/send-email', {
