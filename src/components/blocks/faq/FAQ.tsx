@@ -14,7 +14,7 @@ const FAQ: FC = () => {
         This event is organized by the <b>International Centre for Parliamentary Studies</b> in collaboration with the <b>Portuguese National Electoral Commission</b>, and will draw together leading figures in the world of electoral affairs, and recognise excellence in electoral management.
       </p>
       <p className="mb-10 px-lg-12 px-xl-15">
-        Be part of the dynamic dialogue, participate in enlightening panel discussions, and join us in celebrating the significant contributions to electoral democracy at the prestigious Awards Ceremony. Don't miss this exclusive opportunity to engage, share, and learn with global peers.
+        {"Be part of the dynamic dialogue, participate in enlightening panel discussions, and join us in celebrating the significant contributions to electoral democracy at the prestigious Awards Ceremony. Don't miss this exclusive opportunity to engage, share, and learn with global peers."}
       </p >
 
       <div className="accordion-wrapper" id="accordion">

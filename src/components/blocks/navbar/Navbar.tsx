@@ -71,7 +71,7 @@ const Navbar: FC<NavbarProps> = (props) => {
         <div className="offcanvas-body ms-lg-auto d-flex flex-column h-100">
           <ul className="navbar-nav">
             <ListItemLink title="Home" href='/' />
-            
+
             <li className="nav-item dropdown">
               <DropdownToggleLink title="Programme" className="nav-link dropdown-toggle" />
               <ul className="dropdown-menu">
@@ -83,6 +83,7 @@ const Navbar: FC<NavbarProps> = (props) => {
             <li className="nav-item dropdown">
               <DropdownToggleLink title="Awards" className="nav-link dropdown-toggle" />
               <ul className="dropdown-menu">
+                <ListItemLink href="/submit-nomination" title="Submit a Nomination" linkClassName="dropdown-item" />
                 <ListItemLink href="/categories" title="Categories" linkClassName="dropdown-item" />
                 <ListItemLink href="/judges" title="Judges" linkClassName="dropdown-item" />
               </ul>

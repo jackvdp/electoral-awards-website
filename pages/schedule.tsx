@@ -5,6 +5,7 @@ import { Navbar } from 'components/blocks/navbar';
 import { Footer } from 'components/blocks/footer';
 import { schedule, Day } from 'data/schedule';
 import SimpleBanner from 'components/blocks/banner/SimpleBanner';
+import { TabBarAndContent } from 'components/reuseable/TabBar';
 
 const Programme: NextPage = () => {
     return (
@@ -15,7 +16,13 @@ const Programme: NextPage = () => {
 
             <main className="content-wrapper">
                 <section className="wrapper bg-light px-md-20 px-10 py-md-10 py-5 ">
-                    <EventTabsAndTables />
+                    <TabBarAndContent items={
+                        schedule.map(day => ({
+                            title: day.title.split(':')[0],
+                            content: <DayCard day={day} />,
+                            icon: <i className="uil uil-calendar-alt pe-1" />
+                        }))
+                    } />
                 </section>
             </main>
 
@@ -25,51 +32,6 @@ const Programme: NextPage = () => {
 };
 
 export default Programme;
-
-const EventTabsAndTables: React.FC = () => {
-    const [activeTab, setActiveTab] = useState<number | 'all'>('all');
-
-    const handleTabClick = (tabId: number | 'all') => {
-        setActiveTab(tabId);
-    };
-
-    return (
-        <>
-            <ul className="nav nav-tabs nav-tabs-basic justify-content-center">
-                <li className="nav-item mb-2">
-                    <a className={`nav-link ${activeTab === 'all' ? 'active' : ''}`} onClick={() => handleTabClick('all')}>
-                        <i className="uil uil-list-ul pe-1" />
-                        <span>All Days</span>
-                    </a>
-                </li>
-                {schedule.map((day, index) => (
-                    <li key={index} className="nav-item mb-2">
-                        <a className={`nav-link ${index === activeTab ? 'active' : ''}`} onClick={() => handleTabClick(index)}>
-                            <i className="uil uil-calendar-alt pe-1" />
-                            <span>{day.title.split(':')[0]}</span>
-                        </a>
-                    </li>
-                ))}
-            </ul>
-
-            <div className="tab-content">
-                {activeTab === 'all' &&
-                    schedule.map((day, index) => (
-                        <div key={index} className="tab-pane fade show active">
-                            <DayCard day={day} />
-                        </div>
-                    ))
-                }
-
-                {typeof activeTab === 'number' &&
-                    <div className="tab-pane fade show active">
-                        <DayCard day={schedule[activeTab]} />
-                    </div>
-                }
-            </div>
-        </>
-    );
-}
 
 type DayCardProps = {
     day: Day;
