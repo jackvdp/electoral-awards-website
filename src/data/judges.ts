@@ -12,76 +12,76 @@ export const judges: Judge[] = [
         title: "Chief Executive Officer",
         organisation: "International Centre for Parliamentary Studies",
         country: "United Kingdom",
-        image: ""  // Replace with actual image path or URL
+        image: "/img/judges/gokhool.jpeg"
     },
     {
         name: "Soreto de Barros",
         title: "Chairman",
         organisation: "National Electoral Commission",
         country: "Portugal",
-        image: ""  // Replace with actual image path or URL
+        image: "/img/CNE.png"
     },
     {
         name: "Michael Bruter",
         title: "Director",
         organisation: "Electoral Psychology Observatory",
-        country: "France", // Country not provided in original data
-        image: ""  // Replace with actual image path or URL
+        country: "France",
+        image: "/img/judges/bruter.jpg"
     },
     {
         name: "Thomas Hicks",
         title: "Commissioner",
         organisation: "U.S. Election Assistance Commission",
         country: "USA",
-        image: ""  // Replace with actual image path or URL
+        image: "/img/judges/hicks.jpg"
     },
     {
         name: "Sy Mamabolo",
         title: "Chief Electoral Officer",
         organisation: "Electoral Commission",
         country: "South Africa",
-        image: ""  // Replace with actual image path or URL
+        image: "/img/judges/mamabolo.jpeg"
     },
     {
         name: "Laura Matjosaityte",
         title: "Former Chairwoman",
         organisation: "Central Electoral Commission",
         country: "Lithuania",
-        image: ""  // Replace with actual image path or URL
+        image: "/img/judges/matjosaityte.jpg"
     },
     {
         name: "Natia Zaalishvili",
         title: "Director",
         organisation: "Centre for Electoral Systems Development, Reforms and Trainings",
         country: "Georgia",
-        image: ""  // Replace with actual image path or URL
+        image: "/img/judges/natia.jpg"
     },
     {
         name: "Alberto Guevara",
         title: "Former Director",
         organisation: "Electoral Tribunal of the Federal Judiciary",
         country: "Mexico",
-        image: ""  // Replace with actual image path or URL
+        image: "/img/judges/alberto.jpg"
     },
     {
         name: "John Hollins",
         title: "Former Chief Electoral Officer",
         organisation: "Elections Ontario",
         country: "Canada",
-        image: ""  // Replace with actual image path or URL
+        image: "/img/judges/hollins.png"
     },
     {
         name: "Nasim Zaidi",
         title: "Former Chief Election Commissioner",
         organisation: "Election Commission",
         country: "India",
-        image: ""  // Replace with actual image path or URL
+        image: "/img/judges/nasim.jpg"
     },
     {
         name: "Toby James",
         title: "Director",
         organisation: "Electoral Integrity Project",
-        country: "United Kingdom", // Country not provided in original data
-        image: ""  // Replace with actual image path or URL
+        country: "United Kingdom",
+        image: "/img/judges/james.png"
     }
 ];

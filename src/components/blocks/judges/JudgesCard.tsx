@@ -9,8 +9,8 @@ export const JudgeCard: FC<Judge> = (props) => {
     <div className={`card shadow-lg`}>
       <div className="card-body">
         
-        <div className="w-20 mb-4 overflow-hidden">
-          <Image width={200} height={200} alt="Team Member" layout="responsive" src="/img/judges/t1.jpg" objectFit="contain" />
+        <div className="rounded-circle w-20 mb-4 overflow-hidden">
+          <Image width={200} height={200} alt="Team Member" layout="responsive" src={image} objectFit="cover" />
         </div>
 
         <h4 className="mb-1">{name}</h4>
