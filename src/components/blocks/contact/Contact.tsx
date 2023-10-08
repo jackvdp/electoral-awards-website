@@ -78,101 +78,29 @@ const Contact: FC<ContactProp> = ({ title, subtitle, showMessage, sendButtonTitl
                     <div className="messages"></div>
                     <div className="row gx-4">
                         <div className="col-md-6">
-                            <div className="form-floating mb-4">
-                                <input required type="text" name="name" id="form_name" placeholder="Jane" className="form-control" />
-                                <label htmlFor="form_name">First Name *</label>
-                                <div className="valid-feedback"> Looks good! </div>
-                                <div className="invalid-feedback"> Please enter your first name. </div>
-                            </div>
+                            <TextInput id="form_name" label="First Name" placeholder="Jane" required />
+                            <TextInput id="form_email" label="Email" placeholder="jane.doe@example.com" type="email" required />
+                            <TextInput id="form_jobtitle" label="Job Title" placeholder="Manager" required />
                         </div>
-
                         <div className="col-md-6">
-                            <div className="form-floating mb-4">
-                                <input required type="text" name="surname" placeholder="Doe" id="form_lastname" className="form-control" />
-                                <label htmlFor="form_lastname">Last Name *</label>
-                                <div className="valid-feedback"> Looks good! </div>
-                                <div className="invalid-feedback"> Please enter your last name. </div>
+                            <TextInput id="form_lastname" label="Last Name" placeholder="Doe" required />
+                            <TextInput id="form_phone" label="Phone" placeholder="01234567891" type="tel" required />
+                            <TextInput id="form_organisation" label="Organisation" placeholder="Doe" required />
+                        </div>
+
+                        {showMessage && (
+                            <div className="col-12">
+                                <TextAreaInput id="form_message" label="Message" placeholder="Your message" required />
                             </div>
-                        </div>
+                        )}
 
-                        <div className="col-md-6">
-                            <div className="form-floating mb-4">
-                                <input
-                                    required
-                                    type="email"
-                                    name="email"
-                                    id="form_email"
-                                    className="form-control"
-                                    placeholder="jane.doe@example.com"
-                                />
-                                <label htmlFor="form_email">Email *</label>
-                                <div className="valid-feedback"> Looks good! </div>
-                                <div className="invalid-feedback"> Please provide a valid email address. </div>
-                            </div>
-                        </div>
-
-                        <div className="col-md-6">
-                            <div className="form-floating mb-4">
-                                <input required type="tel" name="Phonee" placeholder="01234567891" id="form_phone" className="form-control" />
-                                <label htmlFor="form_phone">Phone *</label>
-                                <div className="valid-feedback"> Looks good! </div>
-                                <div className="invalid-feedback"> Please enter your phone. </div>
-                            </div>
-                        </div>
-
-                        <div className="col-md-6">
-                            <div className="form-floating mb-4">
-                                <input required type="text" name="Job title" placeholder="Manager" id="form_jobtitle" className="form-control" />
-                                <label htmlFor="form_jobtitle">Job Title *</label>
-                                <div className="valid-feedback"> Looks good! </div>
-                                <div className="invalid-feedback"> Please enter your job title. </div>
-                            </div>
-                        </div>
-
-                        <div className="col-md-6">
-                            <div className="form-floating mb-4">
-                                <input required type="text" name="surname" placeholder="Doe" id="form_organisation" className="form-control" />
-                                <label htmlFor="form_lastname">Organisation *</label>
-                                <div className="valid-feedback"> Looks good! </div>
-                                <div className="invalid-feedback"> Please enter your organsiation. </div>
-                            </div>
-                        </div>
-
-                        {
-                            showMessage && (
-                                <div className="col-12">
-                                    <div className="form-floating mb-4">
-                                        <textarea
-                                            required
-                                            name="message"
-                                            id="form_message"
-                                            className="form-control"
-                                            placeholder="Your message"
-                                            style={{ height: 150 }}
-                                        />
-
-                                        <label htmlFor="form_message">Message *</label>
-                                        <div className="valid-feedback"> Looks good! </div>
-                                        <div className="invalid-feedback"> Please enter your messsage. </div>
-                                    </div>
-                                </div>
-                            )
-                        }
-
-                        <div className="col-12 text-center">
-                            <input type="submit" value={sendButtonTitle} className="btn btn-primary rounded-pill btn-send mb-3" />
-                            <p className="text-muted">
-                                <strong>*</strong> These fields are required.
-                            </p>
-                        </div>
-
+                        <SubmitSection sendButtonTitle={sendButtonTitle} />
                     </div>
-
                 </form>
-
             </div>
         </div>
-    )
+    );
+
 }
 
 interface ContactProp {
@@ -184,3 +112,58 @@ interface ContactProp {
 }
 
 export default Contact
+
+// TextInput.tsx
+interface TextInputProps {
+    id: string;
+    label: string;
+    placeholder: string;
+    type?: string;
+    required?: boolean;
+}
+
+const TextInput: React.FC<TextInputProps> = ({ id, label, placeholder, type = "text", required }) => {
+    return (
+        <div className="form-floating mb-4">
+            <input required={required} type={type} id={id} placeholder={placeholder} className="form-control" />
+            <label htmlFor={id}>{label}</label>
+            <div className="valid-feedback"> Looks good! </div>
+            <div className="invalid-feedback"> Please enter {label.toLowerCase()}. </div>
+        </div>
+    );
+}
+
+// TextAreaInput.tsx
+interface TextAreaInputProps {
+    id: string;
+    label: string;
+    placeholder: string;
+    required?: boolean;
+}
+
+const TextAreaInput: React.FC<TextAreaInputProps> = ({ id, label, placeholder, required }) => {
+    return (
+        <div className="form-floating mb-4">
+            <textarea required={required} id={id} placeholder={placeholder} className="form-control" style={{ height: 150 }} />
+            <label htmlFor={id}>{label}</label>
+            <div className="valid-feedback"> Looks good! </div>
+            <div className="invalid-feedback"> Please enter {label.toLowerCase()}. </div>
+        </div>
+    );
+}
+
+// SubmitSection.tsx
+interface SubmitSectionProps {
+    sendButtonTitle: string;
+}
+
+const SubmitSection: React.FC<SubmitSectionProps> = ({ sendButtonTitle }) => {
+    return (
+        <div className="col-12 text-center">
+            <input type="submit" value={sendButtonTitle} className="btn btn-primary rounded-pill btn-send mb-3" />
+            <p className="text-muted">
+                <strong>*</strong> These fields are required.
+            </p>
+        </div>
+    );
+}
