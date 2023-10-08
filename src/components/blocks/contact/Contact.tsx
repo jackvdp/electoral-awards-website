@@ -50,9 +50,11 @@ const Contact: FC<ContactProp> = ({ title, subtitle, showMessage, sendButtonTitl
                     nameElement.value = '';
                     lastNameElement.value = '';
                     organisationElement.value = '';
-                    messageElement.value = '';
                     phoneElement.value = '';
                     titleElement.value = '';
+                    if (messageElement) {
+                        messageElement.value = '';
+                    }
                 } else {
                     const data = await response.json();
                     alert(`Failed to send email: ${data.message}`);
