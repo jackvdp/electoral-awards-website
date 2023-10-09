@@ -19,7 +19,7 @@ export const judges: Judge[] = [
         title: "Chairman",
         organisation: "National Electoral Commission",
         country: "Portugal",
-        image: "/img/CNE.png"
+        image: "/img/logos/CNE.png"
     },
     {
         name: "Michael Bruter",
