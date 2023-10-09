@@ -23,7 +23,7 @@ const Info = () => {
   return (
     <div className="offcanvas offcanvas-end text-inverse" id="offcanvas-info" data-bs-scroll="true">
       <div className="offcanvas-header">
-        <img src="/img/ICPSLogo-White.png" alt="ICPS logo" height="75" width="112" />
+        <img src="/img/logos/ICPSLogo-White.png" alt="ICPS logo" height="75" width="112" />
         <button
           type="button"
           className="btn-close btn-close-white"

@@ -1,9 +1,9 @@
 import { NextPage } from 'next';
-import { useState, Fragment } from 'react';
+import { Fragment } from 'react';
 // -------- custom component -------- //
 import { Navbar } from 'components/blocks/navbar';
 import { Footer } from 'components/blocks/footer';
-import { events, Event } from 'data/events';
+import { events } from 'data/events';
 import SimpleBanner from 'components/blocks/banner/SimpleBanner';
 import EventCard from 'components/blocks/events/EventCard';
 

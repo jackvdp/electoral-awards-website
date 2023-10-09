@@ -59,12 +59,12 @@ const Navbar: FC<NavbarProps> = (props) => {
   const headerContent = (
     <Fragment>
       <div className="navbar-brand w-100">
-        <NextLink href="/" title={<img alt="logo" src={`/img/${logo}.png`} srcSet={`/img/${logo}@2x.png 2x`} />} />
+        <NextLink href="/" title={<img alt="logo" src={`/img/logos/${logo}.png`} srcSet={`/img/logos/${logo}@2x.png 2x`} />} />
       </div>
 
       <div id="offcanvas-nav" data-bs-scroll="true" className="navbar-collapse offcanvas offcanvas-nav offcanvas-start">
         <div className="offcanvas-header d-lg-none">
-          <NextLink href="/" title={<img className="mb-4 ms-n1" src="/img/ICPSLogo-White.png" width={120} alt="" />} />
+          <NextLink href="/" title={<img className="mb-4 ms-n1" src="/img/logos/ICPSLogo-White.png" width={120} alt="" />} />
           <button type="button" aria-label="Close" data-bs-dismiss="offcanvas" className="btn-close btn-close-white" />
         </div>
 
@@ -89,6 +89,8 @@ const Navbar: FC<NavbarProps> = (props) => {
               </ul>
             </li>
 
+            
+            <ListItemLink title="Sponsors" href='/sponsors' />
             <ListItemLink title="Location" href='/location' />
             <ListItemLink title="Contact" href='/contact' />
           </ul>
