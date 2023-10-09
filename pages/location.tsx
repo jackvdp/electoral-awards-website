@@ -23,7 +23,7 @@ const LocationPage: NextPage = () => {
             <div className="row">
               <div className="col-lg-8 mx-auto">
                 <h1 className="display-1 mb-3 text-white">Symposium & Awards Ceremony Location</h1>
-                <p>The four-day event will be hosted at the <strong>Crowne Plaza Caparica Lisbon</strong>. To secure your resevration, please contact the hotel using the email address listed below.</p>
+                <p>The four-day event will be hosted at the <strong>Crowne Plaza Caparica Lisbon</strong>. To secure your reservation, please contact the hotel using the email address listed below.</p>
               </div>
             </div>
           </div>
