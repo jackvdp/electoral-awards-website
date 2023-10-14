@@ -17,7 +17,7 @@ export const schedule: Day[] = [
         ]
     },
     {
-        title: "Tuesday: Event registration, Symposium Opening, Dinner & Entertainment",
+        title: "Tuesday: Event registration, Symposium Opening, Dinner",
         events: [
             { time: "0930h", description: "Symposium Registration" },
             { time: "1030h", description: "Symposium Opening" },
@@ -27,7 +27,7 @@ export const schedule: Day[] = [
             { time: "1430h-1530h", description: "Afternoon Panel: The Future of Voting: Voter Identification, Biometrics, and Electronic Voting" },
             { time: "1545h", description: "In Conversation: Wafula Chebukati, Kenya Election 2022: Success Story" },
             { time: "1600h-1730h", description: "Fringe events: Industry demonstrations" },
-            { time: "2000h", description: "Dinner & Entertainment" }
+            { time: "2000h", description: "Dinner" }
         ]
     },
     {
