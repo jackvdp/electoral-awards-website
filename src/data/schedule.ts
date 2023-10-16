@@ -34,7 +34,7 @@ export const schedule: Day[] = [
         title: "Wednesday: Symposium Closing & The International Electoral Awards Ceremony",
         events: [
             { time: "0930h", description: "Symposium Opening" },
-            { time: "0945h-1015h", description: "Keynote Presentation – TBC" },
+            { time: "0945h-1015h", description: "Demystifying Electoral Regulations & Procedures" },
             { time: "1030h-1130h", description: "Morning Panel: Combating Disinformation: Strategies for Protecting Electoral Integrity" },
             { time: "1030h - 1400h", description: "Fringe events: Industry demonstrations" },
             { time: "1145h-1215h", description: "Keynote Presentation – TBC" },

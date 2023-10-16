@@ -56,7 +56,7 @@ export const events: Array<Event> = [
     {
         type: 'Keynote Presentation',
         title: 'Demystifying Electoral Regulations & Procedures',
-        time: 'Wednesday 15th 1015h-1045h',
+        time: 'Wednesday 15th 0945h-0915h',
         speakers: [
             { name: 'Dr. Madhukar Gupta', title: 'State Election Commissioner', organization: 'Election Commission of Rajasthan, India' }
         ]
@@ -64,7 +64,7 @@ export const events: Array<Event> = [
     {
         type: 'Roundtable',
         title: 'Combating Disinformation: Strategies for Protecting Electoral Integrity',
-        time: 'Wednesday 15th 1100h-1200h',
+        time: 'Wednesday 15th 1030h-1130h',
         overview: 'The spread of disinformation poses a significant threat to the integrity of elections and democratic processes. In the age of social media and digital communication, the rapid dissemination of false information can have far-reaching consequences. This panel discussion will focus on strategies and best practices for EMBs to identify, address, and counter disinformation during electoral campaigns. Panelists will share their experiences, discuss the role of various stakeholders, and explore potential solutions for safeguarding the democratic process.',
         speakers: [
             { name: 'Chair & Expert in Electoral Disinformation', title: '' },
