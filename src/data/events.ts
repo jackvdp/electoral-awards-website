@@ -54,6 +54,14 @@ export const events: Array<Event> = [
         ]
     },
     {
+        type: 'Keynote Presentation',
+        title: 'Demystifying Electoral Regulations & Procedures',
+        time: 'Wednesday 15th 1015h-1045h',
+        speakers: [
+            { name: 'Dr. Madhukar Gupta', title: 'State Election Commissioner', organization: 'Election Commission of Rajasthan, India' }
+        ]
+    },
+    {
         type: 'Roundtable',
         title: 'Combating Disinformation: Strategies for Protecting Electoral Integrity',
         time: 'Wednesday 15th 1100h-1200h',
