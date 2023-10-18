@@ -16,7 +16,8 @@ export const sponsors: Array<Sponsor> = [
     },
     {
         name: "Al Ghurair",
-        logo: "/img/sponsors/al-ghurair.png"
+        logo: "/img/sponsors/al-ghurair.png",
+        page: "/img/sponsors/pages/ghurair.png"
     },
     {
         name: "Neurotechnology",
