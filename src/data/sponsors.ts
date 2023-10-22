@@ -11,8 +11,8 @@ export const sponsors: Array<Sponsor> = [
         page: "/img/sponsors/pages/smartmatic.png"
     },
     {
-        name: "Democracy Counts",
-        logo: "/img/sponsors/democracy-counts.png"
+        name: "Toppan Gravity",
+        logo: "/img/sponsors/toppan.png"
     },
     {
         name: "Al Ghurair",
@@ -36,7 +36,8 @@ export const sponsors: Array<Sponsor> = [
     },
     {
         name: "Biorugged",
-        logo: "/img/sponsors/biorugged.png"
+        logo: "/img/sponsors/biorugged.png",
+        page: "/img/sponsors/pages/biorugged.png"
     },
     {
         name: "Rayudu",

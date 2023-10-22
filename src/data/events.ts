@@ -57,6 +57,7 @@ export const events: Array<Event> = [
         type: 'Keynote Presentation',
         title: 'Demystifying Electoral Regulations & Procedures',
         time: 'Wednesday 15th 0945h-0915h',
+        overview: 'It has been observed that in democratic countries all over the world Electoral rules and procedures have become technologically advanced but their complexity has increased often making them incomprehensible. Demystifying electoral regulations and procedures endeavours to simplify their complexity to make them more accessible and understandable for the stakeholders especially voters. It results in empowering voters and allows candidates to engage more effectively in the democratic process. The rules should essentially serve to ensure that democratic elections run smoothly. They range from voter registration, scheduling elections, qualifications for candidates, fair campaigning, transparent voting, polling locations, independent oversight, diverse electoral systems, results verification, dispute resolution, accessibility, security, and post-election steps. While they may differ by region, at their core, they are expected to uphold democratic principles.',
         speakers: [
             { name: 'Dr. Madhukar Gupta', title: 'State Election Commissioner', organization: 'Election Commission of Rajasthan, India' }
         ]
