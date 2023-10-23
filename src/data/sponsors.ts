@@ -41,6 +41,7 @@ export const sponsors: Array<Sponsor> = [
     },
     {
         name: "Rayudu",
-        logo: "/img/sponsors/rayudu.jpg"
+        logo: "/img/sponsors/rayudu.jpg",
+        page: "/img/sponsors/pages/rayudu.png"
     }
 ]
