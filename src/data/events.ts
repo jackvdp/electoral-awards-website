@@ -49,6 +49,7 @@ export const events: Array<Event> = [
         type: 'In Conversation',
         title: 'Kenya Election 2022 – A Success Story',
         time: 'Tuesday 14th 1545h-1630h',
+        overview: 'Technology has been utilized in Kenyan elections to register voters, verify voters on election day, monitor elections in real time and transmit election results. The presentation will delve into the Kenyan 2017 and 2022 General Elections which were presided over by the Speaker. It will explore the lessons learned and challenges faced such as misinformation and disinformation, which has become one of the biggest threats to the development of democracy in today’s world. Despite this, Kenya is a stellar example of how technology can be leveraged in election management to deliver a transparent, accountable and credible democratic process with integrity.',
         speakers: [
             { name: 'Wafula Chebukati', title: 'Former Chairman', organization: 'Independent Electoral and Boundaries Commission (Kenya)' }
         ]
