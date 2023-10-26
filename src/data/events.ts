@@ -22,7 +22,7 @@ export const events: Array<Event> = [
             { name: 'João Almeida', title: 'Commissioner', organization: 'Portuguese National Election Commission' },
             { name: 'Joaquim Morgado', title: 'Commissioner', organization: 'Portuguese National Election Commission' },
             { name: 'Laura Matjošaitytė', title: 'Former Chairperson', organization: 'The Central Electoral Commission of The Republic of Lithuania' },
-            { name: 'TBC', title: '' },
+            { name: 'Judge Patricia Lorenzo Paniagua', title: 'Central Electoral Commission of the Dominican Republic' },
         ]
     },
     {
