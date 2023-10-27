@@ -12,7 +12,8 @@ export const sponsors: Array<Sponsor> = [
     },
     {
         name: "Toppan Gravity",
-        logo: "/img/sponsors/toppan.png"
+        logo: "/img/sponsors/toppan.png",
+        page: "/img/sponsors/pages/toppan.png"
     },
     {
         name: "Al Ghurair",
