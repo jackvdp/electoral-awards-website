@@ -78,9 +78,9 @@ export const events: Array<Event> = [
     },
     {
         type: 'Keynote Presentation',
-        title: 'TBC',
+        title: 'Electoral Backsliding? Election quality worldwide, future threats and how electoral integrity can be protected',
         time: 'Wednesday 15th 1215h-1315h',
-        overview: '',
+        overview: 'This presentation will delve into the global landscape of electoral quality, pinpointing alarming trends of backsliding and declining integrity. As democracies worldwide grapple with emerging threats — from disinformation campaigns to technological vulnerabilities — understanding these challenges becomes paramount. Join us for a comprehensive exploration of contemporary pitfalls, innovative solutions, and strategies to fortify and preserve the sacred process of free and fair elections. This session promises insights into safeguarding our democratic future and ensuring electoral processes remain robust and transparent.',
         speakers: [
             { name: 'Professor Toby James', title: 'Director', organization: 'Electoral Integrity Project' }
         ]
