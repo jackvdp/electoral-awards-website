@@ -16,19 +16,19 @@ export const events: Array<Event> = [
     {
         type: 'Roundtable',
         title: 'Navigating Elections in a Pandemic: Lessons Learned from COVID-19',
-        time: 'Tuesday 14th 1030h-1130h',
+        time: 'Tuesday 14th 1100h-1200h',
         overview: 'The COVID-19 pandemic has presented unique challenges for electoral management bodies (EMBs) around the globe. As countries grappled with the public health crisis, maintaining the integrity and accessibility of elections became a critical concern. This panel discussion will explore the various strategies and measures implemented by EMBs to ensure safe, inclusive, and transparent elections during the pandemic. Panelists will share their experiences, the challenges faced, and the lessons learned from navigating elections in these unprecedented times.',
         speakers: [
             { name: 'João Almeida', title: 'Commissioner', organization: 'Portuguese National Election Commission' },
             { name: 'Joaquim Morgado', title: 'Commissioner', organization: 'Portuguese National Election Commission' },
-            { name: 'Laura Matjošaitytė', title: 'Former Chairperson', organization: 'The Central Electoral Commission of The Republic of Lithuania' },
+            { name: 'Thomas Hicks', title: 'Commissioner', organization: 'U.S. Election Assistance Commission' },
             { name: 'Judge Patricia Lorenzo Paniagua', title: 'Central Electoral Commission of the Dominican Republic' },
         ]
     },
     {
         type: 'Keynote Presentation',
         title: 'The Observer & the Observed – How the Electoral Cycle is Monitored',
-        time: 'Tuesday 14th 1145h-1245h',
+        time: 'Tuesday 14th 1215h-1315h',
         overview: 'In 1997, Thomas Carothers published an article titled The rise of election monitoring. The observers observed. Back then, he claimed that “[e]lection observation… [was] the best-established, most visible, and often best-funded type of democracy-related assistance.” He listed the Carter Center, the National Democratic Institute and the International Republican Institute, the United Nations, the Organization of American States (OAS), the Organization for Security and Cooperation in Europe (OSCE), and the Organization of African Unity, amongst some of the organizations that sent observers to elections around the world. The article also lists some positive contributions, but also delves into problems of unprofessional behavior, excessive focus on election day, ill definition of standards to report findings, and partiality. Where are we 25 years later? How are electoral observers dealing with the use of digital technologies in different stages of the electoral process? Are there new methodologies available to monitor elections from different angles? In short: why, who, when, and how elections are observed? I will present answers with examples from Latin America and a few more questions that may be useful when engaging in this debate.',
         speakers: [
             { name: 'Alberto Guevara', title: 'Former Director', organization: 'the Electoral Tribunal of the Federal Judiciary (Mexico)' }
@@ -37,19 +37,19 @@ export const events: Array<Event> = [
     {
         type: 'Roundtable',
         title: 'The Future of Voting: Voter Identification, Biometrics, and Electronic Voting',
-        time: 'Tuesday 14th 1415h-1515h',
+        time: 'Tuesday 14th 1445h-1545h',
         overview: 'Technological advancements offer new possibilities for improving electoral management processes, including voter identification, biometrics, and electronic voting. This panel discussion will delve into the potential benefits, challenges, and implications of these emerging technologies for EMBs. Panelists will examine case studies, share their experiences, and discuss best practices for successfully integrating technology into the electoral process.',
         speakers: [
             { name: 'Alberto Guevara', title: 'Former Director', organization: 'the Electoral Tribunal of the Federal Judiciary (Mexico)' },
             { name: 'Greg Essensa', title: 'Chief Electoral Officer', organization: 'Elections Ontario' },
-            { name: 'Nasim Zaidi', title: 'Former Chief Election Commissioner', organization: 'India' },
-            { name: 'TBC', title: '' }
+            { name: 'Giorgi Kalandarishvili', title: 'Chairperson', organization: 'Central Election Commission of Georgia' },
+            { name: 'Denis Kačan', title: 'Product Lead', organization: 'Neurotechnology' }
         ]
     },
     {
         type: 'In Conversation',
         title: 'Kenya Election 2022 – A Success Story',
-        time: 'Tuesday 14th 1530h-1630h',
+        time: 'Tuesday 14th 1600h-1700h',
         overview: 'Technology has been utilized in Kenyan elections to register voters, verify voters on election day, monitor elections in real time and transmit election results. The presentation will delve into the Kenyan 2017 and 2022 General Elections which were presided over by the Speaker. It will explore the lessons learned and challenges faced such as misinformation and disinformation, which has become one of the biggest threats to the development of democracy in today’s world. Despite this, Kenya is a stellar example of how technology can be leveraged in election management to deliver a transparent, accountable and credible democratic process with integrity.',
         speakers: [
             { name: 'Wafula Chebukati', title: 'Former Chairman', organization: 'Independent Electoral and Boundaries Commission (Kenya)' }

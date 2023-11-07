@@ -19,18 +19,18 @@ export const schedule: Day[] = [
     {
         title: "Tuesday: Event registration, Symposium Opening, Dinner",
         events: [
-            { time: "0930h", description: "Symposium Registration" },
-            { time: "1000h", description: "Symposium Opening" },
-            { time: "1030h-1130h", description: "Morning Panel: Navigating Elections in a Pandemic: Lessons Learned from COVID-19" },
-            { time: "1130h-1145h", description: "Coffee Break" },
-            { time: "1145h-1245h", description: "Keynote Presentation – Alberto Guevara, The Observer & the Observed" },
-            { time: "1245h-1400h", description: "Lunch" },
-            { time: "1400h-1415h", description: "Symposium resumes" },
-            { time: "1415h-1515h", description: "Afternoon Panel: The Future of Voting: Voter Identification, Biometrics, and Electronic Voting" },
-            { time: "1515h-1530h", description: "Coffee Break" },
-            { time: "1530h-1630", description: "In Conversation: Wafula Chebukati, Kenya Election 2022: Success Story" },
-            { time: "1630h-1730h", description: "Fringe events: Industry demonstrations" },
-            { time: "2000h", description: "Dinner – for all delegates hosted by the Portuguese National Electoral Commission" }
+            { time: "1000h", description: "Symposium Registration" },
+            { time: "1030h", description: "Chair's Welcome and Openning Address from His Excellency Mr. Augusto Santos Silva, President of the Parliament of Portugal" },
+            { time: "1100h-1200h", description: "Morning Panel: Navigating Elections in a Pandemic: Lessons Learned from COVID-19" },
+            { time: "1200h-1215h", description: "Coffee Break" },
+            { time: "1215h-1315h", description: "Keynote Presentation – Alberto Guevara, The Observer & the Observed" },
+            { time: "1315-1430h", description: "Lunch" },
+            { time: "1430h-1445h", description: "Symposium resumes" },
+            { time: "1445h-1545h", description: "Afternoon Panel: The Future of Voting: Voter Identification, Biometrics, and Electronic Voting" },
+            { time: "1545h-1600h", description: "Coffee Break" },
+            { time: "1600h-1700", description: "In Conversation: Wafula Chebukati, Kenya Election 2022: Success Story" },
+            { time: "1700h-1800h", description: "Fringe events: Industry demonstrations" },
+            { time: "2000h", description: "Dinner – for all delegates hosted by Neurotechnology at the Crowne Plaza" }
         ]
     },
     {
