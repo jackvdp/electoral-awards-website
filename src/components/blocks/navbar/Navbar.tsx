@@ -83,9 +83,10 @@ const Navbar: FC<NavbarProps> = (props) => {
             <li className="nav-item dropdown">
               <DropdownToggleLink title="Awards" className="nav-link dropdown-toggle" />
               <ul className="dropdown-menu">
-                <ListItemLink href="/submit-nomination" title="Submit a Nomination" linkClassName="dropdown-item" />
+                {/* <ListItemLink href="/submit-nomination" title="Submit a Nomination" linkClassName="dropdown-item" /> */}
                 <ListItemLink href="/categories" title="Categories" linkClassName="dropdown-item" />
                 <ListItemLink href="/judges" title="Judges" linkClassName="dropdown-item" />
+                <ListItemLink href="/winners" title="Winners" linkClassName="dropdown-item" />
               </ul>
             </li>
 
