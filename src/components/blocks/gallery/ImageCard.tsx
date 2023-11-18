@@ -1,6 +1,6 @@
 import styles from './ImageCard.module.css';
 import useLightBox from 'hooks/useLightBox';
-
+import Image from 'next/image';
 
 const ImageCard: React.FC<ImageCardProps> = ({ imageURL }) => {
 
@@ -15,9 +15,12 @@ const ImageCard: React.FC<ImageCardProps> = ({ imageURL }) => {
                         data-gallery="gallery-image"
                         data-glightbox=""
                     >
-                        <img
+                        <Image
                             src={imageURL}
-                            alt=""
+                            alt="Image description"
+                            layout="fill"
+                            objectFit="cover"
+                            className={styles.image}
                         />
                         <span className="bg" />
                     </a>
