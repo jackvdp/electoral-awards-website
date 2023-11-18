@@ -10,7 +10,7 @@ const ImageGallery: React.FC = () => {
         fetch('/api/images')
             .then(response => response.json())
             .then(data => {
-                setImages(data.images);
+                setImages(data.images.slice(1, 10));
             })
             .catch(error => console.error('Error fetching images:', error));
     }, []);
@@ -21,7 +21,7 @@ const ImageGallery: React.FC = () => {
             <section className="wrapper bg-light px-md-20 px-2 py-md-10 py-5 container">
                 <div className="row gy-6">
                     {images.map((imageUrl) => (
-                        <ImageCard name={imageUrl} />
+                        <ImageCard imageURL={imageUrl} />
                     ))}
                 </div>
             </section>

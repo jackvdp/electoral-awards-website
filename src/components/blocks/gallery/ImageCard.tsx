@@ -1,18 +1,22 @@
 import styles from './ImageCard.module.css';
+import useLightBox from 'hooks/useLightBox';
 
-const ImageCard: React.FC<ImageCardProps> = ({ name }) => {
+
+const ImageCard: React.FC<ImageCardProps> = ({ imageURL }) => {
+
+    useLightBox()
+
     return (
         <div className="col-md-3">
             <div className={styles.squareContainer}>
                 <figure className={`overlay overlay-1 hover-scale rounded ${styles.figure}`}>
                     <a
-                        href={name}
+                        href={imageURL}
                         data-gallery="gallery-image"
-                        data-glightbox={"title: Title; description: " + name}
+                        data-glightbox=""
                     >
                         <img
-                            src={name}
-                            srcSet={name}
+                            src={imageURL}
                             alt=""
                         />
                         <span className="bg" />
@@ -27,5 +31,5 @@ const ImageCard: React.FC<ImageCardProps> = ({ name }) => {
 export default ImageCard
 
 interface ImageCardProps {
-    name: string;
+    imageURL: string;
 }
