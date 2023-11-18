@@ -19,19 +19,14 @@ const Gallery: NextPage = () => {
             <main className="content-wrapper">
 
                 <section className="wrapper bg-light px-md-20 px-2 py-md-10 py-5 container">
-                    <div className="card">
-                        <div className="card-body">
-                            <div className="row gy-6">
+                    <div className="row gy-6">
+                        <ImageCard name='alberto.jpg' />
 
-                                <ImageCard name='alberto.jpg'/>
+                        <ImageCard name='barros.jpg' />
 
-                                <ImageCard name='barros.jpg'/>
+                        <ImageCard name='bruter.jpg' />
 
-                                <ImageCard name='bruter.jpg'/>
-
-                                <ImageCard name='hicks.jpg'/>                                
-                            </div>
-                        </div>
+                        <ImageCard name='hicks.jpg' />
                     </div>
                 </section>
 
