@@ -20,8 +20,8 @@ const ImageGallery: React.FC = () => {
 
             <section className="wrapper bg-light px-md-20 px-2 py-md-10 py-5 container">
                 <div className="row gy-6">
-                    {images.map((imageUrl) => (
-                        <ImageCard imageURL={imageUrl} />
+                    {images.map((imageUrl, index) => (
+                        <ImageCard key={index} imageURL={imageUrl} />
                     ))}
                 </div>
             </section>
