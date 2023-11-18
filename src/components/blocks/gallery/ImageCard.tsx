@@ -6,13 +6,13 @@ const ImageCard: React.FC<ImageCardProps> = ({ name }) => {
             <div className={styles.squareContainer}>
                 <figure className={`overlay overlay-1 hover-scale rounded ${styles.figure}`}>
                     <a
-                        href={`/img/judges/${name}`}
+                        href={name}
                         data-gallery="gallery-image"
-                        data-glightbox=""
+                        data-glightbox={"title: Title; description: " + name}
                     >
                         <img
-                            src={`/img/judges/${name}`}
-                            srcSet={`/img/judges/${name}`}
+                            src={name}
+                            srcSet={name}
                             alt=""
                         />
                         <span className="bg" />
