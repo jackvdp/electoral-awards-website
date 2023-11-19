@@ -16,7 +16,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ imageURL }) => {
                         data-glightbox=""
                     >
                         <Image
-                            src={imageURL}
+                            src={replacePhotoWithThumbnail(imageURL)}
                             alt="Image description"
                             layout="fill"
                             objectFit="cover"
@@ -29,6 +29,10 @@ const ImageCard: React.FC<ImageCardProps> = ({ imageURL }) => {
             </div>
         </div>
     )
+
+    function replacePhotoWithThumbnail(url: string): string {
+        return url.replace("/photos/", "/thumbnails/");
+    }
 }
 
 export default ImageCard

@@ -4,7 +4,7 @@ import { getFileNames } from 'aws/aws';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const bucketName = 'electoralwebsite';
-    const folderName = 'awards_2023_photos';
+    const folderName = 'photos';
 
     try {
         const imageKeys = await getFileNames(bucketName, folderName);
