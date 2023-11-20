@@ -77,6 +77,8 @@ const Navbar: FC<NavbarProps> = (props) => {
               <ul className="dropdown-menu">
                 <ListItemLink href="/schedule" title="Schedule" linkClassName="dropdown-item" />
                 <ListItemLink href="/events" title="Events" linkClassName="dropdown-item" />
+                <ListItemLink title="Location" href='/location' linkClassName="dropdown-item" />
+                <ListItemLink title="Sponsors" href='/sponsors' linkClassName="dropdown-item" />
               </ul>
             </li>
 
@@ -90,9 +92,8 @@ const Navbar: FC<NavbarProps> = (props) => {
               </ul>
             </li>
 
+            <ListItemLink title="Gallery" href='/gallery' />
             
-            <ListItemLink title="Sponsors" href='/sponsors' />
-            <ListItemLink title="Location" href='/location' />
             <ListItemLink title="Contact" href='/contact' />
           </ul>
 
