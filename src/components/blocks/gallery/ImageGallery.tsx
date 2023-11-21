@@ -54,14 +54,16 @@ const ImageGallery: React.FC = () => {
 
     return (
         <main className="content-wrapper">
-            <section className="wrapper bg-light px-md-20 px-2 py-md-10 py-5 container">
+            <section className="wrapper bg-light px-lg-20 px-md-10 px-2 py-md-10 py-5 container">
                 <div className="row gy-6">
                     {photosFolders.length !== 0 ?
                         flattenFoldersToFiles(photosFolders).slice(0, renderedImagesCount).map((file, index) => (
                             <ImageCard key={index} imageURL={file} />
                         ))
                         :
-                        <div className="progressbar semi-circle blue" data-value="100" />
+                        <div className='py-8'>
+                            <div className="progressbar semi-circle blue" data-value="100" />
+                        </div>
                     }
                 </div>
             </section>
