@@ -7,6 +7,7 @@ import SimpleBanner from 'components/blocks/banner/SimpleBanner';
 import { AwardCategory, categories } from 'data/award-categories';
 import Accordion from 'components/reuseable/accordion';
 import { DropdownTabs } from 'components/reuseable/Dropdown';
+import PageProgress from 'components/common/PageProgress';
 
 const Categories: NextPage = () => {
 
@@ -45,6 +46,8 @@ const Categories: NextPage = () => {
 
     return (
         <Fragment>
+            <PageProgress/>
+
             <Navbar />
 
             <SimpleBanner title={"Award Categories"} />

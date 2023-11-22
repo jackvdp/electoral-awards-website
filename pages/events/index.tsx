@@ -6,10 +6,13 @@ import { Footer } from 'components/blocks/footer';
 import { events } from 'data/events';
 import SimpleBanner from 'components/blocks/banner/SimpleBanner';
 import EventCard from 'components/blocks/events/EventCard';
+import PageProgress from 'components/common/PageProgress';
 
 const Events: NextPage = () => {
     return (
         <Fragment>
+            <PageProgress/>
+
             <Navbar />
 
             <SimpleBanner title={"Events"}></SimpleBanner>

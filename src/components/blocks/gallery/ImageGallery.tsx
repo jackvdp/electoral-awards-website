@@ -6,6 +6,7 @@ import useProgressbar from 'hooks/useProgressbar';
 import TabBar from './ImageGalleryTabBar';
 
 const batchSize = 48;
+const allPhotosTag = 'All Photos'
 
 const ImageGallery: React.FC = () => {
     useLightBox();
@@ -13,7 +14,7 @@ const ImageGallery: React.FC = () => {
     const [photosFolders, setPhotosFolders] = useState<FolderStructure[]>([]);
     const [renderedImagesCount, setRenderedImagesCount] = useState(0);
     const [loading, setLoading] = useState(false);
-    const [selectedTab, setSelectedTab] = useState<string>('All');
+    const [selectedTab, setSelectedTab] = useState<string>(allPhotosTag);
 
     useEffect(() => {
         fetch('/api/images')
@@ -62,7 +63,7 @@ const ImageGallery: React.FC = () => {
 
     const getImagesToRender = () => {
         const allFiles = flattenFoldersToFiles(photosFolders);
-        if (selectedTab === 'All') {
+        if (selectedTab === allPhotosTag) {
             return allFiles.slice(0, renderedImagesCount);
         }
 
@@ -75,7 +76,7 @@ const ImageGallery: React.FC = () => {
             <section className="wrapper bg-light px-lg-20 px-md-10 px-2 py-md-10 py-5 container">
                 <div className="pb-6 text-center">
                     {photosFolders.length !== 0 && <TabBar 
-                    tabs={['All', ...photosFolders.map(folder => folder.folderName)]} 
+                    tabs={[allPhotosTag, ...photosFolders.map(folder => folder.folderName)]} 
                     selectedTab={selectedTab}
                     onSelect={handleTabSelect} />}
                 </div>

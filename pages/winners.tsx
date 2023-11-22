@@ -6,10 +6,13 @@ import { Footer } from 'components/blocks/footer';
 import { awards } from 'data/winners';
 import SimpleBanner from 'components/blocks/banner/SimpleBanner';
 import WinnerCard from 'components/winners/WinnerCard';
+import PageProgress from 'components/common/PageProgress';
 
 const Winners: NextPage = () => {
     return (
         <Fragment>
+            <PageProgress/>
+
             <Navbar />
 
             <SimpleBanner title={"Winners of the International Electoral Awards 2023"}></SimpleBanner>
