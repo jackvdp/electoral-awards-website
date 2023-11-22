@@ -1,0 +1,5 @@
+/* TabBar.module.css */
+.navItem {
+    display: flex;
+    align-items: flex-end;
+}

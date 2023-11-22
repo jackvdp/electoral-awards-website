@@ -9,10 +9,6 @@ AWS.config.update({
     region: 'eu-west-2'
 });
 
-type S3Object = {
-    Key: string;
-};
-
 export type FolderStructure = {
     folderName: string;
     files: string[];
@@ -53,18 +49,19 @@ export const getFileNames = async (bucketName: string, folderName?: string): Pro
         const rootData = await s3.listObjectsV2(rootParams).promise();
         const folders = rootData.CommonPrefixes?.map(prefix => prefix.Prefix) || [];
 
-        for (const folder of folders) {
+        const folderPromises = folders.map(async (folder) => {
             if (folder) {
                 const simpleFolderName = folder.split('/').slice(-2, -1)[0];
                 const files = await listFilesInFolder(folder);
-                folderStructure.push({
+                return {
                     folderName: simpleFolderName,
                     files: files.filter((file): file is string => file !== undefined)
-                });
+                };
             }
-        }
-
-        return folderStructure;
+            return null;
+        });
+        
+        return (await Promise.all(folderPromises)).filter((f): f is FolderStructure => f !== null);
     } catch (err) {
         console.error('Error fetching root level folders', err);
         throw err;

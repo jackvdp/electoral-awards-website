@@ -3,6 +3,7 @@ import ImageCard from './ImageCard';
 import useLightBox from 'hooks/useLightBox';
 import { FolderStructure } from 'aws/getFilesFolders';
 import useProgressbar from 'hooks/useProgressbar';
+import TabBar from './ImageGalleryTabBar';
 
 const batchSize = 48;
 
@@ -12,10 +13,13 @@ const ImageGallery: React.FC = () => {
     const [photosFolders, setPhotosFolders] = useState<FolderStructure[]>([]);
     const [renderedImagesCount, setRenderedImagesCount] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [selectedTab, setSelectedTab] = useState<string>('All');
 
     useEffect(() => {
         fetch('/api/images')
-            .then(response => response.json())
+            .then(response => {
+                return response.json()
+            })
             .then(data => {
                 setPhotosFolders(data);
             });
@@ -23,7 +27,7 @@ const ImageGallery: React.FC = () => {
 
     useEffect(() => {
         setRenderedImagesCount(batchSize);
-    }, [photosFolders]);
+    }, [photosFolders, selectedTab]);
 
     const loadMoreImages = () => {
         setRenderedImagesCount(prevCount => prevCount + batchSize);
@@ -43,7 +47,7 @@ const ImageGallery: React.FC = () => {
                 setLoading(false);
             }
         };
-        
+
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, [loadMoreImages]);
@@ -52,13 +56,33 @@ const ImageGallery: React.FC = () => {
         return folders.flatMap(folder => folder.files);
     }
 
+    const handleTabSelect = (tab: string) => {
+        setSelectedTab(tab);
+    };
+
+    const getImagesToRender = () => {
+        const allFiles = flattenFoldersToFiles(photosFolders);
+        if (selectedTab === 'All') {
+            return allFiles.slice(0, renderedImagesCount);
+        }
+
+        const selectedFolder = photosFolders.find(folder => folder.folderName === selectedTab);
+        return selectedFolder ? selectedFolder.files.slice(0, renderedImagesCount) : [];
+    };
+
     return (
         <main className="content-wrapper">
             <section className="wrapper bg-light px-lg-20 px-md-10 px-2 py-md-10 py-5 container">
+                <div className="pb-6 text-center">
+                    {photosFolders.length !== 0 && <TabBar 
+                    tabs={['All', ...photosFolders.map(folder => folder.folderName)]} 
+                    selectedTab={selectedTab}
+                    onSelect={handleTabSelect} />}
+                </div>
                 <div className="row gy-6">
                     {photosFolders.length !== 0 ?
-                        flattenFoldersToFiles(photosFolders).slice(0, renderedImagesCount).map((file, index) => (
-                            <ImageCard key={index} imageURL={file} />
+                        getImagesToRender().map((file, index) => (
+                            <ImageCard key={`${index}-${file}`} imageURL={file} />
                         ))
                         :
                         <div className='py-8'>
