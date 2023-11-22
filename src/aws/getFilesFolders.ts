@@ -15,12 +15,10 @@ export type FolderStructure = {
 }
 
 const getS3FileUrl = (bucketName: string, fileKey: string | undefined): string => {
-    // Assuming the bucket is public, construct the URL
     return `https://${bucketName}.s3.amazonaws.com/${fileKey}`;
 };
 
 export const getFileNames = async (bucketName: string, folderName?: string): Promise<FolderStructure[]> => {
-    const folderStructure: FolderStructure[] = [];
 
     const listFilesInFolder = async (folder: string) => {
         const params: AWS.S3.ListObjectsV2Request = {
