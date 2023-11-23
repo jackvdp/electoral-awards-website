@@ -21,7 +21,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ imageURL }) => {
                             layout="fill"
                             objectFit="cover"
                             placeholder='blur'
-                            blurDataURL='/img/photos/bg22.png'
+                            blurDataURL='/img/photos/bg21.png'
                             className={styles.image}
                         />
                         <span className="bg" />
