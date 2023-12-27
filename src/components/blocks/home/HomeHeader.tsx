@@ -4,7 +4,7 @@ import styles from './Home.module.css'
 const HomeHeader: React.FC = () => {
     return (
         <section
-            className={`wrapper image-wrapper bg-image bg-overlay text-white ${styles.fullHeight}`}
+            className={`wrapper image-wrapper bg-image bg-overlay text-white ${styles.fullHeight} ${styles.centeredSection}`}
             style={{ backgroundImage: 'url(/img/photos/bg22.png)' }}
         >
             <div className="container pt-10 pt-md-20 pb-10 pb-md-20 text-center">
