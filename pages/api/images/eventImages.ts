@@ -1,13 +1,13 @@
-// pages/api/images.ts
+// pages/api/eventImages.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getFileNames } from 'backend/use_cases/getFilesFolders';
+import { getFileAndFolderNames } from 'backend/helpers/aws/getFilesFolders';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const bucketName = 'electoralwebsite';
     const folderName = 'photos';
 
     try {
-        const imageKeys = await getFileNames(bucketName, folderName);
+        const imageKeys = await getFileAndFolderNames(bucketName, folderName);
         res.status(200).json(imageKeys);
     } catch (error) {
         console.error('Error in API:', error);

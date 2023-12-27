@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ImageCard from './ImageCard';
 import useLightBox from 'hooks/useLightBox';
-import { FolderStructure } from 'backend/use_cases/getFilesFolders';
+import { FolderStructure } from 'backend/helpers/aws/getFilesFolders';
 import useProgressbar from 'hooks/useProgressbar';
 import TabBar from './ImageGalleryTabBar';
 
@@ -17,7 +17,7 @@ const ImageGallery: React.FC = () => {
     const [selectedTab, setSelectedTab] = useState<string>(allPhotosTag);
 
     useEffect(() => {
-        fetch('/api/images')
+        fetch('/api/images/eventImages')
             .then(response => {
                 return response.json()
             })

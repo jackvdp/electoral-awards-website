@@ -1,24 +1,14 @@
 import AWS from 'aws-sdk';
+import { s3, getS3FileUrl, updateConfig } from '../../aws/aws';
 
-// Configure AWS
-const s3 = new AWS.S3();
-
-AWS.config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: 'eu-west-2'
-});
+updateConfig();
 
 export type FolderStructure = {
     folderName: string;
     files: string[];
 }
 
-const getS3FileUrl = (bucketName: string, fileKey: string | undefined): string => {
-    return `https://${bucketName}.s3.amazonaws.com/${fileKey}`;
-};
-
-export const getFileNames = async (bucketName: string, folderName?: string): Promise<FolderStructure[]> => {
+export const getFileAndFolderNames = async (bucketName: string, folderName?: string): Promise<FolderStructure[]> => {
 
     const listFilesInFolder = async (folder: string) => {
         const params: AWS.S3.ListObjectsV2Request = {

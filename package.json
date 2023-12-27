@@ -10,6 +10,7 @@
     "sass": "sass --no-source-map src/assets/scss:public/css"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.481.0",
     "@popperjs/core": "^2.11.5",
     "@sendgrid/mail": "^7.7.0",
     "animate.css": "^4.1.1",
@@ -23,6 +24,8 @@
     "itooltip": "^1.1.1",
     "jwt-decode": "^3.1.2",
     "mongoose": "^8.0.3",
+    "multer": "^1.4.5-lts.1",
+    "multer-s3": "^3.0.1",
     "next": "^12.2.4-canary.9",
     "plyr-react": "^5.1.0",
     "progressbar.js": "^1.1.0",
@@ -42,6 +45,8 @@
     "@types/bootstrap": "^5.2.0",
     "@types/isotope-layout": "^3.0.9",
     "@types/mongoose": "^5.11.97",
+    "@types/multer": "^1.4.11",
+    "@types/multer-s3": "^3.0.3",
     "@types/node": "18.0.6",
     "@types/progressbar.js": "^1.1.2",
     "@types/react": "18.0.15",
