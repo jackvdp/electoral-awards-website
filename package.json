@@ -22,6 +22,7 @@
     "isotope-layout": "^3.0.6",
     "itooltip": "^1.1.1",
     "jwt-decode": "^3.1.2",
+    "mongoose": "^8.0.3",
     "next": "^12.2.4-canary.9",
     "plyr-react": "^5.1.0",
     "progressbar.js": "^1.1.0",
@@ -40,6 +41,7 @@
   "devDependencies": {
     "@types/bootstrap": "^5.2.0",
     "@types/isotope-layout": "^3.0.9",
+    "@types/mongoose": "^5.11.97",
     "@types/node": "18.0.6",
     "@types/progressbar.js": "^1.1.2",
     "@types/react": "18.0.15",

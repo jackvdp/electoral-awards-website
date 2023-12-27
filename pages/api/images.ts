@@ -1,6 +1,6 @@
 // pages/api/images.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getFileNames } from 'aws/getFilesFolders';
+import { getFileNames } from 'backend/use_cases/getFilesFolders';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const bucketName = 'electoralwebsite';

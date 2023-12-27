@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ImageCard from './ImageCard';
 import useLightBox from 'hooks/useLightBox';
-import { FolderStructure } from 'aws/getFilesFolders';
+import { FolderStructure } from 'backend/use_cases/getFilesFolders';
 import useProgressbar from 'hooks/useProgressbar';
 import TabBar from './ImageGalleryTabBar';
 
@@ -75,10 +75,10 @@ const ImageGallery: React.FC = () => {
         <main className="content-wrapper">
             <section className="wrapper bg-light px-lg-20 px-md-10 px-2 py-md-10 py-5 container">
                 <div className="pb-6 text-center">
-                    {photosFolders.length !== 0 && <TabBar 
-                    tabs={[allPhotosTag, ...photosFolders.map(folder => folder.folderName)]} 
-                    selectedTab={selectedTab}
-                    onSelect={handleTabSelect} />}
+                    {photosFolders.length !== 0 && <TabBar
+                        tabs={[allPhotosTag, ...photosFolders.map(folder => folder.folderName)]}
+                        selectedTab={selectedTab}
+                        onSelect={handleTabSelect} />}
                 </div>
                 <div className="row gy-6">
                     {photosFolders.length !== 0 ?
