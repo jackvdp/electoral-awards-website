@@ -8,7 +8,7 @@ exports.handler = async (event) => {
     const key = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, ' '));
 
     // Check if the image is in the 'photos' or 'images' directory
-    if (!key.startsWith('photos/') || !key.startsWith('images/')) {
+    if (!key.startsWith('photos/') && !key.startsWith('images/')) {
         console.log(`The image is not in the 'photos' directory: ${key}`);
         return;
     }
