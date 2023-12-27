@@ -13,6 +13,8 @@ import Signin from './partials/Signin';
 import Signup from './partials/Signup';
 // -------- data -------- //
 import { contactInfo } from 'data/contact';
+import styles from './navbar.module.css'
+
 
 // ===================================================================
 type NavbarProps = {
@@ -32,18 +34,17 @@ type NavbarProps = {
 
 const NavbarICPS = () => {
   return (
-    <header className="wrapper mb-1">
+    <header className="wrapper">
       <Navbar
         info
         social
-        navClassName="navbar navbar-expand-lg center-nav"
       />
     </header>
   )
 }
 
 const Navbar: FC<NavbarProps> = (props) => {
-  const { navClassName, info, social, fancy, navOtherClass, stickyBox } =
+  const { navClassName, info, navOtherClass } =
     props;
 
   const sticky = useSticky(350);
@@ -94,7 +95,7 @@ const Navbar: FC<NavbarProps> = (props) => {
             </li>
 
             <ListItemLink title="Gallery" href='/gallery' />
-            
+
             <ListItemLink title="Contact" href='/contact' />
           </ul>
 
@@ -160,18 +161,9 @@ const Navbar: FC<NavbarProps> = (props) => {
 
   return (
     <Fragment>
-      {stickyBox && <div style={{ paddingTop: sticky ? navbarRef.current?.clientHeight : 0 }} />}
 
       <nav ref={navbarRef} className={sticky ? fixedClassName : navClassName}>
-        {fancy ? (
-          <div className="container">
-            <div className="navbar-collapse-wrapper bg-white d-flex flex-row flex-nowrap w-100 justify-content-between align-items-center">
-              {headerContent}
-            </div>
-          </div>
-        ) : (
-          <div className="container flex-lg-row flex-nowrap align-items-center">{headerContent}</div>
-        )}
+        <div className="container flex-lg-row flex-nowrap align-items-center">{headerContent}</div>
       </nav>
 
       {/* ============= signin modal ============= */}
@@ -195,9 +187,8 @@ Navbar.defaultProps = {
   language: false,
   stickyBox: true,
   navOtherClass: 'navbar-other w-100 d-flex ms-auto',
-  navClassName: 'navbar navbar-expand-lg center-nav transparent navbar-light'
+  navClassName: `navbar navbar-expand-lg center-nav transparent navbar-light ${styles.navbarCloneNobg}`
+
 };
-
-
 
 export default NavbarICPS;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import NextLink from 'components/reuseable/links/NextLink';
 import FigureImage from 'components/reuseable/FigureImage';
 import { IEvent } from 'backend/models/event';
+import styles from './Home.module.css';
 
 const HomeEventsSidebar: React.FC = () => {
     const [events, setEvents] = useState<IEvent[]>([]);
@@ -9,7 +10,7 @@ const HomeEventsSidebar: React.FC = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch('/api/events');
+                const response = await fetch('/api/events/preview');
                 const data = await response.json();
                 setEvents(data);
             } catch (error) {
@@ -20,7 +21,7 @@ const HomeEventsSidebar: React.FC = () => {
         fetchEvents();
     }, []);
 
-    function sortedEvents() {
+    const sortedEvents = () => {
         return events.sort((a, b) => {
             return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
         }).slice(0, 3);
@@ -39,13 +40,13 @@ const HomeEventsSidebar: React.FC = () => {
 
                             <div className="post-content">
                                 <b className="mb-2">
-                                    <NextLink className="link-dark" title={title} href="#" />
+                                    <NextLink className={`link-dark ${styles.twoLineText}`} title={title} href="#" />
                                 </b>
 
                                 <ul className="post-meta">
                                     <li className="post-date">
                                         <i className="uil uil-calendar-alt" />
-                                        <span>{new Date(startDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short' })}</span>
+                                        <span>{new Date(startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit'})}</span>
                                     </li>
                                 </ul>
                             </div>

@@ -6,7 +6,7 @@ import { Footer } from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
 import CTA from 'components/blocks/call-to-action/CTA';
 import HomeHeader from 'components/blocks/home/HomeHeader';
-import HomeEventsSidebar from 'components/blocks/home/EventsSidebar';
+import HomeEventsSidebar from 'components/blocks/home/HomeEventsSidebar';
 
 const Home: NextPage = () => {
 
