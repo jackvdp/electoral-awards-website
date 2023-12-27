@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
 import { Error } from 'mongoose';
 import Event from 'backend/models/event';
 
-async function getEventById(req: NextApiRequest, res: NextApiResponse, eventId: string) {
+async function getEventById(res: NextApiResponse, eventId: string) {
     try {
         const event = await Event.findById(eventId);
         if (event) {

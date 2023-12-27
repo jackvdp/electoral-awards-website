@@ -20,13 +20,13 @@ export default async function handler(
 
     switch (method) {
         case 'GET':
-            await getEventById(req, res, id);
+            await getEventById(res, id);
             break;
         case 'PUT':
             await updateEventById(req, res, id);
             break;
         case 'DELETE':
-            await deleteEventById(req, res, id);
+            await deleteEventById(res, id);
             break;
         default:
             res.status(405).json({ message: 'Method not allowed' });

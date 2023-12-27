@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
 import { Error } from 'mongoose';
 import Event from 'backend/models/event';
 
-async function deleteEventById(req: NextApiRequest, res: NextApiResponse, eventId: string) {
+async function deleteEventById(res: NextApiResponse, eventId: string) {
     try {
         const deletedEvent = await Event.findByIdAndDelete(eventId);
         if (deletedEvent) {

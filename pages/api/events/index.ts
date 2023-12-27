@@ -13,7 +13,7 @@ export default async function handler(
     if (req.method === 'POST') {
         await addEvent(req, res);
     } else if (req.method === 'GET') {
-        await getAllEvents(req, res);
+        await getAllEvents(res);
     } else if (req.method === 'DELETE') {
         await deleteAllEvents(req, res);
     } else {

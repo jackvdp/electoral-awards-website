@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
 import { Error } from 'mongoose';
 import Event from 'backend/models/event';
 
-async function getEventPreviews(req: NextApiRequest, res: NextApiResponse) {
+async function getEventPreviews(res: NextApiResponse) {
     try {
         const events = await Event.find({}, { title: 1, startDate: 1, imageURL: 1 });
         res.status(200).json(events);
