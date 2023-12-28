@@ -11,7 +11,9 @@ export default async function handler(
     switch (req.method) {
         case 'GET':
             await getEventPreviews(res);
+            break;
         default:
             res.status(405).json({ message: 'Method not allowed' });
+            break;
     }
 }
