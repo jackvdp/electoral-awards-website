@@ -22,14 +22,16 @@ const HomeEventsSidebar: React.FC = () => {
     }, []);
 
     const sortedEvents = () => {
-        return events.sort((a, b) => {
+        return events.filter(event => {
+            return new Date(event.startDate).getTime() > Date.now();
+        }).sort((a, b) => {
             return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
-        }).slice(0, 3);
+        });
     }
 
     return (
         <div className="widget">
-            <h4 className="widget-title mb-3">Popular Posts</h4>
+            <h4 className="widget-title mb-3">Upcoming Events</h4>
 
             <ul className="image-list">
                 {sortedEvents().map(({ title, imageURL, _id, startDate }) => {
