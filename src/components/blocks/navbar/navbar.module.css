@@ -1,0 +1,9 @@
+.navbarCloneNobg {
+    top: 0;
+    left: 0;
+    z-index: 1008;
+    position: absolute !important;
+    box-shadow: 0rem 0rem 1.25rem rgba(30, 34, 40, 0.06);
+    animation: slideDown 300ms ease-in-out alternate;
+    background-color: white;
+}

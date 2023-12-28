@@ -1,4 +1,4 @@
-import { FC, Fragment, ReactElement, useRef } from 'react';
+import { FC, Fragment, useRef } from 'react';
 // -------- custom hook -------- //
 import useSticky from 'hooks/useSticky';
 import { useAuth } from 'auth/AuthProvider';
@@ -13,38 +13,9 @@ import Signin from './partials/Signin';
 import Signup from './partials/Signup';
 // -------- data -------- //
 import { contactInfo } from 'data/contact';
+import styles from './navbar.module.css'
 
-// ===================================================================
-type NavbarProps = {
-  info?: boolean;
-  cart?: boolean;
-  fancy?: boolean;
-  logoAlt?: string;
-  search?: boolean;
-  social?: boolean;
-  language?: boolean;
-  stickyBox?: boolean;
-  navClassName?: string;
-  button?: ReactElement;
-  navOtherClass?: string;
-};
-// ===================================================================
-
-const NavbarICPS = () => {
-  return (
-    <header className="wrapper">
-      <Navbar
-        info
-        social
-      />
-    </header>
-  )
-}
-
-const Navbar: FC<NavbarProps> = (props) => {
-  const { navClassName, info, navOtherClass } =
-    props;
-
+const NavbarICPS: FC = () => {
   const sticky = useSticky(350);
   const navbarRef = useRef<HTMLElement | null>(null);
   const { isLoggedIn } = useAuth()
@@ -53,6 +24,9 @@ const Navbar: FC<NavbarProps> = (props) => {
   const logo = 'ICPSLogo';
   // dynamically added navbar classname
   const fixedClassName = 'navbar navbar-expand-lg center-nav transparent navbar-light navbar-clone fixed';
+  const navOtherClass = 'navbar-other w-100 d-flex ms-auto'
+  const navClassName = `navbar navbar-expand-lg center-nav transparent navbar-light ${styles.navbarCloneNobg}`
+
 
   // all main header contents
   const headerContent = (
@@ -114,13 +88,11 @@ const Navbar: FC<NavbarProps> = (props) => {
       <div className={navOtherClass}>
         <ul className="navbar-nav flex-row align-items-center ms-auto">
           {/* ============= info button ============= */}
-          {info && (
-            <li className="nav-item">
-              <a className="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-info">
-                <i className="uil uil-info-circle" />
-              </a>
-            </li>
-          )}
+          <li className="nav-item">
+            <a className="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-info">
+              <i className="uil uil-info-circle" />
+            </a>
+          </li>
 
           {/* ============= Join button ============= */}
           {!isLoggedIn &&
@@ -171,22 +143,9 @@ const Navbar: FC<NavbarProps> = (props) => {
       <Signup />
 
       {/* ============= info sidebar ============= */}
-      {info && <Info />}
+      <Info />
     </Fragment>
   );
-};
-
-// set deafult Props
-Navbar.defaultProps = {
-  cart: false,
-  info: false,
-  social: false,
-  search: false,
-  language: false,
-  stickyBox: true,
-  navOtherClass: 'navbar-other w-100 d-flex ms-auto',
-  navClassName: `navbar navbar-expand-lg center-nav transparent navbar-light`
-
 };
 
 export default NavbarICPS;
