@@ -14,10 +14,6 @@
     font-style: italic;
 }
 
-.subtitleText:hover {
-    color: white;
-}
-
 .fullHeight {
     height: 100vh;
 }
