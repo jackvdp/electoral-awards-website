@@ -7,6 +7,7 @@ import PageProgress from 'components/common/PageProgress';
 import CTA from 'components/blocks/call-to-action/CTA';
 import HomeHeader from 'components/blocks/home/HomeHeader';
 import HomeEventsSidebar from 'components/blocks/home/HomeEventsSidebar';
+import HomeAbout from 'components/blocks/home/HomeAbout';
 
 const Home: NextPage = () => {
 
@@ -21,9 +22,9 @@ const Home: NextPage = () => {
 
                 <div className="container py-5 py-md-10">
 
-                    <div className="row">
+                    <div className="row gx-lg-8 gx-xl-12">
                         <div className="col-md-8">
-                            One of two columns
+                            <HomeAbout />
                         </div>
                         <div className="col-md-4">
                             <HomeEventsSidebar />

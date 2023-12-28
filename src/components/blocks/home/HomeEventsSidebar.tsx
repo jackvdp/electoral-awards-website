@@ -35,7 +35,6 @@ const HomeEventsSidebar: React.FC = () => {
 
             <ul className="image-list">
                 {sortedEvents().map(({ title, imageURL, _id, startDate }) => {
-                    console.log(imageURL)
                     return _id && (
                         <li key={_id}>
                             <NextLink title={<FigureImage width={100} height={100} className="rounded" src={imageURL} />} href="#" />
