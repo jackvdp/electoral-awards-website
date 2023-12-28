@@ -13,8 +13,6 @@ import Signin from './partials/Signin';
 import Signup from './partials/Signup';
 // -------- data -------- //
 import { contactInfo } from 'data/contact';
-import styles from './navbar.module.css'
-
 
 // ===================================================================
 type NavbarProps = {
@@ -187,7 +185,7 @@ Navbar.defaultProps = {
   language: false,
   stickyBox: true,
   navOtherClass: 'navbar-other w-100 d-flex ms-auto',
-  navClassName: `navbar navbar-expand-lg center-nav transparent navbar-light ${styles.navbarCloneNobg}`
+  navClassName: `navbar navbar-expand-lg center-nav transparent navbar-light`
 
 };
 
