@@ -8,7 +8,9 @@ import CTA from 'components/blocks/call-to-action/CTA';
 import HomeHeader from 'components/blocks/home/HomeHeader';
 import HomeEventsSidebar from 'components/blocks/home/HomeEventsSidebar';
 import HomeAbout from 'components/blocks/home/HomeAbout';
+import Features from 'components/blocks/features/features';
 import { useAuth } from 'auth/AuthProvider';
+
 const Home: NextPage = () => {
 
     const { isLoggedIn } = useAuth();
@@ -35,7 +37,9 @@ const Home: NextPage = () => {
 
                 </div>
 
-                { !isLoggedIn && <CTA /> }
+                <Features />
+
+                {!isLoggedIn && <CTA />}
 
             </main>
 
