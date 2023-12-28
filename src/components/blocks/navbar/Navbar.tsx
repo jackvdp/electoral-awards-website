@@ -49,23 +49,23 @@ const NavbarICPS: FC = () => {
               <DropdownToggleLink title="Awards" className="nav-link dropdown-toggle" />
 
               <ul className="dropdown-menu">
-                <ListItemLink href="/about-awards" title="About" linkClassName="dropdown-item" />
-                <ListItemLink href="/categories" title="Categories" linkClassName="dropdown-item" />
+                <ListItemLink href="/awards/about" title="About" linkClassName="dropdown-item" />
+                <ListItemLink href="/awards/categories" title="Categories" linkClassName="dropdown-item" />
                 <li className="dropdown dropdown-submenu dropend">
                   <DropdownToggleLink title="2023" />
                   <ul className="dropdown-menu">
-                    <ListItemLink href="/winners" title="Winners" linkClassName="dropdown-item" />
-                    <ListItemLink href="/judges" title="Judges" linkClassName="dropdown-item" />
-                    <ListItemLink title="Location" href='/location' linkClassName="dropdown-item" />
-                    <ListItemLink href="/schedule" title="Schedule" linkClassName="dropdown-item" />
-                    <ListItemLink href="/events" title="Events" linkClassName="dropdown-item" />
-                    <ListItemLink title="Sponsors" href='/sponsors' linkClassName="dropdown-item" />
+                    <ListItemLink href="/awards/2023/winners" title="Winners" linkClassName="dropdown-item" />
+                    <ListItemLink href="/awards/2023/judges" title="Judges" linkClassName="dropdown-item" />
+                    <ListItemLink href="/awards/2023/location" title='Location' linkClassName="dropdown-item" />
+                    <ListItemLink href="/awards/2023/schedule" title="Schedule" linkClassName="dropdown-item" />
+                    <ListItemLink href="/awards/2023/events" title="Events" linkClassName="dropdown-item" />
+                    <ListItemLink href="/awards/2023/sponsors" title='Sponsors' linkClassName="dropdown-item" />
                   </ul>
                 </li>
               </ul>
             </li>
 
-            <ListItemLink title="Events" href='/articles' />
+            <ListItemLink title="Events" href='/events' />
 
             <ListItemLink title="Articles" href='/articles' />
 
