@@ -7,7 +7,7 @@ import Contact from 'components/blocks/contact/Contact';
 import { useRouter } from 'next/router';
 import { useAuth } from 'auth/AuthProvider';
 
-const CTA: NextPage = () => {
+const Register: NextPage = () => {
 
   const router = useRouter();
   const { isLoggedIn } = useAuth()
@@ -44,4 +44,4 @@ const CTA: NextPage = () => {
   );
 };
 
-export default CTA;
+export default Register;
