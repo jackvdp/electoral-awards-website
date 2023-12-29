@@ -15,7 +15,11 @@ import Signup from './partials/Signup';
 import { contactInfo } from 'data/contact';
 import styles from './navbar.module.css'
 
-const NavbarICPS: FC = () => {
+interface NavbarProps {
+  barSitsOnTop?: boolean;
+}
+
+const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
   const sticky = useSticky(350);
   const navbarRef = useRef<HTMLElement | null>(null);
   const { isLoggedIn } = useAuth()
@@ -25,8 +29,7 @@ const NavbarICPS: FC = () => {
   // dynamically added navbar classname
   const fixedClassName = 'navbar navbar-expand-lg center-nav transparent navbar-light navbar-clone fixed';
   const navOtherClass = 'navbar-other w-100 d-flex ms-auto'
-  const navClassName = `navbar navbar-expand-lg center-nav transparent navbar-light ${styles.navbarCloneNobg}`
-
+  const navClassName = `navbar navbar-expand-lg center-nav transparent navbar-light ${barSitsOnTop ? styles.navbarCloneNobg : ""}`
 
   // all main header contents
   const headerContent = (
