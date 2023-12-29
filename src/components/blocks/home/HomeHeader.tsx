@@ -16,7 +16,11 @@ const HomeHeader: React.FC = () => {
                         </p>
                         <NextLink title="Register" href="/register" className="btn btn-soft-blue rounded-pill mt-2" />
                         <p className={`lead fs-md px-md-3 px-lg-7 px-xl-9 px-xxl-10 py-4 ${styles.subtitleText}`}>
-                            Already a member? <NextLink title="Sign in" className={`hover more link-aqua`} href="/register"/>
+                            Already a member? <a
+                                data-bs-toggle="modal"
+                                data-bs-target="#modal-signin"
+                                className={`hover more link-aqua`}
+                            >Sign in</a>
                         </p>
                     </div>
                 </div>
