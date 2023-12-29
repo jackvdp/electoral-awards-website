@@ -18,6 +18,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoadingLogInInfo, setIsLoadingLogInInfo] = useState<boolean>(true);
 
   useEffect(() => {
+    attemptLoginFromStorage();
+  }, []);
+
+
+  // *** PRIVATE METHODS ***
+
+  const attemptLoginFromStorage = () => {
     const token = localStorage.getItem(tokenStorageKey);
     const refreshToken = localStorage.getItem(refreshTokenStorageKey);
 
@@ -38,7 +45,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     }
     setIsLoadingLogInInfo(false)
-  }, []);
+  }
+
+  const refreshTokens = async () => {
+    // Implement the logic to refresh the token using the refresh token
+    // Update localStorage with the new token and refresh token
+    // Update the isLoggedIn state if necessary
+  };
+
+  // *** PUBLIC  METHODS ***
 
   const login = async (username: string, password: string) => {
     try {
@@ -90,10 +105,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         body: JSON.stringify({
           firstname: firstName,
           lastname: lastName,
-          email,
-          password,
-          phone,
-          organisation,
+          email: email,
+          password: password,
+          phone: phone,
+          organisation: organisation,
           position: role,
           // Fields not provided are left blank
           country: "",
@@ -102,7 +117,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           profileTitle: "",
           isNewsletterSubscribe: true,
           isProfileRestricted: true,
-          interests: [],
+          interests: ["electoral"],
           skills: [],
           biography: "",
           profileImage: ""
@@ -129,12 +144,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.removeItem(tokenStorageKey);
     localStorage.removeItem(refreshTokenStorageKey);
     setIsLoggedIn(false);
-  };
-
-  const refreshTokens = async () => {
-    // Implement the logic to refresh the token using the refresh token
-    // Update localStorage with the new token and refresh token
-    // Update the isLoggedIn state if necessary
   };
 
   return (

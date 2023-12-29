@@ -104,7 +104,7 @@ const NavbarICPS: FC = () => {
             </li>}
 
           {/* ============= Sign in/out button ============= */}
-          {/* <li className="nav-item">
+          <li className="nav-item">
             {
               isLoggedIn ?
                 <NextLink
@@ -118,7 +118,7 @@ const NavbarICPS: FC = () => {
                   Sign In
                 </button>
             }
-          </li> */}
+          </li>
 
 
           {/* ============= humburger button for small device ============= */}
