@@ -19,7 +19,7 @@ const Home: NextPage = () => {
         <Fragment>
             <PageProgress />
 
-            <Navbar />
+            <Navbar barSitsOnTop={true} />
 
             <main className="content-wrapper">
                 <HomeHeader />
