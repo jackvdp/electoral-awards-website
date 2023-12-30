@@ -26,7 +26,6 @@ const Register: NextPage = () => {
 
             <Account />
 
-            {/* ========== footer section ========== */}
             <Footer />
         </Fragment>
     );

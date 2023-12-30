@@ -1,57 +1,68 @@
-import { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 
 type InputItem = {
     title: string;
     placeholder: string;
     type: 'input' | 'area';
     name: string;
+    defaultValue: string;
 };
 
 type FormProps = {
     inputItems: InputItem[];
     submitButtonTitle: string;
     onSubmit: (values: Record<string, string>) => void;
-}
+};
 
 const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonTitle }) => {
     const [formValues, setFormValues] = useState<Record<string, string>>({});
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         onSubmit(formValues);
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            {inputItems.map((item) => (
-                <div key={item.name} className="form-floating">
-                    {item.type === 'input' ? (
-                        <input
-                            type="text"
-                            className="form-control"
-                            id={item.name}
-                            placeholder={item.placeholder}
-                            name={item.name}
-                            onChange={handleChange}
-                        />
+        <form onSubmit={handleSubmit} className="container">
+            <div className="row">
+                {inputItems.map((item) => (
+                    item.type === 'input' ? (
+                        <div key={item.name} className="col-md-6">
+                            <div className="form-floating mb-3">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id={item.name}
+                                    placeholder={item.placeholder}
+                                    name={item.name}
+                                    onChange={handleChange}
+                                    defaultValue={item.defaultValue}
+                                />
+                                <label htmlFor={item.name}>{item.title}</label>
+                            </div>
+                        </div>
                     ) : (
-                        <textarea
-                            className="form-control"
-                            id={item.name}
-                            placeholder={item.placeholder}
-                            name={item.name}
-                            onChange={handleChange}
-                            style={{ height: 150 }}
-                        />
-                    )}
-                    <label htmlFor={item.name}>{item.title}</label>
-                </div>
-            ))}
-            <button type="submit" className="btn btn-primary rounded-pill">{submitButtonTitle}</button>
+                        <div key={item.name} className="col-md-12">
+                            <div className="form-floating mb-3">
+                                <textarea
+                                    className="form-control"
+                                    id={item.name}
+                                    placeholder={item.placeholder}
+                                    name={item.name}
+                                    onChange={handleChange}
+                                    style={{ height: '100%' }} // Adjust height as needed
+                                />
+                                <label htmlFor={item.name}>{item.title}</label>
+                            </div>
+                        </div>
+                    )
+                ))}
+            </div>
+            <button type="submit" className="btn btn-primary">{submitButtonTitle}</button>
         </form>
     );
 };

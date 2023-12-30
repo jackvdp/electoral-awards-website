@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
 import jwtDecode from 'jwt-decode';
+import UserData from 'backend/models/user';
 
 interface DecodedToken {
   exp: number;
@@ -25,26 +26,39 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // *** PRIVATE METHODS ***
 
   const attemptLoginFromStorage = () => {
-    const token = localStorage.getItem(tokenStorageKey);
     const refreshToken = localStorage.getItem(refreshTokenStorageKey);
 
-    if (token && refreshToken) {
+    let token = validTokenExists(true)
+
+    if (token) {
+      setIsLoggedIn(true);
+    } else if (refreshToken) {
+      refreshTokens();
+    }
+
+    setIsLoadingLogInInfo(false)
+  }
+
+  function validTokenExists(setTimerIfValid: boolean): string | null {
+    const token = localStorage.getItem(tokenStorageKey);
+    if (token) {
       const decoded: DecodedToken = jwtDecode(token);
       const currentTime = Date.now() / 1000;
-
-      if (decoded.exp < currentTime) {
-        refreshTokens();
-      } else {
-        setIsLoggedIn(true);
-
-        const timeoutId = setTimeout(() => {
-          refreshTokens();
-        }, (decoded.exp - currentTime - 60) * 1000);
-
-        return () => clearTimeout(timeoutId);  // Clear the timer when the component unmounts
+      if (decoded.exp > currentTime) {
+        if (setTimerIfValid) {
+          setUpTimerToRefreshToken(decoded, currentTime);
+        }
+        return token;
       }
     }
-    setIsLoadingLogInInfo(false)
+    return null;
+  }
+
+  const setUpTimerToRefreshToken = (decoded: DecodedToken, currentTime: number) => {
+    const timeoutId = setTimeout(() => {
+      refreshTokens();
+    }, (decoded.exp - currentTime - 60) * 1000);
+    return () => clearTimeout(timeoutId);  // Clear the timer when the component unmounts
   }
 
   const refreshTokens = async () => {
@@ -146,8 +160,33 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsLoggedIn(false);
   };
 
+  const fetchUserData = async () => {
+    const token = validTokenExists(false);
+    if (!token) {
+      return null;
+    }
+
+    try {
+      const response = await fetch(`${baseURL}/users/me`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+
+      const userData: UserData = await response.json();
+      return userData;
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      return null;
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ isLoggedIn, isLoadingLogInInfo, setIsLoggedIn, login, signup, signout }}>
+    <AuthContext.Provider value={{ isLoggedIn, isLoadingLogInInfo, setIsLoggedIn, login, signup, signout, fetchUserData }}>
       {children}
     </AuthContext.Provider>
   );
@@ -172,6 +211,7 @@ interface AuthContextProps {
   login: (username: string, password: string) => Promise<void>;
   signup: (email: string, password: string, firstName: string, lastName: string, phone: string, organisation: string, role: string) => Promise<void>;
   signout: () => void;
+  fetchUserData: () => Promise<UserData | null>
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
