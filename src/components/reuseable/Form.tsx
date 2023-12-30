@@ -54,7 +54,7 @@ const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonT
                                     placeholder={item.placeholder}
                                     name={item.name}
                                     onChange={handleChange}
-                                    style={{ height: '100%' }} // Adjust height as needed
+                                    style={{ height: '100%' }}
                                 />
                                 <label htmlFor={item.name}>{item.title}</label>
                             </div>
@@ -62,7 +62,9 @@ const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonT
                     )
                 ))}
             </div>
-            <button type="submit" className="btn btn-primary">{submitButtonTitle}</button>
+            <div className="d-flex justify-content-center">
+                <button type="submit" className="btn btn-primary">{submitButtonTitle}</button>
+            </div>
         </form>
     );
 };

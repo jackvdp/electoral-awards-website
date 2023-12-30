@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
 import jwtDecode from 'jwt-decode';
-import UserData from 'backend/models/user';
+import UserData, { MutableUserData } from 'backend/models/user';
 
 interface DecodedToken {
   exp: number;
@@ -26,39 +26,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // *** PRIVATE METHODS ***
 
   const attemptLoginFromStorage = () => {
+    const token = localStorage.getItem(tokenStorageKey);
     const refreshToken = localStorage.getItem(refreshTokenStorageKey);
 
-    let token = validTokenExists(true)
-
-    if (token) {
-      setIsLoggedIn(true);
-    } else if (refreshToken) {
-      refreshTokens();
-    }
-
-    setIsLoadingLogInInfo(false)
-  }
-
-  function validTokenExists(setTimerIfValid: boolean): string | null {
-    const token = localStorage.getItem(tokenStorageKey);
-    if (token) {
+    if (token && refreshToken) {
       const decoded: DecodedToken = jwtDecode(token);
       const currentTime = Date.now() / 1000;
-      if (decoded.exp > currentTime) {
-        if (setTimerIfValid) {
-          setUpTimerToRefreshToken(decoded, currentTime);
-        }
-        return token;
+      if (decoded.exp < currentTime) {
+        refreshTokens();
+      } else {
+        setIsLoggedIn(true);
+        const timeoutId = setTimeout(() => {
+          refreshTokens();
+        }, (decoded.exp - currentTime - 60) * 1000);
+        return () => clearTimeout(timeoutId);  // Clear the timer when the component unmounts
       }
     }
-    return null;
-  }
-
-  const setUpTimerToRefreshToken = (decoded: DecodedToken, currentTime: number) => {
-    const timeoutId = setTimeout(() => {
-      refreshTokens();
-    }, (decoded.exp - currentTime - 60) * 1000);
-    return () => clearTimeout(timeoutId);  // Clear the timer when the component unmounts
+    setIsLoadingLogInInfo(false)
   }
 
   const refreshTokens = async () => {
@@ -160,8 +144,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsLoggedIn(false);
   };
 
+  const accessToken = (): string | null => {
+    const token = localStorage.getItem(tokenStorageKey);
+    if (!token) {
+      return null;
+    }
+
+    const decoded: DecodedToken = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp < currentTime) {
+      return null;
+    }
+
+    return token;
+  }
+
   const fetchUserData = async () => {
-    const token = validTokenExists(false);
+    const token = accessToken();
     if (!token) {
       return null;
     }
@@ -185,8 +184,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }
 
+  const updateUserData = async (userData: MutableUserData, userID: number) => {
+    const token = accessToken();
+    if (!token) {
+      return null;
+    }
+
+    try {
+      const response = await fetch(`${baseURL}/users/users/${userID}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+
+      const newUserData: UserData = await response.json();
+      return newUserData;
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      return null;
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ isLoggedIn, isLoadingLogInInfo, setIsLoggedIn, login, signup, signout, fetchUserData }}>
+    <AuthContext.Provider value={{ isLoggedIn, isLoadingLogInInfo, setIsLoggedIn, login, signup, signout, fetchUserData, updateUserData }}>
       {children}
     </AuthContext.Provider>
   );
@@ -211,7 +238,8 @@ interface AuthContextProps {
   login: (username: string, password: string) => Promise<void>;
   signup: (email: string, password: string, firstName: string, lastName: string, phone: string, organisation: string, role: string) => Promise<void>;
   signout: () => void;
-  fetchUserData: () => Promise<UserData | null>
+  fetchUserData: () => Promise<UserData | null>;
+  updateUserData: (userData: MutableUserData, userID: number) => Promise<UserData | null>
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
