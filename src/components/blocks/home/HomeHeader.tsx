@@ -1,7 +1,10 @@
 import NextLink from 'components/reuseable/links/NextLink'
 import styles from './Home.module.css'
+import { useAuth } from 'auth/AuthProvider'
 
 const HomeHeader: React.FC = () => {
+    const { isLoggedIn } = useAuth()
+
     return (
         <section
             className={`wrapper image-wrapper bg-image bg-overlay text-white ${styles.fullHeight} ${styles.centeredSection} ${styles.blurSection}`}
@@ -14,14 +17,24 @@ const HomeHeader: React.FC = () => {
                         <p className="lead fs-lg px-md-3 px-lg-7 px-xl-9 px-xxl-10">
                             Connecting Leaders in Electoral Management
                         </p>
-                        <NextLink title="Register" href="/register" className="btn btn-soft-blue rounded-pill mt-2" />
-                        <p className={`lead fs-md px-md-3 px-lg-7 px-xl-9 px-xxl-10 py-4 ${styles.subtitleText}`}>
+                        {!isLoggedIn && <NextLink title="Register" href="/register" className="btn btn-soft-blue rounded-pill mt-2" />}
+                        {!isLoggedIn && <p className={`lead fs-md px-md-3 px-lg-7 px-xl-9 px-xxl-10 py-4 ${styles.subtitleText}`}>
                             Already a member? <a
                                 data-bs-toggle="modal"
                                 data-bs-target="#modal-signin"
                                 className={`hover more link-aqua`}
                             >Sign in</a>
-                        </p>
+                        </p>}
+
+                        {
+                            isLoggedIn && (
+                                <div className="d-flex justify-content-center gap-2">
+                                    <NextLink title="Events" href="/events" className="btn btn-soft-blue rounded-pill mt-2" />
+                                    <NextLink title="Articles" href="/articles" className="btn btn-outline-white rounded-pill mt-2" />
+                                    <NextLink title="Awards" href="/awards" className="btn btn-yellow rounded-pill mt-2" />
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             </div>

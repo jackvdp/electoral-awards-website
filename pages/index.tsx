@@ -37,7 +37,9 @@ const Home: NextPage = () => {
 
                 </div>
 
-                <Features />
+                <div className='pb-md-8'>
+                    <Features />
+                </div>
 
                 {!isLoggedIn && <CTA />}
 

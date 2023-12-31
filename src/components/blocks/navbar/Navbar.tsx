@@ -19,7 +19,7 @@ interface NavbarProps {
   barSitsOnTop?: boolean;
 }
 
-const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
+const NavbarICPS: FC<NavbarProps> = ({ barSitsOnTop }) => {
   const sticky = useSticky(350);
   const navbarRef = useRef<HTMLElement | null>(null);
   const { isLoggedIn } = useAuth()
@@ -52,11 +52,12 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
               <DropdownToggleLink title="Awards" className="nav-link dropdown-toggle" />
 
               <ul className="dropdown-menu">
-                <ListItemLink href="/awards/about" title="About" linkClassName="dropdown-item" />
+                <ListItemLink href="/awards" title="About" linkClassName="dropdown-item" />
                 <ListItemLink href="/awards/categories" title="Categories" linkClassName="dropdown-item" />
                 <li className="dropdown dropdown-submenu dropend">
                   <DropdownToggleLink title="2023" />
                   <ul className="dropdown-menu">
+                    <ListItemLink href="/awards/2023/about" title="About" linkClassName="dropdown-item" />
                     <ListItemLink href="/awards/2023/winners" title="Winners" linkClassName="dropdown-item" />
                     <ListItemLink href="/awards/2023/judges" title="Judges" linkClassName="dropdown-item" />
                     <ListItemLink href="/awards/2023/location" title='Location' linkClassName="dropdown-item" />

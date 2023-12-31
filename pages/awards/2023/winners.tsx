@@ -5,7 +5,7 @@ import { Navbar } from 'components/blocks/navbar';
 import { Footer } from 'components/blocks/footer';
 import { awards } from 'data/winners';
 import SimpleBanner from 'components/blocks/banner/SimpleBanner';
-import WinnerCard from 'components/winners/WinnerCard';
+import WinnerCard from 'components/elements/winners/WinnerCard';
 import PageProgress from 'components/common/PageProgress';
 
 const Winners: NextPage = () => {
