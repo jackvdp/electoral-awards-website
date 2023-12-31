@@ -12,12 +12,15 @@ type FormProps = {
     inputItems: InputItem[];
     submitButtonTitle: string;
     onSubmit: (values: Record<string, string>) => void;
+    additionalButtons?: React.ReactNode[];
 };
 
-const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonTitle }) => {
+const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonTitle, additionalButtons }) => {
     const [formValues, setFormValues] = useState<Record<string, string>>({});
+    const [hasChanged, setHasChanged] = useState(false);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setHasChanged(true);
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
     };
 
@@ -62,8 +65,9 @@ const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonT
                     )
                 ))}
             </div>
-            <div className="d-flex justify-content-center">
-                <button type="submit" className="btn btn-primary">{submitButtonTitle}</button>
+            <div className="d-flex justify-content-center gap-2">
+                <button type="submit" disabled={!hasChanged} className="btn btn-primary m-4">{submitButtonTitle}</button>
+                {additionalButtons}
             </div>
         </form>
     );

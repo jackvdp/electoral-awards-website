@@ -147,12 +147,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const accessToken = (): string | null => {
     const token = localStorage.getItem(tokenStorageKey);
     if (!token) {
+      setIsLoggedIn(false)
       return null;
     }
 
     const decoded: DecodedToken = jwtDecode(token);
     const currentTime = Date.now() / 1000;
     if (decoded.exp < currentTime) {
+      setIsLoggedIn(false)
       return null;
     }
 
