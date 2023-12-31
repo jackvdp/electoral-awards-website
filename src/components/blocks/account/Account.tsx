@@ -80,7 +80,7 @@ const Account: FC = () => {
                             additionalButtons={[
                                 <button key='1' type="button" onClick={signout} className="btn btn-outline-red btn-sm m-4">Log Out</button>,
                                 <button
-                                    key='1'
+                                    key='2'
                                     type="button"
                                     className="btn btn-outline-red btn-sm m-4"
                                     data-bs-toggle="modal"

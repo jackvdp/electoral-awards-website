@@ -32,7 +32,7 @@ const RegisterForm: FC = () => {
           <input
             type="email"
             value={email}
-            id="loginEmail"
+            id="registerEmail"
             placeholder="Email"
             className="form-control"
             onChange={(e) => setEmail(e.target.value)}
@@ -43,7 +43,7 @@ const RegisterForm: FC = () => {
         <div className="form-floating password-field mb-4">
           <input
             value={password}
-            id="loginPassword"
+            id="registerPassword"
             placeholder="Password"
             className="form-control"
             type={visiblePassword ? 'text' : 'password'}

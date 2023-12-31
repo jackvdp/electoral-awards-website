@@ -19,31 +19,33 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoadingLogInInfo, setIsLoadingLogInInfo] = useState<boolean>(true);
 
   useEffect(() => {
-    attemptLoginFromStorage();
-  }, []);
-
-
-  // MARK: - *** PRIVATE METHODS ***
-
-  const attemptLoginFromStorage = () => {
     const token = localStorage.getItem(tokenStorageKey);
     const refreshToken = localStorage.getItem(refreshTokenStorageKey);
-
+  
+    let timeoutId: NodeJS.Timeout;
+  
     if (token && refreshToken) {
-      const decoded: DecodedToken = jwtDecode(token);
+      const decoded: DecodedToken = jwtDecode<DecodedToken>(token);
       const currentTime = Date.now() / 1000;
+  
       if (decoded.exp < currentTime) {
         refreshTokens();
       } else {
         setIsLoggedIn(true);
-        const timeoutId = setTimeout(() => {
+        timeoutId = setTimeout(() => {
           refreshTokens();
         }, (decoded.exp - currentTime - 60) * 1000);
-        return () => clearTimeout(timeoutId);  // Clear the timer when the component unmounts
       }
     }
-    setIsLoadingLogInInfo(false)
-  }
+  
+    setIsLoadingLogInInfo(false);
+  
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, []);  
 
   const refreshTokens = async () => {
     // Implement the logic to refresh the token using the refresh token
