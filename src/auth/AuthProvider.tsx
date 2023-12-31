@@ -23,7 +23,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
 
-  // *** PRIVATE METHODS ***
+  // MARK: - *** PRIVATE METHODS ***
 
   const attemptLoginFromStorage = () => {
     const token = localStorage.getItem(tokenStorageKey);
@@ -51,7 +51,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Update the isLoggedIn state if necessary
   };
 
-  // *** PUBLIC  METHODS ***
+  const accessToken = (): string | null => {
+    const token = localStorage.getItem(tokenStorageKey);
+    if (!token) {
+      setIsLoggedIn(false)
+      return null;
+    }
+
+    const decoded: DecodedToken = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp < currentTime) {
+      setIsLoggedIn(false)
+      return null;
+    }
+
+    return token;
+  }
+
+  // MARK: - *** PUBLIC  METHODS ***
 
   const login = async (username: string, password: string) => {
     try {
@@ -144,23 +161,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsLoggedIn(false);
   };
 
-  const accessToken = (): string | null => {
-    const token = localStorage.getItem(tokenStorageKey);
-    if (!token) {
-      setIsLoggedIn(false)
-      return null;
-    }
-
-    const decoded: DecodedToken = jwtDecode(token);
-    const currentTime = Date.now() / 1000;
-    if (decoded.exp < currentTime) {
-      setIsLoggedIn(false)
-      return null;
-    }
-
-    return token;
-  }
-
   const fetchUserData = async () => {
     const token = accessToken();
     if (!token) {
@@ -214,8 +214,47 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }
 
+  const deleteUser = async (userData: MutableUserData, userID: number) => {
+    const token = accessToken();
+    if (!token) {
+      return false;
+    }
+
+    try {
+      console.log("****", userID)
+      const response = await fetch(`${baseURL}/users/request-account-deletion?id=${userID}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete user');
+      }
+
+      signout();
+      return true;
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      return false;
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ isLoggedIn, isLoadingLogInInfo, setIsLoggedIn, login, signup, signout, fetchUserData, updateUserData }}>
+    <AuthContext.Provider value={{
+      isLoggedIn,
+      isLoadingLogInInfo,
+      setIsLoggedIn,
+      login,
+      signup,
+      signout,
+      fetchUserData,
+      updateUserData,
+      deleteUser
+    }}>
       {children}
     </AuthContext.Provider>
   );
@@ -242,6 +281,7 @@ interface AuthContextProps {
   signout: () => void;
   fetchUserData: () => Promise<UserData | null>;
   updateUserData: (userData: MutableUserData, userID: number) => Promise<UserData | null>
+  deleteUser: (userData: MutableUserData, userID: number) => Promise<boolean>
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);

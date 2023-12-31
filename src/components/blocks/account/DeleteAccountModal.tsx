@@ -1,22 +1,30 @@
-import { FC, useState, useRef } from "react";
-import Modal from "components/reuseable/modal/modal";
+import { FC, useState } from "react";
+import Modal from "components/reuseable/modal/Modal";
 import { useAuth } from "auth/AuthProvider";
+import { MutableUserData } from "backend/models/user";
+import Router from "next/router";
 
 interface DeletePressedProps {
     modalID: string;
+    userData: MutableUserData;
+    userID: number;
 }
 
-const DeleteAccountModal: FC<DeletePressedProps> = ({ modalID }) => {
-    // const { deleteAccount } = useAuth();
+const DeleteAccountModal: FC<DeletePressedProps> = ({ modalID, userData, userID }) => {
+    const { deleteUser } = useAuth();
     const [isDeleting, setIsDeleting] = useState(false);
-    const modalRef = useRef(null);
     const [closeModalProgrammatically, setCloseModalProgrammatically] = useState(false);
 
     const handleDelete = async () => {
         setIsDeleting(true);
-        // await deleteAccount();
+        const successfullyDeletedUser = await deleteUser(userData, userID);
         setIsDeleting(false);
-        setCloseModalProgrammatically(true);
+        if (successfullyDeletedUser) {
+            setCloseModalProgrammatically(true);
+            Router.push("/");
+        } else {
+            alert("Failed to delete user. Please try again later.");
+        }
     };
 
     return (

@@ -91,7 +91,9 @@ const Account: FC = () => {
                         />}
                 </div>
             </div>
-            <DeleteAccountModal modalID={deleteModalID} />
+            {
+                user && <DeleteAccountModal modalID={deleteModalID} userData={createMutableUserData(user)} userID={user.id} />
+            }
         </section>
     );
 
@@ -153,7 +155,7 @@ const convertToInputItems = (userData: UserData): InputItem[] => {
     ];
 };
 
-const createMutableUserData = (userData: UserData, updatedValues: Record<string, string>): MutableUserData => {
+const createMutableUserData = (userData: UserData, updatedValues?: Record<string, string>): MutableUserData => {
     // Create a new object with the same values as userData
     const mutableUserData: MutableUserData = {
         firstname: userData.firstname,
@@ -175,9 +177,11 @@ const createMutableUserData = (userData: UserData, updatedValues: Record<string,
     };
 
     // Update mutableUserData with any changed values from updatedValues
-    for (const key in updatedValues) {
-        if (updatedValues.hasOwnProperty(key) && key in mutableUserData) {
-            (mutableUserData as any)[key] = updatedValues[key];
+    if (updatedValues) {
+        for (const key in updatedValues) {
+            if (updatedValues.hasOwnProperty(key) && key in mutableUserData) {
+                (mutableUserData as any)[key] = updatedValues[key];
+            }
         }
     }
 
