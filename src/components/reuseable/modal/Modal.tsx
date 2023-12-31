@@ -17,18 +17,16 @@ const Modal: FC<ModalProps> = ({ id, content, programmaticClose }) => {
     useEffect(() => {
         if (programmaticClose?.closeTriggered) {
             programmaticClose.resetAfterClose();
-            const modalElement = document.getElementById(id);
-            if (modalElement) {
-                modalElement.classList.remove('show');
-                modalElement.style.display = 'none';
-                const modalBackdrop = document.querySelector('.modal-backdrop');
-                if (modalBackdrop && modalBackdrop.parentNode) {
-                    modalBackdrop.parentNode.removeChild(modalBackdrop);
-                }
-                document.body.classList.remove('modal-open');
-            }
+            pressCloseButton();
         }
     }, [programmaticClose?.closeTriggered]);
+
+    const pressCloseButton = () => {
+        const closeButton = document.getElementById(`close-${id}`);
+        if (closeButton) {
+            closeButton.click();
+        }
+    }
 
     return (
         <div
@@ -42,7 +40,7 @@ const Modal: FC<ModalProps> = ({ id, content, programmaticClose }) => {
             <div className="modal-dialog modal-dialog-centered modal-sm">
                 <div className="modal-content text-center">
                     <div className="modal-body">
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" id={`close-${id}`} />
 
                         {content}
                     </div>
