@@ -1,12 +1,12 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import { countries } from "data/countries";
 
 type InputItem = {
     title: string;
     placeholder: string;
-    type: 'input' | 'area' | 'selection';
+    type: 'input' | 'area' | 'country';
     name: string;
     defaultValue: string;
-    options?: string[];
 };
 
 type FormProps = {
@@ -68,10 +68,10 @@ const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonT
                                     </div>
                                 </div>
                             );
-                        case 'selection':
+                        case 'country':
                             return (
                                 <div key={item.name} className="col-md-6">
-                                    <div className="form-select-wrapper">
+                                    <div className="form-select-wrapper mb-3">
                                         <select
                                             className="form-select"
                                             name={item.name}
@@ -81,15 +81,13 @@ const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonT
                                             aria-label={item.placeholder}
                                         >
                                             <option disabled value="">{item.placeholder}</option>
-                                            {item.options?.map((option, index) => (
+                                            {getCountryNames().map((option, index) => (
                                                 <option key={index} value={option}>{option}</option>
                                             ))}
                                         </select>
                                     </div>
                                 </div>
                             );
-                        default:
-                            return null;
                     }
                 })}
             </div>
@@ -103,3 +101,9 @@ const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonT
 
 export default ReusableForm;
 export type { InputItem, FormProps };
+
+const getCountryNames = (): string[] => {
+    return countries.map((country) => {
+        return country.name
+    })
+}

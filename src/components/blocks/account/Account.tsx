@@ -5,7 +5,6 @@ import UserData, { MutableUserData } from 'backend/models/user';
 import { useState, useEffect } from 'react';
 import { useAuth } from 'auth/AuthProvider';
 import DeleteAccountModal from './DeleteAccountModal';
-import { countries, Country } from 'data/countries';
 
 const Account: FC = () => {
 
@@ -128,10 +127,9 @@ const convertToInputItems = (userData: UserData): InputItem[] => {
         {
             title: 'Country',
             placeholder: 'Enter country',
-            type: 'selection',
+            type: 'country',
             name: 'country',
             defaultValue: userData.country,
-            options: getCountriesNames(),
         },
         {
             title: 'Position',
@@ -189,15 +187,3 @@ const createMutableUserData = (userData: UserData, updatedValues?: Record<string
 
     return mutableUserData;
 };
-
-const getCountriesNames = (): string[] => {
-    return countries.map((country) => {
-        return country.name
-    })
-}
-
-const getCountriesWithTheirPhones = (): string[] => {
-    return countries.map((country) => {
-        return `(${country.phonePrefix}) ${country.name} `
-    })
-}
