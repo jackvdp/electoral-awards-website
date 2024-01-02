@@ -77,6 +77,7 @@ const Account: FC = () => {
                             inputItems={convertToInputItems(user)}
                             submitButtonTitle="Update Account Details"
                             onSubmit={handleFormSubmit}
+                            disableSubmitInitially={true}
                             additionalButtons={[
                                 <button key='1' type="button" onClick={signout} className="btn btn-outline-red btn-sm m-4">Log Out</button>,
                                 <button
@@ -109,6 +110,7 @@ const convertToInputItems = (userData: UserData): InputItem[] => {
             type: 'input',
             name: 'firstname',
             defaultValue: userData.firstname,
+            required: true
         },
         {
             title: 'Last Name',
@@ -116,13 +118,15 @@ const convertToInputItems = (userData: UserData): InputItem[] => {
             type: 'input',
             name: 'lastname',
             defaultValue: userData.lastname,
+            required: true
         },
         {
             title: 'Phone',
             placeholder: 'Enter phone number',
-            type: 'input',
+            type: 'phone',
             name: 'phone',
             defaultValue: userData.phone,
+            required: true
         },
         {
             title: 'Country',
@@ -130,6 +134,7 @@ const convertToInputItems = (userData: UserData): InputItem[] => {
             type: 'country',
             name: 'country',
             defaultValue: userData.country,
+            required: true
         },
         {
             title: 'Position',
@@ -137,6 +142,7 @@ const convertToInputItems = (userData: UserData): InputItem[] => {
             type: 'input',
             name: 'position',
             defaultValue: userData.position,
+            required: true
         },
         {
             title: 'Organisation',
@@ -144,13 +150,14 @@ const convertToInputItems = (userData: UserData): InputItem[] => {
             type: 'input',
             name: 'organisation',
             defaultValue: userData.organisation,
+            required: true
         },
         {
             title: 'Biography',
             placeholder: 'Enter biography',
             type: 'area',
             name: 'biography',
-            defaultValue: userData.biography,
+            defaultValue: userData.biography
         },
     ];
 };

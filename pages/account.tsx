@@ -7,7 +7,7 @@ import Account from 'components/blocks/account/Account';
 import { useRouter } from 'next/router';
 import { useAuth } from 'auth/AuthProvider';
 
-const Register: NextPage = () => {
+const AccountPage: NextPage = () => {
 
     const router = useRouter();
     const { isLoggedIn } = useAuth()
@@ -31,4 +31,4 @@ const Register: NextPage = () => {
     );
 };
 
-export default Register;
+export default AccountPage;
