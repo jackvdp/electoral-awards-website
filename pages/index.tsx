@@ -6,7 +6,7 @@ import { Footer } from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
 import CTA from 'components/blocks/call-to-action/CTA';
 import HomeHeader from 'components/blocks/home/HomeHeader';
-import HomeEventsSidebar from 'components/blocks/home/HomeEventsSidebar';
+import HomeEventsSidebar from 'components/blocks/events/EventsSidebar';
 import HomeAbout from 'components/blocks/home/HomeAbout';
 import Features from 'components/blocks/features/features';
 import { useAuth } from 'auth/AuthProvider';

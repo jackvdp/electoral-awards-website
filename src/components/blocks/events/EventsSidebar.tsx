@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import NextLink from 'components/reuseable/links/NextLink';
 import FigureImage from 'components/reuseable/FigureImage';
 import { IEvent } from 'backend/models/event';
-import styles from './Home.module.css';
+import styles from './Events.module.css';
 
-const HomeEventsSidebar: React.FC = () => {
+const EventsSidebar: React.FC = () => {
     const [events, setEvents] = useState<IEvent[]>([]);
 
     useEffect(() => {
@@ -34,14 +34,14 @@ const HomeEventsSidebar: React.FC = () => {
             <h4 className="widget-title mb-3">Upcoming Events</h4>
 
             <ul className="image-list">
-                {sortedEvents().map(({ title, imageURL, _id, startDate }) => {
+                {sortedEvents().map(({ title, imageURL, _id, startDate }, index) => {
                     return _id && (
                         <li key={_id}>
                             <NextLink title={<FigureImage width={100} height={100} className="rounded" src={imageURL} />} href="#" />
 
                             <div className="post-content">
                                 <b className="mb-2">
-                                    <NextLink className={`link-dark ${styles.twoLineText}`} title={title} href="#" />
+                                    <NextLink className={`link-dark ${styles.twoLineText}`} title={title} href={`/events/${_id}`} />
                                 </b>
 
                                 <ul className="post-meta">
@@ -59,4 +59,4 @@ const HomeEventsSidebar: React.FC = () => {
     );
 };
 
-export default HomeEventsSidebar;
+export default EventsSidebar;
