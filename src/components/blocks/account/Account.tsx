@@ -10,12 +10,12 @@ const Account: FC = () => {
 
     const [user, setUser] = useState<UserData | null>(null)
     const [alertStatus, setAlertStatus] = useState<'success' | 'failed' | null>(null)
-    const { fetchUserData, updateUserData, signout } = useAuth()
+    const { getUser, updateUser, signout } = useAuth()
     const deleteModalID = "delete-account-modal"
 
     useEffect(() => {
         const getUserData = async () => {
-            const userData = await fetchUserData()
+            const userData = await getUser()
             if (userData === null) {
                 setAlertStatus('failed')
                 return
@@ -30,7 +30,7 @@ const Account: FC = () => {
         if (user === null) { return }
         const mutableUserData = createMutableUserData(user, values);
         const update = async () => {
-            const newUser = await updateUserData(mutableUserData, user.id)
+            const newUser = await updateUser(mutableUserData, user.id)
             if (newUser === null) {
                 setAlertStatus('failed')
             } else {

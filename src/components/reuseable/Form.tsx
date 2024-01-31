@@ -27,14 +27,14 @@ const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonT
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         let isValid = true;
         const newErrors: Record<string, string | null> = {};
 
         inputItems.forEach((item) => {
             const value = formValues[item.name] || '';
-    
+
             switch (item.type) {
                 case 'password':
                     if (item.required && !validatePassword(value)) {
@@ -64,7 +64,7 @@ const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonT
                     break;
             }
         });
-    
+
         if (isValid) {
             onSubmit(formValues);
         } else {
@@ -159,7 +159,7 @@ const getCountryNames = (): string[] => {
     })
 }
 
-const validatePassword = (password: string): boolean => { 
+const validatePassword = (password: string): boolean => {
     return password.length >= 8 && /^[a-z0-9]+$/i.test(password)
 }
 

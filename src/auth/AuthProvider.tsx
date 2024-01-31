@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
 import jwtDecode from 'jwt-decode';
-import UserData, { MutableUserData } from 'backend/models/user';
+import UserData, { MutableUserData, CreateUser } from 'backend/models/user';
 
 interface DecodedToken {
   exp: number;
@@ -8,6 +8,11 @@ interface DecodedToken {
 
 interface AuthProviderProps {
   children: ReactNode;
+}
+
+interface TokenResponse {
+  token: string;
+  refreshToken: string;
 }
 
 const tokenStorageKey = 'token'
@@ -21,13 +26,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem(tokenStorageKey);
     const refreshToken = localStorage.getItem(refreshTokenStorageKey);
-  
+
     let timeoutId: NodeJS.Timeout;
-  
+
     if (token && refreshToken) {
       const decoded: DecodedToken = jwtDecode<DecodedToken>(token);
       const currentTime = Date.now() / 1000;
-  
+
       if (decoded.exp < currentTime) {
         refreshTokens();
       } else {
@@ -37,15 +42,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }, (decoded.exp - currentTime - 60) * 1000);
       }
     }
-  
+
     setIsLoadingLogInInfo(false);
-  
+
     return () => {
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
     };
-  }, []);  
+  }, []);
 
   const refreshTokens = async () => {
     // Implement the logic to refresh the token using the refresh token
@@ -104,66 +109,40 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const signup = async (
-    email: string,
-    password: string,
-    firstName: string,
-    lastName: string,
-    phone: string,
-    organisation: string,
-    role: string
-  ) => {
-    try {
-      const response = await fetch(`${baseURL}/users/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstname: firstName,
-          lastname: lastName,
-          email: email,
-          password: password,
-          phone: phone,
-          organisation: organisation,
-          position: role,
-          // Fields not provided are left blank
-          country: "",
-          birthdate: "",
-          profileName: "",
-          profileTitle: "",
-          isNewsletterSubscribe: true,
-          isProfileRestricted: true,
-          interests: ["electoral"],
-          skills: [],
-          biography: "",
-          profileImage: ""
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const { token, refreshToken } = data;
-
-        localStorage.setItem(tokenStorageKey, token);
-        localStorage.setItem(refreshTokenStorageKey, refreshToken);
-
-        setIsLoggedIn(true);
-      } else {
-        signout()
-      }
-    } catch (error) {
-      signout()
-    }
-  };
-
   const signout = () => {
     localStorage.removeItem(tokenStorageKey);
     localStorage.removeItem(refreshTokenStorageKey);
     setIsLoggedIn(false);
   };
 
-  const fetchUserData = async () => {
+  const createUser = async (userData: CreateUser): Promise<boolean> => {
+    const response = await fetch(`${baseURL}/users/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      return false;
+    }
+
+    const tokenResponse: TokenResponse = await response.json();
+
+    if (!tokenResponse.token || !tokenResponse.refreshToken) {
+      console.log('Failed to fetch user data')
+      return false
+    }
+
+    localStorage.setItem(tokenStorageKey, tokenResponse.token);
+    localStorage.setItem(refreshTokenStorageKey, tokenResponse.refreshToken);
+
+    setIsLoggedIn(true);
+    return true
+  }
+
+  const getUser = async () => {
     const token = accessToken();
     if (!token) {
       return null;
@@ -188,7 +167,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }
 
-  const updateUserData = async (userData: MutableUserData, userID: number) => {
+  const updateUser = async (userData: MutableUserData, userID: number) => {
     const token = accessToken();
     if (!token) {
       return null;
@@ -249,13 +228,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     <AuthContext.Provider value={{
       isLoggedIn,
       isLoadingLogInInfo,
-      setIsLoggedIn,
       login,
-      signup,
       signout,
-      fetchUserData,
-      updateUserData,
-      deleteUser
+      getUser,
+      updateUser,
+      deleteUser,
+      createUser
     }}>
       {children}
     </AuthContext.Provider>
@@ -276,13 +254,12 @@ export const useAuth = (): AuthContextProps => {
 
 interface AuthContextProps {
   isLoggedIn: boolean;
-  setIsLoggedIn: (loggedIn: boolean) => void;
   isLoadingLogInInfo: boolean;
   login: (username: string, password: string) => Promise<void>;
-  signup: (email: string, password: string, firstName: string, lastName: string, phone: string, organisation: string, role: string) => Promise<void>;
   signout: () => void;
-  fetchUserData: () => Promise<UserData | null>;
-  updateUserData: (userData: MutableUserData, userID: number) => Promise<UserData | null>
+  createUser: (userData: CreateUser) => Promise<boolean>
+  getUser: () => Promise<UserData | null>;
+  updateUser: (userData: MutableUserData, userID: number) => Promise<UserData | null>
   deleteUser: (userData: MutableUserData, userID: number) => Promise<boolean>
 }
 

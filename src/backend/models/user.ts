@@ -1,10 +1,8 @@
 interface UserData {
-    "@context": string;
-    "@id": string;
-    "@type": string;
     id: number;
     firstname: string;
     lastname: string;
+    password?: string;
     email: string;
     phone: string;
     country: string;
@@ -47,5 +45,26 @@ interface MutableUserData {
     topics: string[];
 }
 
+interface CreateUser {
+    firstname: string;
+    lastname: string;
+    email: string;
+    password: string;
+    phone: string;
+    country: string;
+    birthdate: string;
+    profileName: string;
+    profileTitle: string;
+    isNewsletterSubscribe: boolean;
+    isProfileRestricted: boolean;
+    interests: string[];
+    skills: string[];
+    biography: string;
+    position: string;
+    organisation: string;
+    profileImage: string;
+    topics: string[];
+}
+
 export default UserData
-export type { MutableUserData }
+export type { MutableUserData, CreateUser }
