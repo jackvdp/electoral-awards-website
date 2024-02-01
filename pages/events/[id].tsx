@@ -1,7 +1,7 @@
 // pages/events/[id].tsx
 import { GetServerSideProps, NextPage } from 'next';
 import { IEvent } from 'backend/models/event';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import PageProgress from 'components/common/PageProgress';
 import { Navbar } from 'components/blocks/navbar';
 import NextLink from 'components/reuseable/links/NextLink';
@@ -9,15 +9,13 @@ import { Footer } from 'components/blocks/footer';
 import formatEventDates from 'helpers/formatEventDates';
 import ReactMarkdown from 'react-markdown';
 import EventsSidebar from 'components/blocks/events/EventsSidebar';
+import { useAuth } from 'auth/AuthProvider';
 
 interface EventPageProps {
-    event: IEvent | null;
-    error: string | null;
+    event: IEvent
 }
 
-const EventPage: NextPage<EventPageProps> = ({ event, error }) => {
-    if (error) return <p>{error}</p>;
-    if (!event) return <p>Loading...</p>;
+const EventPage: NextPage<EventPageProps> = ({ event }) => {
 
     return (
         <Fragment>
@@ -51,7 +49,7 @@ const EventPage: NextPage<EventPageProps> = ({ event, error }) => {
                 {/* ========== details section ========== */}
                 <section className="wrapper bg-light">
                     <div className="container py-6 py-md-8">
-                        <div className="row">
+                        <div className="row gx-8 gx-xl-12">
                             <div className="col-md-8 mx-auto">
                                 <ReactMarkdown>{event.description}</ReactMarkdown>
                             </div>
@@ -71,24 +69,29 @@ const EventPage: NextPage<EventPageProps> = ({ event, error }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { id } = context.params as { id: string };
-    let event: IEvent | null = null;
-    let error: string | null = null;
-
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    let event: IEvent;
 
     try {
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+        if (baseUrl === undefined) {
+            throw new Error('Base URL is undefined')
+        }
         const res = await fetch(`${baseUrl}/api/events/${id}`);
         if (!res.ok) {
-            throw new Error(`Failed to fetch event with status code: ${res.status}`);
+            context.res.writeHead(302, { Location: '/404' });
+            context.res.end();
+            return { props: {} };
         }
         event = await res.json();
     } catch (err: any) {
         console.error(err.message);
-        error = 'Failed to load the event.';
+        context.res.writeHead(302, { Location: '/404' });
+        context.res.end();
+        return { props: {} };
     }
 
     return {
-        props: { event, error },
+        props: { event },
     };
 };
 
