@@ -80,7 +80,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>19th Annual International Electoral Awards</title>
+        <title>Electoral Stakeholders' Network</title>
       </Head>
 
       <AuthProvider>
