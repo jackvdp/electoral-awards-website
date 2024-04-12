@@ -20,5 +20,3 @@ async function getEventById(res: NextApiResponse, eventId: string) {
 }
 
 export default getEventById;
-
-
