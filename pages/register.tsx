@@ -14,7 +14,7 @@ const RegisterPage: NextPage = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      router.push('/');
+      router.push('/account');
     }
   }, [isLoggedIn]);
 
