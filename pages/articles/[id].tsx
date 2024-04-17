@@ -1,16 +1,14 @@
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { Fragment, useEffect } from 'react';
-import { GetStaticPaths, GetStaticProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { Navbar } from 'components/blocks/navbar';
 import { Footer } from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
 import NextLink from 'components/reuseable/links/NextLink';
 import BlogDetailsTemplate from 'components/blocks/article/ArticleDetails';
-import getArticle from 'data/articles/getArticles';
-import articles from 'data/articles/articles';
 import { useRouter } from 'next/router';
 import { useAuth } from 'auth/AuthProvider';
+import Article from 'backend/models/article';
 
 export interface ArticleProps {
     id: string;
@@ -98,30 +96,15 @@ const BlogDetailsOne: NextPage<ArticleProps> = (props) => {
     );
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-    // Replace this with the logic to get all article ids
-    const articleIds = articles.map((article) => article.id);
-
-    // Generate an array of paths with the article ids
-    const paths = articleIds.map((id) => ({
-        params: { id: id.toString() },
-    }));
-
-    return {
-        paths,
-        fallback: false,
-    };
-};
-
-export const getStaticProps: GetStaticProps<ArticleProps, Params> = ({ params }) => {
+export const getServerSideProps: GetServerSideProps<ArticleProps, Params> = async ({ params }) => {
     const articleId = params?.id;
 
     if (articleId) {
-        const articleData = getArticle(articleId);
+        const article = await Article.findById(articleId);
 
-        if (articleData) {
+        if (article) {
             return {
-                props: articleData,
+                props: article,
             };
         }
     }
