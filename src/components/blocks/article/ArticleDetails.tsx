@@ -22,7 +22,7 @@ const BlogDetailsTemplate: FC<ArticleProps> = (props) => {
           <article className="post">
             <div className="post-content mb-5">
               <h2 className="h1 mb-4">{props.title}</h2>
-              <ReactMarkdown children={props.content} />
+              <ReactMarkdown>{props.content}</ReactMarkdown>
             </div>
           </article>
         </div>
