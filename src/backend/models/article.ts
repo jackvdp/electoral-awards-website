@@ -1,6 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 
 interface IArticle extends Document {
+    _id: string;
     link: string;
     image: string;
     category: string;
@@ -22,5 +23,5 @@ const articleSchema = new mongoose.Schema({
 
 const Article = mongoose.models.Article || mongoose.model<IArticle>('Article', articleSchema);
 
-export type { IArticle, articleSchema };
+export type { IArticle };
 export default Article;

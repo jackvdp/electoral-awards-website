@@ -2,6 +2,7 @@ import { FC } from 'react';
 import Link from 'next/link';
 import NextLink from '../links/NextLink';
 import FigureImage from 'components/reuseable/FigureImage';
+import Style from './BlogCard3.module.css'; 
 
 // ========================================================
 type BlogCard3Props = {
@@ -21,13 +22,12 @@ const BlogCard3: FC<BlogCard3Props> = (props) => {
     <article className="item post col-md-6">
       <div className="card">
         <figure className="card-img-top overlay overlay-1 hover-scale">
-          <Link href={link}>
+          {/* <Link href={link}>
             <a>
               <FigureImage width={560} height={350} src={image} />
               <span className="bg" />
             </a>
-          </Link>
-
+          </Link> */}
           <figcaption>
             <h5 className="from-top mb-0">Read More</h5>
           </figcaption>
@@ -35,16 +35,16 @@ const BlogCard3: FC<BlogCard3Props> = (props) => {
 
         <div className="card-body">
           <div className="post-header">
-            <div className="post-category text-line">
+            {/* <div className="post-category text-line">
               <NextLink title={category} href="#" className="hover" />
-            </div>
+            </div> */}
 
             <h2 className="post-title h3 mt-1 mb-3">
               <NextLink title={title} className="link-dark" href={link} />
             </h2>
           </div>
 
-          <div className="post-content">
+          <div className={"post-content " + Style.cutText}>
             <p>{description}</p>
           </div>
         </div>

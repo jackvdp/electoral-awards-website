@@ -8,7 +8,7 @@ import NextLink from 'components/reuseable/links/NextLink';
 import BlogDetailsTemplate from 'components/blocks/article/ArticleDetails';
 import { useRouter } from 'next/router';
 import { useAuth } from 'auth/AuthProvider';
-import Article from 'backend/models/article';
+import Article, { IArticle } from 'backend/models/article';
 
 export interface ArticleProps {
     id: string;
@@ -27,8 +27,8 @@ interface Params extends ParsedUrlQuery {
 
 const BlogDetailsOne: NextPage<ArticleProps> = (props) => {
 
-    const router = useRouter()
-    const { isLoggedIn, isLoadingLogInInfo } = useAuth()
+    // const router = useRouter()
+    // const { isLoggedIn, isLoadingLogInInfo } = useAuth()
 
     // useEffect(() => {
     //     if (!isLoggedIn && !isLoadingLogInInfo) {
@@ -50,9 +50,9 @@ const BlogDetailsOne: NextPage<ArticleProps> = (props) => {
                         <div className="row">
                             <div className="col-md-10 col-xl-8 mx-auto">
                                 <div className="post-header">
-                                    <div className="post-category text-line">
+                                    {/* <div className="post-category text-line">
                                         <NextLink href="#" className="hover" title={props.category} />
-                                    </div>
+                                    </div> */}
 
                                     <h1 className="display-1 mb-4">{props.title}</h1>
 
@@ -100,18 +100,21 @@ export const getServerSideProps: GetServerSideProps<ArticleProps, Params> = asyn
     const articleId = params?.id;
 
     if (articleId) {
-        const article = await Article.findById(articleId);
+        const article = await Article.findById(articleId).lean();
 
         if (article) {
+            // Ensure _id is converted to string and directly spread article into props
             return {
-                props: article,
+                props: {
+                    ...article,
+                    _id: article._id.toString()
+                },
             };
         }
     }
 
-    // Add this return statement
     return {
-        props: {},
+        props: {}, // Return an empty object for props
         notFound: true,
     };
 };

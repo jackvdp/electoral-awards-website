@@ -23,9 +23,9 @@ const BlogCard2: FC<BlogCard2Props> = (props) => {
 
         <div className="card-body">
           <div className="post-header">
-            <div className="post-category text-line">
+            {/* <div className="post-category text-line">
               <NextLink title={category} href="#" className="hover" />
-            </div>
+            </div> */}
 
             <h2 className="post-title mt-1 mb-0">
               <NextLink title={title} className="link-dark" href={link} />

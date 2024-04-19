@@ -8,14 +8,14 @@ import { BlogCard2, BlogCard3 } from 'components/reuseable/blog-cards';
 import PageProgress from 'components/common/PageProgress';
 // -------- data -------- //
 import { GetServerSideProps } from 'next';
-import Article, {IArticle} from 'backend/models/article';
+import Article, { IArticle } from 'backend/models/article';
 
 export interface ArticlesProps {
   articles: IArticle[];
 }
 
 const ArticlesPage: NextPage<ArticlesProps> = ({ articles }) => {
-  const sortedArticles = articles.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
+  const sortedArticles = articles.sort((a, b) => new Date(a.date).valueOf() - new Date(b.date).valueOf());
 
   return (
     <Fragment>
@@ -51,19 +51,19 @@ const ArticlesPage: NextPage<ArticlesProps> = ({ articles }) => {
                   sortedArticles.length > 0 && (
                     <div className="blog classic-view mt-n17">
                       <BlogCard2
-                        link={articles[0].link}
+                        link={"/articles/" + articles[0]._id.toString()}
                         category={articles[0].category}
                         title={articles[0].title}
                         description={articles[0].description}
                         date={articles[0].date}
                         cardTop={
                           <figure className="card-img-top overlay overlay-1 hover-scale">
-                            <a className="link-dark" href={articles[0].link}>
+                            {/* <a className="link-dark" href={articles[0].link}>
                               {
                                 articles[0].image && <Image width={960} height={600} src={articles[0].image} alt="blog" layout="responsive" />
                               }
                               <span className="bg" />
-                            </a>
+                            </a> */}
 
                             <figcaption>
                               <h5 className="from-top mb-0">Read More</h5>
@@ -80,8 +80,8 @@ const ArticlesPage: NextPage<ArticlesProps> = ({ articles }) => {
                   sortedArticles.length > 1 && (
                     <div className="blog grid grid-view">
                       <div className="row isotope gx-md-8 gy-8 mb-8">
-                        {articles.slice(1).map((item) => (
-                          <BlogCard3 {...item} key={item.id} />
+                        {articles.slice(1).map((item, index) => (
+                          <BlogCard3 {...item} link={'/articles/' + item._id.toString()} key={index} />
                         ))}
                       </div>
                     </div>
@@ -102,15 +102,19 @@ const ArticlesPage: NextPage<ArticlesProps> = ({ articles }) => {
 export default ArticlesPage;
 
 export const getServerSideProps: GetServerSideProps<ArticlesProps> = async () => {
-  const articles = await Article.find();
+  let articles = await Article.find().lean() as IArticle[];
 
-  if (articles) {
+  articles = articles.map(article => ({
+    ...article,
+    _id: article._id.toString()
+  })) as IArticle[];
+
+  if (articles.length) {
     return {
-      props: { articles: articles },
+      props: { articles },
     };
   } else {
     return {
-      props: {},
       notFound: true,
     };
   }
