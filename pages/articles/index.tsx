@@ -103,7 +103,7 @@ const ArticlesPage: NextPage<ArticlesProps> = ({ articles }) => {
 export default ArticlesPage;
 
 export const getServerSideProps: GetServerSideProps<ArticlesProps> = async () => {
-  dbConnect();
+  await dbConnect();
   let articles = await Article.find().lean() as IArticle[];
 
   articles = articles.map(article => ({

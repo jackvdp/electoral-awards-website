@@ -92,7 +92,7 @@ const ArticlePage: NextPage<ArticleProps> = (props) => {
 };
 
 export const getServerSideProps: GetServerSideProps<ArticleProps, Params> = async ({ params }) => {
-    dbConnect();
+    await dbConnect();
     const articleId = params?.id;
 
     if (articleId) {
