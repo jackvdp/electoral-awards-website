@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { FC, ReactElement } from 'react';
 import NextLink from '../links/NextLink';
+import formatDate from 'helpers/formatArticleDate';
 
 // ========================================================
 type BlogCard2Props = {
@@ -41,7 +42,7 @@ const BlogCard2: FC<BlogCard2Props> = (props) => {
           <ul className="post-meta d-flex mb-0">
             <li className="post-date">
               <i className="uil uil-calendar-alt" />
-              <span>{date}</span>
+              <span>{formatDate(date)}</span>
             </li>
           </ul>
         </div>

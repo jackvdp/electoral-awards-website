@@ -4,15 +4,11 @@ import { ParsedUrlQuery } from 'querystring';
 import { Navbar } from 'components/blocks/navbar';
 import { Footer } from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
-import NextLink from 'components/reuseable/links/NextLink';
 import BlogDetailsTemplate from 'components/blocks/article/ArticleDetails';
-import { useRouter } from 'next/router';
-import { useAuth } from 'auth/AuthProvider';
 import Article, { IArticle } from 'backend/models/article';
+import formatDate from 'helpers/formatArticleDate';
 
 export interface ArticleProps {
-    id: string;
-    link: string;
     category: string;
     image: string;
     title: string;
@@ -25,7 +21,7 @@ interface Params extends ParsedUrlQuery {
     id: string;
 }
 
-const BlogDetailsOne: NextPage<ArticleProps> = (props) => {
+const ArticlePage: NextPage<ArticleProps> = (props) => {
 
     // const router = useRouter()
     // const { isLoggedIn, isLoadingLogInInfo } = useAuth()
@@ -59,7 +55,7 @@ const BlogDetailsOne: NextPage<ArticleProps> = (props) => {
                                     <ul className="post-meta mb-5">
                                         <li className="post-date">
                                             <i className="uil uil-calendar-alt" />
-                                            <span>{props.date}</span>
+                                            <span>{formatDate(props.date)}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -75,8 +71,6 @@ const BlogDetailsOne: NextPage<ArticleProps> = (props) => {
                             <div className="col-lg-10 mx-auto">
                                 <div className="blog single mt-n17">
                                     <BlogDetailsTemplate
-                                        id={props.id}
-                                        link={props.link}
                                         category={props.category}
                                         image={props.image}
                                         title={props.title}
@@ -100,23 +94,22 @@ export const getServerSideProps: GetServerSideProps<ArticleProps, Params> = asyn
     const articleId = params?.id;
 
     if (articleId) {
-        const article = await Article.findById(articleId).lean();
+        let article = await Article.findById(articleId).lean() as IArticle;
+        article = JSON.parse(JSON.stringify(article));
 
         if (article) {
-            // Ensure _id is converted to string and directly spread article into props
             return {
                 props: {
-                    ...article,
-                    _id: article._id.toString()
+                    ...article
                 },
             };
         }
     }
 
     return {
-        props: {}, // Return an empty object for props
+        props: {},
         notFound: true,
     };
 };
 
-export default BlogDetailsOne;
+export default ArticlePage;

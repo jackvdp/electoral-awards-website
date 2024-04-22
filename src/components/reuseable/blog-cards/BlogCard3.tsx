@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Link from 'next/link';
 import NextLink from '../links/NextLink';
-import FigureImage from 'components/reuseable/FigureImage';
+import formatDate from 'helpers/formatArticleDate';
 import Style from './BlogCard3.module.css'; 
 
 // ========================================================
@@ -53,7 +53,7 @@ const BlogCard3: FC<BlogCard3Props> = (props) => {
           <ul className="post-meta d-flex mb-0">
             <li className="post-date">
               <i className="uil uil-calendar-alt" />
-              <span>{date}</span>
+              <span>{formatDate(date)}</span>
             </li>
           </ul>
         </div>
