@@ -15,7 +15,7 @@ export interface ArticlesProps {
 }
 
 const ArticlesPage: NextPage<ArticlesProps> = ({ articles }) => {
-  const sortedArticles = articles.sort((a, b) => new Date(a.date).valueOf() - new Date(b.date).valueOf());
+  const sortedArticles = articles.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
 
   return (
     <Fragment>
