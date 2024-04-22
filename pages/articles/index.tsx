@@ -9,6 +9,7 @@ import PageProgress from 'components/common/PageProgress';
 // -------- data -------- //
 import { GetServerSideProps } from 'next';
 import Article, { IArticle } from 'backend/models/article';
+import dbConnect from 'backend/mongo/mongo';
 
 export interface ArticlesProps {
   articles: IArticle[];
@@ -102,6 +103,7 @@ const ArticlesPage: NextPage<ArticlesProps> = ({ articles }) => {
 export default ArticlesPage;
 
 export const getServerSideProps: GetServerSideProps<ArticlesProps> = async () => {
+  dbConnect();
   let articles = await Article.find().lean() as IArticle[];
 
   articles = articles.map(article => ({

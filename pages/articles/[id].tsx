@@ -7,6 +7,7 @@ import PageProgress from 'components/common/PageProgress';
 import BlogDetailsTemplate from 'components/blocks/article/ArticleDetails';
 import Article, { IArticle } from 'backend/models/article';
 import formatDate from 'helpers/formatArticleDate';
+import dbConnect from 'backend/mongo/mongo';
 
 export interface ArticleProps {
     category: string;
@@ -91,6 +92,7 @@ const ArticlePage: NextPage<ArticleProps> = (props) => {
 };
 
 export const getServerSideProps: GetServerSideProps<ArticleProps, Params> = async ({ params }) => {
+    dbConnect();
     const articleId = params?.id;
 
     if (articleId) {
