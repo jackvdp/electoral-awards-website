@@ -39,16 +39,9 @@ const BlogTwo: NextPage = () => {
 
                 <section className="wrapper bg-light">
                     <div className="container py-14 py-md-16">
-                        <div className="row gx-8 gx-xl-12">
-                            {/* ========== blog details section ========== */}
-                            <div className="col-lg-8">
-                                <WebinarMain />
-                            </div>
-
-                            {/* ========== sidebar section ========== */}
-                            <aside className="col-lg-4 sidebar mt-8 mt-lg-6">
-                                <HomeEventsSidebar />
-                            </aside>
+                        <div className="row gx-8 gy-6 gx-xl-12">
+                            <WebinarMain />
+                            <HomeEventsSidebar />
                         </div>
                     </div>
                 </section>

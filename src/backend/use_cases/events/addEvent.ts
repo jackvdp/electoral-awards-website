@@ -9,6 +9,7 @@ async function addEvent(req: NextApiRequest, res: NextApiResponse) {
 
         res.status(201).json({ message: 'Event added successfully' });
     } catch (error) {
+        console.log(error)
         if (error instanceof MongooseError.ValidationError) {
             res.status(400).json({ message: 'Validation failed', errors: error.errors });
         } else if (error instanceof Error) {
