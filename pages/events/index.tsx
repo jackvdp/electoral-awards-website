@@ -41,7 +41,7 @@ const BlogTwo: NextPage = () => {
                     <div className="container py-14 py-md-16">
                         <div className="row gx-8 gy-6 gx-xl-12">
                             <WebinarMain />
-                            <HomeEventsSidebar />
+                            <HomeEventsSidebar ignoreLimit={true} />
                         </div>
                     </div>
                 </section>

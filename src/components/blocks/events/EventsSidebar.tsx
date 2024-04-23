@@ -35,13 +35,13 @@ const EventsSidebar: React.FC<EventsSidebarProps> = ({ ignoreLimit }) => {
         events.filter(event => {
             return new Date(event.startDate).getTime() > Date.now();
         }).sort((a, b) => {
-            return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+            return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
         })
     )
 
     const pastEvents: EventPreview[] = (() => {
         const pEvents = events.filter(event => new Date(event.startDate).getTime() < Date.now())
-            .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+            .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
         return ignoreLimit ? pEvents : pEvents.slice(0, Math.max(5 - futureEvents.length, 0));
     })();
     
@@ -55,16 +55,16 @@ const EventsSidebar: React.FC<EventsSidebarProps> = ({ ignoreLimit }) => {
 
     function section(title: string, events: EventPreview[]) {
         return (
-            <div className="widget">
-                <h4 className="widget-title mb-3">{title}</h4>
+            <div className="widget mb-3">
+                <h3 className="widget-title mb-3">{title}</h3>
 
                 <ul className="image-list">
                     {events.map(({ title, imageURL, _id, startDate }) => {
                         return _id && (
                             <li key={_id}>
-                                <NextLink title={<FigureImage width={100} height={100} className="rounded" src={imageURL === "" ? "https://electoralwebsite.s3.amazonaws.com/images/1703698906135-logo.png" : imageURL} />} href={`/events/${_id}`} />
+                                {imageURL !== "" && <NextLink title={<FigureImage width={100} height={100} className="rounded" src={imageURL} />} href={`/events/${_id}`} />}
 
-                                <div className="post-content">
+                                <div className={imageURL && "post-content"}>
                                     <b className="mb-2">
                                         <NextLink className={`link-dark ${styles.twoLineText}`} title={title} href={`/events/${_id}`} />
                                     </b>
