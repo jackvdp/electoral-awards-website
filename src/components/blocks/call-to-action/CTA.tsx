@@ -4,7 +4,7 @@ import NextLink from 'components/reuseable/links/NextLink';
 const CTA: FC = () => {
     return (
         <section
-            className="wrapper image-wrapper bg-auto no-overlay bg-image text-center mb-14 bg-map"
+            className="wrapper image-wrapper bg-auto no-overlay bg-image text-center mb-14 mt-14 mt-md-0 bg-map"
             style={{ backgroundImage: 'url(/img/illustrations/map.png)' }}
         >
             <div className="container">

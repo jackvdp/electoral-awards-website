@@ -44,19 +44,11 @@ const EventsSidebar: React.FC<EventsSidebarProps> = ({ ignoreLimit }) => {
             .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
         return ignoreLimit ? pEvents : pEvents.slice(0, Math.max(5 - futureEvents.length, 0));
     })();
-    
-
-    return (
-        <div>
-            {section('Upcoming Events', futureEvents)}
-            {pastEvents.length > 0 && section('Past Events', pastEvents)}
-        </div>
-    );
 
     function section(title: string, events: EventPreview[]) {
         return (
-            <div className="widget mb-3">
-                <h3 className="widget-title mb-3">{title}</h3>
+            <div className="widget mb-3 mt-8 mt-md-0">
+                <h3 className="widget-title mb-6">{title}</h3>
 
                 <ul className="image-list">
                     {events.map(({ title, imageURL, _id, startDate }) => {
@@ -65,9 +57,9 @@ const EventsSidebar: React.FC<EventsSidebarProps> = ({ ignoreLimit }) => {
                                 {imageURL !== "" && <NextLink title={<FigureImage width={100} height={100} className="rounded" src={imageURL} />} href={`/events/${_id}`} />}
 
                                 <div className={imageURL && "post-content"}>
-                                    <b className="mb-2">
+                                    <p className="mb-2">
                                         <NextLink className={`link-dark ${styles.twoLineText}`} title={title} href={`/events/${_id}`} />
-                                    </b>
+                                    </p>
 
                                     <ul className="post-meta">
                                         <li className="post-date">
@@ -83,6 +75,14 @@ const EventsSidebar: React.FC<EventsSidebarProps> = ({ ignoreLimit }) => {
             </div>
         )
     }
+    
+    return (
+        <div className=''>
+            {section('Upcoming Events', futureEvents)}
+            {pastEvents.length > 0 && section('Past Events', pastEvents)}
+        </div>
+    );
+    
 };
 
 export default EventsSidebar;
