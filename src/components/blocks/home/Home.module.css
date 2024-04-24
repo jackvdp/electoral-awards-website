@@ -26,3 +26,7 @@
     background-color: rgba(0, 0, 0, 0.5) !important;
     backdrop-filter: blur(10px) !important;
 }
+
+.bgImage {
+    background-image: url(/img/photos/unitednations.jpeg);
+}

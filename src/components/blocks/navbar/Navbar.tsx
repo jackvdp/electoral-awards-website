@@ -81,6 +81,28 @@ const NavbarICPS: FC<NavbarProps> = ({ barSitsOnTop }) => {
           {/* ============= show contact info in the small device sidebar ============= */}
           <div className="offcanvas-footer d-lg-none">
             <div>
+              <div className="my-6 d-flex flex-row">
+                {/* ============= Join button ============= */}
+                {!isLoggedIn &&
+                  <NextLink title="Register" href="/register" className="btn btn-sm btn-primary rounded me-4" />
+                }
+                {/* ============= Sign in/out button ============= */}
+                {
+                  isLoggedIn ?
+                    <NextLink
+                      title="Account"
+                      className="btn btn-sm btn-outline-secondary my-custom-btn"
+                      href='/account' /> :
+                    <button
+                      className="btn btn-sm btn-outline-secondary my-custom-btn"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modal-signin">
+                      Sign In
+                    </button>
+                }
+              </div>
+
+
               <NextLink title={contactInfo.email} className="link-inverse" href={contactInfo.emailPrompt} />
               <br />
               <NextLink href={contactInfo.phonePrompt} title={contactInfo.phone} />
@@ -96,19 +118,19 @@ const NavbarICPS: FC<NavbarProps> = ({ barSitsOnTop }) => {
         <ul className="navbar-nav flex-row align-items-center ms-auto">
           {/* ============= info button ============= */}
           <li className="nav-item">
-            <a className="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-info">
+            <a className="nav-link mx-6 mx-md-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-info">
               <i className="uil uil-info-circle" />
             </a>
           </li>
 
           {/* ============= Join button ============= */}
           {!isLoggedIn &&
-            <li className="nav-item">
-              <NextLink title="Register" href="/register" className="btn btn-sm btn-primary rounded" />
+            <li className="nav-item d-none d-sm-block">
+              <NextLink title="Register" href="/register" data-bs-dismiss="offcanvas" className="btn btn-sm btn-primary rounded" />
             </li>}
 
           {/* ============= Sign in/out button ============= */}
-          <li className="nav-item">
+          <li className="nav-item d-none d-sm-block">
             {
               isLoggedIn ?
                 <NextLink

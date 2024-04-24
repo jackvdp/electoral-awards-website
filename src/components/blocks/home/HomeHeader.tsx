@@ -7,8 +7,7 @@ const HomeHeader: React.FC = () => {
 
     return (
         <section
-            className={`wrapper image-wrapper bg-image bg-overlay text-white ${styles.fullHeight} ${styles.centeredSection} ${styles.blurSection}`}
-            style={{ backgroundImage: 'url(/img/photos/unitednations.jpeg)' }}
+            className={`wrapper image-wrapper bg-image bg-overlay text-white ${styles.bgImage} ${styles.fullHeight} ${styles.centeredSection} ${styles.blurSection}`}
         >
             <div className="container pt-10 pt-md-20 pb-10 pb-md-20 text-center">
                 <div className="row">
