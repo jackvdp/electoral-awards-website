@@ -147,6 +147,6 @@ const createUserData = (values: Record<string, string>): CreateUser => {
         position: values.position,
         organisation: values.organisation,
         profileImage: "",
-        topics: [],
+        topics: ["Electoral"],
     };
 }
