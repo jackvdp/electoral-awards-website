@@ -8,10 +8,10 @@ const organisers = [
   },
   {
     id: 2,
-    name: 'Junta Central Electoral de la República Dominicanas',
-    image: '/img/logos/jce.png',
-    designation: 'Santo Domingo, Dominican Republic',
-    description: `The Junta Central Electoral serves as the co-host and local partner of theis year's International Electoral Awards. The Commission plays a pivotal role in the facilitation of the event, from logistical arrangements to offering local and expert insights.`
+    name: 'Comissão Nacional de Eleiçōes',
+    image: '/img/logos/CNE.png',
+    designation: 'Lisbon, Portugal',
+    description: `The Portuguese National Electoral Commission serves as the co-host and local partner of theis year's International Electoral Awards. The Commission plays a pivotal role in the facilitation of the event, from logistical arrangements to offering local and expert insights.`
   }
 ];
 
