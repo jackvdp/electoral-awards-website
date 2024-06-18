@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 // -------- custom component -------- //
 import { Navbar } from 'components/blocks/navbar';
 import { Footer } from 'components/blocks/footer';
-import { schedule, Day } from 'data/schedule2023';
+import { schedule, Day } from 'data/schedule';
 import SimpleBanner from 'components/blocks/banner/SimpleBanner';
 import { TabBarAndContent } from 'components/reuseable/TabBar';
 import PageProgress from 'components/common/PageProgress';

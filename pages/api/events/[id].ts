@@ -8,7 +8,6 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-
     const { method, query: { id } } = req;
 
     if (typeof id !== 'string') {
