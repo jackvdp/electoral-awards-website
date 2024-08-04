@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent, useRef, useEffect } from 'react';
 import useProgressbar from 'hooks/useProgressbar';
 import { AwardCategory, categories } from 'data/award-categories';
+import Link from 'next/link';
 
 interface FormData {
   nominatorName: string;
@@ -439,7 +440,7 @@ const ApplicationForm: React.FC = () => {
           We invite electoral practitioners, academics, researchers, and innovators from across the global electoral community to submit nominations for the International Electoral Awards. These accolades celebrate excellence and innovation in electoral practices worldwide.
         </p>
         <b>
-          For a comprehensive description of all award categories, please <a href="/awards/categories">click here</a>.
+          For a comprehensive description of all award categories, please <Link href="/awards/categories"><a>click here</a></Link>.
         </b>
       </div>
       <div className="card p-md-10 p-5" ref={cardRef}>
