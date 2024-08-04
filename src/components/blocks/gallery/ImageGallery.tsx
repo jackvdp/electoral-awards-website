@@ -10,7 +10,7 @@ const allPhotosTag = 'All Photos'
 
 const ImageGallery: React.FC = () => {
     useLightBox();
-    useProgressbar();
+    useProgressbar(100);
     const [photosFolders, setPhotosFolders] = useState<FolderStructure[]>([]);
     const [renderedImagesCount, setRenderedImagesCount] = useState(0);
     const [loading, setLoading] = useState(false);

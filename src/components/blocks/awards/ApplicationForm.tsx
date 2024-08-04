@@ -25,7 +25,6 @@ interface FormData {
 }
 
 const ApplicationForm: React.FC = () => {
-  useProgressbar();
   const [step, setStep] = useState<number>(1);
   const steps: number = 5;
   const cardRef = useRef<HTMLDivElement>(null);
@@ -53,6 +52,8 @@ const ApplicationForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [progress, setProgress] = useState(0);
+  useProgressbar(submitSuccess ? 100 : progress);
 
   const scrollToTop = () => {
     if (cardRef.current) {
@@ -104,6 +105,11 @@ const ApplicationForm: React.FC = () => {
 
     setIsReadyToSubmit(isFormComplete && step === steps);
   }, [formData, step, steps]);
+
+  useEffect(() => {
+    const newProgress = ((step - 1) / (steps)) * 100;
+    setProgress(newProgress);
+  }, [step, steps]);
 
   const renderStep = () => {
     switch (step) {
@@ -428,15 +434,23 @@ const ApplicationForm: React.FC = () => {
 
   return (
     <div className='col-md-9'>
-      <p className="mb-5 pb-6 pb-md-12 pb-md-8 text-center">
-        We invite electoral practitioners, academics, researchers, and innovators from across the global electoral community to submit nominations for the International Electoral Awards. These accolades celebrate excellence and innovation in electoral practices worldwide.<br /> For a comprehensive description of all award categories, please <a href="/awards/categories">click here</a>.
-      </p>
+      <div className="mb-5 pb-6 pb-md-12 text-center">
+        <p >
+          We invite electoral practitioners, academics, researchers, and innovators from across the global electoral community to submit nominations for the International Electoral Awards. These accolades celebrate excellence and innovation in electoral practices worldwide.
+        </p>
+        <b>
+          For a comprehensive description of all award categories, please <a href="/awards/categories">click here</a>.
+        </b>
+      </div>
       <div className="card p-md-10 p-5" ref={cardRef}>
         <div className="col-md-6">
           <ul className="progress-list">
             <li>
-              <p>Section {step} out of {steps}</p>
-              <div className="progressbar line blue" data-value={`${(step) / steps * 100}`} />
+              <p>{submitSuccess ? "" : `Section ${step} out of ${steps}`}</p>
+              <div
+                className="progressbar line blue"
+                data-value={submitSuccess ? "100" : progress.toString()}
+              />
             </li>
           </ul>
         </div>
