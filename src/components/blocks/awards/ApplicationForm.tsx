@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent, useRef } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useRef, useEffect } from 'react';
 import useProgressbar from 'hooks/useProgressbar';
 import { AwardCategory, categories } from 'data/award-categories';
 
@@ -27,7 +27,7 @@ interface FormData {
 const ApplicationForm: React.FC = () => {
   useProgressbar();
   const [step, setStep] = useState<number>(1);
-  const steps = 5;
+  const steps: number = 5;
   const cardRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState<FormData>({
     nominatorName: '',
@@ -50,6 +50,9 @@ const ApplicationForm: React.FC = () => {
     referencePhone: '',
     additionalDocuments: null,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const scrollToTop = () => {
     if (cardRef.current) {
@@ -77,6 +80,30 @@ const ApplicationForm: React.FC = () => {
       setFormData({ ...formData, additionalDocuments: e.target.files[0] });
     }
   };
+
+  const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
+
+  const isNonEmptyString = (value: string | null): boolean => {
+    return typeof value === 'string' && value.trim().length > 0;
+  };
+
+  // Add this useEffect hook to check form completeness
+  useEffect(() => {
+    const isFormComplete: boolean =
+      isNonEmptyString(formData.nominatorName) &&
+      isNonEmptyString(formData.nominatorOrganization) &&
+      isNonEmptyString(formData.nominatorPosition) &&
+      isNonEmptyString(formData.nominatorEmail) &&
+      isNonEmptyString(formData.nominatorPhone) &&
+      isNonEmptyString(formData.nomineeName) &&
+      isNonEmptyString(formData.nomineeEmail) &&
+      isNonEmptyString(formData.nomineePhone) &&
+      isNonEmptyString(formData.awardCategory) &&
+      isNonEmptyString(formData.initiativeDescription) &&
+      isNonEmptyString(formData.supportingEvidence);
+
+    setIsReadyToSubmit(isFormComplete && step === steps);
+  }, [formData, step, steps]);
 
   const renderStep = () => {
     switch (step) {
@@ -341,11 +368,62 @@ const ApplicationForm: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log(formData);
-    // For now, we'll just log the form data
+    if (!isReadyToSubmit) {
+      setSubmitError('Please fill out all required fields before submitting.');
+      return;
+    }
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setSubmitSuccess(false);
+
+    try {
+      const response = await fetch(
+        "https://formspree.io/f/mqazqnnd",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (response.ok) {
+        setSubmitSuccess(true);
+        setFormData({
+          // Reset form data
+          nominatorName: '',
+          nominatorOrganization: '',
+          nominatorPosition: '',
+          nominatorEmail: '',
+          nominatorPhone: '',
+          nomineeName: '',
+          nomineePosition: '',
+          nomineeOrganization: '',
+          nomineeEmail: '',
+          nomineePhone: '',
+          awardCategory: '',
+          initiativeDescription: '',
+          supportingEvidence: '',
+          referenceName: '',
+          referencePosition: '',
+          referenceOrganization: '',
+          referenceEmail: '',
+          referencePhone: '',
+          additionalDocuments: null,
+        });
+        setStep(1);
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (error) {
+      setSubmitError('There was an error submitting the form. Please try again.');
+      console.error('Form submission error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -362,25 +440,36 @@ const ApplicationForm: React.FC = () => {
             </li>
           </ul>
         </div>
-        <form className="mt-3" onSubmit={handleSubmit}>
-          {renderStep()}
-          <div className="mt-10">
-            {step > 1 && (
-              <button type="button" className="btn btn-secondary me-2" onClick={prevStep}>
-                Previous
-              </button>
-            )}
-            {step < 5 ? (
-              <button type="button" className="btn btn-primary" onClick={nextStep}>
-                Next
-              </button>
-            ) : (
-              <button type="submit" className="btn btn-success">
-                Submit Application
-              </button>
-            )}
+        {submitSuccess ? (
+          <div className="alert alert-success" role="alert">
+            Thank you for your submission! We have received your application.
           </div>
-        </form>
+        ) : (
+          <form className="mt-3" onSubmit={handleSubmit}>
+            {renderStep()}
+            {submitError && (
+              <div className="alert alert-danger" role="alert">
+                {submitError}
+              </div>
+            )}
+            <div className="mt-10">
+              {step > 1 && (
+                <button type="button" className="btn btn-secondary me-2" onClick={prevStep} disabled={isSubmitting}>
+                  Previous
+                </button>
+              )}
+              {step < steps ? (
+                <button type="button" className="btn btn-primary" onClick={nextStep} disabled={isSubmitting}>
+                  Next
+                </button>
+              ) : (
+                <button type="submit" className="btn btn-success" disabled={isSubmitting || !isReadyToSubmit}>
+                  {isSubmitting ? 'Submitting...' : 'Submit Application'}
+                </button>
+              )}
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
