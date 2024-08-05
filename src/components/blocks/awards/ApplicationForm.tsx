@@ -574,7 +574,7 @@ const ApplicationForm: React.FC = () => {
       });
       setStep(1);
     } catch (error) {
-      setSubmitError('There was an error submitting the form. Please try again.');
+      setSubmitError(`There was an error submitting the form. Please try again. ${error}`);
       console.error('Form submission error:', error);
     } finally {
       setIsSubmitting(false);
