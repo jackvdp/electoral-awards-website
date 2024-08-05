@@ -443,6 +443,7 @@ const ApplicationForm: React.FC = () => {
                 type="file"
                 className="form-control"
                 id="additionalDocuments"
+                name="additionalDocuments"
                 onChange={handleFileChange}
                 multiple
               />
@@ -465,45 +466,50 @@ const ApplicationForm: React.FC = () => {
     setSubmitSuccess(false);
 
     try {
+      const formDataToSend = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key === 'additionalDocuments' && value instanceof File) {
+          formDataToSend.append(key, value);
+        } else if (typeof value === 'string') {
+          formDataToSend.append(key, value);
+        }
+      });
+
       const response = await fetch(
         "https://formspree.io/f/mqazqnnd",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
+          body: formDataToSend,
+          mode: 'no-cors' // Add this line
         }
       );
 
-      if (response.ok) {
-        setSubmitSuccess(true);
-        setFormData({
-          // Reset form data
-          nominatorName: '',
-          nominatorOrganization: '',
-          nominatorPosition: '',
-          nominatorEmail: '',
-          nominatorPhone: '',
-          nomineeName: '',
-          nomineePosition: '',
-          nomineeOrganization: '',
-          nomineeEmail: '',
-          nomineePhone: '',
-          awardCategory: '',
-          initiativeDescription: '',
-          supportingEvidence: '',
-          referenceName: '',
-          referencePosition: '',
-          referenceOrganization: '',
-          referenceEmail: '',
-          referencePhone: '',
-          additionalDocuments: null,
-        });
-        setStep(1);
-      } else {
-        throw new Error('Form submission failed');
-      }
+      // Since we're using 'no-cors', we can't access response properties
+      // We'll assume success if there's no error thrown
+      setSubmitSuccess(true);
+      setFormData({
+        // Reset form data
+        nominatorName: '',
+        nominatorOrganization: '',
+        nominatorPosition: '',
+        nominatorEmail: '',
+        nominatorPhone: '',
+        nomineeName: '',
+        nomineePosition: '',
+        nomineeOrganization: '',
+        nomineeEmail: '',
+        nomineePhone: '',
+        awardCategory: '',
+        initiativeDescription: '',
+        supportingEvidence: '',
+        referenceName: '',
+        referencePosition: '',
+        referenceOrganization: '',
+        referenceEmail: '',
+        referencePhone: '',
+        additionalDocuments: null,
+      });
+      setStep(1);
     } catch (error) {
       setSubmitError('There was an error submitting the form. Please try again.');
       console.error('Form submission error:', error);
