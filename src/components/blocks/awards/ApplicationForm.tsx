@@ -25,6 +25,10 @@ interface FormData {
   additionalDocuments: File | null;
 }
 
+interface FormErrors {
+  [key: string]: string;
+}
+
 const ApplicationForm: React.FC = () => {
   const [step, setStep] = useState<number>(1);
   const steps: number = 5;
@@ -50,6 +54,9 @@ const ApplicationForm: React.FC = () => {
     referencePhone: '',
     additionalDocuments: null,
   });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isCurrentStepComplete, setIsCurrentStepComplete] = useState(false);
+  const [attemptedNext, setAttemptedNext] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -63,8 +70,10 @@ const ApplicationForm: React.FC = () => {
   };
 
   const nextStep = () => {
-    setStep(prev => Math.min(prev + 1, steps));
-    scrollToTop();
+    if (isCurrentStepComplete) {
+      setStep(prev => Math.min(prev + 1, steps));
+      scrollToTop();
+    }
   };
 
   const prevStep = () => {
@@ -75,6 +84,10 @@ const ApplicationForm: React.FC = () => {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setErrors(prevErrors => ({ ...prevErrors, [name]: '' }));
+    if (attemptedNext) {
+      validateStep(step);
+    }
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -111,6 +124,72 @@ const ApplicationForm: React.FC = () => {
     const newProgress = ((step - 1) / (steps)) * 100;
     setProgress(newProgress);
   }, [step, steps]);
+
+  useEffect(() => {
+    setIsCurrentStepComplete(isStepComplete(step));
+  }, [formData, step]);
+
+  const validateEmail = (email: string): boolean => {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(email);
+  };
+
+  const validatePhone = (phone: string): boolean => {
+    const re = /^\+?[1-9]\d{1,14}$/;
+    return re.test(phone);
+  };
+
+  const isStepComplete = (currentStep: number): boolean => {
+    switch (currentStep) {
+      case 1:
+        return !!formData.nominatorName && !!formData.nominatorOrganization &&
+          !!formData.nominatorPosition && !!formData.nominatorEmail &&
+          !!formData.nominatorPhone;
+      case 2:
+        return !!formData.nomineeName && !!formData.nomineeEmail &&
+          !!formData.nomineePhone;
+      case 3:
+        return !!formData.awardCategory && !!formData.initiativeDescription &&
+          !!formData.supportingEvidence;
+      case 4:
+      case 5:
+        return true; // These steps are optional
+      default:
+        return false;
+    }
+  };
+
+  const validateStep = (currentStep: number): boolean => {
+    const newErrors: { [key: string]: string } = {};
+
+    switch (currentStep) {
+      case 1:
+        if (!formData.nominatorName) newErrors.nominatorName = "Nominator name is required";
+        if (!formData.nominatorOrganization) newErrors.nominatorOrganization = "Organization is required";
+        if (!formData.nominatorPosition) newErrors.nominatorPosition = "Position is required";
+        if (!formData.nominatorEmail) newErrors.nominatorEmail = "Email is required";
+        else if (!validateEmail(formData.nominatorEmail)) newErrors.nominatorEmail = "Invalid email format";
+        if (!formData.nominatorPhone) newErrors.nominatorPhone = "Phone number is required";
+        else if (!validatePhone(formData.nominatorPhone)) newErrors.nominatorPhone = "Invalid phone number format";
+        break;
+      case 2:
+        if (!formData.nomineeName) newErrors.nomineeName = "Nominee name is required";
+        if (!formData.nomineeEmail) newErrors.nomineeEmail = "Email is required";
+        else if (!validateEmail(formData.nomineeEmail)) newErrors.nomineeEmail = "Invalid email format";
+        if (!formData.nomineePhone) newErrors.nomineePhone = "Phone number is required";
+        else if (!validatePhone(formData.nomineePhone)) newErrors.nomineePhone = "Invalid phone number format";
+        break;
+      case 3:
+        if (!formData.awardCategory) newErrors.awardCategory = "Award category is required";
+        if (!formData.initiativeDescription) newErrors.initiativeDescription = "Initiative description is required";
+        if (!formData.supportingEvidence) newErrors.supportingEvidence = "Supporting evidence is required";
+        break;
+      // Cases 4 and 5 are optional, so no validation needed
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const renderStep = () => {
     switch (step) {
@@ -436,12 +515,15 @@ const ApplicationForm: React.FC = () => {
   return (
     <div className='col-md-9'>
       <div className="mb-5 pb-6 pb-md-12 text-center">
-        <p >
-          We invite electoral practitioners, academics, researchers, and innovators from across the global electoral community to submit nominations for the International Electoral Awards. These accolades celebrate excellence and innovation in electoral practices worldwide.
-        </p>
-        <b>
-          For a comprehensive description of all award categories, please <Link href="/awards/categories"><a>click here</a></Link>.
-        </b>
+        <div className="card p-md-10 p-5">
+          <h3 className='display-4'>Submit Nomination</h3>
+          <p >
+            We invite electoral practitioners, academics, researchers, and innovators from across the global electoral community to submit nominations for the International Electoral Awards. These accolades celebrate excellence and innovation in electoral practices worldwide.
+          </p>
+          <b>
+            For a comprehensive description of all award categories, please <Link href="/awards/categories"><a>click here</a></Link>.
+          </b>
+        </div>
       </div>
       <div className="card p-md-10 p-5" ref={cardRef}>
         <div className="col-md-6">
@@ -474,14 +556,24 @@ const ApplicationForm: React.FC = () => {
                 </button>
               )}
               {step < steps ? (
-                <button type="button" className="btn btn-primary" onClick={nextStep} disabled={isSubmitting}>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={nextStep}
+                  disabled={isSubmitting || !isCurrentStepComplete}
+                >
                   Next
                 </button>
               ) : (
-                <button type="submit" className="btn btn-success" disabled={isSubmitting || !isReadyToSubmit}>
+                <button
+                  type="submit"
+                  className="btn btn-success"
+                  disabled={isSubmitting || !isReadyToSubmit}
+                >
                   {isSubmitting ? 'Submitting...' : 'Submit Application'}
                 </button>
               )}
+              {<p className="text-secondary mt-2">{isCurrentStepComplete ? "" : "*Please fill out all required fields"}</p>}
             </div>
           </form>
         )}
