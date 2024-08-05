@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, FormEvent, useRef, useEffect } from 'reac
 import useProgressbar from 'hooks/useProgressbar';
 import { AwardCategory, categories } from 'data/award-categories';
 import Link from 'next/link';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 interface FormData {
   nominatorName: string;
@@ -22,7 +23,7 @@ interface FormData {
   referenceOrganization: string;
   referenceEmail: string;
   referencePhone: string;
-  additionalDocuments: File | null;
+  additionalDocuments: File[];
 }
 
 interface FormErrors {
@@ -52,7 +53,7 @@ const ApplicationForm: React.FC = () => {
     referenceOrganization: '',
     referenceEmail: '',
     referencePhone: '',
-    additionalDocuments: null,
+    additionalDocuments: [],
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isCurrentStepComplete, setIsCurrentStepComplete] = useState(false);
@@ -61,6 +62,7 @@ const ApplicationForm: React.FC = () => {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [progress, setProgress] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   useProgressbar(submitSuccess ? 100 : progress);
 
   const scrollToTop = () => {
@@ -91,8 +93,27 @@ const ApplicationForm: React.FC = () => {
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFormData({ ...formData, additionalDocuments: e.target.files[0] });
+    if (e.target.files && e.target.files.length > 0) {
+      const newFiles = Array.from(e.target.files as FileList);
+      setFormData(prevData => ({
+        ...prevData,
+        additionalDocuments: [...prevData.additionalDocuments, ...newFiles]
+      }));
+    }
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleFileDelete = (index: number) => {
+    setFormData(prevData => ({
+      ...prevData,
+      additionalDocuments: prevData.additionalDocuments.filter((_, i) => i !== index)
+    }));
+
+    // Clear the file input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
@@ -446,8 +467,28 @@ const ApplicationForm: React.FC = () => {
                 name="additionalDocuments"
                 onChange={handleFileChange}
                 multiple
+                ref={fileInputRef}
               />
             </div>
+            {formData.additionalDocuments.length > 0 && (
+              <div className="mb-3">
+                <h4>Selected Files:</h4>
+                <ul className="list-group">
+                  {formData.additionalDocuments.map((file, index) => (
+                    <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
+                      {file.name}
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-sm"
+                        onClick={() => handleFileDelete(index)}
+                      >
+                        <i className="bi bi-trash"></i>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </>
         );
       default:
@@ -468,8 +509,10 @@ const ApplicationForm: React.FC = () => {
     try {
       const formDataToSend = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
-        if (key === 'additionalDocuments' && value instanceof File) {
-          formDataToSend.append(key, value, value.name);
+        if (key === 'additionalDocuments') {
+          value.forEach((file: File, index: number) => {
+            formDataToSend.append(`additionalDocument_${index}`, file, file.name);
+          });
         } else if (typeof value === 'string') {
           formDataToSend.append(key, value);
         }
@@ -527,7 +570,7 @@ const ApplicationForm: React.FC = () => {
         referenceOrganization: '',
         referenceEmail: '',
         referencePhone: '',
-        additionalDocuments: null,
+        additionalDocuments: [],
       });
       setStep(1);
     } catch (error) {
