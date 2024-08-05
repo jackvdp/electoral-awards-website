@@ -464,7 +464,7 @@ const ApplicationForm: React.FC = () => {
     setIsSubmitting(true);
     setSubmitError(null);
     setSubmitSuccess(false);
-  
+
     try {
       const formDataToSend = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
@@ -474,45 +474,62 @@ const ApplicationForm: React.FC = () => {
           formDataToSend.append(key, value);
         }
       });
-  
+
       const response = await fetch(
         "https://formspree.io/f/mqazqnnd",
         {
           method: "POST",
           body: formDataToSend,
-          // Remove the 'mode: 'no-cors'' line
+          headers: {
+            'Accept': 'application/json'
+          }
         }
       );
-  
-      if (response.ok) {
-        setSubmitSuccess(true);
-        setFormData({
-          // Reset form data
-          nominatorName: '',
-          nominatorOrganization: '',
-          nominatorPosition: '',
-          nominatorEmail: '',
-          nominatorPhone: '',
-          nomineeName: '',
-          nomineePosition: '',
-          nomineeOrganization: '',
-          nomineeEmail: '',
-          nomineePhone: '',
-          awardCategory: '',
-          initiativeDescription: '',
-          supportingEvidence: '',
-          referenceName: '',
-          referencePosition: '',
-          referenceOrganization: '',
-          referenceEmail: '',
-          referencePhone: '',
-          additionalDocuments: null,
-        });
-        setStep(1);
+
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        // It's a JSON response
+        if (response.ok) {
+          const data = await response.json();
+          setSubmitSuccess(true);
+          // Reset form data...
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Form submission failed');
+        }
       } else {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Form submission failed');
+        // It's likely an HTML response
+        if (response.ok) {
+          setSubmitSuccess(true);
+          // Reset form data...
+        } else {
+          throw new Error('Form submission failed');
+        }
       }
+
+      // Reset form data
+      setFormData({
+        nominatorName: '',
+        nominatorOrganization: '',
+        nominatorPosition: '',
+        nominatorEmail: '',
+        nominatorPhone: '',
+        nomineeName: '',
+        nomineePosition: '',
+        nomineeOrganization: '',
+        nomineeEmail: '',
+        nomineePhone: '',
+        awardCategory: '',
+        initiativeDescription: '',
+        supportingEvidence: '',
+        referenceName: '',
+        referencePosition: '',
+        referenceOrganization: '',
+        referenceEmail: '',
+        referencePhone: '',
+        additionalDocuments: null,
+      });
+      setStep(1);
     } catch (error) {
       setSubmitError('There was an error submitting the form. Please try again.');
       console.error('Form submission error:', error);
