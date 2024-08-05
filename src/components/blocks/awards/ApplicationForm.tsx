@@ -464,52 +464,55 @@ const ApplicationForm: React.FC = () => {
     setIsSubmitting(true);
     setSubmitError(null);
     setSubmitSuccess(false);
-
+  
     try {
       const formDataToSend = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
         if (key === 'additionalDocuments' && value instanceof File) {
-          formDataToSend.append(key, value);
+          formDataToSend.append(key, value, value.name);
         } else if (typeof value === 'string') {
           formDataToSend.append(key, value);
         }
       });
-
+  
       const response = await fetch(
         "https://formspree.io/f/mqazqnnd",
         {
           method: "POST",
           body: formDataToSend,
-          mode: 'no-cors' // Add this line
+          // Remove the 'mode: 'no-cors'' line
         }
       );
-
-      // Since we're using 'no-cors', we can't access response properties
-      // We'll assume success if there's no error thrown
-      setSubmitSuccess(true);
-      setFormData({
-        // Reset form data
-        nominatorName: '',
-        nominatorOrganization: '',
-        nominatorPosition: '',
-        nominatorEmail: '',
-        nominatorPhone: '',
-        nomineeName: '',
-        nomineePosition: '',
-        nomineeOrganization: '',
-        nomineeEmail: '',
-        nomineePhone: '',
-        awardCategory: '',
-        initiativeDescription: '',
-        supportingEvidence: '',
-        referenceName: '',
-        referencePosition: '',
-        referenceOrganization: '',
-        referenceEmail: '',
-        referencePhone: '',
-        additionalDocuments: null,
-      });
-      setStep(1);
+  
+      if (response.ok) {
+        setSubmitSuccess(true);
+        setFormData({
+          // Reset form data
+          nominatorName: '',
+          nominatorOrganization: '',
+          nominatorPosition: '',
+          nominatorEmail: '',
+          nominatorPhone: '',
+          nomineeName: '',
+          nomineePosition: '',
+          nomineeOrganization: '',
+          nomineeEmail: '',
+          nomineePhone: '',
+          awardCategory: '',
+          initiativeDescription: '',
+          supportingEvidence: '',
+          referenceName: '',
+          referencePosition: '',
+          referenceOrganization: '',
+          referenceEmail: '',
+          referencePhone: '',
+          additionalDocuments: null,
+        });
+        setStep(1);
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Form submission failed');
+      }
     } catch (error) {
       setSubmitError('There was an error submitting the form. Please try again.');
       console.error('Form submission error:', error);
