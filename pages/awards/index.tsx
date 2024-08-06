@@ -19,26 +19,40 @@ const AboutAwards: NextPage = () => {
             <main className="content-wrapper">
 
                 <SimpleBanner title={"20th International Electoral Awards"}></SimpleBanner>
-                
+
                 <div className="container pt-14 pt-md-16 pb-7 pt-md-8">
 
                     <div className='mb-15'>
+                        <h2 className="mb-5 text-uppercase text-muted text-center">About</h2>
+
                         <p className="mb-5 px-lg-12 px-xl-15">
-                            Welcome to the 20th International Electoral Affairs Symposium &amp; Awards Ceremony, a four-day event held from <b>30th September to 3rd October 2024.</b>
+                            Welcome to the <strong>20th International Electoral Affairs Symposium & Awards Ceremony</strong>, taking place from <strong>September 30th to October 3rd, 2024</strong>. This prestigious four-day event will be held in collaboration with the <strong>International Centre for Parliamentary Studies</strong> and the <strong>Junta Central Electoral de la República Dominicana</strong>.
                         </p>
                         <p className="mb-5 px-lg-12 px-xl-15">
-                            This event is organized by the <b>International Centre for Parliamentary Studies</b> in collaboration with the <b>Junta Central Electoral de la República Dominicana</b>, and will draw together leading figures in the world of electoral affairs, and recognise excellence in electoral management.
+                            Join us as we convene leading experts and pioneers from the global electoral community to discuss, deliberate, and celebrate advancements in electoral management. The symposium serves as a platform to honor exceptional achievements and foster discussions on the future of electoral processes.
                         </p>
                         <p className="px-lg-12 px-xl-15">
-                            {"Be part of the dynamic dialogue, participate in enlightening panel discussions, and join us in celebrating the significant contributions to electoral democracy at the prestigious Awards Ceremony. Don't miss this exclusive opportunity to engage, share, and learn with global peers."}
-                        </p >
+                            Engage in enriching dialogues, participate in insightful panel discussions, and be part of the distinguished Awards Ceremony. This event is a unique opportunity to share knowledge, network with peers, and contribute to shaping the future of electoral democracy worldwide.
+                        </p>
+
+                        <h3 className="mt-10 mb-5 px-lg-12 px-xl-15">Key Links</h3>
+                        <p className="mb-5 px-lg-12 px-xl-15">
+                            <a href="/awards/schedule" className="text-decoration-none">View the Schedule</a>
+                        </p>
+                        <p className="mb-5 px-lg-12 px-xl-15">
+                            <a href="/awards/categories" className="text-decoration-none">Explore Award Categories</a>
+                        </p>
+                        <p className="px-lg-12 px-xl-15">
+                            <a href="/awards/submit" className="text-decoration-none">Submit a Nomination</a>
+                        </p>
                     </div>
+
+                    <Organisers />
 
                     <FAQ />
 
                 </div>
 
-                <Organisers />
 
             </main>
 

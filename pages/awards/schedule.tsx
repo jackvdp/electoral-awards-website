@@ -18,7 +18,7 @@ const Programme: NextPage = () => {
             <SimpleBanner title={"Schedule"} />
 
             <main className="content-wrapper">
-                <section className="wrapper bg-light px-md-20 px-md-10 px-2 py-md-10 py-5 ">
+                <section className="container wrapper bg-light px-2 py-md-10 py-5 ">
                     <TabBarAndContent items={
                         schedule.map(day => ({
                             title: day.title.split(':')[0],

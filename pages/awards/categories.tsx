@@ -53,7 +53,7 @@ const Categories: NextPage = () => {
             <SimpleBanner title={"Award Categories"} />
 
             <main className="content-wrapper">
-                <section className="wrapper bg-light px-md-20 px-5 py-md-10 py-5 ">
+                <section className="container wrapper bg-light px-5 py-md-10 py-5 ">
 
                     <DropdownTabs items={tabItems} />
 
