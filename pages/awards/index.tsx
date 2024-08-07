@@ -1,4 +1,5 @@
 import { NextPage } from 'next';
+import Link from 'next/link';
 import { Fragment } from 'react';
 // -------- custom component -------- //
 import { Navbar } from 'components/blocks/navbar';
@@ -22,7 +23,7 @@ const AboutAwards: NextPage = () => {
 
                 <div className="container pt-14 pt-md-16 pb-7 pt-md-8">
 
-                    <div className='mb-15'>
+                    <div className='mb-5 mb-md-10'>
                         <h2 className="mb-5 text-uppercase text-muted text-center">About</h2>
 
                         <p className="mb-5 px-lg-12 px-xl-15">
@@ -35,16 +36,24 @@ const AboutAwards: NextPage = () => {
                             Engage in enriching dialogues, participate in insightful panel discussions, and be part of the distinguished Awards Ceremony. This event is a unique opportunity to share knowledge, network with peers, and contribute to shaping the future of electoral democracy worldwide.
                         </p>
 
-                        <h3 className="mt-10 mb-5 px-lg-12 px-xl-15">Key Links</h3>
-                        <p className="mb-5 px-lg-12 px-xl-15">
-                            <a href="/awards/schedule" className="text-decoration-none">View the Schedule</a>
-                        </p>
-                        <p className="mb-5 px-lg-12 px-xl-15">
-                            <a href="/awards/categories" className="text-decoration-none">Explore Award Categories</a>
-                        </p>
-                        <p className="px-lg-12 px-xl-15">
-                            <a href="/awards/submit" className="text-decoration-none">Submit a Nomination</a>
-                        </p>
+                        <div className='px-lg-12 px-xl-15'>
+                            <h3 className="mt-10 mb-5 ">Key Links</h3>
+                            <ul>
+                            <li className="">
+                                    <Link href="/events/66211b8c90317b890e2f468d" className="text-decoration-none">Event details</Link>
+                                </li>
+                                <li className="">
+                                    <Link href="/awards/schedule" className="text-decoration-none">View the Schedule</Link>
+                                </li>
+                                <li className="">
+                                    <Link href="/awards/categories"><a className="text-decoration-none">Explore Award Categories</a></Link>
+                                </li>
+                                <li className="">
+                                    <Link href="/awards/submit" className="text-decoration-none">Submit a Nomination</Link>
+                                </li>
+                            </ul>
+                        </div>
+
                     </div>
 
                     <Organisers />

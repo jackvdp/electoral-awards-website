@@ -582,7 +582,7 @@ const ApplicationForm: React.FC = () => {
   };
 
   return (
-    <div className='col-md-9'>
+    <div className='col-md-12'>
       <div className="mb-5 pb-6 pb-md-12 text-center">
         <div className="card p-md-10 p-5">
           <h3 className='display-4'>Submit Nomination</h3>

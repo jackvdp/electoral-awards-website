@@ -11,7 +11,7 @@ import PageProgress from 'components/common/PageProgress';
 const Programme: NextPage = () => {
     return (
         <Fragment>
-            <PageProgress/>
+            <PageProgress />
 
             <Navbar />
 
@@ -19,6 +19,7 @@ const Programme: NextPage = () => {
 
             <main className="content-wrapper">
                 <section className="container wrapper bg-light px-2 py-md-10 py-5 ">
+                    <h2 className="mb-5 text-center">Monday, 30th September – Thursday, 3rd October 2024</h2>
                     <TabBarAndContent items={
                         schedule.map(day => ({
                             title: day.title.split(':')[0],
@@ -57,7 +58,7 @@ const DayCard: React.FC<DayCardProps> = ({ day }) => {
                             {day.events.map((event, index) => (
                                 <tr key={index}>
                                     <td className='w-15'>{event.time}</td>
-                                    <td>{event.description}</td>
+                                    <td dangerouslySetInnerHTML={{ __html: event.description }}></td>
                                 </tr>
                             ))}
                         </tbody>
