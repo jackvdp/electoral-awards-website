@@ -529,52 +529,51 @@ const ApplicationForm: React.FC = () => {
         }
       );
 
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.indexOf("application/json") !== -1) {
-        // It's a JSON response
-        if (response.ok) {
-          const data = await response.json();
-          setSubmitSuccess(true);
-          // Reset form data...
-        } else {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Form submission failed');
-        }
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitSuccess(true);
+        // Reset form data...
+        setFormData({
+          nominatorName: '',
+          nominatorOrganization: '',
+          nominatorPosition: '',
+          nominatorEmail: '',
+          nominatorPhone: '',
+          nomineeName: '',
+          nomineePosition: '',
+          nomineeOrganization: '',
+          nomineeEmail: '',
+          nomineePhone: '',
+          awardCategory: '',
+          initiativeDescription: '',
+          supportingEvidence: '',
+          referenceName: '',
+          referencePosition: '',
+          referenceOrganization: '',
+          referenceEmail: '',
+          referencePhone: '',
+          additionalDocuments: [],
+        });
+        setStep(1);
       } else {
-        // It's likely an HTML response
-        if (response.ok) {
-          setSubmitSuccess(true);
-          // Reset form data...
+        if (data.errors) {
+          const errorMessages = data.errors.map((error: any) => `${error.field}: ${error.message}`).join(', ');
+          throw new Error(`Validation errors: ${errorMessages}`);
         } else {
           throw new Error('Form submission failed');
         }
       }
-
-      // Reset form data
-      setFormData({
-        nominatorName: '',
-        nominatorOrganization: '',
-        nominatorPosition: '',
-        nominatorEmail: '',
-        nominatorPhone: '',
-        nomineeName: '',
-        nomineePosition: '',
-        nomineeOrganization: '',
-        nomineeEmail: '',
-        nomineePhone: '',
-        awardCategory: '',
-        initiativeDescription: '',
-        supportingEvidence: '',
-        referenceName: '',
-        referencePosition: '',
-        referenceOrganization: '',
-        referenceEmail: '',
-        referencePhone: '',
-        additionalDocuments: [],
-      });
-      setStep(1);
-    } catch (error) {
-      setSubmitError(`There was an error submitting the form. Please try again. ${error}`);
+    } catch (error: unknown) {
+      let errorMessage = 'An unknown error occurred';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === 'object' && error !== null && 'message' in error) {
+        errorMessage = String(error.message);
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      }
+      setSubmitError(`There was an error submitting the form: ${errorMessage}`);
       console.error('Form submission error:', error);
     } finally {
       setIsSubmitting(false);
