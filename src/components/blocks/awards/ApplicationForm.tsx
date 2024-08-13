@@ -568,10 +568,6 @@ const ApplicationForm: React.FC = () => {
       let errorMessage = 'An unknown error occurred';
       if (error instanceof Error) {
         errorMessage = error.message;
-      } else if (typeof error === 'object' && error !== null && 'message' in error) {
-        errorMessage = String(error.message);
-      } else if (typeof error === 'string') {
-        errorMessage = error;
       }
       setSubmitError(`There was an error submitting the form: ${errorMessage}`);
       console.error('Form submission error:', error);
