@@ -8,7 +8,7 @@ interface FormData {
   nominatorName: string;
   nominatorOrganization: string;
   nominatorPosition: string;
-  nominatorEmail: string;
+  email: string;
   nominatorPhone: string;
   nomineeName: string;
   nomineePosition: string;
@@ -38,7 +38,7 @@ const ApplicationForm: React.FC = () => {
     nominatorName: '',
     nominatorOrganization: '',
     nominatorPosition: '',
-    nominatorEmail: '',
+    email: '',
     nominatorPhone: '',
     nomineeName: '',
     nomineePosition: '',
@@ -129,7 +129,7 @@ const ApplicationForm: React.FC = () => {
       isNonEmptyString(formData.nominatorName) &&
       isNonEmptyString(formData.nominatorOrganization) &&
       isNonEmptyString(formData.nominatorPosition) &&
-      isNonEmptyString(formData.nominatorEmail) &&
+      isNonEmptyString(formData.email) &&
       isNonEmptyString(formData.nominatorPhone) &&
       isNonEmptyString(formData.nomineeName) &&
       isNonEmptyString(formData.nomineeEmail) &&
@@ -164,7 +164,7 @@ const ApplicationForm: React.FC = () => {
     switch (currentStep) {
       case 1:
         return !!formData.nominatorName && !!formData.nominatorOrganization &&
-          !!formData.nominatorPosition && !!formData.nominatorEmail &&
+          !!formData.nominatorPosition && !!formData.email &&
           !!formData.nominatorPhone;
       case 2:
         return !!formData.nomineeName && !!formData.nomineeEmail &&
@@ -188,8 +188,8 @@ const ApplicationForm: React.FC = () => {
         if (!formData.nominatorName) newErrors.nominatorName = "Nominator name is required";
         if (!formData.nominatorOrganization) newErrors.nominatorOrganization = "Organization is required";
         if (!formData.nominatorPosition) newErrors.nominatorPosition = "Position is required";
-        if (!formData.nominatorEmail) newErrors.nominatorEmail = "Email is required";
-        else if (!validateEmail(formData.nominatorEmail)) newErrors.nominatorEmail = "Invalid email format";
+        if (!formData.email) newErrors.email = "Email is required";
+        else if (!validateEmail(formData.email)) newErrors.email = "Invalid email format";
         if (!formData.nominatorPhone) newErrors.nominatorPhone = "Phone number is required";
         else if (!validatePhone(formData.nominatorPhone)) newErrors.nominatorPhone = "Invalid phone number format";
         break;
@@ -256,13 +256,13 @@ const ApplicationForm: React.FC = () => {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="nominatorEmail" className="form-label">Email Address</label>
+              <label htmlFor="email" className="form-label">Email Address</label>
               <input
                 type="email"
                 className="form-control"
-                id="nominatorEmail"
-                name="nominatorEmail"
-                value={formData.nominatorEmail}
+                id="email"
+                name="email"
+                value={formData.email}
                 onChange={handleInputChange}
                 required
               />
@@ -538,7 +538,7 @@ const ApplicationForm: React.FC = () => {
           nominatorName: '',
           nominatorOrganization: '',
           nominatorPosition: '',
-          nominatorEmail: '',
+          email: '',
           nominatorPhone: '',
           nomineeName: '',
           nomineePosition: '',
@@ -558,7 +558,8 @@ const ApplicationForm: React.FC = () => {
         setStep(1);
       } else {
         if (data.errors) {
-          const errorMessages = data.errors.map((error: any) => `${error.field}: ${error.message}`).join(', ');
+          const errorMessages = data.errors.map((error: any) => `${error.field} - ${error.message}`).join(', ');
+          console.log('Validation errors:', errorMessages);
           throw new Error(`Validation errors: ${errorMessages}`);
         } else {
           throw new Error('Form submission failed');
