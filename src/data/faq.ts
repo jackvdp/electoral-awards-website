@@ -5,7 +5,7 @@ export const FAQs = [
     no: 'One',
     expand: true,
     heading: 'When is the Awards & Symposium?',
-    body: `The International Electoral Awards will be held on the Wednesday 2nd October. This will be the main event of a four day symposium running from 30th September-3rd October. For a full schedule, please see [here](/schedule).`
+    body: `The International Electoral Awards will be held on the Tuesday 17th December. This will be the main event of a four day symposium running from 15th-18th December. For a full schedule, please see [here](/schedule).`
   }
   ,
   {

@@ -27,7 +27,7 @@ const AboutAwards: NextPage = () => {
                         <h2 className="mb-5 text-uppercase text-muted text-center">About</h2>
 
                         <p className="mb-5 px-lg-12 px-xl-15">
-                            Welcome to the <strong>20th International Electoral Affairs Symposium & Awards Ceremony</strong>, taking place from <strong>September 30th to October 3rd, 2024</strong>. This prestigious four-day event will be held in collaboration with the <strong>International Centre for Parliamentary Studies</strong> and the <strong>Junta Central Electoral de la República Dominicana</strong>.
+                            Welcome to the <strong>20th International Electoral Affairs Symposium & Awards Ceremony</strong>, taking place from <strong>December 15th to 18th, 2024</strong>. This prestigious four-day event will be held in collaboration with the <strong>International Centre for Parliamentary Studies</strong> and the <strong>Junta Central Electoral de la República Dominicana</strong>.
                         </p>
                         <p className="mb-5 px-lg-12 px-xl-15">
                             Join us as we convene leading experts and pioneers from the global electoral community to discuss, deliberate, and celebrate advancements in electoral management. The symposium serves as a platform to honor exceptional achievements and foster discussions on the future of electoral processes.

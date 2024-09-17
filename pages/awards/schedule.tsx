@@ -19,7 +19,7 @@ const Programme: NextPage = () => {
 
             <main className="content-wrapper">
                 <section className="container wrapper bg-light px-2 py-md-10 py-5 ">
-                    <h2 className="mb-5 text-center">Monday, 30th September – Thursday, 3rd October 2024</h2>
+                    <h2 className="mb-5 text-center">Sunday, 15th – Wednesday, 18th December 2024</h2>
                     <TabBarAndContent items={
                         schedule.map(day => ({
                             title: day.title.split(':')[0],
