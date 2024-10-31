@@ -60,11 +60,19 @@ const HomeHeader = () => {
 
                             {!isLoggedIn && (
                                 <>
-                                    <NextLink
-                                        title="Register"
-                                        href="/register"
-                                        className="btn btn-soft-blue rounded-pill mt-2"
-                                    />
+                                    <div className="d-flex justify-content-center gap-2">
+                                        <NextLink
+                                            title="Register"
+                                            href="/register"
+                                            className="btn btn-soft-blue rounded-pill mt-2"
+                                        />
+                                        <NextLink
+                                            title="Awards"
+                                            href="/awards"
+                                            className="btn btn-blue rounded-pill mt-2"
+                                        />
+                                    </div>
+
                                     <p className={`lead fs-md px-md-3 px-lg-7 px-xl-9 px-xxl-10 py-4 ${styles.subtitleText}`}>
                                         Already a member?{' '}
                                         <a

@@ -6,7 +6,7 @@ import { FAQs } from 'data/faq';
 const FAQ: FC = () => {
   return (
     <Fragment>
-      <h2 className="text-muted text-center">FAQ</h2>
+      <h2 className="text-muted text-center">FAQs</h2>
 
       <div className="accordion-wrapper" id="accordion">
         <div className="row gy-md-6 gy-xl-0 p-md-6">

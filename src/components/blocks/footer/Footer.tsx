@@ -15,7 +15,7 @@ const Footer: FC = () => {
               <img className="mb-4 ms-n1" src="/img/logos/ICPSLogo-White.png" width={120} alt="" />
 
               <p className="mb-4">
-                © 2023 ICPS. <br className="d-none d-lg-block" />
+                © {new Date().getFullYear()} ICPS. <br className="d-none d-lg-block" />
                 All rights reserved.
               </p>
 

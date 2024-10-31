@@ -39,18 +39,26 @@ const AboutAwards: NextPage = () => {
                         <div className='px-lg-12 px-xl-15'>
                             <h3 className="mt-10 mb-5 ">Key Links</h3>
                             <ul>
-                            <li className="">
+                                <li className="">
                                     <Link href="/events/66211b8c90317b890e2f468d" className="text-decoration-none">Event details</Link>
                                 </li>
                                 <li className="">
-                                    <Link href="/awards/schedule" className="text-decoration-none">View the Schedule</Link>
+                                    <Link href="/awards/schedule" className="text-decoration-none">View the schedule</Link>
                                 </li>
                                 <li className="">
-                                    <Link href="/awards/categories"><a className="text-decoration-none">Explore Award Categories</a></Link>
+                                    <Link href="/awards/categories"><a className="text-decoration-none">Explore award categories</a></Link>
                                 </li>
                                 <li className="">
+                                    <Link href="/awards/location"><a className="text-decoration-none">Book your hotel</a></Link>
+                                </li>
+                                <li className="">
+                                    <Link href="#faq">
+                                        <a className="text-decoration-none">FAQs</a>
+                                    </Link>
+                                </li>
+                                {/* <li className="">
                                     <Link href="/awards/submit" className="text-decoration-none">Submit a Nomination</Link>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
 
@@ -58,7 +66,9 @@ const AboutAwards: NextPage = () => {
 
                     <Organisers />
 
-                    <FAQ />
+                    <section id="faq">
+                        <FAQ />
+                    </section>
 
                 </div>
 
