@@ -13,9 +13,9 @@ const HomeHeader = () => {
 
     const backgroundImages = [
         '/img/photos/hero1.jpeg',
-        '/img/photos/hero2.jpg',
+        '/img/photos/hero5.jpg',
         '/img/photos/hero3.jpg',
-        '/img/photos/hero4.jpg'
+        '/img/photos/hero4.jpg',
     ];
 
     return (
