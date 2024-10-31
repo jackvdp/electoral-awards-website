@@ -6,6 +6,7 @@ import { useAuth } from 'auth/AuthProvider';
 import styles from './Home.module.css';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
+import Image from 'next/image';
 
 const HomeHeader = () => {
     const { isLoggedIn } = useAuth();
@@ -35,9 +36,14 @@ const HomeHeader = () => {
             >
                 {backgroundImages.map((image, index) => (
                     <SwiperSlide key={index} className={styles.slide}>
-                        <div
+                        <Image
                             className={styles.slideImage}
-                            style={{ backgroundImage: `url(${image})` }}
+                            src={image}
+                            width={1200}
+                            height={800}
+                            priority={index === 0}
+                            layout='fill'  // Add this prop to allow the image to fill its container
+                            sizes="100vw"  // Add this to help Next.js optimize the image
                         />
                     </SwiperSlide>
                 ))}
