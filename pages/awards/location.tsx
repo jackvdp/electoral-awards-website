@@ -70,12 +70,12 @@ const LocationPage: NextPage = () => {
                               <i className="uil uil-money-bill" />
                             </div>
                           </div>
-                          <div className="align-self-start justify-content-start">
+                          {/* <div className="align-self-start justify-content-start">
                             <h5 className="mb-1">Room Rate</h5>
                             <p>
                               €120 for a single room/€140 for a double room
                             </p>
-                          </div>
+                          </div> */}
                         </div>
 
                         <div className="d-flex flex-row">
