@@ -52,6 +52,9 @@ const AboutAwards: NextPage = () => {
                                     <Link href="/awards/location"><a className="text-decoration-none">Book your hotel</a></Link>
                                 </li>
                                 <li className="">
+                                    <Link href="/awards/visa"><a className="text-decoration-none">Visa Requirements</a></Link>
+                                </li>
+                                <li className="">
                                     <Link href="#faq">
                                         <a className="text-decoration-none">FAQs</a>
                                     </Link>

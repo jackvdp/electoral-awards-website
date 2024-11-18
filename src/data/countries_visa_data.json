@@ -1,0 +1,1466 @@
+[
+    {
+        "country": "Antigua and Barbuda",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Argentina",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Bahamas",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Barbados",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Belize",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Bolivia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Brazil",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Canada",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Chile",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Colombia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Costa Rica",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Cuba",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Ecuador",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "El Salvador",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "United States",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Saint John (United States Virgin Islands)",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Saint Croix  (Isla Virgenes de los Estados Unidos)",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Saint Thomas (United States Virgin Islands)",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Grenada",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Greenland",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Guadeloupe",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Guatemala",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "British Guyana",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "French Guiana",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Haiti",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Hawaii",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Honduras",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Jamaica",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Mexico",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Nicaragua",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Panama",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Paraguay",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Peru",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Puerto Rico",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Cayman Islands",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Saint Kitts and Nevis",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Saint Vincent and the Grenadines",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Saint Lucia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Falkland Islands",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "South Sandwich Islands",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Saba",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Turks and Caicos Islands",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Saint Pierre and Miquelon",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "American Samoa",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Suriname",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Trinidad and Tobago",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Uruguay",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Venezuela",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Afghanistan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Saudi Arabia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Armenia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Azerbaijan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Bangladesh",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Bahrain",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Brunei",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Bhutan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Cambodia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "China",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Cyprus",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "North Korea",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "South Korea",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "United Arab Emirates",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Philippines",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Georgia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Hong Kong (China)",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "India",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Indonesia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Iraq",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Iran",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Israel",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Cocos Islands",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Christmas Island",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Japan",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Jordan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Kazakhstan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Kyrgyzstan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Kuwait",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Laos",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Lebanon",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Macau (China)",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Malaysia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Maldives",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Mongolia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Myanmar or Burma",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Nagorno-Karabakh",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Nepal",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Oman",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Pakistan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Palestine",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Qatar",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Russia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Singapore",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Syria",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Sri Lanka",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Taiw\u00e1n(Provincia de China)",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Thailand",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Tajikistan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "East Timor",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Turkmenistan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Turkey",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Uzbekistan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Vietnam",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Yemen",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Angola",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Algeria",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Benin",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Botswana",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Burkina Faso",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Burundi",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Cape Verde",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Cameroon",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Chad",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Comoros",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Democratic Republic of the Congo",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Republic of the Congo",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Kinshasa (DRC)",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Ivory Coast",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Djibouti",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Egypt",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Eritrea",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Ethiopia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Gabon",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Gambia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Ghana",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Guinea",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Guinea-Bissau",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Equatorial Guinea",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Saint Helena",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "R\u00e9union",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Kenya",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Lesotho",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Liberia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Libya",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Madagascar",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Malawi",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Mali",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Morocco",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Mauritius",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Mauritania",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Mayotte",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Mozambique",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Namibia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Niger",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Nigeria",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Central African Republic",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Rwanda",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "S\u00e3o Tom\u00e9 and Pr\u00edncipe",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Western Sahara",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Senegal",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Seychelles",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Sierra Leone",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Somalia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Somaliland",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Eswatini",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "South Africa",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Sudan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "South Sudan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Tanzania",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Togo",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Tunisia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Uganda",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Zambia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Zimbabwe",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Akrotiri and Dhekelia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Albania",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Germany",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Andorra",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Austria",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Belgium",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Belarus",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Bonaire",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Bosnia and Herzegovina",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Bulgaria",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Vatican City",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Croatia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Denmark",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Slovakia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Slovenia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Spain",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Estonia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Scotland",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Finland",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "France",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Wales",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Gibraltar",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Greece",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Hungary",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Saint Eustatius",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Jan Mayen Islands",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Faroe Islands",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Wallis and Futuna",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Montserrat",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Isla Anegada(Isla Virg. Britanicas)",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Isla Jost Van Dyke(Isla Virg. Britanicas)",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Isla Tortola(Isla Virg. Britanicas)",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Isla Virgen Gorda(Isla Virg. Britanicas)",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Ireland",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Northern Ireland",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Iceland",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Italy",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Latvia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Liechtenstein",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Lithuania",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Luxembourg",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "North Macedonia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Malta",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Moldova",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Monaco",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Montenegro",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "New Caledonia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Norway",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Netherlands",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Poland",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Portugal",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Kosovo (Serbia)",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "United Kingdom",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Czech Republic",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Romania",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "San Marino",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Serbia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Svalbard",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Sweden",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Switzerland",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Ukraine",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Australia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "New Zealand",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Federated States of Micronesia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Palau",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Fiji",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Guam",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Papua New Guinea",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "French Polynesia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Kiribati",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Samoa",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Cook Islands",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Marshall Islands",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Tonga",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Tokelau",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Northern Mariana Islands",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Pitcairn Islands",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Solomon Islands",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Tuvalu",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Niue",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Nauru",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Norfolk Island",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Vanuatu",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Aruba",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Bahamas",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Barbados",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Bermuda",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Cura\u00e7ao",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Dominica",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Anguilla",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Saint Martin",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Argentina",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Antigua and Barbuda",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Belize",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Brazil",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Chile",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Cuba",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "China",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "China, Taiwan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Costa Rica",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "South Korea",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Colombia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Ecuador",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Spain",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "El Salvador",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "France",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Guatemala",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Honduras",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "India",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Israel",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Italy",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Japan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Jamaica",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Mexico",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Morocco",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Nicaragua",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Paraguay",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Panama",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Peru",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Russia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Serbia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Switzerland",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Turkey",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Ukraine",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Uruguay",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Vietnam",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Germany",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Antigua and Barbuda",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Argentina",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Aruba",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Australia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Bahamas",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Barbados",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Belize",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Bolivia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Bonaire",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Botswana",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Brazil",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Cambodia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Canada",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Colombia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "South Korea",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Costa Rica",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Cuba",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Cura\u00e7ao",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "China",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Chile",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Dominica (Commonwealth)",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Ecuador",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "El Salvador",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Emiratos \u00c1rabes Unidos (Dub\u00e1i, Abu Dabi, Reino de Bahr\u00e9in, Sarja, Ajm\u00e1n,Fuyaira, Ras al-Jaima, Sarja y Umm al-Qaywayn).",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "United States",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Spain",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "France",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Philippines",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Georgia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Grenada",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Guatemala",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "French Guiana",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Guyana Inglesa",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Haiti",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Honduras",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Hong Kong",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Italy",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "India",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Indonesia",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Islas V\u00edrgenes Brit\u00e1nicas",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Islas V\u00edrgenes Estadounidenses",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Iceland",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Israel",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Jamaica",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Japan",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Jordan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Kazakhstan",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Lebanon",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Malaysia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Morocco",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Mexico",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Nicaragua",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Panama",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Paraguay",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Peru",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Poland",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Portugal",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Puerto Rico",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Qatar",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Reino Unido de Gran Breta\u00f1ae Irlanda del Norte",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Czech Republic",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Romania",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Russia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Saba",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Saint Kitts and Nevis",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Saint Eustatius",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Saint Martin",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Saint Vincent and the Grenadines",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Switzerland",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Suriname",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Trinidad and Tobago",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Tunisia",
+        "requiresVisa": "No"
+    },
+    {
+        "country": "Turks and Caicos Islands",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Turkey*",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Uruguay",
+        "requiresVisa": "Yes"
+    },
+    {
+        "country": "Venezuela",
+        "requiresVisa": "Yes"
+    }
+]
