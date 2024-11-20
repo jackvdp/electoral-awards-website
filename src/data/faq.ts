@@ -29,5 +29,13 @@ export const FAQs = [
     expand: true,
     heading: 'When is the Awards & Symposium?',
     body: `The International Electoral Awards will be held on the Tuesday 17th December. This will be the main event of a four day symposium running from 15th-18th December. For a full schedule, please see [here](/schedule).`
+  },
+  {
+    no: 'Six',
+    expand: true,
+    heading: 'What is the dress code for the Awards & Symposium?',
+    body: `For the Symposium sessions: Business attire is appropriate. We aim for a professional yet comfortable atmosphere for all our discussions and workshops.
+
+    For the Awards Ceremony: The occasion calls for Black Tie or National Costume, adding a touch of elegance and cultural diversity to our prestigious evening.`
   }
 ]
