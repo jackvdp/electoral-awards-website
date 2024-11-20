@@ -34,8 +34,6 @@ export const FAQs = [
     no: 'Six',
     expand: true,
     heading: 'What is the dress code for the Awards & Symposium?',
-    body: `For the Symposium sessions: Business attire is appropriate. We aim for a professional yet comfortable atmosphere for all our discussions and workshops.
-
-    For the Awards Ceremony: The occasion calls for Black Tie or National Costume, adding a touch of elegance and cultural diversity to our prestigious evening.`
+    body: `For the Symposium sessions: Business attire is appropriate. We aim for a professional yet comfortable atmosphere for all our discussions and workshops.\n\nFor the Awards Ceremony: The occasion calls for Black Tie or National Costume, adding a touch of elegance and cultural diversity to our prestigious evening.`
   }
 ]
