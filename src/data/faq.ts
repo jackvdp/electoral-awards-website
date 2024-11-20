@@ -10,7 +10,7 @@ export const FAQs = [
     no: 'Two',
     expand: true,
     heading: 'Can I get support with visas and airport transfers?',
-    body: `Yes, for visa applications, we will  provide assistance, please email [electoral@parlicentre.org](mailto:electoral@parlicentre.org) for more information. Regarding airport transfers, please inform us of your flight details, and we'll ensure arrangements are made for your convenience.`
+    body: `Yes, for visa applications, please see [here](/awards/visa) for more information. Regarding airport transfers, please inform us of your flight details, and we'll ensure arrangements are made for your convenience.`
   },
   {
     no: 'Three',
