@@ -1,10 +1,10 @@
 // used in the faq-1 block
 export const FAQs = [
   {
-    no: 'Five',
+    no: 'One',
     expand: true,
-    heading: 'Is financial support available for airfare and accommodation?',
-    body: `While we are unable to provide financial support for airfare or accommodation, we have secured a subsidized rate at the event hotel for participants. Additionally, meals will be provided throughout the event, and we offer complimentary airport transfer services. For more information, please email [electoral@parlicentre.org](mailto:electoral@parlicentre.org).`
+    heading: 'When is the Awards & Symposium?',
+    body: `The International Electoral Awards will be held on the Tuesday 17th December. This will be the main event of a four day symposium running from 15th-18th December. For a full schedule, please see [here](/schedule).`
   },
   {
     no: 'Two',
@@ -27,8 +27,8 @@ export const FAQs = [
   {
     no: 'Five',
     expand: true,
-    heading: 'When is the Awards & Symposium?',
-    body: `The International Electoral Awards will be held on the Tuesday 17th December. This will be the main event of a four day symposium running from 15th-18th December. For a full schedule, please see [here](/schedule).`
+    heading: 'Is financial support available for airfare and accommodation?',
+    body: `While we are unable to provide financial support for airfare or accommodation, we have secured a subsidized rate at the event hotel for participants. Additionally, meals will be provided throughout the event, and we offer complimentary airport transfer services. For more information, please email [electoral@parlicentre.org](mailto:electoral@parlicentre.org).`
   },
   {
     no: 'Six',
