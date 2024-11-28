@@ -24,12 +24,12 @@ export const schedule: Day[] = [
             { time: "1030h-1130h", description: "<p><strong>Morning Panel:</strong> Countering the Tide: Strategies for Combating Electoral Disinformation</p>This panel will explore multi-faceted approaches to identify, mitigate, and counter disinformation in elections. Experts will discuss the latest trends in disinformation tactics, share case studies of successful interventions, and debate the role of legislation, AI, and civic education in preserving the integrity of electoral processes.<ul><li>Speaker 1: Thomas Hicks, US Election Assistance Commission</li><li>Speaker 2: Sy Mamabolo, CEO of the Election Commission of South Africa</li><li>Speaker 3: Samira Saba, Smartmatic</li><li>Speaker 4: Ana Laura Maltos, Digital Media Observatory at Tecnologico de Monterrey</li></ul>" },
             { time: "1130h-1200h", description: "<p><strong>Keynote Presentation:</strong> JCE of the Dominican Republic</p>" },
             { time: "1200h", description: "<p>Group Photo</p>" },
-            { time: "1215h", description: "<p>Lunch</p>" },
+            { time: "1215h", description: "<p>Lunch at Hotel</p>" },
             { time: "1345h-1415h", description: "<p><strong>Keynote Presentation:</strong> Harmful Practices and Protective Measures in the Information Environment around the 2024 Elections</p><ul><li>Ingrid Bicu, specialist in disinformation</li></ul>" },
             { time: "1430h-1530h", description: "<p><strong>Afternoon Panel:</strong> AI in Action: Enhancing the Electoral Process</p>This panel will explore the strategic use of AI throughout the electoral cycle, from voter registration to ballot counting and results dissemination. Speakers will discuss the impact of cutting-edge AI tools that are enhancing transparency and efficiency in electoral systems. The session will also highlight key ethical considerations and safeguards necessary to protect voter privacy and maintain electoral integrity.<ul><li>Speaker 1: Alejandra Barrios, Misión de Observación Electoral (MOE)</li><li>Speaker 2: Carolina Botero, Carnegie Endowment for International Peace</li><li>Speaker 3: Eduardo Correia, Smartmatic</li></ul>" },
             { time: "1545h-1615h", description: "<p><strong>Keynote Presentation:</strong></p><ul><li>The Electoral Tribunal of the Federal Judiciary of Mexico (TEPJF)</li></ul>" },
             { time: "1615h-1730h", description: "<p><strong>Fringe Events:</strong> Industry demonstrations</p>" },
-            { time: "2000h", description: "<p>Dinner at Hotel</p>" }
+            { time: "2000h", description: "<p>Dinner</p>" }
         ]
     },
     {
@@ -43,7 +43,7 @@ export const schedule: Day[] = [
             { time: "1245h-1315h", description: "<p><strong>Keynote Presentation:</strong> Do voter information campaigns make a difference?</p><ul><li>Professor Daniel Stockemer, University of Ottawa</li></ul>" },
             { time: "1315h", description: "<p>Symposium Closing</p>" },
             { time: "1030h-1330h", description: "<p><strong>Fringe Events:</strong> Industry demonstrations</p>" },
-            { time: "1330h", description: "<p>Lunch at Hotel</p>" },
+            { time: "1330h", description: "<p>Lunch</p>" },
             { time: "1330h", description: "<p>Rest and/or explore places of interest nearby before the start of the Awards Ceremony</p>" },
             { time: "1900h", description: "<h3>The International Electoral Awards</h3><p>The International Electoral Awards Ceremony will start at 19:00, ending at 22:00. There will be a dinner and entertainment accompanying the awards ceremony.</p>" }
         ]
