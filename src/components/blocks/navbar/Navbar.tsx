@@ -57,7 +57,7 @@ const NavbarICPS: FC<NavbarProps> = ({ barSitsOnTop }) => {
                 <ListItemLink href="/awards/location" title="Book Hotel" linkClassName="dropdown-item" />
                 <ListItemLink href="/awards/categories" title="Categories" linkClassName="dropdown-item" />
                 <ListItemLink href="/awards/judges" title="Judges" linkClassName="dropdown-item" />
-                <ListItemLink href="/awards/visa" title="Visa Requirments" linkClassName="dropdown-item" />
+                <ListItemLink href="/awards/visa" title="Visa Requirements" linkClassName="dropdown-item" />
                 {/* <ListItemLink href="/awards/submit" title="Submit Nomination" linkClassName="dropdown-item" /> */}
                 <li className="dropdown dropdown-submenu dropend">
                   <DropdownToggleLink title="2023" />

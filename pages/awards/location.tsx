@@ -105,6 +105,11 @@ const LocationPage: NextPage = () => {
                                 Follow the link here to book your room.
                               </a>
                               {" "}Please email electoral@parlicentre.org after booking to confirm your reservation.
+                              <br/>
+                              Any issues booking please email our hotel liaison {" "}
+                              <a className="text-blue link-body" href="mailto:elisa.camachodelarosa@hilton.com">
+                              elisa.camachodelarosa@hilton.com
+                              </a>
                             </p>
                           </div>
                         </div>
