@@ -126,8 +126,10 @@ export default function VisaRequirementsPage() {
                                 >
                                     Download Visa Requirements
                                 </a>
-                                <p className="card-text mt-4">
+                                <p className="card-text mt-8">
                                     <b>
+                                        <a href="https://uk.usembassy.gov/visas/transiting-the-united-states/">Transiting the United States details.</a>
+                                        <br/><br/>
                                         If you are transiting through the United States on your way to the event, please note that you will require a valid US visa or an approved Electronic System for Travel Authorization (ESTA) under the Visa Waiver Program (VWP), depending on your nationality. To verify your eligibility and to apply for a visa or ESTA, please visit the official US Department of State website: <a href="https://travel.state.gov">https://travel.state.gov</a> or the ESTA portal at <a href="https://esta.cbp.dhs.gov">https://esta.cbp.dhs.gov</a>. It is essential to complete this process in advance to ensure a smooth transit.
                                     </b>
                                 </p>
