@@ -20,7 +20,7 @@ export const schedule: Day[] = [
         title: "Monday: Symposium - Combating Disinformation & Harnessing AI for Fair and Secure Elections",
         events: [
             { time: "0900h", description: "<p>Symposium Registration</p>" },
-            { time: "-", description: "<p>Symposium Opening & Welcoming Address:</p><ul><li>President of the JCE, Roman Jaquez</li><li>CEO of ICPS, Matt Gokhool</li></ul>" },
+            { time: "0930h", description: "<p>Symposium Opening & Welcoming Address:</p><ul><li>President of the JCE, Roman Jaquez</li><li>CEO of ICPS, Matt Gokhool</li></ul>" },
             { time: "1000h-1015h", description: "<p>Coffee Break</p>" },
             { time: "1015h-1115h", description: "<p><strong>Morning Panel:</strong> Countering the Tide: Strategies for Combating Electoral Disinformation</p>This panel will explore multi-faceted approaches to identify, mitigate, and counter disinformation in elections. Experts will discuss the latest trends in disinformation tactics, share case studies of successful interventions, and debate the role of legislation, AI, and civic education in preserving the integrity of electoral processes.<ul><li>Speaker 1: Sy Mamabolo, CEO of the Election Commission of South Africa</li><li>Speaker 2: Samira Saba, Smartmatic</li><li>Speaker 3: Ana Laura Maltos, Digital Media Observatory at Tecnologico de Monterrey</li></ul>" },
             { time: "1130h-1200h", description: "<p><strong>Keynote Presentation:</strong> One Nation, One Election</p><ul><li>Dr Madhukar Gupta, Commissioner, SEC Rajasthan India</li></ul>" },
