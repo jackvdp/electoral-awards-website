@@ -44,27 +44,35 @@ type DayCardProps = {
 const DayCard: React.FC<DayCardProps> = ({ day }) => {
     return (
         <div className="mb-3">
-            <div className="card">
-                <div className="card-body">
-                    <h5 className="card-title">{day.title}</h5>
-                    <table className="table table-striped">
-                        <thead>
-                            <tr>
-                                <th className='w-15'>Time</th>
-                                <th>Event</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {day.events.map((event, index) => (
-                                <tr key={index}>
-                                    <td className='w-15'>{event.time}</td>
-                                    <td dangerouslySetInnerHTML={{ __html: event.description }}></td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <DayContent day={day} cardEnabled={true} />
+            <DayContent day={day} cardEnabled={false} />
         </div>
     );
 };
+
+function DayContent({ day, cardEnabled }: { day: Day, cardEnabled: boolean }) {
+    return (
+        <div className={cardEnabled ? "d-none d-md-block card" : "d-md-none"}>
+            <div className={cardEnabled ? "card-body" : ""}>
+                <h5 className={cardEnabled ? "card-title" : ""}>{day.title}</h5>
+                <table className="table table-striped">
+                    <thead>
+                        <tr>
+                            <th className='w-15'>Time</th>
+                            <th>Event</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {day.events.map((event, index) => (
+                            <tr key={index}>
+                                <td className='w-15'>{event.time}</td>
+                                <td dangerouslySetInnerHTML={{ __html: event.description }}></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    )
+}
