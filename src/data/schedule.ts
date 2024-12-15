@@ -12,8 +12,8 @@ export const schedule: Day[] = [
     {
         title: "Sunday: Arrival of Delegates & Welcome Dinner",
         events: [
-            { time: "1000h", description: "<p>Arrival & Registration</p>" },
-            { time: "1800h", description: "<p>Welcome Drinks & Entertainment</p>" }
+            { time: "All Day", description: "<p>Arrival & Registration</p>" },
+            { time: "1800h", description: "<p>Welcome Drinks</p>" }
         ]
     },
     {
@@ -42,7 +42,7 @@ export const schedule: Day[] = [
             { time: "0945h-1015h", description: "<p><strong>Keynote Presentation:</strong> Optimising Training and Conditions for Election Staff Success</p><ul><li>Sonali Campion, Electoral Integrity Project</li></ul>" },
             { time: "1015h-1045h", description: "<p><strong>ICPS Presentation:</strong> Skillwise</p><ul><li>Paul Greenhalgh, ICPS Skillwise</li></ul>" },
             { time: "1045h-1100h", description: "<p>Coffee Break</p>" },
-            { time: "1100h-1200h", description: "<p><strong>Morning Panel:</strong> Safeguarding Democracy: Strengthening the Electoral Workforce to Prevent Democratic Backsliding</p>This panel will explore strategies for empowering the electoral workforce, vital for safeguarding democracy and preventing backsliding. Experts will discuss the importance of robust training systems and strong institutional frameworks to ensure electoral officials can uphold democracy effectively, even in challenging times. The session will highlight how ongoing professional development and effective management are crucial in maintaining a resilient electoral workforce.<ul><li>Chair: Ian-Michael Anthony, former CEO of the Electoral Office of Dominica</li><li>Speaker 1: Helen G. Aguila-Flores, Deputy Executive Director for Administration of the Philippine Commission on Elections</li><li>Speaker 2: Ketevan Karenashvili, CEC of Georgia </li><li>Speaker 3: Laura Villalba, International Electoral Consultant, Argentina</li></ul>" },
+            { time: "1100h-1200h", description: "<p><strong>Morning Panel:</strong> Safeguarding Democracy: Strengthening the Electoral Workforce to Prevent Democratic Backsliding</p>This panel will explore strategies for empowering the electoral workforce, vital for safeguarding democracy and preventing backsliding. Experts will discuss the importance of robust training systems and strong institutional frameworks to ensure electoral officials can uphold democracy effectively, even in challenging times. The session will highlight how ongoing professional development and effective management are crucial in maintaining a resilient electoral workforce.<ul><li>Speaker 1: Helen G. Aguila-Flores, Deputy Executive Director for Administration of the Philippine Commission on Elections</li><li>Speaker 2: Ketevan Karenashvili, CEC of Georgia </li></ul>" },
             { time: "1215h-1245h", description: "<p><strong>Keynote Presentation:</strong> 2024 US Election & Beyond: the Role of the EAC</p><ul><li>Thomas Hicks, US Election Assistance Commission</li></ul>" },
             { time: "1245h-1300h", description: "<p>Symposium Closing</p>" },
             { time: "0930h-1300h", description: "<p><strong>Fringe Events:</strong> Industry demonstrations</p>" },
