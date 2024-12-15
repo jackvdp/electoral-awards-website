@@ -1,5 +1,5 @@
 import {NextPage} from 'next';
-import {Fragment} from 'react';
+import React, {Fragment} from 'react';
 // -------- custom component -------- //
 import {Navbar} from 'components/blocks/navbar';
 import {Footer} from 'components/blocks/footer';
