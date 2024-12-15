@@ -24,7 +24,7 @@ export default function VisaRequirementsPage() {
                                 <p>The International Electoral Awards & Symposium is underway! Stay updated over the
                                     next four days with
                                     real-time announcements, schedule updates, and key information.</p>
-                                <p>If you're on your phone, click the link below to join. If you're on a desktop, use
+                                <p>If you&apos;re on your phone, click the link below to join. If you&apos;re on a desktop, use
                                     the QR code to scan and join.</p>
 
                                 {/* Centering the QR Code */}
