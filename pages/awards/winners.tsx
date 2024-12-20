@@ -3,7 +3,7 @@ import {Fragment} from 'react';
 // -------- custom component -------- //
 import {Navbar} from 'components/blocks/navbar';
 import {Footer} from 'components/blocks/footer';
-import {awards} from 'data/winners';
+import {awards} from 'data/winners24';
 import SimpleBanner from 'components/blocks/banner/SimpleBanner';
 import WinnerCard from 'components/elements/winners/WinnerCard';
 import PageProgress from 'components/common/PageProgress';
@@ -15,13 +15,13 @@ const Winners: NextPage = () => {
 
             <Navbar/>
 
-            <SimpleBanner title={"Winners of the International Electoral Awards 2023"}></SimpleBanner>
+            <SimpleBanner title={"Winners of the International Electoral Awards 2024"}></SimpleBanner>
 
             <main className="content-wrapper">
                 <section className="wrapper bg-light px-md-20 px-2 py-md-10 py-5 container">
 
                     <div className='text-center py-md-4 py-2 px-md-10 px-5'>
-                        The Awarding Committee are delighted to announce the winners of the 2023 International Electoral
+                        The Awarding Committee are delighted to announce the winners of the 2024 International Electoral
                         Awards, as well as recognise those for Outstanding Achievement:
                     </div>
 
