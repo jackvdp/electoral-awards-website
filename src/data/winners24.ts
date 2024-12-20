@@ -58,6 +58,10 @@ export const awards: AwardWinner[] = [
         ]
     },
     {
+        "awardName": "Citizen Statesman Award",
+        "winner": "Alex Lightman"
+    },
+    {
         "awardName": "Lifetime Achievement Award",
         "winner": "Dean Logan, LA County & Thomas Hicks, US Election Assistance Commission"
     },
