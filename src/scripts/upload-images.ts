@@ -80,13 +80,15 @@ async function uploadImageVersion(
     originalPath: string,
     version: keyof typeof VERSION_FOLDERS
 ): Promise<string> {
-    const parsedPath = path.parse(originalPath);
-    const folderStructure = path.dirname(originalPath);
+    // Get just the relative path by removing any absolute path components
+    const cleanPath = originalPath.replace(/^.*?bucket\/photos\//, '');
+    const parsedPath = path.parse(cleanPath);
+    const folderStructure = path.dirname(cleanPath);
 
     // Create version-specific path, always including version folder
     const versionPath = path.join(
         VERSION_FOLDERS[version],
-        folderStructure
+        folderStructure !== '.' ? folderStructure : '' // Don't add extra slash if no subfolder
     );
 
     // Create full pathname for blob
@@ -111,15 +113,13 @@ async function uploadImageVersion(
 async function processAndUploadImage(filePath: string): Promise<ImageVersions> {
     const versions = await createImageVersions(filePath);
 
-    const urls: ImageVersions = {
+    return {
         original: await uploadImageVersion(versions.original, filePath, 'original'),
         hd: versions.hd
             ? await uploadImageVersion(versions.hd, filePath, 'hd')
             : '',
         thumbnail: await uploadImageVersion(versions.thumbnail, filePath, 'thumbnail')
     };
-
-    return urls;
 }
 
 async function* walkDirectory(dir: string): AsyncGenerator<string> {
