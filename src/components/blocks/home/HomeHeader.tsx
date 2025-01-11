@@ -12,10 +12,11 @@ const HomeHeader = () => {
     const {isLoggedIn} = useAuth();
 
     const backgroundImages = [
+        '/img/photos/hero.jpeg',
+        '/img/photos/hero10.jpeg',
+        '/img/photos/hero11.jpeg',
         '/img/photos/hero1.jpeg',
         '/img/photos/hero5.jpg',
-        '/img/photos/hero3.jpg',
-        '/img/photos/hero4.jpg',
     ];
 
     return (
