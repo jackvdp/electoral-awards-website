@@ -3,7 +3,7 @@ import useLightBox from 'hooks/useLightBox';
 import Image from 'next/image';
 import React from 'react';
 
-const ImageCard: React.FC<ImageCardProps> = ({ imageURL }) => {
+const ImageCard: React.FC<ImageCardProps> = ({imageURL}) => {
     useLightBox()
 
     return (
@@ -24,7 +24,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ imageURL }) => {
                             blurDataURL='/img/photos/bg21.png'
                             className={styles.image}
                         />
-                        <span className="bg" />
+                        <span className="bg"/>
                     </a>
                 </figure>
             </div>
@@ -32,7 +32,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ imageURL }) => {
     )
 
     function replacePhotoWithThumbnail(url: string): string {
-        return url.replace("/photos/", "/thumbnails/");
+        return url.replace("/hd/", "/thumbnail/");
     }
 }
 
