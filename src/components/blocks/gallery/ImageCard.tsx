@@ -3,8 +3,13 @@ import useLightBox from 'hooks/useLightBox';
 import Image from 'next/image';
 import React from 'react';
 
+interface ImageCardProps {
+    imageURL: string;
+}
+
 const ImageCard: React.FC<ImageCardProps> = ({imageURL}) => {
     useLightBox()
+    const thumbnail = imageURL.replace("/hd/", "/thumbnail/")
 
     return (
         <div className="col-md-3 col-4">
@@ -16,11 +21,12 @@ const ImageCard: React.FC<ImageCardProps> = ({imageURL}) => {
                         data-glightbox=""
                     >
                         <Image
-                            src={replacePhotoWithThumbnail(imageURL)}
+                            src={thumbnail}
                             alt="Image"
                             layout="fill"
                             objectFit="cover"
                             placeholder='blur'
+                            loading={'lazy'}
                             blurDataURL='/img/photos/bg21.png'
                             className={styles.image}
                         />
@@ -30,14 +36,6 @@ const ImageCard: React.FC<ImageCardProps> = ({imageURL}) => {
             </div>
         </div>
     )
-
-    function replacePhotoWithThumbnail(url: string): string {
-        return url.replace("/hd/", "/thumbnail/");
-    }
 }
 
-export default ImageCard
-
-interface ImageCardProps {
-    imageURL: string;
-}
+export default ImageCard;

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import ImageCard from './ImageCard';
 import useLightBox from 'hooks/useLightBox';
-import { FolderStructure } from 'backend/helpers/aws/getFilesFolders';
+import {FolderStructure} from 'backend/helpers/aws/getFilesFolders';
 import useProgressbar from 'hooks/useProgressbar';
 import TabBar from './ImageGalleryTabBar';
 
-const batchSize = 48;
+const batchSize = 96;
 const allPhotosTag = 'All Photos'
 
 const ImageGallery: React.FC = () => {
@@ -30,11 +30,11 @@ const ImageGallery: React.FC = () => {
         setRenderedImagesCount(batchSize);
     }, [photosFolders, selectedTab]);
 
-    const loadMoreImages = () => {
-        setRenderedImagesCount(prevCount => prevCount + batchSize);
-    };
 
     useEffect(() => {
+        const loadMoreImages = () => {
+            setRenderedImagesCount(prevCount => prevCount + batchSize);
+        };
         const handleScroll = () => {
             const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
             const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
@@ -51,7 +51,7 @@ const ImageGallery: React.FC = () => {
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [loadMoreImages]);
+    }, [loading]);
 
     const flattenFoldersToFiles = (folders: FolderStructure[]): string[] => {
         return folders.flatMap(folder => folder.files);
@@ -78,16 +78,16 @@ const ImageGallery: React.FC = () => {
                     {photosFolders.length !== 0 && <TabBar
                         tabs={[allPhotosTag, ...photosFolders.map(folder => folder.folderName)]}
                         selectedTab={selectedTab}
-                        onSelect={handleTabSelect} />}
+                        onSelect={handleTabSelect}/>}
                 </div>
                 <div className="row gy-6">
                     {photosFolders.length !== 0 ?
                         getImagesToRender().map((file, index) => (
-                            <ImageCard key={`${index}-${file}`} imageURL={file} />
+                            <ImageCard key={`${index}-${file}`} imageURL={file}/>
                         ))
                         :
                         <div className='py-8'>
-                            <div className="progressbar semi-circle blue" data-value="100" />
+                            <div className="progressbar semi-circle blue" data-value="100"/>
                         </div>
                     }
                 </div>
