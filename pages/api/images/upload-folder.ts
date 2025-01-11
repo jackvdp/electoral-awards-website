@@ -1,5 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
-import {uploadAllImages} from "scripts/upload-images";
+import {uploadAllImages} from "backend/use_cases/images/upload-images";
 
 type ResponseData = {
     success: boolean;
