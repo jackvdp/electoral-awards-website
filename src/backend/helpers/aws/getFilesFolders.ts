@@ -1,57 +1,47 @@
-import AWS from 'aws-sdk';
-import { s3, getS3FileUrl, updateConfig } from '../../aws/aws';
-
-updateConfig();
+import {list} from '@vercel/blob';
 
 export type FolderStructure = {
     folderName: string;
     files: string[];
 }
 
-export const getFileAndFolderNames = async (bucketName: string, folderName?: string): Promise<FolderStructure[]> => {
-
-    const listFilesInFolder = async (folder: string) => {
-        const params: AWS.S3.ListObjectsV2Request = {
-            Bucket: bucketName,
-            Prefix: folder,
-            Delimiter: '/'
-        };
-
-        try {
-            const data = await s3.listObjectsV2(params).promise();
-            return (data.Contents?.map(file => file.Key).filter(key => key !== folder) || [])
-                   .map(fileKey => getS3FileUrl(bucketName, fileKey));
-        } catch (err) {
-            console.error(`Error fetching from S3 for folder ${folder}`, err);
-            throw err;
-        }
-    };
-
+export const getFileAndFolderNames = async (): Promise<FolderStructure[]> => {
     try {
-        const rootParams: AWS.S3.ListObjectsV2Request = {
-            Bucket: bucketName,
-            Prefix: folderName ? `${folderName}/` : '',
-            Delimiter: '/'
-        };
-
-        const rootData = await s3.listObjectsV2(rootParams).promise();
-        const folders = rootData.CommonPrefixes?.map(prefix => prefix.Prefix) || [];
-
-        const folderPromises = folders.map(async (folder) => {
-            if (folder) {
-                const simpleFolderName = folder.split('/').slice(-2, -1)[0];
-                const files = await listFilesInFolder(folder);
-                return {
-                    folderName: simpleFolderName,
-                    files: files.filter((file): file is string => file !== undefined)
-                };
-            }
-            return null;
+        // Get all files in the 'hd' folder
+        const {folders} = await list({
+            prefix: 'hd/',
+            mode: 'folded'
         });
-        
-        return (await Promise.all(folderPromises)).filter((f): f is FolderStructure => f !== null);
+
+        // Process each folder
+        const folderPromises = folders?.map(async (folderPath) => {
+            // Get files in this specific folder
+            const {blobs: folderBlobs} = await list({
+                prefix: folderPath
+            });
+
+            // Extract the folder name from the full path
+            const folderName = folderPath.split('/').slice(-2, -1)[0];
+
+            // Map the blobs to their URLs
+            const files = folderBlobs.map(blob => blob.url);
+
+            return {
+                folderName,
+                files
+            };
+        }) || [];
+
+        // Wait for all folder processing to complete
+        const results = await Promise.all(folderPromises);
+
+        // Filter out any potential null results
+        return results.filter((result): result is FolderStructure =>
+            result !== null && result.folderName !== undefined
+        );
+
     } catch (err) {
-        console.error('Error fetching root level folders', err);
+        console.error('Error fetching folders from Vercel Blob:', err);
         throw err;
     }
 };
