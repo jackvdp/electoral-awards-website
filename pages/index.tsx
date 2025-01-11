@@ -1,51 +1,51 @@
-import { NextPage } from 'next';
-import { Fragment } from 'react';
+import {NextPage} from 'next';
+import {Fragment} from 'react';
 // -------- custom component -------- //
-import { Navbar } from 'components/blocks/navbar';
-import { Footer } from 'components/blocks/footer';
+import {Navbar} from 'components/blocks/navbar';
+import {Footer} from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
 import CTA from 'components/blocks/call-to-action/CTA';
 import HomeHeader from 'components/blocks/home/HomeHeader';
 import HomeEventsSidebar from 'components/blocks/events/EventsSidebar';
 import HomeAbout from 'components/blocks/home/HomeAbout';
 import Features from 'components/blocks/features/features';
-import { useAuth } from 'auth/AuthProvider';
+import {useAuth} from 'auth/AuthProvider';
 
 const Home: NextPage = () => {
 
-    const { isLoggedIn } = useAuth();
+    const {isLoggedIn} = useAuth();
 
     return (
         <Fragment>
-            <PageProgress />
+            <PageProgress/>
 
-            <Navbar barSitsOnTop={true} />
+            <Navbar barSitsOnTop={true}/>
 
             <main className="content-wrapper">
-                <HomeHeader />
+                <HomeHeader/>
 
                 <div className="container py-5 py-md-10">
 
                     <div className="row gx-lg-8 gx-xl-12 pt-md-8">
                         <div className="col-md-8">
-                            <HomeAbout />
+                            <HomeAbout/>
                         </div>
                         <div className="col-md-4">
-                            <HomeEventsSidebar />
+                            <HomeEventsSidebar/>
                         </div>
                     </div>
 
                 </div>
 
                 <div className='pb-md-8'>
-                    <Features />
+                    <Features/>
                 </div>
 
-                {!isLoggedIn && <CTA />}
+                {!isLoggedIn && <CTA/>}
 
             </main>
 
-            <Footer />
+            <Footer/>
         </Fragment>
     );
 };

@@ -1,15 +1,15 @@
 import React from 'react';
 import NextLink from 'components/reuseable/links/NextLink';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, EffectFade } from 'swiper';
-import { useAuth } from 'auth/AuthProvider';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Autoplay, EffectFade} from 'swiper';
+import {useAuth} from 'auth/AuthProvider';
 import styles from './Home.module.css';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import Image from 'next/image';
 
 const HomeHeader = () => {
-    const { isLoggedIn } = useAuth();
+    const {isLoggedIn} = useAuth();
 
     const backgroundImages = [
         '/img/photos/hero1.jpeg',
@@ -38,19 +38,19 @@ const HomeHeader = () => {
                     <SwiperSlide key={index} className={styles.slide}>
                         <Image
                             className={styles.slideImage}
+                            alt={`Slide ${index + 1}`}
                             src={image}
-                            width={1200}
-                            height={800}
                             priority={index === 0}
-                            layout='fill'  // Add this prop to allow the image to fill its container
-                            sizes="100vw"  // Add this to help Next.js optimize the image
+                            loading={index === 0 ? 'eager' : undefined}
+                            layout='fill'
+                            sizes="100vw"
                         />
                     </SwiperSlide>
                 ))}
             </Swiper>
 
             {/* Overlay */}
-            <div className={styles.overlay} />
+            <div className={styles.overlay}/>
 
             {/* Content */}
             <div className={styles.contentWrapper}>
