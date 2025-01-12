@@ -599,9 +599,8 @@ const ApplicationForm: React.FC = () => {
                         accolades celebrate excellence and innovation in electoral practices worldwide.
                     </p>
                     <b>
-                        For a comprehensive description of all award categories, please <Link legacyBehavior
-                                                                                              href="/awards/categories"><a>click
-                        here</a></Link>.
+                        For a comprehensive description of all award categories, please <Link href="/awards/categories">click
+                        here</Link>.
                     </b>
                 </div>
             </div>
