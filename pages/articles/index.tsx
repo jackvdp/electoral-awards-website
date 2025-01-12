@@ -10,6 +10,7 @@ import PageProgress from 'components/common/PageProgress';
 import {GetServerSideProps} from 'next';
 import Article, {IArticle} from 'backend/models/article';
 import dbConnect from 'backend/mongo';
+import CustomHead from "../../src/components/common/CustomHead";
 
 export interface ArticlesProps {
     articles: IArticle[];
@@ -20,6 +21,10 @@ const ArticlesPage: NextPage<ArticlesProps> = ({articles}) => {
 
     return (
         <Fragment>
+            <CustomHead
+                title="Articles"
+                description="Expert insights, best practices, and analysis on election management, electoral processes, and innovations in democratic systems from leading professionals."
+            />
             <PageProgress/>
 
             {/* ========== header section ========== */}

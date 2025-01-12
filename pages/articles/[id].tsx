@@ -8,6 +8,7 @@ import BlogDetailsTemplate from 'components/blocks/article/ArticleDetails';
 import Article, {IArticle} from 'backend/models/article';
 import formatDate from 'helpers/formatArticleDate';
 import dbConnect from 'backend/mongo';
+import CustomHead from "../../src/components/common/CustomHead";
 
 export interface ArticleProps {
     category: string;
@@ -24,17 +25,13 @@ interface Params extends ParsedUrlQuery {
 
 const ArticlePage: NextPage<ArticleProps> = (props) => {
 
-    // const router = useRouter()
-    // const { isLoggedIn, isLoadingLogInInfo } = useAuth()
-
-    // useEffect(() => {
-    //     if (!isLoggedIn && !isLoadingLogInInfo) {
-    //         router.push('/join-to-access');
-    //     }
-    // }, [isLoggedIn, isLoadingLogInInfo]);
-
     return (
         <Fragment>
+            <CustomHead
+                title={props.title}
+                description={props.description}
+            />
+
             <PageProgress/>
 
             {/* ========== header section ========== */}
@@ -96,20 +93,19 @@ export const getServerSideProps: GetServerSideProps<ArticleProps, Params> = asyn
     const articleId = params?.id;
 
     if (articleId) {
-        let article = await Article.findById(articleId).lean() as IArticle;
-        article = JSON.parse(JSON.stringify(article));
+        const article = await Article.findById(articleId).lean();
 
         if (article) {
             return {
                 props: {
-                    ...article
-                },
+                    ...JSON.parse(JSON.stringify(article)),
+                } as ArticleProps
             };
         }
     }
 
     return {
-        props: {},
+        props: {} as ArticleProps,
         notFound: true,
     };
 };

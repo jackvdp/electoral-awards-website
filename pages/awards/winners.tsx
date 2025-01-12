@@ -7,10 +7,15 @@ import {awards} from 'data/winners24';
 import SimpleBanner from 'components/blocks/banner/SimpleBanner';
 import WinnerCard from 'components/elements/winners/WinnerCard';
 import PageProgress from 'components/common/PageProgress';
+import CustomHead from "../../src/components/common/CustomHead";
 
 const Winners: NextPage = () => {
     return (
         <Fragment>
+            <CustomHead
+                title="Winners – 20th International Electoral Awards"
+                description="Celebrating excellence in electoral management. Recognizing outstanding contributions and innovations in election administration and democratic processes."
+            />
             <PageProgress/>
 
             <Navbar/>

@@ -8,11 +8,16 @@ import PageProgress from 'components/common/PageProgress';
 import FAQ from 'components/blocks/faq/FAQ';
 import Organisers from 'components/blocks/organisers/Organisers';
 import SimpleBanner from 'components/blocks/banner/SimpleBanner';
+import CustomHead from "../../src/components/common/CustomHead";
 
 const AboutAwards: NextPage = () => {
 
     return (
         <Fragment>
+            <CustomHead
+                title="20th International Electoral Awards"
+                description="Celebrating excellence in electoral management. Recognizing outstanding contributions and innovations in election administration and democratic processes."
+            />
             <PageProgress/>
 
             <Navbar/>

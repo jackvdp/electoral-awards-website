@@ -1,24 +1,29 @@
-import { NextPage } from 'next';
-import { Fragment } from 'react';
+import {NextPage} from 'next';
+import {Fragment} from 'react';
 // -------- custom component -------- //
-import { Navbar } from 'components/blocks/navbar';
-import { Footer } from 'components/blocks/footer';
+import {Navbar} from 'components/blocks/navbar';
+import {Footer} from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
 import WebinarMain from 'components/blocks/events/EventsIntro';
 import HomeEventsSidebar from 'components/blocks/events/EventsSidebar';
-import { useAuth } from 'auth/AuthProvider';
+import {useAuth} from 'auth/AuthProvider';
 import CTA from 'components/blocks/call-to-action/CTA';
+import CustomHead from "../../src/components/common/CustomHead";
 
 const BlogTwo: NextPage = () => {
 
-    const { isLoggedIn } = useAuth()
+    const {isLoggedIn} = useAuth()
 
     return (
         <Fragment>
-            <PageProgress />
+            <CustomHead
+                title="Events"
+                description="Discover upcoming electoral management events, conferences, workshops, and networking opportunities for election professionals worldwide."
+            />
+            <PageProgress/>
 
             {/* ========== header section ========== */}
-            <Navbar />
+            <Navbar/>
 
             <main className="content-wrapper">
                 {/* ========== title section ========== */}
@@ -29,7 +34,8 @@ const BlogTwo: NextPage = () => {
                                 <div className="col-md-7 col-lg-6 col-xl-5 mx-auto">
                                     <h1 className="display-1 mb-3">Events</h1>
                                     <p className="lead px-lg-5 px-xxl-8 mb-1">
-                                        Bringing Experts and Leaders Together in a Curated Calendar of Premier Electoral Events and Insightful Webinars.
+                                        Bringing Experts and Leaders Together in a Curated Calendar of Premier Electoral
+                                        Events and Insightful Webinars.
                                     </p>
                                 </div>
                             </div>
@@ -40,17 +46,17 @@ const BlogTwo: NextPage = () => {
                 <section className="wrapper bg-light">
                     <div className="container py-8 py-md-16">
                         <div className="row gx-8 gy-6 gx-xl-12">
-                            <WebinarMain />
-                            <HomeEventsSidebar ignoreLimit={true} />
+                            <WebinarMain/>
+                            <HomeEventsSidebar ignoreLimit={true}/>
                         </div>
                     </div>
                 </section>
 
-                {!isLoggedIn && <CTA />}
+                {!isLoggedIn && <CTA/>}
             </main>
 
             {/* ========== footer section ========== */}
-            <Footer />
+            <Footer/>
         </Fragment>
     );
 };

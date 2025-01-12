@@ -1,41 +1,46 @@
-import { NextPage } from 'next';
-import { Fragment, useEffect } from 'react';
-import { Navbar } from 'components/blocks/navbar';
-import { Footer } from 'components/blocks/footer';
+import {NextPage} from 'next';
+import {Fragment, useEffect} from 'react';
+import {Navbar} from 'components/blocks/navbar';
+import {Footer} from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
 import Register from 'components/blocks/register/Register';
-import { useRouter } from 'next/router';
-import { useAuth } from 'auth/AuthProvider';
+import {useRouter} from 'next/router';
+import {useAuth} from 'auth/AuthProvider';
+import CustomHead from "../src/components/common/CustomHead";
 
 const RegisterPage: NextPage = () => {
 
-  const router = useRouter();
-  const { isLoggedIn } = useAuth()
+    const router = useRouter();
+    const {isLoggedIn} = useAuth()
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      router.push('/account');
-    }
-  }, [isLoggedIn]);
+    useEffect(() => {
+        if (isLoggedIn) {
+            router.push('/account');
+        }
+    }, [isLoggedIn]);
 
-  return (
-    <Fragment>
-      <PageProgress />
+    return (
+        <Fragment>
+            <CustomHead
+                title="Register"
+                description="Join the Electoral Stakeholders' Network. Create an account to connect with electoral professionals, access exclusive resources, and participate in our global community."
+            />
+            <PageProgress/>
 
-      <Navbar />
+            <Navbar/>
 
-      <main className="content-wrapper bg-gray">
+            <main className="content-wrapper bg-gray">
 
-        <div className="container py-14 py-md-16">
-          <Register />
-        </div>
+                <div className="container py-14 py-md-16">
+                    <Register/>
+                </div>
 
-      </main>
+            </main>
 
-      {/* ========== footer section ========== */}
-      <Footer />
-    </Fragment>
-  );
+            {/* ========== footer section ========== */}
+            <Footer/>
+        </Fragment>
+    );
 };
 
 export default RegisterPage;

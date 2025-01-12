@@ -90,10 +90,15 @@ import {Navbar} from "components/blocks/navbar";
 import {Footer} from "components/blocks/footer";
 import PageProgress from "components/common/PageProgress";
 import SimpleBanner from "components/blocks/banner/SimpleBanner";
+import CustomHead from "../../src/components/common/CustomHead";
 
 export default function VisaRequirementsPage() {
     return (
         <Fragment>
+            <CustomHead
+                title="Visa Requirments – 20th International Electoral Awards"
+                description="Celebrating excellence in electoral management. Recognizing outstanding contributions and innovations in election administration and democratic processes."
+            />
             <PageProgress/>
 
             <Navbar/>

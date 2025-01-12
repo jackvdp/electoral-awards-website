@@ -10,6 +10,7 @@ import HomeEventsSidebar from 'components/blocks/events/EventsSidebar';
 import HomeAbout from 'components/blocks/home/HomeAbout';
 import Features from 'components/blocks/features/features';
 import {useAuth} from 'auth/AuthProvider';
+import CustomHead from "../src/components/common/CustomHead";
 
 const Home: NextPage = () => {
 
@@ -17,6 +18,10 @@ const Home: NextPage = () => {
 
     return (
         <Fragment>
+            <CustomHead
+                title="Home"
+                description="Electoral Stakeholders' Network - A global community connecting electoral professionals, managers, and organizations to share knowledge, best practices, and foster collaboration in election management."
+            />
             <PageProgress/>
 
             <Navbar barSitsOnTop={true}/>

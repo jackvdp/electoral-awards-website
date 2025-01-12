@@ -7,10 +7,15 @@ import {schedule, Day} from 'data/schedule';
 import SimpleBanner from 'components/blocks/banner/SimpleBanner';
 import {TabBarAndContent} from 'components/reuseable/TabBar';
 import PageProgress from 'components/common/PageProgress';
+import CustomHead from "../../src/components/common/CustomHead";
 
 const Programme: NextPage = () => {
     return (
         <Fragment>
+            <CustomHead
+                title="Schedule – 20th International Electoral Awards"
+                description="Celebrating excellence in electoral management. Recognizing outstanding contributions and innovations in election administration and democratic processes."
+            />
             <PageProgress/>
 
             <Navbar/>
