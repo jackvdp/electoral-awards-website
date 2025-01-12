@@ -23,6 +23,8 @@ const CustomHead: FC<CustomHeadProps> = ({
     const fullTitle = `${title} | ${siteTitle}`;
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://electoralnetwork.org';
     const pageUrl = `${baseUrl}${router.asPath}`;
+    // white theme colour
+    const themeColor = '#ffffff';
 
     return (
         <Head>
@@ -50,7 +52,7 @@ const CustomHead: FC<CustomHeadProps> = ({
             {/* Additional Meta Tags */}
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
             <meta charSet="utf-8"/>
-            <meta name="theme-color" content="#343f52"/>
+            <meta name="theme-color" content={themeColor}/>
 
             {/* Favicon - match with Sandbox template */}
             <link rel="shortcut icon" href="/img/favicons/favicon.ico"/>
