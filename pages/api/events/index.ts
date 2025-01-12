@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import dbConnect from 'backend/mongo/mongo';
+import {NextApiRequest, NextApiResponse} from 'next';
+import dbConnect from 'backend/mongo';
 import addEvent from 'backend/use_cases/events/addEvent';
 import getAllEvents from 'backend/use_cases/events/getEvents';
 import deleteAllEvents from 'backend/use_cases/events/deleteEvents';
@@ -17,7 +17,7 @@ export default async function handler(
     } else if (req.method === 'DELETE') {
         await deleteAllEvents(req, res);
     } else {
-        res.status(405).json({ message: 'Method not allowed' });
+        res.status(405).json({message: 'Method not allowed'});
     }
 }
 

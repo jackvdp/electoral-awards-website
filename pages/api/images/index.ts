@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import imageUpload from 'backend/use_cases/images/uploadImage';
+import {NextApiRequest, NextApiResponse} from 'next';
+import imageUpload from 'backend/use_cases/images/upload-image-s3';
 import getImages from 'backend/use_cases/images/getImages';
 import deleteImages from 'backend/use_cases/images/deleteImages';
 
@@ -21,7 +21,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             deleteImages(req, res);
             break;
         default:
-            res.status(405).json({ message: 'Method not allowed!' + req.method });
+            res.status(405).json({message: 'Method not allowed!' + req.method});
             break;
     }
 }

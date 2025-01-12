@@ -1,4 +1,4 @@
-import { s3, getS3FileUrl, updateConfig } from '../../aws/aws';
+import {s3, getS3FileUrl, updateConfig} from '../index';
 
 updateConfig();
 

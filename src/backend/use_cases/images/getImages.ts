@@ -1,5 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { getFiles } from 'backend/helpers/aws/getFiles';
+import type {NextApiRequest, NextApiResponse} from 'next';
+import {getFiles} from 'backend/aws/helpers/getFiles';
 
 export default async function getImages(req: NextApiRequest, res: NextApiResponse) {
     const bucketName = 'electoralwebsite';
@@ -10,6 +10,6 @@ export default async function getImages(req: NextApiRequest, res: NextApiRespons
         res.status(200).json(imageKeys);
     } catch (error) {
         console.error('Error in API:', error);
-        res.status(500).json({ error: 'Failed to fetch images: ' + error });
+        res.status(500).json({error: 'Failed to fetch images: ' + error});
     }
 }

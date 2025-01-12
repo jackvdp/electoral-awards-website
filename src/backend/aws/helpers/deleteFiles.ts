@@ -1,4 +1,4 @@
-import { s3, updateConfig } from '../../aws/aws';
+import {s3, updateConfig} from '../index';
 import AWS from 'aws-sdk';
 
 updateConfig();
@@ -16,12 +16,12 @@ const deleteFilesInFolder = async (bucketName: string, folder: string): Promise<
 
         const deleteParams: AWS.S3.DeleteObjectsRequest = {
             Bucket: bucketName,
-            Delete: { Objects: [] }
+            Delete: {Objects: []}
         };
 
-        listedObjects.Contents.forEach(({ Key }) => {
+        listedObjects.Contents.forEach(({Key}) => {
             if (Key) {
-                deleteParams.Delete.Objects.push({ Key });
+                deleteParams.Delete.Objects.push({Key});
             }
         });
 

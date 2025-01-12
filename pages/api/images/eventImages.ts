@@ -1,6 +1,6 @@
 // pages/api/eventImages.ts
 import type {NextApiRequest, NextApiResponse} from 'next';
-import {getFileAndFolderNames} from 'backend/helpers/aws/getFilesFolders';
+import {getFileAndFolderNames} from 'backend/aws/helpers/getFilesFolders';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 

@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import dbConnect from 'backend/mongo/mongo';
+import {NextApiRequest, NextApiResponse} from 'next';
+import dbConnect from 'backend/mongo';
 import getEventById from 'backend/use_cases/events/getEvent';
 import updateEventById from 'backend/use_cases/events/updateEvent';
 import deleteEventById from 'backend/use_cases/events/deleteEvent';
@@ -8,10 +8,10 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const { method, query: { id } } = req;
+    const {method, query: {id}} = req;
 
     if (typeof id !== 'string') {
-        res.status(400).json({ message: 'Invalid id parameter' });
+        res.status(400).json({message: 'Invalid id parameter'});
         return;
     }
 
@@ -28,6 +28,6 @@ export default async function handler(
             await deleteEventById(res, id);
             break;
         default:
-            res.status(405).json({ message: 'Method not allowed' });
+            res.status(405).json({message: 'Method not allowed'});
     }
 }

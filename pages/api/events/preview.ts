@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import dbConnect from 'backend/mongo/mongo';
+import {NextApiRequest, NextApiResponse} from 'next';
+import dbConnect from 'backend/mongo';
 import getEventPreviews from 'backend/use_cases/events/getPreviews';
 
 export default async function handler(
@@ -13,7 +13,7 @@ export default async function handler(
             await getEventPreviews(res);
             break;
         default:
-            res.status(405).json({ message: 'Method not allowed' });
+            res.status(405).json({message: 'Method not allowed'});
             break;
     }
 }

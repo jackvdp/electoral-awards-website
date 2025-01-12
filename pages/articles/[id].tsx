@@ -1,13 +1,13 @@
-import { GetServerSideProps, NextPage } from 'next';
-import { Fragment, useEffect } from 'react';
-import { ParsedUrlQuery } from 'querystring';
-import { Navbar } from 'components/blocks/navbar';
-import { Footer } from 'components/blocks/footer';
+import {GetServerSideProps, NextPage} from 'next';
+import {Fragment, useEffect} from 'react';
+import {ParsedUrlQuery} from 'querystring';
+import {Navbar} from 'components/blocks/navbar';
+import {Footer} from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
 import BlogDetailsTemplate from 'components/blocks/article/ArticleDetails';
-import Article, { IArticle } from 'backend/models/article';
+import Article, {IArticle} from 'backend/models/article';
 import formatDate from 'helpers/formatArticleDate';
-import dbConnect from 'backend/mongo/mongo';
+import dbConnect from 'backend/mongo';
 
 export interface ArticleProps {
     category: string;
@@ -35,10 +35,10 @@ const ArticlePage: NextPage<ArticleProps> = (props) => {
 
     return (
         <Fragment>
-            <PageProgress />
+            <PageProgress/>
 
             {/* ========== header section ========== */}
-            <Navbar />
+            <Navbar/>
 
             <main className="content-wrapper ">
                 {/* ========== title section ========== */}
@@ -55,7 +55,7 @@ const ArticlePage: NextPage<ArticleProps> = (props) => {
 
                                     <ul className="post-meta mb-5">
                                         <li className="post-date">
-                                            <i className="uil uil-calendar-alt" />
+                                            <i className="uil uil-calendar-alt"/>
                                             <span>{formatDate(props.date)}</span>
                                         </li>
                                     </ul>
@@ -77,7 +77,7 @@ const ArticlePage: NextPage<ArticleProps> = (props) => {
                                         title={props.title}
                                         description={props.description}
                                         date={props.date}
-                                        content={props.content} />
+                                        content={props.content}/>
                                 </div>
                             </div>
                         </div>
@@ -86,12 +86,12 @@ const ArticlePage: NextPage<ArticleProps> = (props) => {
             </main>
 
             {/* ========== footer section ========== */}
-            <Footer />
+            <Footer/>
         </Fragment>
     );
 };
 
-export const getServerSideProps: GetServerSideProps<ArticleProps, Params> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<ArticleProps, Params> = async ({params}) => {
     await dbConnect();
     const articleId = params?.id;
 
