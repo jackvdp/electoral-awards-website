@@ -1,7 +1,4 @@
 import {NextApiRequest, NextApiResponse} from 'next';
-import imageUpload from 'backend/use_cases/images/upload-image-s3';
-import getImages from 'backend/use_cases/images/getImages';
-import deleteImages from 'backend/use_cases/images/deleteImages';
 
 export const config = {
     api: {
@@ -11,15 +8,6 @@ export const config = {
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
     switch (req.method) {
-        case 'POST':
-            imageUpload(req, res);
-            break;
-        case 'GET':
-            getImages(req, res);
-            break;
-        case 'DELETE':
-            deleteImages(req, res);
-            break;
         default:
             res.status(405).json({message: 'Method not allowed!' + req.method});
             break;

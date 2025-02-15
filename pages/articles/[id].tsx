@@ -1,5 +1,5 @@
 import {GetServerSideProps, NextPage} from 'next';
-import {Fragment, useEffect} from 'react';
+import {Fragment} from 'react';
 import {ParsedUrlQuery} from 'querystring';
 import {Navbar} from 'components/blocks/navbar';
 import {Footer} from 'components/blocks/footer';
@@ -69,11 +69,8 @@ const ArticlePage: NextPage<ArticleProps> = (props) => {
                             <div className="col-lg-10 mx-auto">
                                 <div className="blog single mt-n17">
                                     <BlogDetailsTemplate
-                                        category={props.category}
                                         image={props.image}
                                         title={props.title}
-                                        description={props.description}
-                                        date={props.date}
                                         content={props.content}/>
                                 </div>
                             </div>
