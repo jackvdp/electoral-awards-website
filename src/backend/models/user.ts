@@ -1,70 +1,43 @@
-interface UserData {
-    id: number;
-    firstname: string;
-    lastname: string;
-    password?: string;
-    email: string;
-    phone: string;
-    country: string;
-    birthdate: string;
-    profileName: string;
-    profileTitle: string;
-    isNewsletterSubscribe: boolean;
-    isVerified: boolean;
-    isBlocked: boolean;
-    isProfileRestricted: boolean;
-    isOnline: boolean;
-    isMVP: boolean;
-    interests: string[];
-    skills: string[];
-    biography: string;
-    position: string;
-    organisation: string;
-    profileImage: string;
-    topics: string[];
-    lastOnlineAt: string;
-    isRegistrationComplete: boolean;
-}
-
-interface MutableUserData {
+interface BaseUserData {
     firstname: string;
     lastname: string;
     phone: string;
     country: string;
     birthdate: string;
-    profileName: string;
-    profileTitle: string;
-    isNewsletterSubscribe: boolean;
-    isProfileRestricted: boolean;
-    interests: string[];
-    skills: string[];
     biography: string;
     position: string;
     organisation: string;
     profileImage: string;
-    topics: string[];
 }
 
-interface CreateUser {
-    firstname: string;
-    lastname: string;
+interface MutableUserData extends BaseUserData {
     email: string;
+}
+
+interface CreateUserData extends MutableUserData {
     password: string;
-    phone: string;
-    country: string;
-    birthdate: string;
-    profileName: string;
-    profileTitle: string;
-    isNewsletterSubscribe: boolean;
-    isProfileRestricted: boolean;
-    interests: string[];
-    skills: string[];
-    biography: string;
-    position: string;
-    organisation: string;
-    profileImage: string;
-    topics: string[];
 }
 
-export default UserData
-export type { MutableUserData, CreateUser }
+type CustomUserData = BaseUserData;
+
+function createCustomUserData(data: MutableUserData | CreateUserData): CustomUserData {
+    return {
+        firstname: data.firstname,
+        lastname: data.lastname,
+        phone: data.phone,
+        country: data.country,
+        birthdate: data.birthdate,
+        biography: data.biography,
+        position: data.position,
+        organisation: data.organisation,
+        profileImage: data.profileImage
+    };
+}
+
+export type {
+    CustomUserData,
+    MutableUserData,
+    CreateUserData
+};
+
+export {createCustomUserData};

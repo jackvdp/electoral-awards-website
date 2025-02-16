@@ -6,7 +6,7 @@ import {Footer} from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
 import WebinarMain from 'components/blocks/events/EventsIntro';
 import HomeEventsSidebar from 'components/blocks/events/EventsSidebar';
-import {useAuth} from 'auth/AuthProvider';
+import {useAuth} from 'auth/useAuth';
 import CTA from 'components/blocks/call-to-action/CTA';
 import CustomHead from "../../src/components/common/CustomHead";
 

@@ -9,7 +9,6 @@ import {Footer} from 'components/blocks/footer';
 import formatEventDates from 'helpers/formatEventDates';
 import ReactMarkdown from 'react-markdown';
 import EventsSidebar from 'components/blocks/events/EventsSidebar';
-import {useAuth} from 'auth/AuthProvider';
 import CustomHead from "../../src/components/common/CustomHead";
 
 interface EventPageProps {

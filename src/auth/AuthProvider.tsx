@@ -1,266 +1,321 @@
-import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
-import jwtDecode from 'jwt-decode';
-import UserData, { MutableUserData, CreateUser } from 'backend/models/user';
+import React, {useState, useEffect, ReactNode} from 'react';
+import {MutableUserData, CreateUserData, createCustomUserData} from 'backend/models/user';
+import {createClient} from "../backend/supabase/component";
+import {AuthContext, CustomAuthError} from './useAuth';
+import {User} from '@supabase/supabase-js';
 
-interface DecodedToken {
-  exp: number;
+interface AuthState {
+    isLoggedIn: boolean;
+    currentUser: User | null;
+    loading: boolean;
+    error: CustomAuthError | null;
 }
 
 interface AuthProviderProps {
-  children: ReactNode;
+    children: ReactNode;
 }
 
-interface TokenResponse {
-  token: string;
-  refreshToken: string;
-}
-
-const tokenStorageKey = 'token'
-const refreshTokenStorageKey = 'refresh_token'
-const baseURL = 'https://icpsknowledgenetwork.com/api'
-
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [isLoadingLogInInfo, setIsLoadingLogInInfo] = useState<boolean>(true);
-
-  useEffect(() => {
-    const token = localStorage.getItem(tokenStorageKey);
-    const refreshToken = localStorage.getItem(refreshTokenStorageKey);
-
-    let timeoutId: NodeJS.Timeout;
-
-    if (token && refreshToken) {
-      const decoded: DecodedToken = jwtDecode<DecodedToken>(token);
-      const currentTime = Date.now() / 1000;
-
-      if (decoded.exp < currentTime) {
-        refreshTokens();
-      } else {
-        setIsLoggedIn(true);
-        timeoutId = setTimeout(() => {
-          refreshTokens();
-        }, (decoded.exp - currentTime - 60) * 1000);
-      }
-    }
-
-    setIsLoadingLogInInfo(false);
-
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
-  }, []);
-
-  const refreshTokens = async () => {
-    // Implement the logic to refresh the token using the refresh token
-    // Update localStorage with the new token and refresh token
-    // Update the isLoggedIn state if necessary
-  };
-
-  const accessToken = (): string | null => {
-    const token = localStorage.getItem(tokenStorageKey);
-    if (!token) {
-      setIsLoggedIn(false)
-      return null;
-    }
-
-    const decoded: DecodedToken = jwtDecode(token);
-    const currentTime = Date.now() / 1000;
-    if (decoded.exp < currentTime) {
-      setIsLoggedIn(false)
-      return null;
-    }
-
-    return token;
-  }
-
-  // MARK: - *** PUBLIC  METHODS ***
-
-  const login = async (username: string, password: string) => {
-    try {
-      const response = await fetch(`${baseURL}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const { token, refresh_token } = data;
-
-        localStorage.setItem(tokenStorageKey, token);
-        localStorage.setItem(refreshTokenStorageKey, refresh_token);
-
-        setIsLoggedIn(true);
-      } else {
-        signout();
-        throw new Error('Login failed');
-      }
-    } catch (error) {
-      console.log(error)
-      signout();
-      throw error;
-    }
-  };
-
-  const signout = () => {
-    localStorage.removeItem(tokenStorageKey);
-    localStorage.removeItem(refreshTokenStorageKey);
-    setIsLoggedIn(false);
-  };
-
-  const createUser = async (userData: CreateUser): Promise<boolean> => {
-    const response = await fetch(`${baseURL}/users/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData),
+export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
+    const [state, setState] = useState<AuthState>({
+        isLoggedIn: false,
+        currentUser: null,
+        loading: true,
+        error: null
     });
 
-    if (!response.ok) {
-      return false;
-    }
+    const supabase = createClient();
 
-    const tokenResponse: TokenResponse = await response.json();
+    useEffect(() => {
+        checkUser();
 
-    if (!tokenResponse.token || !tokenResponse.refreshToken) {
-      console.log('Failed to fetch user data')
-      return false
-    }
+        // Set up auth state listener
+        const {data: authListener} = supabase.auth.onAuthStateChange(async (event, session) => {
+            if (event === 'SIGNED_IN') {
+                setState(prev => ({
+                    ...prev,
+                    isLoggedIn: true,
+                    currentUser: session?.user || null,
+                    loading: false,
+                    error: null
+                }));
+            } else if (event === 'SIGNED_OUT') {
+                setState(prev => ({
+                    ...prev,
+                    isLoggedIn: false,
+                    currentUser: null,
+                    loading: false,
+                    error: null
+                }));
+            }
+        });
 
-    localStorage.setItem(tokenStorageKey, tokenResponse.token);
-    localStorage.setItem(refreshTokenStorageKey, tokenResponse.refreshToken);
+        return () => {
+            authListener?.subscription.unsubscribe();
+        };
+    }, []);
 
-    setIsLoggedIn(true);
-    return true
-  }
+    const checkUser = async () => {
+        try {
+            const {data: {user}, error} = await supabase.auth.getUser();
 
-  const getUser = async () => {
-    const token = accessToken();
-    if (!token) {
-      return null;
-    }
+            if (error) {
+                throw error;
+            }
 
-    try {
-      const response = await fetch(`${baseURL}/users/me`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+            setState(prev => ({
+                ...prev,
+                isLoggedIn: !!user,
+                currentUser: user,
+                loading: false,
+                error: null
+            }));
+        } catch (error) {
+            handleError(error);
+        }
+    };
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch user data');
-      }
+    const handleError = (error: any) => {
+        const authError: CustomAuthError = {
+            message: error.message || 'An unexpected error occurred',
+            code: error.code,
+            details: error.details
+        };
 
-      const userData: UserData = await response.json();
-      return userData;
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-      return null;
-    }
-  }
+        setState(prev => ({
+            ...prev,
+            error: authError,
+            loading: false
+        }));
+    };
 
-  const updateUser = async (userData: MutableUserData, userID: number) => {
-    const token = accessToken();
-    if (!token) {
-      return null;
-    }
+    const login = async (email: string, password: string): Promise<void> => {
+        try {
+            setState(prev => ({...prev, loading: true, error: null}));
 
-    try {
-      const response = await fetch(`${baseURL}/users/users/${userID}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(userData),
-      });
+            const {data, error} = await supabase.auth.signInWithPassword({
+                email,
+                password
+            });
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch user data');
-      }
+            if (error) throw error;
 
-      const newUserData: UserData = await response.json();
-      return newUserData;
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-      return null;
-    }
-  }
+            setState(prev => ({
+                ...prev,
+                isLoggedIn: true,
+                currentUser: data.user,
+                loading: false,
+                error: null
+            }));
+        } catch (error) {
+            handleError(error);
+            throw error;
+        }
+    };
 
-  const deleteUser = async (userData: MutableUserData, userID: number) => {
-    const token = accessToken();
-    if (!token) {
-      return false;
-    }
+    const createUser = async (userData: CreateUserData): Promise<boolean> => {
+        try {
+            setState(prev => ({...prev, loading: true, error: null}));
 
-    try {
-      console.log("****", userID)
-      const response = await fetch(`${baseURL}/users/request-account-deletion?id=${userID}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(userData),
-      });
+            // Sign up with auth
+            const {data, error} = await supabase.auth.signUp({
+                email: userData.email,
+                password: userData.password,
+                options: {
+                    data: createCustomUserData(userData)  // Store base data in metadata
+                }
+            });
 
-      if (!response.ok) {
-        throw new Error('Failed to delete user');
-      }
+            if (error) throw error;
 
-      signout();
-      return true;
-    } catch (error) {
-      console.error('Error deleting user:', error);
-      return false;
-    }
-  }
+            // Create queryable user profile
+            const {error: profileError} = await supabase
+                .from('users')
+                .insert([
+                    {
+                        id: data.user?.id,
+                        email: userData.email,
+                        firstname: userData.firstname,
+                        lastname: userData.lastname,
+                        phone: userData.phone,
+                        country: userData.country,
+                        birthdate: userData.birthdate,
+                        biography: userData.biography,
+                        position: userData.position,
+                        organisation: userData.organisation,
+                        profile_image: userData.profileImage,
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString()
+                    }
+                ]);
 
-  return (
-    <AuthContext.Provider value={{
-      isLoggedIn,
-      isLoadingLogInInfo,
-      login,
-      signout,
-      getUser,
-      updateUser,
-      deleteUser,
-      createUser
-    }}>
-      {children}
-    </AuthContext.Provider>
-  );
+            if (profileError) throw profileError;
+
+            setState(prev => ({
+                ...prev,
+                loading: false,
+                error: null
+            }));
+
+            return true;
+        } catch (error) {
+            handleError(error);
+            return false;
+        }
+    };
+
+    const getUser = async (): Promise<MutableUserData | null> => {
+        try {
+            setState(prev => ({...prev, loading: true, error: null}));
+
+            const {data: {user}, error: authError} = await supabase.auth.getUser();
+
+            if (authError) throw authError;
+            if (!user) return null;
+
+            const {data, error} = await supabase
+                .from('users')
+                .select('*')
+                .eq('id', user.id)
+                .single();
+
+            if (error) throw error;
+
+            const userData: MutableUserData = {
+                firstname: data.firstname,
+                lastname: data.lastname,
+                email: data.email,
+                phone: data.phone,
+                country: data.country,
+                birthdate: data.birthdate,
+                biography: data.biography,
+                position: data.position,
+                organisation: data.organisation,
+                profileImage: data.profile_image  // Note the case conversion
+            };
+
+            setState(prev => ({
+                ...prev,
+                loading: false,
+                error: null
+            }));
+
+            return userData;
+        } catch (error) {
+            handleError(error);
+            return null;
+        }
+    };
+
+    const updateUser = async (userData: MutableUserData, userID: string): Promise<boolean> => {
+        try {
+            setState(prev => ({...prev, loading: true, error: null}));
+
+            // Update auth metadata
+            const {error: authUpdateError} = await supabase.auth.updateUser({
+                data: createCustomUserData(userData)
+            });
+
+            if (authUpdateError) throw authUpdateError;
+
+            // Update user profile in users table
+            const {error: profileUpdateError} = await supabase
+                .from('users')
+                .update({
+                    email: userData.email,
+                    firstname: userData.firstname,
+                    lastname: userData.lastname,
+                    phone: userData.phone,
+                    country: userData.country,
+                    birthdate: userData.birthdate,
+                    biography: userData.biography,
+                    position: userData.position,
+                    organisation: userData.organisation,
+                    profile_image: userData.profileImage,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', userID);
+
+            if (profileUpdateError) throw profileUpdateError;
+
+            setState(prev => ({
+                ...prev,
+                loading: false,
+                error: null
+            }));
+
+            return true;
+        } catch (error) {
+            handleError(error);
+            return false;
+        }
+    };
+
+    const deleteUser = async (userID: string): Promise<boolean> => {
+        try {
+            setState(prev => ({...prev, loading: true, error: null}));
+
+            // Delete user profile from users table first
+            const {error: profileDeleteError} = await supabase
+                .from('users')
+                .delete()
+                .eq('id', userID);
+
+            if (profileDeleteError) throw profileDeleteError;
+
+            // Delete auth user
+            const {error: authDeleteError} = await supabase.auth.admin.deleteUser(userID);
+
+            if (authDeleteError) throw authDeleteError;
+
+            setState(prev => ({
+                ...prev,
+                isLoggedIn: false,
+                currentUser: null,
+                loading: false,
+                error: null
+            }));
+
+            return true;
+        } catch (error) {
+            handleError(error);
+            return false;
+        }
+    };
+
+    const signout = async (): Promise<void> => {
+        try {
+            setState(prev => ({...prev, loading: true, error: null}));
+
+            const {error} = await supabase.auth.signOut();
+
+            if (error) throw error;
+
+            setState(prev => ({
+                ...prev,
+                isLoggedIn: false,
+                currentUser: null,
+                loading: false,
+                error: null
+            }));
+        } catch (error) {
+            handleError(error);
+        }
+    };
+
+    return (
+        <AuthContext.Provider value={{
+            isLoggedIn: state.isLoggedIn,
+            currentUser: state.currentUser,
+            loading: state.loading,
+            error: state.error,
+            login,
+            signout,
+            createUser,
+            getUser,
+            updateUser,
+            deleteUser
+        }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
-
-/****************************************
- * MARK: Custom Hook to use the auth context
- ****************************************/
-
-export const useAuth = (): AuthContextProps => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
-
-interface AuthContextProps {
-  isLoggedIn: boolean;
-  isLoadingLogInInfo: boolean;
-  login: (username: string, password: string) => Promise<void>;
-  signout: () => void;
-  createUser: (userData: CreateUser) => Promise<boolean>
-  getUser: () => Promise<UserData | null>;
-  updateUser: (userData: MutableUserData, userID: number) => Promise<UserData | null>
-  deleteUser: (userData: MutableUserData, userID: number) => Promise<boolean>
-}
-
-const AuthContext = createContext<AuthContextProps | undefined>(undefined);

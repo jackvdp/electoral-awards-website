@@ -5,7 +5,7 @@ import {Footer} from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
 import Register from 'components/blocks/register/Register';
 import {useRouter} from 'next/router';
-import {useAuth} from 'auth/AuthProvider';
+import {useAuth} from 'auth/useAuth';
 import CustomHead from "../src/components/common/CustomHead";
 
 const RegisterPage: NextPage = () => {

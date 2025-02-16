@@ -1,7 +1,7 @@
-import { FC, useState } from "react";
+import {FC, useState} from "react";
 import Modal from "components/reuseable/modal/Modal";
-import { useAuth } from "auth/AuthProvider";
-import { MutableUserData } from "backend/models/user";
+import {useAuth} from "auth/useAuth";
+import {MutableUserData} from "backend/models/user";
 import Router from "next/router";
 
 interface DeletePressedProps {
@@ -10,8 +10,8 @@ interface DeletePressedProps {
     userID: number;
 }
 
-const DeleteAccountModal: FC<DeletePressedProps> = ({ modalID, userData, userID }) => {
-    const { deleteUser } = useAuth();
+const DeleteAccountModal: FC<DeletePressedProps> = ({modalID, userData, userID}) => {
+    const {deleteUser} = useAuth();
     const [isDeleting, setIsDeleting] = useState(false);
     const [closeModalProgrammatically, setCloseModalProgrammatically] = useState(false);
 
@@ -30,8 +30,8 @@ const DeleteAccountModal: FC<DeletePressedProps> = ({ modalID, userData, userID 
     return (
         <Modal
             id={modalID}
-            programmaticClose={{ 
-                closeTriggered: closeModalProgrammatically, 
+            programmaticClose={{
+                closeTriggered: closeModalProgrammatically,
                 resetAfterClose: () => setCloseModalProgrammatically(false)
             }}
             content={<>

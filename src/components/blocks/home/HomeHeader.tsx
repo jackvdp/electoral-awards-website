@@ -2,7 +2,7 @@ import React from 'react';
 import NextLink from 'components/reuseable/links/NextLink';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Autoplay, EffectFade} from 'swiper';
-import {useAuth} from 'auth/AuthProvider';
+import {useAuth} from "auth/useAuth";
 import styles from './Home.module.css';
 import 'swiper/css';
 import 'swiper/css/effect-fade';

@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import ReusableForm, { InputItem } from 'components/reuseable/Form';
-import { CreateUser } from 'backend/models/user';
-import { useAuth } from 'auth/AuthProvider';
+import React, {useState} from 'react';
+import ReusableForm, {InputItem} from 'components/reuseable/Form';
+import {CreateUserData} from 'backend/models/user';
+import {useAuth} from 'auth/useAuth';
 
 const Register: React.FC = () => {
-    const { createUser } = useAuth();
+    const {createUser} = useAuth();
     const [showAlert, setShowAlert] = useState<boolean>(false);
 
     const handleFormSubmit = (values: Record<string, string>) => {
         setShowAlert(false)
-        
+
         const userModel = createUserData(values);
         const create = async () => {
             console.log("****")
@@ -26,8 +26,8 @@ const Register: React.FC = () => {
     const failedAlert = () => {
         return (
             <div className={`alert alert-danger alert-icon alert-dismissible fade show`} role="alert">
-                <i className="uil uil-times-circle" /> Failed to create account profile. Please try again.{' '}
-                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" />
+                <i className="uil uil-times-circle"/> Failed to create account profile. Please try again.{' '}
+                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
             </div>
         )
     }
@@ -128,7 +128,7 @@ const inputItems = (): InputItem[] => {
     ];
 };
 
-const createUserData = (values: Record<string, string>): CreateUser => {
+const createUserData = (values: Record<string, string>): CreateUserData => {
     return {
         firstname: values.firstname,
         lastname: values.lastname,
@@ -137,16 +137,9 @@ const createUserData = (values: Record<string, string>): CreateUser => {
         phone: values.phone,
         country: values.country,
         birthdate: "",
-        profileName: values.firstname,
-        profileTitle: "",
-        isNewsletterSubscribe: false,
-        isProfileRestricted: false,
-        interests: [],
-        skills: [],
         biography: "",
         position: values.position,
         organisation: values.organisation,
         profileImage: "",
-        topics: ["Electoral"],
     };
 }

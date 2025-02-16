@@ -1,7 +1,7 @@
 import {FC, Fragment, useRef} from 'react';
 // -------- custom hook -------- //
 import useSticky from 'hooks/useSticky';
-import {useAuth} from 'auth/AuthProvider';
+import {useAuth} from "auth/useAuth";
 // -------- custom component -------- //
 import NextLink from 'components/reuseable/links/NextLink';
 import SocialLinks from 'components/reuseable/links/SocialLinks';

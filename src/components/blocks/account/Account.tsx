@@ -1,16 +1,16 @@
 import React from 'react';
-import { FC } from 'react';
-import ReusableForm, { InputItem } from 'components/reuseable/Form';
-import UserData, { MutableUserData } from 'backend/models/user';
-import { useState, useEffect } from 'react';
-import { useAuth } from 'auth/AuthProvider';
+import {FC} from 'react';
+import ReusableForm, {InputItem} from 'components/reuseable/Form';
+import {MutableUserData} from 'backend/models/user';
+import {useState, useEffect} from 'react';
+import {useAuth} from 'auth/useAuth';
 import DeleteAccountModal from './DeleteAccountModal';
 
 const Account: FC = () => {
 
-    const [user, setUser] = useState<UserData | null>(null)
+    const [user, setUser] = useState<MutableUserData | null>(null)
     const [alertStatus, setAlertStatus] = useState<'success' | 'failed' | null>(null)
-    const { getUser, updateUser, signout } = useAuth()
+    const {getUser, updateUser, signout} = useAuth()
     const deleteModalID = "delete-account-modal"
 
     useEffect(() => {
@@ -27,7 +27,9 @@ const Account: FC = () => {
 
     const handleFormSubmit = (values: Record<string, string>) => {
         setAlertStatus(null)
-        if (user === null) { return }
+        if (user === null) {
+            return
+        }
         const mutableUserData = createMutableUserData(user, values);
         const update = async () => {
             const newUser = await updateUser(mutableUserData, user.id)
@@ -44,17 +46,19 @@ const Account: FC = () => {
     const successAlert = () => {
         return (
             <div className="alert alert-success alert-icon alert-dismissible fade show" role="alert">
-                <i className="uil uil-check-circle" /> Successfully updated your account details.{' '}
-                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" />
+                <i className="uil uil-check-circle"/> Successfully updated your account details.{' '}
+                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
             </div>
         )
     }
 
     const failedAlert = () => {
         return (
-            <div className={`alert alert-danger alert-icon alert${user === null ? "" : "-dismissible"} fade show`} role="alert">
-                <i className="uil uil-times-circle" /> Failed to {user === null ? "load" : "update"} account profile. Please log out and try again.{' '}
-                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" />
+            <div className={`alert alert-danger alert-icon alert${user === null ? "" : "-dismissible"} fade show`}
+                 role="alert">
+                <i className="uil uil-times-circle"/> Failed to {user === null ? "load" : "update"} account profile.
+                Please log out and try again.{' '}
+                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
             </div>
         )
     }
@@ -79,7 +83,8 @@ const Account: FC = () => {
                             onSubmit={handleFormSubmit}
                             disableSubmitInitially={true}
                             additionalButtons={[
-                                <button key='1' type="button" onClick={signout} className="btn btn-outline-red btn-sm m-4">Log Out</button>,
+                                <button key='1' type="button" onClick={signout}
+                                        className="btn btn-outline-red btn-sm m-4">Log Out</button>,
                                 <button
                                     key='2'
                                     type="button"
@@ -93,7 +98,8 @@ const Account: FC = () => {
                 </div>
             </div>
             {
-                user && <DeleteAccountModal modalID={deleteModalID} userData={createMutableUserData(user)} userID={user.id} />
+                user &&
+                <DeleteAccountModal modalID={deleteModalID} userData={createMutableUserData(user)} userID={user.id}/>
             }
         </section>
     );

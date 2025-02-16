@@ -9,7 +9,7 @@ import HomeHeader from 'components/blocks/home/HomeHeader';
 import HomeEventsSidebar from 'components/blocks/events/EventsSidebar';
 import HomeAbout from 'components/blocks/home/HomeAbout';
 import Features from 'components/blocks/features/features';
-import {useAuth} from 'auth/AuthProvider';
+import {useAuth} from 'auth/useAuth';
 import CustomHead from "../src/components/common/CustomHead";
 
 const Home: NextPage = () => {
