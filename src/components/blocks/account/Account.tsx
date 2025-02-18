@@ -75,26 +75,34 @@ const Account: FC = () => {
                 </div>
             </div>
             <div className="container">
-                <div className="pb-8 px-8">
+                <div className="pb-8 px-8 d-flex flex-column align-items-center">
                     {user &&
-                        <ReusableForm
-                            inputItems={convertToInputItems(user)}
-                            submitButtonTitle="Update Account Details"
-                            onSubmit={handleFormSubmit}
-                            disableSubmitInitially={true}
-                            additionalButtons={[
-                                <button key='1' type="button" onClick={signout}
-                                        className="btn btn-outline-red btn-sm m-4">Log Out</button>,
-                                <button
-                                    key='2'
-                                    type="button"
-                                    className="btn btn-outline-red btn-sm m-4"
-                                    data-bs-toggle="modal"
-                                    data-bs-target={`#${deleteModalID}`}>
-                                    Delete Account
-                                </button>
-                            ]}
-                        />}
+                        <>
+                            <span className="avatar bg-pale-primary text-primary w-15 h-15 mb-4">
+                                <span
+                                    className={"text-uppercase fs-32"}>{user.firstname.charAt(0) + user.lastname.charAt(0)}</span>
+                            </span>
+                            <ReusableForm
+                                inputItems={convertToInputItems(user)}
+                                submitButtonTitle="Update Account Details"
+                                onSubmit={handleFormSubmit}
+                                disableSubmitInitially={true}
+                            />
+                        </>
+                    }
+                    <div className={"d-flex flex-column gap-4"}>
+                        <button key='1' type="button" onClick={signout}
+                                className="btn btn-outline-red btn-sm">Log Out
+                        </button>
+
+                        <a
+                            key='2'
+                            className="hover link-red"
+                            data-bs-toggle="modal"
+                            data-bs-target={`#${deleteModalID}`}>
+                            Delete Account
+                        </a>
+                    </div>
                 </div>
             </div>
             {

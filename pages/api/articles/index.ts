@@ -10,14 +10,18 @@ export default async function handler(
 ) {
     await dbConnect();
 
-    if (req.method === 'POST') {
-        await addArticle(req, res);
-    } else if (req.method === 'GET') {
-        await getAllArticles(res);
-    } else if (req.method === 'DELETE') {
-        await deleteAllArticles(req, res);
-    } else {
-        res.status(405).json({message: 'Method not allowed'});
+    switch (req.method) {
+        case 'POST':
+            await addArticle(req, res);
+            break;
+        case 'GET':
+            await getAllArticles(res);
+            break;
+        case 'DELETE':
+            await deleteAllArticles(req, res);
+            break;
+        default:
+            res.status(405).json({message: 'Method not allowed'});
     }
 }
 
