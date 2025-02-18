@@ -78,7 +78,7 @@ const Account: FC = () => {
                 <div className="pb-8 px-8 d-flex flex-column align-items-center">
                     {user &&
                         <>
-                            <span className="avatar bg-pale-primary text-primary w-15 h-15 mb-4">
+                            <span className="avatar bg-pale-primary text-primary w-15 h-15 mb-8">
                                 <span
                                     className={"text-uppercase fs-32"}>{user.firstname.charAt(0) + user.lastname.charAt(0)}</span>
                             </span>
