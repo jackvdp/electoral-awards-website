@@ -30,7 +30,7 @@ const Account: FC = () => {
         if (user === null) {
             return
         }
-        const mutableUserData = createMutableUserData(user, values);
+        const mutableUserData = editUserData(user, values);
         const update = async () => {
             const newUser = await updateUser(mutableUserData, user.id)
             if (newUser === null) {
@@ -99,7 +99,7 @@ const Account: FC = () => {
             </div>
             {
                 user &&
-                <DeleteAccountModal modalID={deleteModalID} userData={createMutableUserData(user)} userID={user.id}/>
+                <DeleteAccountModal modalID={deleteModalID} userData={user}/>
             }
         </section>
     );
@@ -108,7 +108,7 @@ const Account: FC = () => {
 
 export default Account;
 
-const convertToInputItems = (userData: UserData): InputItem[] => {
+const convertToInputItems = (userData: MutableUserData): InputItem[] => {
     return [
         {
             title: 'First Name',
@@ -168,35 +168,16 @@ const convertToInputItems = (userData: UserData): InputItem[] => {
     ];
 };
 
-const createMutableUserData = (userData: UserData, updatedValues?: Record<string, string>): MutableUserData => {
-    // Create a new object with the same values as userData
-    const mutableUserData: MutableUserData = {
-        firstname: userData.firstname,
-        lastname: userData.lastname,
-        phone: userData.phone,
-        country: userData.country,
-        birthdate: userData.birthdate,
-        profileName: userData.profileName,
-        profileTitle: userData.profileTitle,
-        isNewsletterSubscribe: userData.isNewsletterSubscribe,
-        isProfileRestricted: userData.isProfileRestricted,
-        interests: userData.interests,
-        skills: userData.skills,
-        biography: userData.biography,
-        position: userData.position,
-        organisation: userData.organisation,
-        profileImage: userData.profileImage,
-        topics: userData.topics,
-    };
+const editUserData = (userData: MutableUserData, updatedValues: Record<string, string>): MutableUserData => {
 
     // Update mutableUserData with any changed values from updatedValues
     if (updatedValues) {
         for (const key in updatedValues) {
-            if (updatedValues.hasOwnProperty(key) && key in mutableUserData) {
-                (mutableUserData as any)[key] = updatedValues[key];
+            if (updatedValues.hasOwnProperty(key) && key in userData) {
+                (userData as any)[key] = updatedValues[key];
             }
         }
     }
 
-    return mutableUserData;
+    return userData;
 };

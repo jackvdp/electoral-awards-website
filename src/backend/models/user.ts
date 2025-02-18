@@ -12,9 +12,11 @@ interface BaseUserData {
 
 interface MutableUserData extends BaseUserData {
     email: string;
+    id: string;
 }
 
-interface CreateUserData extends MutableUserData {
+interface CreateUserData extends BaseUserData {
+    email: string;
     password: string;
 }
 

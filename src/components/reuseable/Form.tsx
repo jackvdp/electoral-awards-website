@@ -1,5 +1,5 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
-import { countries } from "data/countries";
+import React, {useState, ChangeEvent, FormEvent} from "react";
+import {countries} from "data/countries";
 
 type InputItem = {
     title: string;
@@ -18,13 +18,19 @@ type FormProps = {
     disableSubmitInitially: boolean;
 };
 
-const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonTitle, additionalButtons, disableSubmitInitially }) => {
+const ReusableForm: React.FC<FormProps> = ({
+                                               inputItems,
+                                               onSubmit,
+                                               submitButtonTitle,
+                                               additionalButtons,
+                                               disableSubmitInitially
+                                           }) => {
     const [formValues, setFormValues] = useState<Record<string, string>>({});
     const [hasChanged, setHasChanged] = useState(false);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setHasChanged(true);
-        setFormValues({ ...formValues, [e.target.name]: e.target.value });
+        setFormValues({...formValues, [e.target.name]: e.target.value});
     };
 
     const handleSubmit = async (e: FormEvent) => {
@@ -32,29 +38,35 @@ const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonT
         let isValid = true;
         const newErrors: Record<string, string | null> = {};
 
+        console.log(inputItems, "****")
         inputItems.forEach((item) => {
-            const value = formValues[item.name] || '';
+            const value = formValues[item.name] || item.defaultValue;
+            console.log(value, "value ****")
 
             switch (item.type) {
                 case 'password':
+                    console.log("****1", value)
                     if (item.required && !validatePassword(value)) {
                         newErrors[item.name] = 'Password must be at least 8 characters long and contain only letters and numbers';
                         isValid = false;
                     }
                     break;
                 case 'email':
+                    console.log("****2", value)
                     if (item.required && !validateEmail(value)) {
                         newErrors[item.name] = 'Invalid email';
                         isValid = false;
                     }
                     break;
                 case 'phone':
+                    console.log("****3", value)
                     if (item.required && !validatePhone(value)) {
-                        newErrors[item.name] = 'Invalid phone number';
+                        newErrors[item.name] = 'Invalid phone number (please include country code e.g. +44...)';
                         isValid = false;
                     }
                     break;
                 case 'country':
+                    console.log("****4", value)
                     if (item.required && !validateCountry(value)) {
                         newErrors[item.name] = 'Please select a country';
                         isValid = false;
@@ -95,8 +107,9 @@ const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonT
                                             defaultValue={item.defaultValue}
                                         />
                                         <label htmlFor={item.name}>{item.title}</label>
-                                        <div className="valid-feedback"> Looks good! </div>
-                                        <div className="invalid-feedback"> Please enter {item.title.toLowerCase()}. </div>
+                                        <div className="valid-feedback"> Looks good!</div>
+                                        <div className="invalid-feedback"> Please enter {item.title.toLowerCase()}.
+                                        </div>
                                     </div>
                                 </div>
                             );
@@ -111,11 +124,13 @@ const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonT
                                             placeholder={item.placeholder}
                                             name={item.name}
                                             onChange={handleChange}
-                                            style={{ height: '100%' }}
+                                            defaultValue={item.defaultValue}
+                                            style={{height: '100%'}}
                                         />
                                         <label htmlFor={item.name}>{item.title}</label>
-                                        <div className="valid-feedback"> Looks good! </div>
-                                        <div className="invalid-feedback"> Please enter {item.title.toLowerCase()}. </div>
+                                        <div className="valid-feedback"> Looks good!</div>
+                                        <div className="invalid-feedback"> Please enter {item.title.toLowerCase()}.
+                                        </div>
                                     </div>
                                 </div>
                             );
@@ -131,7 +146,7 @@ const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonT
                                             defaultValue={item.defaultValue || ''}
                                             aria-label={item.placeholder}
                                         >
-                                            <option >{item.placeholder}</option>
+                                            <option>{item.placeholder}</option>
                                             {getCountryNames().map((option, index) => (
                                                 <option key={index} value={option}>{option}</option>
                                             ))}
@@ -143,7 +158,8 @@ const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonT
                 })}
             </div>
             <div className="d-flex justify-content-center gap-2">
-                <button type="submit" disabled={!hasChanged && disableSubmitInitially} className="btn btn-primary m-4">{submitButtonTitle}</button>
+                <button type="submit" disabled={!hasChanged && disableSubmitInitially}
+                        className="btn btn-primary m-4">{submitButtonTitle}</button>
                 {additionalButtons}
             </div>
         </form>
@@ -151,7 +167,7 @@ const ReusableForm: React.FC<FormProps> = ({ inputItems, onSubmit, submitButtonT
 };
 
 export default ReusableForm;
-export type { InputItem, FormProps };
+export type {InputItem, FormProps};
 
 const getCountryNames = (): string[] => {
     return countries.map((country) => {
@@ -168,7 +184,7 @@ const validateEmail = (email: string): boolean => {
 }
 
 const validatePhone = (phone: string): boolean => {
-    return phone.length > 6 && /^[0-9]+$/.test(phone)
+    return phone.startsWith('+') && phone.length > 7 && /^\+[0-9]+$/.test(phone);
 }
 
 const validateCountry = (country: string): boolean => {

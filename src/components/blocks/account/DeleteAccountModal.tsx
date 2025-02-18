@@ -7,17 +7,16 @@ import Router from "next/router";
 interface DeletePressedProps {
     modalID: string;
     userData: MutableUserData;
-    userID: number;
 }
 
-const DeleteAccountModal: FC<DeletePressedProps> = ({modalID, userData, userID}) => {
+const DeleteAccountModal: FC<DeletePressedProps> = ({modalID, userData}) => {
     const {deleteUser} = useAuth();
     const [isDeleting, setIsDeleting] = useState(false);
     const [closeModalProgrammatically, setCloseModalProgrammatically] = useState(false);
 
     const handleDelete = async () => {
         setIsDeleting(true);
-        const successfullyDeletedUser = await deleteUser(userData, userID);
+        const successfullyDeletedUser = await deleteUser(userData.id);
         setIsDeleting(false);
         if (successfullyDeletedUser) {
             setCloseModalProgrammatically(true);

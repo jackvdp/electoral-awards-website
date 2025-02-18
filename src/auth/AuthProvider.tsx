@@ -1,5 +1,5 @@
-import React, {useState, useEffect, ReactNode} from 'react';
-import {MutableUserData, CreateUserData, createCustomUserData} from 'backend/models/user';
+import React, {ReactNode, useEffect, useState} from 'react';
+import {createCustomUserData, CreateUserData, MutableUserData} from 'backend/models/user';
 import {createClient} from "../backend/supabase/component";
 import {AuthContext, CustomAuthError} from './useAuth';
 import {User} from '@supabase/supabase-js';
@@ -165,12 +165,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
 
     const getUser = async (): Promise<MutableUserData | null> => {
         try {
-            setState(prev => ({...prev, loading: true, error: null}));
-
-            const {data: {user}, error: authError} = await supabase.auth.getUser();
-
-            if (authError) throw authError;
-            if (!user) return null;
+            const user = state.currentUser;
+            if (user === null) return null;
 
             const {data, error} = await supabase
                 .from('users')
@@ -178,9 +174,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
                 .eq('id', user.id)
                 .single();
 
+            console.log("error", error)
             if (error) throw error;
 
-            const userData: MutableUserData = {
+            return {
+                id: data.id,
                 firstname: data.firstname,
                 lastname: data.lastname,
                 email: data.email,
@@ -192,21 +190,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
                 organisation: data.organisation,
                 profileImage: data.profile_image  // Note the case conversion
             };
-
-            setState(prev => ({
-                ...prev,
-                loading: false,
-                error: null
-            }));
-
-            return userData;
         } catch (error) {
             handleError(error);
             return null;
         }
     };
 
-    const updateUser = async (userData: MutableUserData, userID: string): Promise<boolean> => {
+    const updateUser = async (userData: MutableUserData, userID: string): Promise<MutableUserData | null> => {
         try {
             setState(prev => ({...prev, loading: true, error: null}));
 
@@ -243,10 +233,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
                 error: null
             }));
 
-            return true;
+            return userData;
         } catch (error) {
             handleError(error);
-            return false;
+            return null;
         }
     };
 

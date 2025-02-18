@@ -19,7 +19,7 @@ interface AuthContextProps {
     signout: () => void;
     createUser: (userData: CreateUserData) => Promise<boolean>
     getUser: () => Promise<MutableUserData | null>;
-    updateUser: (userData: MutableUserData, userID: string) => Promise<boolean>
+    updateUser: (userData: MutableUserData, userID: string) => Promise<MutableUserData | null>
     deleteUser: (userID: string) => Promise<boolean>
 }
 
