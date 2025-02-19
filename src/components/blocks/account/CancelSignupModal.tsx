@@ -51,6 +51,7 @@ const CancelSignupModal: FC<CancelSignupModalProps> = ({modalID, eventId, onCanc
                         <button
                             type="button"
                             className="btn btn-danger"
+                            data-bs-dismiss="modal"
                             onClick={handleCancelSignup}
                             disabled={isCancelling}
                         >
