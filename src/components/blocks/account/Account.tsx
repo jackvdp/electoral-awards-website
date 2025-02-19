@@ -87,7 +87,7 @@ const Account: FC = () => {
 
     return (
         <section className="wrapper bg-soft-primary">
-            <div className="text-center pt-md-8 pt-4 pb-md-4 pb-2">
+            <div className="text-center pt-md-12 pt-6 pb-md-12 pb-3">
                 <h3>Account</h3>
             </div>
             <div className="container">
@@ -104,7 +104,7 @@ const Account: FC = () => {
                             <section id="account-details" className="mb-12">
                                 {user && (
                                     <>
-                                        <div className="d-flex align-items-center mb-4 ps-4">
+                                        <div className="d-flex align-items-center mb-8 ps-4">
                                             <span className="avatar bg-pale-primary text-primary w-15 h-15 me-2">
                                               <span className="text-uppercase fs-32">
                                                 {user.firstname.charAt(0) + user.lastname.charAt(0)}
@@ -156,7 +156,7 @@ const Account: FC = () => {
                                     </ul>
                                 ) : (
                                     <p>
-                                        You haven't signed up for any events.{' '}
+                                        You haven&apos;t signed up for any events.{' '}
                                         <NextLink href="/events" title="View Events"/>
                                     </p>
                                 )}
@@ -174,13 +174,15 @@ const Account: FC = () => {
                                             Log Out
                                         </button>
                                     </div>
-                                    <a
-                                        className="hover link-red"
-                                        data-bs-toggle="modal"
-                                        data-bs-target={`#${deleteModalID}`}
-                                    >
-                                        Delete Account
-                                    </a>
+                                    <div>
+                                        <a
+                                            className="hover link-red"
+                                            data-bs-toggle="modal"
+                                            data-bs-target={`#${deleteModalID}`}
+                                        >
+                                            Delete Account
+                                        </a>
+                                    </div>
                                 </div>
                             </section>
                         </div>
