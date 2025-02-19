@@ -9,6 +9,7 @@ import convertToInputItems from './convertToInputItems';
 import editUserData from './editUserData';
 import NextLink from 'components/reuseable/links/NextLink';
 import {Link as ScrollLink} from 'react-scroll';
+import ChangePasswordForm from "./ChangePasswordForm";
 
 interface Event {
     _id: string;
@@ -26,6 +27,7 @@ const Account: FC = () => {
     const quickAccssLinks = [
         {title: 'Account Details', url: 'account-details'},
         {title: 'Signed-Up Events', url: 'signed-up-events'},
+        {title: 'Change Password', url: 'change-password'},
         {title: 'Account Actions', url: 'account-actions'},
     ];
 
@@ -161,7 +163,12 @@ const Account: FC = () => {
                                     </p>
                                 )}
                             </section>
-                            {/* Section 3: Account Actions */}
+                            {/* Section 3: Change Password */}
+                            <section id="change-password" className="mb-12 ps-4">
+                                <h4 className="mb-4">Change Password:</h4>
+                                <ChangePasswordForm/>
+                            </section>
+                            {/* Section 4: Account Actions */}
                             <section id="account-actions" className={"ps-4 mb-12"}>
                                 <div className="d-flex flex-column gap-4">
                                     <h4>Account Actions:</h4>
@@ -204,7 +211,7 @@ const Account: FC = () => {
                                                 activeClass="active"
                                                 to={item.url}
                                                 className="nav-link scroll"
-                                                offset={-200} // adjust offset if needed for fixed header
+                                                offset={-200}
                                             >
                                                 {item.title}
                                             </ScrollLink>
