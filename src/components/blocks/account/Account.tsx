@@ -5,11 +5,12 @@ import {MutableUserData} from 'backend/models/user';
 import {useAuth} from 'auth/useAuth';
 import DeleteAccountModal from './DeleteAccountModal';
 import CancelSignupModal from "./CancelSignupModal";
+import convertToInputItems from "./convertToInputItems";
+import editUserData from "./editUserData";
 
 interface Event {
     _id: string;
     title: string;
-    // add other event properties as needed
 }
 
 const Account: FC = () => {
@@ -146,70 +147,3 @@ const Account: FC = () => {
 };
 
 export default Account;
-
-const convertToInputItems = (userData: MutableUserData): InputItem[] => [
-    {
-        title: 'First Name',
-        placeholder: 'Enter first name',
-        type: 'input',
-        name: 'firstname',
-        defaultValue: userData.firstname,
-        required: true,
-    },
-    {
-        title: 'Last Name',
-        placeholder: 'Enter last name',
-        type: 'input',
-        name: 'lastname',
-        defaultValue: userData.lastname,
-        required: true,
-    },
-    {
-        title: 'Phone',
-        placeholder: 'Enter phone number',
-        type: 'phone',
-        name: 'phone',
-        defaultValue: userData.phone,
-        required: true,
-    },
-    {
-        title: 'Country',
-        placeholder: 'Enter country',
-        type: 'country',
-        name: 'country',
-        defaultValue: userData.country,
-        required: true,
-    },
-    {
-        title: 'Position',
-        placeholder: 'Enter position',
-        type: 'input',
-        name: 'position',
-        defaultValue: userData.position,
-        required: true,
-    },
-    {
-        title: 'Organisation',
-        placeholder: 'Enter organisation',
-        type: 'input',
-        name: 'organisation',
-        defaultValue: userData.organisation,
-        required: true,
-    },
-    {
-        title: 'Biography',
-        placeholder: 'Enter biography',
-        type: 'area',
-        name: 'biography',
-        defaultValue: userData.biography,
-    },
-];
-
-const editUserData = (userData: MutableUserData, updatedValues: Record<string, string>): MutableUserData => {
-    for (const key in updatedValues) {
-        if (Object.prototype.hasOwnProperty.call(updatedValues, key) && key in userData) {
-            (userData as any)[key] = updatedValues[key];
-        }
-    }
-    return userData;
-};
