@@ -38,35 +38,29 @@ const ReusableForm: React.FC<FormProps> = ({
         let isValid = true;
         const newErrors: Record<string, string | null> = {};
 
-        console.log(inputItems, "****")
         inputItems.forEach((item) => {
             const value = formValues[item.name] || item.defaultValue;
-            console.log(value, "value ****")
 
             switch (item.type) {
                 case 'password':
-                    console.log("****1", value)
                     if (item.required && !validatePassword(value)) {
                         newErrors[item.name] = 'Password must be at least 8 characters long and contain only letters and numbers';
                         isValid = false;
                     }
                     break;
                 case 'email':
-                    console.log("****2", value)
                     if (item.required && !validateEmail(value)) {
                         newErrors[item.name] = 'Invalid email';
                         isValid = false;
                     }
                     break;
                 case 'phone':
-                    console.log("****3", value)
                     if (item.required && !validatePhone(value)) {
                         newErrors[item.name] = 'Invalid phone number (please include country code e.g. +44...)';
                         isValid = false;
                     }
                     break;
                 case 'country':
-                    console.log("****4", value)
                     if (item.required && !validateCountry(value)) {
                         newErrors[item.name] = 'Please select a country';
                         isValid = false;
