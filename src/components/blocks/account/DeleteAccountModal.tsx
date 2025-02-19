@@ -3,7 +3,6 @@ import Modal from "components/reuseable/modal/Modal";
 import {useAuth} from "auth/useAuth";
 import {MutableUserData} from "backend/models/user";
 import Router from "next/router";
-import {createClient} from "backend/supabase/component";
 
 interface DeletePressedProps {
     modalID: string;
