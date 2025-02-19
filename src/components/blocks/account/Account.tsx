@@ -204,7 +204,7 @@ const Account: FC = () => {
                                                 activeClass="active"
                                                 to={item.url}
                                                 className="nav-link scroll"
-                                                offset={-50} // adjust offset if needed for fixed header
+                                                offset={-200} // adjust offset if needed for fixed header
                                             >
                                                 {item.title}
                                             </ScrollLink>
