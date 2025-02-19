@@ -24,7 +24,7 @@ const LoginForm: FC = () => {
     };
 
     const handleNavigate = () => {
-        // router.push('/join');
+        router.push('/register');
     };
 
     return (
@@ -55,8 +55,8 @@ const LoginForm: FC = () => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <span className="password-toggle" onClick={() => setVisiblePassword(!visiblePassword)}>
-            <i className={`uil  ${visiblePassword ? 'uil-eye-slash' : 'uil-eye'}`}/>
-          </span>
+                        <i className={`uil  ${visiblePassword ? 'uil-eye-slash' : 'uil-eye'}`}/>
+                    </span>
 
                     <label htmlFor="loginPassword">Password</label>
                 </div>
@@ -74,7 +74,7 @@ const LoginForm: FC = () => {
             </form>
 
             <p className="mb-1">
-                <NextLink title="Forgot Password?" href="/register" className="hover"/>
+                <NextLink title="Forgot Password?" href="/forgot" className="hover"/>
             </p>
 
             <p className="mb-0">
