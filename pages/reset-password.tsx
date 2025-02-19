@@ -6,6 +6,7 @@ import CustomHead from 'components/common/CustomHead';
 import PageProgress from 'components/common/PageProgress';
 import {Navbar} from 'components/blocks/navbar';
 import {Footer} from 'components/blocks/footer';
+import SimpleBanner from "../src/components/blocks/banner/SimpleBanner";
 
 const ResetPassword: React.FC = () => {
     const supabase = createClient();
@@ -55,11 +56,13 @@ const ResetPassword: React.FC = () => {
     return (
         <>
             <CustomHead
-                title="Reset Password"
+                title="Set a New Password"
                 description="Reset your password to regain access to your account."
             />
             <PageProgress/>
             <Navbar/>
+
+            <SimpleBanner title={"Set a new password"}></SimpleBanner>
             <div className="container py-8">
                 <h2 className="mb-4">Reset Password</h2>
                 {error && <p className="text-danger">{error}</p>}
