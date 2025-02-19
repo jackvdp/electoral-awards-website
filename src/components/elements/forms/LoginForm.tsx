@@ -23,8 +23,12 @@ const LoginForm: FC = () => {
         }
     };
 
-    const handleNavigate = () => {
+    const handleNavigateToRegister = () => {
         router.push('/register');
+    };
+
+    const handleNavigateToForgotPassword = () => {
+        router.push('/forgot');
     };
 
     return (
@@ -74,11 +78,13 @@ const LoginForm: FC = () => {
             </form>
 
             <p className="mb-1">
-                <NextLink title="Forgot Password?" href="/forgot" className="hover"/>
+                <a onClick={handleNavigateToForgotPassword} data-bs-dismiss="modal" className="hover">Forgot
+                    Password?</a>
             </p>
 
             <p className="mb-0">
-                Don&apos;t have an account? <a className="hover" onClick={handleNavigate} data-bs-dismiss="modal">Sign
+                Don&apos;t have an account? <a className="hover" onClick={handleNavigateToRegister}
+                                               data-bs-dismiss="modal">Sign
                 up</a>
             </p>
         </Fragment>
