@@ -20,7 +20,7 @@ interface AuthContextProps {
     createUser: (userData: CreateUserData) => Promise<boolean>
     getUser: () => Promise<MutableUserData | null>;
     updateUser: (userData: MutableUserData, userID: string) => Promise<MutableUserData | null>
-    deleteUser: (userID: string) => Promise<boolean>
+    deleteUser: (userID: string, password: string) => Promise<boolean>
 }
 
 export const AuthContext = createContext<AuthContextProps | undefined>(undefined);

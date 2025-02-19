@@ -132,7 +132,7 @@ const Account: FC = () => {
                             {/* Section 2: Signed-Up Events */}
                             <hr className="my-8"/>
                             <section id="signed-up-events" className="mb-12 ps-4">
-                                <h4>Your Signed-Up Events:</h4>
+                                <h4 className={"mb-4"}>Your Signed-Up Events:</h4>
                                 {myEvents.length > 0 ? (
                                     <ul className="list-group">
                                         {myEvents.map((event) => (

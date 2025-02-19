@@ -240,35 +240,46 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         }
     };
 
-    const deleteUser = async (userID: string): Promise<boolean> => {
+    const deleteUser = async (userID: string, password: string): Promise<boolean> => {
         try {
             setState(prev => ({...prev, loading: true, error: null}));
+            if (!state.currentUser?.email) {
+                throw new Error("No current user email found");
+            }
+            const supabase = createClient();
+            const {data: {session}, error: signInError} = await supabase.auth.signInWithPassword({
+                email: state.currentUser.email,
+                password: password,
+            });
+            if (signInError) {
+                // Throw a new error with a custom message:
+                throw new Error("Incorrect password");
+            }
 
-            // Delete user profile from users table first
-            const {error: profileDeleteError} = await supabase
-                .from('users')
-                .delete()
-                .eq('id', userID);
+            // Call your secure API route to delete the user.
+            const response = await fetch('/api/user', {
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({userId: userID}),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || "Failed to delete user. Please try again later.");
+            }
 
-            if (profileDeleteError) throw profileDeleteError;
-
-            // Delete auth user
-            const {error: authDeleteError} = await supabase.auth.admin.deleteUser(userID);
-
-            if (authDeleteError) throw authDeleteError;
-
+            // Reset state after deletion.
             setState(prev => ({
                 ...prev,
                 isLoggedIn: false,
                 currentUser: null,
                 loading: false,
-                error: null
+                error: null,
             }));
-
             return true;
-        } catch (error) {
+        } catch (error: any) {
+            // Call your error handler (e.g., log the error) and then re-throw.
             handleError(error);
-            return false;
+            throw error;
         }
     };
 
