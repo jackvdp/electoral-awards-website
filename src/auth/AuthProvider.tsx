@@ -29,14 +29,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         checkUser();
 
         // Set up auth state listener
-        const {data: authListener} = supabase.auth.onAuthStateChange(async (event, session) => {
-            if (event === 'SIGNED_IN') {
+        const {data: authListener} = supabase.auth.onAuthStateChange((event, session) => {
+            // Ignore PASSWORD_RECOVERY events so the user isn’t auto‑signed in
+            if (event === 'PASSWORD_RECOVERY') {
+                console.log("PASSWORD_RECOVERY event detected – not auto signing in.");
+                return;
+            }
+            if (event === 'SIGNED_IN' && session?.user) {
                 setState(prev => ({
                     ...prev,
                     isLoggedIn: true,
-                    currentUser: session?.user || null,
+                    currentUser: session.user,
                     loading: false,
-                    error: null
+                    error: null,
                 }));
             } else if (event === 'SIGNED_OUT') {
                 setState(prev => ({
@@ -44,7 +49,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
                     isLoggedIn: false,
                     currentUser: null,
                     loading: false,
-                    error: null
+                    error: null,
                 }));
             }
         });
@@ -166,7 +171,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     const getUser = async (): Promise<MutableUserData | null> => {
         try {
             const user = state.currentUser;
+            console.log("**** 2", user)
             if (user === null) return null;
+
+            console.log("**** 3", user.id)
 
             const {data, error} = await supabase
                 .from('users')

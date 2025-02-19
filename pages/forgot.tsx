@@ -1,6 +1,6 @@
 // pages/forgot.tsx
 import React, {Fragment, useState} from 'react';
-import {createClientNotSSR} from 'backend/supabase/component';
+import {createClient} from 'backend/supabase/component';
 import {useRouter} from 'next/router';
 import CustomHead from "../src/components/common/CustomHead";
 import PageProgress from "../src/components/common/PageProgress";
@@ -20,7 +20,7 @@ const ForgotPassword: React.FC = () => {
         setLoading(true);
         setMessage(null);
         setError(null);
-        const supabase = createClientNotSSR();
+        const supabase = createClient();
 
         // Optionally, set a redirect URL for when the user clicks the link in the email.
         const redirectTo = process.env.NEXT_PUBLIC_BASE_URL + '/reset-password';

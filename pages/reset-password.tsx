@@ -1,6 +1,6 @@
 // pages/reset-password.tsx
 import React, {useEffect, useState} from 'react';
-import {createClientNotSSR} from "../src/backend/supabase/component";
+import {createClient} from "../src/backend/supabase/component";
 import {useRouter} from 'next/router';
 import CustomHead from 'components/common/CustomHead';
 import PageProgress from 'components/common/PageProgress';
@@ -8,7 +8,7 @@ import {Navbar} from 'components/blocks/navbar';
 import {Footer} from 'components/blocks/footer';
 
 const ResetPassword: React.FC = () => {
-    const supabase = createClientNotSSR();
+    const supabase = createClient();
     const router = useRouter();
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
