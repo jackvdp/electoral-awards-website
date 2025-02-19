@@ -14,6 +14,8 @@ import ChangePasswordForm from "./ChangePasswordForm";
 interface Event {
     _id: string;
     title: string;
+    startDate: string;
+    endDate: string;
 }
 
 const Account: FC = () => {
@@ -89,7 +91,7 @@ const Account: FC = () => {
 
     return (
         <section className="wrapper bg-soft-primary">
-            <div className="text-center pt-md-12 pt-6 pb-md-12 pb-3">
+            <div className="text-center pt-md-12 pt-6">
                 <h3>Account</h3>
             </div>
             <div className="container">
@@ -103,6 +105,7 @@ const Account: FC = () => {
                     <div className="col-xl-10 order-xl-2">
                         <div className="pb-8 px-8">
                             {/* Section 1: Account Details (Avatar and Form) */}
+                            <hr className="my-8"/>
                             <section id="account-details" className="mb-12">
                                 {user && (
                                     <>
@@ -127,6 +130,7 @@ const Account: FC = () => {
                                 )}
                             </section>
                             {/* Section 2: Signed-Up Events */}
+                            <hr className="my-8"/>
                             <section id="signed-up-events" className="mb-12 ps-4">
                                 <h4>Your Signed-Up Events:</h4>
                                 {myEvents.length > 0 ? (
@@ -136,9 +140,14 @@ const Account: FC = () => {
                                                 key={event._id}
                                                 className="list-group-item d-flex justify-content-between align-items-center"
                                             >
-                                                <a className="hover" href={`/events/${event._id}`}>
-                                                    {event.title}
-                                                </a>
+                                                <div>
+                                                    <a className="hover" href={`/events/${event._id}`}>
+                                                        {event.title}
+                                                    </a>
+                                                    <div className="text-muted">
+                                                        {new Date(event.startDate).toLocaleDateString()} – {new Date(event.endDate).toLocaleDateString()}
+                                                    </div>
+                                                </div>
                                                 <a
                                                     className="hover text-danger"
                                                     data-bs-toggle="modal"
@@ -163,11 +172,13 @@ const Account: FC = () => {
                                     </p>
                                 )}
                             </section>
+                            <hr className="my-8"/>
                             {/* Section 3: Change Password */}
                             <section id="change-password" className="mb-12 ps-4">
                                 <h4 className="mb-4">Change Password:</h4>
                                 <ChangePasswordForm/>
                             </section>
+                            <hr className="my-8"/>
                             {/* Section 4: Account Actions */}
                             <section id="account-actions" className={"ps-4 mb-12"}>
                                 <div className="d-flex flex-column gap-4">
