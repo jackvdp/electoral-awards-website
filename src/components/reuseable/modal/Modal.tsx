@@ -1,8 +1,9 @@
-import { FC } from 'react';
-import { useEffect } from 'react';
+import {FC} from 'react';
+import {useEffect} from 'react';
 
 interface ModalProps {
     id: string;
+    size?: 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';
     programmaticClose?: ProgrammaticClose;
     content: JSX.Element
 }
@@ -12,7 +13,7 @@ interface ProgrammaticClose {
     resetAfterClose: () => void;
 }
 
-const Modal: FC<ModalProps> = ({ id, content, programmaticClose }) => {
+const Modal: FC<ModalProps> = ({id, size, content, programmaticClose}) => {
 
     useEffect(() => {
         if (programmaticClose?.closeTriggered) {
@@ -35,12 +36,13 @@ const Modal: FC<ModalProps> = ({ id, content, programmaticClose }) => {
             aria-modal="true"
             id={id}
             className="modal fade"
-            style={{ display: 'none' }}
+            style={{display: 'none'}}
         >
-            <div className="modal-dialog modal-dialog-centered modal-sm">
+            <div className={`modal-dialog modal-dialog-centered modal-${size ? size : "sm"}`}>
                 <div className="modal-content text-center">
                     <div className="modal-body">
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" id={`close-${id}`} />
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                                id={`close-${id}`}/>
 
                         {content}
                     </div>

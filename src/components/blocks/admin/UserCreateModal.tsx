@@ -153,6 +153,7 @@ const CreateUserModal: FC<CreateUserModalProps> = ({modalID}) => {
     return (
         <Modal
             id={modalID}
+            size={'xl'}
             programmaticClose={{
                 closeTriggered: closeModalProgrammatically,
                 resetAfterClose: () => setCloseModalProgrammatically(false),

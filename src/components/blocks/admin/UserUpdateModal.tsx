@@ -132,6 +132,7 @@ const UpdateUserModal: FC<UpdateUserModalProps> = ({modalID, userData, onUpdated
     return (
         <Modal
             id={modalID}
+            size={'xl'}
             programmaticClose={{
                 closeTriggered: closeModalProgrammatically,
                 resetAfterClose: () => setCloseModalProgrammatically(false),
