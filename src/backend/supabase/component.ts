@@ -1,5 +1,5 @@
 import {createBrowserClient} from '@supabase/ssr'
-import {createClient as createClientNotSSRClient} from '@supabase/supabase-js';
+import {createServerClient} from "@supabase/ssr";
 
 export function createClient() {
     const supabase = createBrowserClient(
