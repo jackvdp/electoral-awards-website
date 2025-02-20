@@ -90,8 +90,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         };
     }
 
-    // Optionally check if the user has the admin role.
-    // if (session.user.user_metadata.role !== 'admin') { ... }
+    if (session.user.user_metadata.role !== 'admin') {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        };
+    }
 
     // Read query parameters for tab and pagination.
     const {tab = 'users', page = '1'} = ctx.query;
