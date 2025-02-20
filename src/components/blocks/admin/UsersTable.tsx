@@ -6,6 +6,7 @@ import {User} from '@supabase/supabase-js';
 import UpdateUserModal from './UserUpdateModal';
 import {MutableUserData} from 'backend/models/user';
 import {convertUser} from 'helpers/convertUser';
+import CreateUserModal from "./UserCreateModal";
 
 interface UsersTableProps {
     users: User[];
@@ -78,7 +79,14 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
     };
 
     const headerAction = (
-        <button className="btn btn-sm btn-primary rounded-pill">Add User</button>
+        <>
+            <button
+                data-bs-toggle="modal"
+                data-bs-target="#create-user-modal"
+                className="btn btn-sm btn-primary rounded-pill">Add User
+            </button>
+            <CreateUserModal modalID={"create-user-modal"}/>
+        </>
     );
 
     return (
