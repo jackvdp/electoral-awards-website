@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import NextLink from 'components/reuseable/links/NextLink';
 import FigureImage from 'components/reuseable/FigureImage';
 import styles from './Events.module.css';
+import SquareImage from "../../reuseable/SquareImage";
 
 interface EventPreview {
     title: string;
@@ -41,7 +42,7 @@ const EventsSidebar: React.FC<EventsSidebarProps> = ({ignoreLimit}) => {
         events.filter(event => {
             return new Date(event.startDate).getTime() > Date.now();
         }).sort((a, b) => {
-            return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+            return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
         })
     )
 
@@ -61,7 +62,7 @@ const EventsSidebar: React.FC<EventsSidebarProps> = ({ignoreLimit}) => {
                         return _id && (
                             <li key={_id}>
                                 {imageURL !== "" && <NextLink
-                                    title={<FigureImage width={100} height={100} className="rounded" src={imageURL}/>}
+                                    title={<SquareImage width={100} height={100} className="rounded" src={imageURL}/>}
                                     href={`/events/${_id}`}/>}
 
                                 <div className={imageURL && "post-content"}>
@@ -99,3 +100,4 @@ const EventsSidebar: React.FC<EventsSidebarProps> = ({ignoreLimit}) => {
 };
 
 export default EventsSidebar;
+

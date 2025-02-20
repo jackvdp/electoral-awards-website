@@ -60,7 +60,7 @@ const CreateEventModal: FC<CreateEventModalProps> = ({modalID, onCreated}) => {
             {
                 title: 'Start Date',
                 placeholder: 'Enter start date',
-                type: 'date', // use 'date' if supported by your ReusableForm
+                type: 'input', // use 'date' if supported by your ReusableForm
                 name: 'startDate',
                 defaultValue: '',
                 required: true,
@@ -68,7 +68,7 @@ const CreateEventModal: FC<CreateEventModalProps> = ({modalID, onCreated}) => {
             {
                 title: 'End Date',
                 placeholder: 'Enter end date',
-                type: 'date', // use 'date' if supported
+                type: 'input', // use 'date' if supported
                 name: 'endDate',
                 defaultValue: '',
                 required: true,

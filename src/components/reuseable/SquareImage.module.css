@@ -1,0 +1,18 @@
+.square {
+    position: relative;
+    aspect-ratio: 1;
+    width: 100%;
+}
+
+.imageContainer {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.image {
+    width: 100% !important;
+    height: 100% !important;
+    position: relative !important;
+    object-fit: cover;
+}
