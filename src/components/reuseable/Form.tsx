@@ -5,7 +5,7 @@ import {countries} from "data/countries";
 export type InputItem = {
     title: string;
     placeholder: string;
-    type: 'input' | 'area' | 'country' | 'password' | 'email' | 'phone' | 'select';
+    type: 'input' | 'area' | 'country' | 'password' | 'email' | 'phone' | 'select' | 'date';
     name: string;
     defaultValue: string;
     required?: boolean;
@@ -93,11 +93,22 @@ const ReusableForm: React.FC<FormProps> = ({
                         case "password":
                         case "email":
                         case "phone":
+                        case "date": {
+                            let inputType = "text";
+                            if (item.type === "password") {
+                                inputType = "password";
+                            } else if (item.type === "email") {
+                                inputType = "email";
+                            } else if (item.type === "phone") {
+                                inputType = "text"; // or "tel" if you prefer
+                            } else if (item.type === "date") {
+                                inputType = "date";
+                            }
                             return (
                                 <div key={item.name} className="col-md-6">
                                     <div className="form-floating mb-3">
                                         <input
-                                            type={item.type === "password" ? "password" : "text"}
+                                            type={inputType}
                                             className="form-control"
                                             id={item.name}
                                             required={item.required}
@@ -112,6 +123,7 @@ const ReusableForm: React.FC<FormProps> = ({
                                     </div>
                                 </div>
                             );
+                        }
                         case "area":
                             return (
                                 <div key={key} className="col-md-12">

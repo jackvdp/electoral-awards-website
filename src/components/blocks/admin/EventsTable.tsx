@@ -2,6 +2,7 @@
 import React from 'react';
 import DataTable from './DataTable';
 import {IEvent} from 'backend/models/event';
+import CreateEventModal from "./CreateEventModal";
 
 interface EventsTableProps {
     events: IEvent[];
@@ -35,7 +36,15 @@ const EventsTable: React.FC<EventsTableProps> = ({events}) => {
     );
 
     const headerAction = (
-        <button className="btn btn-sm btn-primary rounded-pill">Create Event</button>
+        <>
+            <button
+                data-bs-toggle="modal"
+                data-bs-target={`#create-event-modal`}
+                className="btn btn-sm btn-primary rounded-pill">Create Event
+            </button>
+            <CreateEventModal modalID="create-event-modal" onCreated={() => {
+            }}/>
+        </>
     );
 
     return (
