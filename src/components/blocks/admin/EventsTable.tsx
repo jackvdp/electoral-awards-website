@@ -3,6 +3,7 @@ import React from 'react';
 import DataTable from './DataTable';
 import {IEvent} from 'backend/models/event';
 import CreateEventModal from "./CreateEventModal";
+import UpdateEventModal from "./UpdateEventModal";
 
 interface EventsTableProps {
     events: IEvent[];
@@ -25,8 +26,20 @@ const EventsTable: React.FC<EventsTableProps> = ({events}) => {
                 {event.signups ? event.signups.length : 0} signups
             </td>
             <td>
-                <button className="btn btn-sm btn-soft-primary rounded-pill me-1">Edit</button>
+                <button
+                    className="btn btn-sm btn-soft-primary rounded-pill me-1"
+                    data-bs-toggle="modal"
+                    data-bs-target={`#update-event-modal-${event._id}`}
+                >
+                    Edit
+                </button>
                 <button className="btn btn-sm btn-soft-red rounded-pill">Delete</button>
+                <UpdateEventModal
+                    modalID={`update-event-modal-${event._id}`}
+                    eventData={event}
+                    onUpdated={() => {
+                    }}
+                />
             </td>
         </tr>
     );
