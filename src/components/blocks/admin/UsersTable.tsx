@@ -11,23 +11,41 @@ interface UsersTableProps {
 }
 
 const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage}) => {
-    const headers = ['Email', 'Name', 'Role', 'Actions'];
+    // Define the columns you want to show with keys and labels.
+    const columns = [
+        {key: 'email', label: 'Email'},
+        {key: 'country', label: 'Country'},
+        {key: 'firstname', label: 'First Name'},
+        {key: 'lastname', label: 'Last Name'},
+        {key: 'organisation', label: 'Organisation'},
+        {key: 'phone', label: 'Phone'},
+        {key: 'position', label: 'Position'},
+    ];
 
-    const renderRow = (user: User) => (
-        <tr key={user.id}>
-            <td>{user.email}</td>
-            <td>{user.user_metadata?.name || '—'}</td>
-            <td>
-        <span className={`badge bg-soft-${user.user_metadata?.role === 'admin' ? 'primary' : 'secondary'}`}>
-          {user.user_metadata?.role || 'user'}
-        </span>
-            </td>
-            <td>
-                <button className="btn btn-sm btn-soft-primary rounded-pill me-1">Edit</button>
-                <button className="btn btn-sm btn-soft-red rounded-pill">Delete</button>
-            </td>
-        </tr>
-    );
+    // Build the header labels and add an extra header for actions.
+    const headers = columns.map((col) => col.label).concat(['Actions']);
+
+    const renderRow = (user: User) => {
+        // Get the metadata object.
+        const metadata = user.user_metadata || {};
+        // For email, fallback to user.email if not present in metadata.
+        const email = metadata.email || user.email || '—';
+        return (
+            <tr key={user.id}>
+                {columns.map((col) => (
+                    <td key={col.key}>
+                        {col.key === 'email'
+                            ? email
+                            : metadata[col.key] ? String(metadata[col.key]) : '—'}
+                    </td>
+                ))}
+                <td>
+                    <button className="btn btn-sm btn-soft-primary rounded-pill me-1">Edit</button>
+                    <button className="btn btn-sm btn-soft-red rounded-pill">Delete</button>
+                </td>
+            </tr>
+        );
+    };
 
     const pagination: PaginationProps = {
         page,
