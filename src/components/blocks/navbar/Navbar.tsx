@@ -22,7 +22,7 @@ interface NavbarProps {
 const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
     const sticky = useSticky(350);
     const navbarRef = useRef<HTMLElement | null>(null);
-    const {isLoggedIn} = useAuth()
+    const {isLoggedIn, currentUser} = useAuth();
 
     // dynamically render the logo
     const logo = 'ICPSLogo';
@@ -95,6 +95,10 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
                         <ListItemLink title="Gallery" href='/gallery'/>
 
                         <ListItemLink title="Contact" href='/contact'/>
+
+                        {isLoggedIn && currentUser?.user_metadata?.role === 'admin' && (
+                            <ListItemLink title="Admin" href="/admin/dashboard"/>
+                        )}
                     </ul>
 
                     {/* ============= show contact info in the small device sidebar ============= */}
@@ -156,6 +160,7 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
                     <li className="nav-item d-none d-sm-block">
                         {
                             isLoggedIn ?
+
                                 <NextLink
                                     title="Account"
                                     className="btn btn-sm btn-outline-secondary my-custom-btn"
