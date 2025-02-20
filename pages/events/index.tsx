@@ -29,7 +29,7 @@ const BlogTwo: NextPage = () => {
                 {/* ========== title section ========== */}
                 <section className="overflow-hidden">
                     <div className="wrapper bg-soft-primary">
-                        <div className="container py-12 py-md-16 text-center">
+                        <div className="container py-10 py-md-14 text-center">
                             <div className="row">
                                 <div className="col-md-7 col-lg-6 col-xl-5 mx-auto">
                                     <h1 className="display-1 mb-3">Events</h1>
@@ -44,7 +44,7 @@ const BlogTwo: NextPage = () => {
                 </section>
 
                 <section className="wrapper bg-light">
-                    <div className="container py-8 py-md-16">
+                    <div className="container py-8 py-md-12">
                         <div className="row gx-8 gy-6 gx-xl-12">
                             <WebinarMain/>
                             <HomeEventsSidebar ignoreLimit={true}/>

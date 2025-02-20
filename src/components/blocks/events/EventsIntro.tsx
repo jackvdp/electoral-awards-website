@@ -1,21 +1,28 @@
-
-import { FC, Fragment } from 'react';
+import {FC, Fragment} from 'react';
 
 
 const BlogTemplate: FC = () => {
-  return (
-    <Fragment>
-      <div className="blog classic-view">
+    return (
+        <Fragment>
+            <div className="blog classic-view">
 
-        <div className='mt-6'>
-          <p>The Electoral Stakeholders Network offers webinars that bring together electoral commissioners, political analysts, and seasoned practitioners to delve into contemporary electoral issues. These sessions are crafted to provide attendees with a comprehensive understanding of global electoral dynamics, featuring topics that are both timely and essential for the electoral community.</p>
-          <p>Each webinar facilitates interaction, allowing participants to engage with experts, pose questions, and participate in discussions. Furthermore, the opportunity for networking enables attendees to connect with peers and cultivate professional relationships. Recordings of the webinars are available for members who cannot attend live, ensuring that everyone has access to these educational resources. We regularly update our schedule to include new webinars that aim to develop participants and their skills and knowledge in electoral management.</p>
-        </div>
+                <div className='mb-8'>
+                    <p>The Electoral Stakeholders Network hosts a range of events, including webinars, in-person
+                        symposiums, and the prestigious International Electoral Awards. These gatherings bring together
+                        electoral commissioners, political analysts, and seasoned practitioners to explore key electoral
+                        challenges and innovations, offering valuable insights into global electoral dynamics.</p>
 
-      </div>
+                    <p>Each event fosters engagement, allowing participants to interact with experts, ask questions, and
+                        exchange ideas. Networking opportunities enable attendees to connect with peers and build
+                        professional relationships. For those unable to attend live, recordings of webinars are
+                        available for members. Our schedule is regularly updated with new opportunities designed to
+                        enhance skills and knowledge in electoral management.</p>
+                </div>
 
-    </Fragment>
-  );
+            </div>
+
+        </Fragment>
+    );
 };
 
 export default BlogTemplate;
