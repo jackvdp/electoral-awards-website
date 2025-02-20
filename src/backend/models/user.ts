@@ -8,6 +8,7 @@ interface BaseUserData {
     position: string;
     organisation: string;
     profileImage: string;
+    role?: string;
 }
 
 interface MutableUserData extends BaseUserData {
@@ -32,7 +33,8 @@ function createCustomUserData(data: MutableUserData | CreateUserData): CustomUse
         biography: data.biography,
         position: data.position,
         organisation: data.organisation,
-        profileImage: data.profileImage
+        profileImage: data.profileImage,
+        role: data.role,
     };
 }
 

@@ -1,7 +1,11 @@
 // components/admin/UsersTable.tsx
-import React from 'react';
+import React, {useState} from 'react';
 import DataTable, {PaginationProps} from './DataTable';
+import NextLink from 'components/reuseable/links/NextLink';
 import {User} from '@supabase/supabase-js';
+import UpdateUserModal from './UserUpdateModal';
+import {MutableUserData} from 'backend/models/user';
+import {convertUser} from 'helpers/convertUser';
 
 interface UsersTableProps {
     users: User[];
@@ -11,7 +15,9 @@ interface UsersTableProps {
 }
 
 const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage}) => {
-    // Define the columns to display.
+    const [selectedUser, setSelectedUser] = useState<MutableUserData | null>(null);
+
+    // Define fixed columns.
     const columns = [
         {key: 'email', label: 'Email'},
         {key: 'country', label: 'Country'},
@@ -20,15 +26,15 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
         {key: 'organisation', label: 'Organisation'},
         {key: 'phone', label: 'Phone'},
         {key: 'position', label: 'Position'},
+        {key: 'role', label: 'Role'},
     ];
 
-    // Create table headers.
     const headers = columns.map((col) => col.label).concat(['Actions']);
 
     const renderRow = (user: User) => {
         const metadata = user.user_metadata || {};
-        // For email, fallback to user.email if not provided in metadata.
         const email = metadata.email || user.email || '—';
+        let mutableUser = convertUser(user)
         return (
             <tr key={user.id}>
                 {columns.map((col) => {
@@ -41,8 +47,24 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
                     return <td key={col.key}>{cellContent}</td>;
                 })}
                 <td>
-                    <button className="btn btn-sm btn-soft-primary rounded-pill me-1">Edit</button>
+                    <button
+                        className="btn btn-sm btn-soft-primary rounded-pill me-1"
+                        data-bs-toggle="modal"
+                        data-bs-target={`#update-user-modal-${user.id}`}
+                    >
+                        Edit
+                    </button>
                     <button className="btn btn-sm btn-soft-red rounded-pill">Delete</button>
+                    {(
+                        <UpdateUserModal
+                            modalID={`update-user-modal-${user.id}`}
+                            userData={mutableUser}
+                            onUpdated={(updatedUser) => {
+                                // Optionally update local state here.
+                                setSelectedUser(null);
+                            }}
+                        />
+                    )}
                 </td>
             </tr>
         );
