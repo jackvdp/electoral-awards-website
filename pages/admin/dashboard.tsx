@@ -54,21 +54,14 @@ const Dashboard: React.FC<DashboardProps> = ({tab, users, totalUsers, page, perP
 
     return (
         <div className="wrapper bg-light">
-            <div className="container py-8 py-md-10">
+            <div className="py-8 py-md-10 px-4 px-lg-8">
                 <div className="row mb-8">
                     <div className="col-12">
                         <h1 className="display-6 mb-0">Admin Dashboard</h1>
                     </div>
                 </div>
 
-                {/* Stats Row */}
-                <div className="row gx-md-8 gx-xl-12 gy-6 mb-8">
-                    {stats.map(({title, value, icon, color}) => (
-                        <StatsCard key={title} title={title} value={value} icon={icon} color={color}/>
-                    ))}
-                </div>
-
-                <div className="row gx-md-8 gx-xl-12 gy-12">
+                <div className="row gy-12">
                     {/* Sidebar */}
                     <div className="col-md-4 col-lg-3">
                         <AdminSidebar links={sidebarLinks}/>
