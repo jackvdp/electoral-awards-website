@@ -57,7 +57,7 @@ const HomeHeader = () => {
             <div className={styles.contentWrapper}>
                 <div className="container pt-10 pt-md-20 pb-10 pb-md-20">
                     <div className="row">
-                        <div className="col-md-8 col-lg-7 col-xl-6 col-xxl-6">
+                        <div className="col-md-8 col-lg-7 col-xl-6 col-xxl-6 mt-10">
                             <h1 className="display-1 text-white mb-3 text-start">
                                 Electoral Stakeholders&apos; Network
                             </h1>
@@ -73,18 +73,35 @@ const HomeHeader = () => {
                                 integrity, transparency, and voter participation.
                             </p>
 
-                            <div className="d-flex gap-2">
-                                <NextLink
-                                    title="Register"
-                                    href="/register"
-                                    className="btn btn-soft-blue rounded-pill mt-2"
-                                />
-                                <NextLink
-                                    title="Awards"
-                                    href="/awards"
-                                    className="btn btn-blue rounded-pill mt-2"
-                                />
-                            </div>
+                            {!isLoggedIn && (
+                                <div className="d-flex gap-2">
+                                    <NextLink
+                                        title="Register"
+                                        href="/register"
+                                        className="btn btn-soft-blue rounded-pill mt-2"
+                                    />
+                                    <NextLink
+                                        title="Events"
+                                        href="/events"
+                                        className="btn btn-blue rounded-pill mt-2"
+                                    />
+                                </div>
+                            )}
+
+                            {isLoggedIn && (
+                                <div className="d-flex gap-2">
+                                    <NextLink
+                                        title="Awards"
+                                        href="/awards"
+                                        className="btn btn-soft-blue rounded-pill mt-2"
+                                    />
+                                    <NextLink
+                                        title="Events"
+                                        href="/events"
+                                        className="btn btn-blue rounded-pill mt-2"
+                                    />
+                                </div>
+                            )}
 
                             {!isLoggedIn && (
                                 <p className={`lead fs-md py-4 text-start ${styles.subtitleText}`}>
