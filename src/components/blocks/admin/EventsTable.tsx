@@ -13,24 +13,20 @@ const EventsTable: React.FC<EventsTableProps> = ({events}) => {
 
     const renderRow = (event: IEvent) => (
         <tr>
-            <td>{event.title}</td>
             <td>
-                <span className="badge bg-soft-primary">
-                  {new Date(event.startDate).toLocaleDateString()}
-                </span>{' '}
-                -{' '}
-                <span className="badge bg-soft-primary">
-                  {new Date(event.endDate).toLocaleDateString()}
-                </span>
+                <a href={"/events/" + event._id}>{event.title}</a>
             </td>
             <td>
-                <span className="badge bg-soft-blue">
-                  {event.signups ? event.signups.length : 0} signups
-                </span>
+                {new Date(event.startDate).toLocaleDateString()}
+                {' '}-{' '}
+                {new Date(event.endDate).toLocaleDateString()}
+            </td>
+            <td>
+                {event.signups ? event.signups.length : 0} signups
             </td>
             <td>
                 <button className="btn btn-sm btn-soft-primary rounded-pill me-1">Edit</button>
-                <button className="btn btn-sm btn-soft-danger rounded-pill">Delete</button>
+                <button className="btn btn-sm btn-soft-red rounded-pill">Delete</button>
             </td>
         </tr>
     );
