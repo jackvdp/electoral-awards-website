@@ -81,7 +81,7 @@ const HomeHeader = () => {
                                         className="btn btn-soft-blue rounded-pill mt-2"
                                     />
                                     <NextLink
-                                        title="Events"
+                                        title="View Events"
                                         href="/events"
                                         className="btn btn-blue rounded-pill mt-2"
                                     />
@@ -96,7 +96,7 @@ const HomeHeader = () => {
                                         className="btn btn-soft-blue rounded-pill mt-2"
                                     />
                                     <NextLink
-                                        title="Events"
+                                        title="View Events"
                                         href="/events"
                                         className="btn btn-blue rounded-pill mt-2"
                                     />
