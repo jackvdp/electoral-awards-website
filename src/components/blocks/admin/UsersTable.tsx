@@ -11,7 +11,7 @@ interface UsersTableProps {
 }
 
 const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage}) => {
-    // Define the columns you want to show with keys and labels.
+    // Define the columns to display.
     const columns = [
         {key: 'email', label: 'Email'},
         {key: 'country', label: 'Country'},
@@ -22,23 +22,24 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
         {key: 'position', label: 'Position'},
     ];
 
-    // Build the header labels and add an extra header for actions.
+    // Create table headers.
     const headers = columns.map((col) => col.label).concat(['Actions']);
 
     const renderRow = (user: User) => {
-        // Get the metadata object.
         const metadata = user.user_metadata || {};
-        // For email, fallback to user.email if not present in metadata.
+        // For email, fallback to user.email if not provided in metadata.
         const email = metadata.email || user.email || '—';
         return (
             <tr key={user.id}>
-                {columns.map((col) => (
-                    <td key={col.key}>
-                        {col.key === 'email'
-                            ? email
-                            : metadata[col.key] ? String(metadata[col.key]) : '—'}
-                    </td>
-                ))}
+                {columns.map((col) => {
+                    let cellContent = '';
+                    if (col.key === 'email') {
+                        cellContent = email;
+                    } else {
+                        cellContent = metadata[col.key] ? String(metadata[col.key]) : '—';
+                    }
+                    return <td key={col.key}>{cellContent}</td>;
+                })}
                 <td>
                     <button className="btn btn-sm btn-soft-primary rounded-pill me-1">Edit</button>
                     <button className="btn btn-sm btn-soft-red rounded-pill">Delete</button>
