@@ -10,6 +10,8 @@ export interface PaginationProps {
 }
 
 interface DataTableProps<T> {
+    headerTitle?: string;
+    headerAction?: React.ReactNode;
     headers: string[];
     data: T[];
     renderRow: (item: T) => React.ReactNode;
@@ -51,9 +53,15 @@ const Pagination: React.FC<PaginationProps> = ({page, totalCount, perPage, baseU
     );
 };
 
-const DataTable = <T, >({headers, data, renderRow, pagination}: DataTableProps<T>) => {
+const DataTable = <T, >({headerTitle, headerAction, headers, data, renderRow, pagination}: DataTableProps<T>) => {
     return (
         <div className="card">
+            {(headerTitle || headerAction) && (
+                <div className="card-header d-flex align-items-center">
+                    {headerTitle && <h4 className="card-title mb-0">{headerTitle}</h4>}
+                    {headerAction && <div className="ms-auto">{headerAction}</div>}
+                </div>
+            )}
             <div className="card-body">
                 <div className="table-responsive">
                     <table className="table table-hover">

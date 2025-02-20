@@ -1,7 +1,7 @@
 // components/admin/EventsTable.tsx
 import React from 'react';
 import DataTable from './DataTable';
-import {IEvent} from "../../../backend/models/event";
+import {IEvent} from 'backend/models/event';
 
 interface EventsTableProps {
     events: IEvent[];
@@ -10,8 +10,8 @@ interface EventsTableProps {
 const EventsTable: React.FC<EventsTableProps> = ({events}) => {
     const headers = ['Title', 'Dates', 'Signups', 'Actions'];
 
-    const renderRow = (event: any) => (
-        <tr key={event._id}>
+    const renderRow = (event: IEvent) => (
+        <tr>
             <td>{event.title}</td>
             <td>
                 <span className="badge bg-soft-primary">
@@ -19,7 +19,7 @@ const EventsTable: React.FC<EventsTableProps> = ({events}) => {
                 </span>{' '}
                 -{' '}
                 <span className="badge bg-soft-primary">
-                {new Date(event.endDate).toLocaleDateString()}
+                  {new Date(event.endDate).toLocaleDateString()}
                 </span>
             </td>
             <td>
@@ -34,7 +34,19 @@ const EventsTable: React.FC<EventsTableProps> = ({events}) => {
         </tr>
     );
 
-    return <DataTable headers={headers} data={events} renderRow={renderRow}/>;
+    const headerAction = (
+        <button className="btn btn-sm btn-primary rounded-pill">Create Event</button>
+    );
+
+    return (
+        <DataTable
+            headerTitle="All Events"
+            headerAction={headerAction}
+            headers={headers}
+            data={events}
+            renderRow={renderRow}
+        />
+    );
 };
 
 export default EventsTable;

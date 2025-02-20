@@ -1,7 +1,6 @@
 // components/admin/UsersTable.tsx
 import React from 'react';
 import DataTable, {PaginationProps} from './DataTable';
-import NextLink from 'components/reuseable/links/NextLink';
 import {User} from '@supabase/supabase-js';
 
 interface UsersTableProps {
@@ -25,7 +24,7 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
             </td>
             <td>
                 <button className="btn btn-sm btn-soft-primary rounded-pill me-1">Edit</button>
-                <button className="btn btn-sm btn-soft-danger rounded-pill">Delete</button>
+                <button className="btn btn-sm btn-soft-red rounded-pill">Delete</button>
             </td>
         </tr>
     );
@@ -37,7 +36,20 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
         baseUrl: '/admin/dashboard?tab=users',
     };
 
-    return <DataTable headers={headers} data={users} renderRow={renderRow} pagination={pagination}/>;
+    const headerAction = (
+        <button className="btn btn-sm btn-primary rounded-pill">Add User</button>
+    );
+
+    return (
+        <DataTable
+            headerTitle="All Users"
+            headerAction={headerAction}
+            headers={headers}
+            data={users}
+            renderRow={renderRow}
+            pagination={pagination}
+        />
+    );
 };
 
 export default UsersTable;

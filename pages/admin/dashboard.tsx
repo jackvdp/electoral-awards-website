@@ -3,7 +3,6 @@ import {GetServerSideProps} from 'next';
 import React from 'react';
 import {useRouter} from 'next/router';
 import AdminSidebar, {SidebarLink} from 'components/blocks/admin/AdminSidebar';
-import StatsCard from 'components/blocks/admin/StatsCard';
 import UsersTable from 'components/blocks/admin/UsersTable';
 import EventsTable from 'components/blocks/admin/EventsTable';
 import {createClient} from 'backend/supabase/server-props';
@@ -111,7 +110,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             console.error("Error listing users:", usersError);
         }
         users = userData?.users || [];
-        totalUsers = userData?.total_count || 0;
+        totalUsers = userData?.users.length || 0;
     }
 
     let events = [];
