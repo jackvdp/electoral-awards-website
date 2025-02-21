@@ -55,7 +55,7 @@ const HomeHeader = () => {
 
             {/* Content */}
             <div className={styles.contentWrapper}>
-                <div className="container pt-10 pt-md-20 pb-10 pb-md-20">
+                <div className="container pt-6 pt-md-20 pb-6 pb-md-20">
                     <div className="row">
                         <div className="col-md-8 col-lg-7 col-xl-6 col-xxl-6 mt-10">
                             <h1 className="display-1 text-white mb-3 text-start">
