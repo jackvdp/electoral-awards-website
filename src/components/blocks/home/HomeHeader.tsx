@@ -57,7 +57,7 @@ const HomeHeader = () => {
             <div className={styles.contentWrapper}>
                 <div className="container pt-6 pt-md-20 pb-6 pb-md-20">
                     <div className="row">
-                        <div className="col-md-8 col-lg-7 col-xl-6 col-xxl-6 mt-10">
+                        <div className="col-md-8 col-lg-7 col-xl-6 col-xxl-6 mt-md-10 mt-6">
                             <h1 className="display-1 text-white mb-3 text-start">
                                 Electoral Stakeholders&apos; Network
                             </h1>
