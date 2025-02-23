@@ -117,6 +117,32 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         }
     };
 
+    const logInWithMagicLink = async (email: string): Promise<void> => {
+        try {
+            setState(prev => ({...prev, loading: true, error: null}));
+
+            const {data, error} = await supabase.auth.signInWithOtp({
+                email,
+                options: {
+                    emailRedirectTo: process.env.NEXT_PUBLIC_BASE_URL,
+                },
+            });
+
+            if (error) {
+                console.log("error", error)
+                throw error
+            }
+
+            setState(prev => ({
+                ...prev,
+                loading: false,
+            }));
+        } catch (error) {
+            handleError(error);
+            throw error;
+        }
+    };
+
     const createUser = async (userData: CreateUserData): Promise<boolean> => {
         try {
             setState(prev => ({...prev, loading: true, error: null}));
@@ -318,6 +344,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
             loading: state.loading,
             error: state.error,
             login,
+            logInWithMagicLink,
             signout,
             createUser,
             getUser,
