@@ -21,7 +21,7 @@ const UserEventModal: FC<UserEventModalProps> = ({modalID, userId, availableEven
     useEffect(() => {
         const fetchSignups = async () => {
             try {
-                const res = await fetch(`/api/events/mySignups?userId=${userId}`);
+                const res = await fetch(`/api/users/signups?userId=${userId}`);
                 const data = await res.json();
                 setCurrentSignups(data);
             } catch (error) {
@@ -65,7 +65,7 @@ const UserEventModal: FC<UserEventModalProps> = ({modalID, userId, availableEven
             } else {
                 setAlertMessage('User signed up successfully.');
                 // Refresh current signups.
-                const res2 = await fetch(`/api/events/mySignups?userId=${userId}`);
+                const res2 = await fetch(`/api/users/signups?userId=${userId}`);
                 const data2 = await res2.json();
                 setCurrentSignups(data2);
             }
