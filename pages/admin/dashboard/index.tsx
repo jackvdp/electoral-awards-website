@@ -1,4 +1,4 @@
-// pages/admin/dashboard.tsx
+// pages/admin/index.tsx
 import {GetServerSideProps} from 'next';
 import React from 'react';
 import UsersTable from 'components/blocks/admin/UsersTable';
@@ -16,7 +16,7 @@ interface DashboardProps {
     events: any[];
 }
 
-const Dashboard: React.FC<DashboardProps> = ({tab, users, totalUsers, page, perPage, events}) => {
+const Index: React.FC<DashboardProps> = ({tab, users, totalUsers, page, perPage, events}) => {
 
 
     const renderContent = () => {
@@ -40,11 +40,11 @@ const Dashboard: React.FC<DashboardProps> = ({tab, users, totalUsers, page, perP
     };
 
     return (
-        <AdminPage>{renderContent()}</AdminPage>
+        <AdminPage title={"Admin Index"}>{renderContent()}</AdminPage>
     );
 };
 
-export default Dashboard;
+export default Index;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const supabase = createClient(ctx);

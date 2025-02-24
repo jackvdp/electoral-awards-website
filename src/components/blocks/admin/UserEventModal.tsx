@@ -33,8 +33,8 @@ const UserEventModal: FC<UserEventModalProps> = ({modalID, userId, availableEven
 
     const handleRemoveSignup = async (eventId: string) => {
         try {
-            const res = await fetch('/api/events/cancelSignup', {
-                method: 'POST',
+            const res = await fetch('/api/events/signup', {
+                method: 'DELETE',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({userId, eventId}),
             });

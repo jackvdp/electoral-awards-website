@@ -2,10 +2,11 @@ import React from 'react';
 import AdminSidebar, {SidebarLink} from 'components/blocks/admin/AdminSidebar';
 
 interface DashboardProps {
+    title: string;
     children: React.ReactNode;
 }
 
-const AdminPage: React.FC<DashboardProps> = ({children}) => {
+const AdminPage: React.FC<DashboardProps> = ({children, title}) => {
 
     const sidebarLinks: SidebarLink[] = [
         {title: 'Users', url: '/admin/dashboard?tab=users', icon: 'uil-users-alt'},
@@ -18,7 +19,7 @@ const AdminPage: React.FC<DashboardProps> = ({children}) => {
             <div className="py-8 py-md-10 px-4 px-lg-8">
                 <div className="row mb-8">
                     <div className="col-12">
-                        <h1 className="display-6 mb-0">Admin Dashboard</h1>
+                        <h1 className="display-6 mb-0">{title}</h1>
                     </div>
                 </div>
 
