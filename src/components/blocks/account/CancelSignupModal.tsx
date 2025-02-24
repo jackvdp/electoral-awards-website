@@ -18,8 +18,8 @@ const CancelSignupModal: FC<CancelSignupModalProps> = ({modalID, eventId, onCanc
         if (!currentUser) return;
         setIsCancelling(true);
         try {
-            const res = await fetch('/api/events/cancelSignup', {
-                method: 'POST',
+            const res = await fetch('/api/events/signup', {
+                method: 'DELETE',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({eventId, userId: currentUser.id})
             });

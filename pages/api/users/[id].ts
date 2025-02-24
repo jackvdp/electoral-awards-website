@@ -1,4 +1,4 @@
-// pages/api/deleteUser.ts
+// pages/api/user/[id].ts
 import type {NextApiRequest, NextApiResponse} from 'next';
 import {createClient} from '@supabase/supabase-js';
 
@@ -8,33 +8,26 @@ const supabaseAdmin = createClient(
 );
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    switch (req.method) {
-        case 'DELETE':
-            return await deleteUser(req, res);
-        default:
-            return res.status(405).json({error: 'Method not allowed'});
+    const {id} = req.query; // Get the user id from the URL parameter
+    if (req.method !== 'DELETE') {
+        return res.status(405).json({error: 'Method not allowed'});
     }
-}
-
-async function deleteUser(req: NextApiRequest, res: NextApiResponse) {
-    const {userId} = req.body;
-    if (!userId) {
-        return res.status(400).json({error: 'Missing userId'});
+    if (!id || typeof id !== 'string') {
+        return res.status(400).json({error: 'Missing or invalid user id'});
     }
 
-    // Delete user profile from your Postgres (if needed) then delete auth user:
-    // First delete user from your "users" table if you have one...
+    // First delete user profile from your "users" table if needed
     const {error: profileError} = await supabaseAdmin
         .from('users')
         .delete()
-        .eq('id', userId);
+        .eq('id', id);
 
     if (profileError) {
         return res.status(500).json({error: profileError.message});
     }
 
     // Now delete the auth user
-    const {error: authError} = await supabaseAdmin.auth.admin.deleteUser(userId);
+    const {error: authError} = await supabaseAdmin.auth.admin.deleteUser(id);
     if (authError) {
         return res.status(500).json({error: authError.message});
     }

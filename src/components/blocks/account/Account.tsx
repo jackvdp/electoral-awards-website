@@ -49,7 +49,7 @@ const Account: FC = () => {
     // Fetch events the user signed up for
     useEffect(() => {
         if (user) {
-            fetch(`/api/events/mySignups?userId=${user.id}`)
+            fetch(`/api/users/signups?userId=${user.id}`)
                 .then((res) => res.json())
                 .then((data) => setMyEvents(data))
                 .catch((err) => console.error('Error fetching signed-up events:', err));

@@ -4,6 +4,7 @@ import DataTable from './DataTable';
 import {IEvent} from 'backend/models/event';
 import CreateEventModal from "./CreateEventModal";
 import UpdateEventModal from "./UpdateEventModal";
+import EventSignupsModal from "./EventsSignupsModal";
 
 interface EventsTableProps {
     events: IEvent[];
@@ -23,7 +24,13 @@ const EventsTable: React.FC<EventsTableProps> = ({events}) => {
                 {new Date(event.endDate).toLocaleDateString()}
             </td>
             <td>
-                {event.signups ? event.signups.length : 0} signups
+                <button
+                    className="btn btn-link p-0"
+                    data-bs-toggle="modal"
+                    data-bs-target={`#event-signups-modal-${event._id}`}
+                >
+                    {event.signups ? event.signups.length : 0} signups
+                </button>
             </td>
             <td>
                 <button
@@ -37,6 +44,12 @@ const EventsTable: React.FC<EventsTableProps> = ({events}) => {
                 <UpdateEventModal
                     modalID={`update-event-modal-${event._id}`}
                     eventData={event}
+                    onUpdated={() => {
+                    }}
+                />
+                <EventSignupsModal
+                    modalID={`event-signups-modal-${event._id}`}
+                    eventId={event._id}
                     onUpdated={() => {
                     }}
                 />

@@ -1,4 +1,4 @@
-// pages/api/events/mySignups.ts
+// pages/api/users/signups?userId=
 import type {NextApiRequest, NextApiResponse} from 'next';
 import dbConnect from "../../../src/backend/mongo";
 import mongoose from 'mongoose';

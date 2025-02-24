@@ -291,10 +291,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
             }
 
             // Call your secure API route to delete the user.
-            const response = await fetch('/api/user', {
+            const response = await fetch(`/api/users/${userID}`, {
                 method: 'DELETE',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({userId: userID}),
             });
             const data = await response.json();
             if (!response.ok) {
