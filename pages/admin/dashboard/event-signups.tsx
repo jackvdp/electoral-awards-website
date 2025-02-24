@@ -1,26 +1,24 @@
 import {GetServerSideProps, NextPage} from 'next';
 import React, {useState} from 'react';
-import AdminSidebar, {SidebarLink} from 'components/blocks/admin/AdminSidebar';
 import DataTable from 'components/blocks/admin/DataTable';
 import {IEvent} from 'backend/models/event';
 import {User} from '@supabase/supabase-js';
 import {createClient} from 'backend/supabase/server-props';
-import NextLink from 'components/reuseable/links/NextLink';
-import AdminPage from "../../../src/components/blocks/admin/AdminPage";
+import AdminPage from "components/blocks/admin/AdminPage";
 
 interface EventSignupsPageProps {
     event: IEvent;
-    signups: (User | null)[];
+    signups: (User | string)[];
 }
 
 const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => {
-    const [currentSignups, setCurrentSignups] = useState<(User | null)[]>(signups);
+    const [currentSignups, setCurrentSignups] = useState<(User | string)[]>(signups);
 
     // Handler to remove a user from the event's signups
     const handleRemoveSignup = async (userId: string) => {
         try {
-            const res = await fetch('/api/events/cancelSignup', {
-                method: 'POST',
+            const res = await fetch('/api/events/signup', {
+                method: 'DELETE',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({eventId: event._id, userId}),
             });
@@ -29,7 +27,7 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
                 alert(data.error || 'Failed to remove signup.');
             } else {
                 // Filter out the removed user
-                setCurrentSignups(prev => prev.filter(u => u && u.id !== userId));
+                setCurrentSignups(prev => prev.filter(u => (typeof u !== 'string') && u.id !== userId));
             }
         } catch (error: any) {
             alert(error.message);
@@ -45,11 +43,12 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
     ];
     const headers = columns.map(col => col.label);
 
-    const renderRow = (user: User | null) => {
-        if (!user) {
+    const renderRow = (user: User | string) => {
+        if (typeof user === 'string') {
             return (
                 <tr>
-                    <td colSpan={4}>User not found</td>
+                    <td colSpan={4}>User not found: {user}</td>
+                    {removeButton(user)}
                 </tr>
             );
         }
@@ -59,20 +58,24 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
                 <td>{metadata.email || user.email || '—'}</td>
                 <td>{metadata.firstname || '—'}</td>
                 <td>{metadata.lastname || '—'}</td>
-                <td>
-                    <button
-                        className="btn btn-sm btn-outline-danger"
-                        onClick={() => handleRemoveSignup(user.id)}
-                    >
-                        Remove
-                    </button>
-                </td>
+                {removeButton(user.id)}
             </tr>
         );
     };
 
+    const removeButton = (userId: string) => (
+        <td>
+            <button
+                className="btn btn-sm btn-outline-danger"
+                onClick={() => handleRemoveSignup(userId)}
+            >
+                Remove
+            </button>
+        </td>
+    )
+
     return (
-        <AdminPage title={event.title}>
+        <AdminPage title={"Signups: " + event.title}>
             <DataTable
                 headerTitle="Signups"
                 headers={headers}
@@ -86,6 +89,28 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
 export default EventSignupsPage;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const supabase = createClient(ctx);
+
+    // Check session; ensure an admin session
+    const {data: {session}} = await supabase.auth.getSession();
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        };
+    }
+
+    if (session.user.user_metadata.role !== 'admin') {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        };
+    }
+
     const {eventId} = ctx.query;
     if (!eventId || typeof eventId !== 'string') {
         return {notFound: true};
@@ -102,21 +127,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
     const event = await eventRes.json();
 
-    // Get the list of signup IDs from the event.
     const signupIds: string[] = event.signups || [];
-    let signups: (User | null)[] = [];
 
-    // For each signup id, call the GET /api/user endpoint.
+    let signups: (User | string)[] = [];
+
     if (signupIds.length > 0) {
         signups = await Promise.all(
             signupIds.map(async (id) => {
-                try {
-                    const res = await fetch(`${baseUrl}/api/user?userId=${id}`);
-                    if (!res.ok) return null;
-                    return await res.json();
-                } catch (error) {
-                    return null;
+                const {data, error} = await supabase.auth.admin.getUserById(id);
+                if (error || !data) {
+                    return id;
                 }
+                return data.user;
             })
         );
     }

@@ -4,7 +4,6 @@ import DataTable from './DataTable';
 import {IEvent} from 'backend/models/event';
 import CreateEventModal from "./CreateEventModal";
 import UpdateEventModal from "./UpdateEventModal";
-import EventSignupsModal from "./EventsSignupsModal";
 import Link from "next/link";
 
 interface EventsTableProps {
