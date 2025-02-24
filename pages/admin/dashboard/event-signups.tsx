@@ -5,6 +5,7 @@ import {IEvent} from 'backend/models/event';
 import {User} from '@supabase/supabase-js';
 import {createClient} from 'backend/supabase/server-props';
 import AdminPage from "components/blocks/admin/AdminPage";
+import {userHeaders, userColumns, userRow} from "../../../src/components/blocks/admin/userColumns";
 
 interface EventSignupsPageProps {
     event: IEvent;
@@ -34,14 +35,7 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
         }
     };
 
-    // Define columns for the signups table.
-    const columns = [
-        {key: 'email', label: 'Email'},
-        {key: 'firstname', label: 'First Name'},
-        {key: 'lastname', label: 'Last Name'},
-        {key: 'actions', label: 'Actions'},
-    ];
-    const headers = columns.map(col => col.label);
+    const headers = userHeaders.concat(['Actions']);
 
     const renderRow = (user: User | string) => {
         if (typeof user === 'string') {
@@ -55,9 +49,7 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
         const metadata = user.user_metadata || {};
         return (
             <tr key={user.id}>
-                <td>{metadata.email || user.email || '—'}</td>
-                <td>{metadata.firstname || '—'}</td>
-                <td>{metadata.lastname || '—'}</td>
+                {userRow(user)}
                 {removeButton(user.id)}
             </tr>
         );

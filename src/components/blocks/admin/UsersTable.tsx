@@ -9,6 +9,7 @@ import {convertUser} from 'helpers/convertUser';
 import CreateUserModal from "./UserCreateModal";
 import UserEventModal from "./UserEventModal";
 import {IEvent} from "backend/models/event";
+import {userHeaders, userRow} from "./userColumns";
 
 interface UsersTableProps {
     users: User[];
@@ -21,35 +22,13 @@ interface UsersTableProps {
 const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage, allEvents}) => {
     const [selectedUser, setSelectedUser] = useState<MutableUserData | null>(null);
 
-    // Define fixed columns.
-    const columns = [
-        {key: 'email', label: 'Email'},
-        {key: 'country', label: 'Country'},
-        {key: 'firstname', label: 'First Name'},
-        {key: 'lastname', label: 'Last Name'},
-        {key: 'organisation', label: 'Organisation'},
-        {key: 'phone', label: 'Phone'},
-        {key: 'position', label: 'Position'},
-        {key: 'role', label: 'Role'},
-    ];
-
-    const headers = columns.map((col) => col.label).concat(['Actions']);
+    const headers = userHeaders.concat(['Actions']);
 
     const renderRow = (user: User) => {
-        const metadata = user.user_metadata || {};
-        const email = metadata.email || user.email || '—';
         let mutableUser = convertUser(user)
         return (
             <tr key={user.id}>
-                {columns.map((col) => {
-                    let cellContent = '';
-                    if (col.key === 'email') {
-                        cellContent = email;
-                    } else {
-                        cellContent = metadata[col.key] ? String(metadata[col.key]) : '—';
-                    }
-                    return <td key={col.key}>{cellContent}</td>;
-                })}
+                {userRow(user)}
                 <td>
                     <button
                         className="btn btn-sm btn-soft-primary rounded-pill me-1"
