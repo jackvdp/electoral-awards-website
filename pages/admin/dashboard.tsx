@@ -35,7 +35,8 @@ const Dashboard: React.FC<DashboardProps> = ({tab, users, totalUsers, page, perP
     const renderContent = () => {
         switch (tab) {
             case 'users':
-                return <UsersTable users={users} totalUsers={totalUsers} page={page} perPage={perPage}/>;
+                return <UsersTable users={users} totalUsers={totalUsers} page={page} perPage={perPage}
+                                   allEvents={events}/>;
             case 'events':
                 return <EventsTable events={events}/>;
             case 'articles':
@@ -120,11 +121,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
 
     let events = [];
-    if (currentTab === 'events') {
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-        const eventsResponse = await fetch(`${baseUrl}/api/events`);
-        events = await eventsResponse.json();
-    }
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const eventsResponse = await fetch(`${baseUrl}/api/events`);
+    events = await eventsResponse.json();
 
     return {
         props: {

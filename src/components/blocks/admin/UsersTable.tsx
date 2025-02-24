@@ -7,15 +7,18 @@ import UpdateUserModal from './UserUpdateModal';
 import {MutableUserData} from 'backend/models/user';
 import {convertUser} from 'helpers/convertUser';
 import CreateUserModal from "./UserCreateModal";
+import UserEventModal from "./UserEventModal";
+import {IEvent} from "backend/models/event";
 
 interface UsersTableProps {
     users: User[];
     totalUsers: number;
     page: number;
     perPage: number;
+    allEvents: IEvent[];
 }
 
-const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage}) => {
+const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage, allEvents}) => {
     const [selectedUser, setSelectedUser] = useState<MutableUserData | null>(null);
 
     // Define fixed columns.
@@ -55,17 +58,30 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
                     >
                         Edit
                     </button>
+                    <button
+                        className="btn btn-sm btn-outline-secondary rounded-pill me-1"
+                        data-bs-toggle="modal"
+                        data-bs-target={`#user-event-modal-${user.id}`}
+                    >
+                        Signups
+                    </button>
                     <button className="btn btn-sm btn-soft-red rounded-pill">Delete</button>
-                    {(
-                        <UpdateUserModal
-                            modalID={`update-user-modal-${user.id}`}
-                            userData={mutableUser}
-                            onUpdated={(updatedUser) => {
-                                // Optionally update local state here.
-                                setSelectedUser(null);
-                            }}
-                        />
-                    )}
+                    <UpdateUserModal
+                        modalID={`update-user-modal-${user.id}`}
+                        userData={mutableUser}
+                        onUpdated={(updatedUser) => {
+                            // Optionally update local state here.
+                            setSelectedUser(null);
+                        }}
+                    />
+                    <UserEventModal
+                        modalID={`user-event-modal-${user.id}`}
+                        userId={user.id}
+                        availableEvents={allEvents}
+                        onUpdated={() => {
+                            // Optionally refresh signups if needed.
+                        }}
+                    />
                 </td>
             </tr>
         );
