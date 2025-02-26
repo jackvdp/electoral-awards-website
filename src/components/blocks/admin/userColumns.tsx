@@ -1,5 +1,6 @@
 import React from "react";
 import {User} from "@supabase/supabase-js";
+import {MutableUserData} from "../../../backend/models/user";
 
 export const userColumns = [
     {key: 'email', label: 'Email'},
@@ -14,16 +15,15 @@ export const userColumns = [
 
 export const userHeaders = userColumns.map((col) => col.label);
 
-export const userRow = (user: User) => {
-    const metadata = user.user_metadata || {};
-    const email = metadata.email || user.email || '—';
+export const userRow = (user: MutableUserData) => {
+    const email = user.email;
 
     return userColumns.map((col) => {
         let cellContent = '';
         if (col.key === 'email') {
             cellContent = email;
         } else {
-            cellContent = metadata[col.key] ? String(metadata[col.key]) : '—';
+            cellContent = (user as Record<string, any>)[col.key] ? String((user as Record<string, any>)[col.key]) : '—';
         }
         return <td key={col.key}> {cellContent} </td>;
     })

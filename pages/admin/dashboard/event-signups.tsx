@@ -85,16 +85,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     // Check session; ensure an admin session
     const {data: {session}} = await supabase.auth.getSession();
-    if (!session) {
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false,
-            },
-        };
-    }
-
-    if (session.user.user_metadata.role !== 'admin') {
+    if (!session || session.user.user_metadata.role !== 'admin') {
         return {
             redirect: {
                 destination: '/',

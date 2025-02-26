@@ -1,7 +1,6 @@
 // components/admin/UsersTable.tsx
 import React, {useState} from 'react';
 import DataTable, {PaginationProps} from './DataTable';
-import NextLink from 'components/reuseable/links/NextLink';
 import {User} from '@supabase/supabase-js';
 import UpdateUserModal from './UserUpdateModal';
 import {MutableUserData} from 'backend/models/user';
@@ -12,7 +11,7 @@ import {IEvent} from "backend/models/event";
 import {userHeaders, userRow} from "./userColumns";
 
 interface UsersTableProps {
-    users: User[];
+    users: MutableUserData[];
     totalUsers: number;
     page: number;
     perPage: number;
@@ -24,29 +23,28 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
 
     const headers = userHeaders.concat(['Actions']);
 
-    const renderRow = (user: User) => {
-        let mutableUser = convertUser(user)
+    const renderRow = (mutableUser: MutableUserData) => {
         return (
-            <tr key={user.id}>
-                {userRow(user)}
+            <tr key={mutableUser.id}>
+                {userRow(mutableUser)}
                 <td>
                     <button
                         className="btn btn-sm btn-soft-primary rounded-pill me-1"
                         data-bs-toggle="modal"
-                        data-bs-target={`#update-user-modal-${user.id}`}
+                        data-bs-target={`#update-user-modal-${mutableUser.id}`}
                     >
                         Edit
                     </button>
                     <button
                         className="btn btn-sm btn-outline-secondary rounded-pill me-1"
                         data-bs-toggle="modal"
-                        data-bs-target={`#user-event-modal-${user.id}`}
+                        data-bs-target={`#user-event-modal-${mutableUser.id}`}
                     >
                         Signups
                     </button>
                     <button className="btn btn-sm btn-soft-red rounded-pill">Delete</button>
                     <UpdateUserModal
-                        modalID={`update-user-modal-${user.id}`}
+                        modalID={`update-user-modal-${mutableUser.id}`}
                         userData={mutableUser}
                         onUpdated={(updatedUser) => {
                             // Optionally update local state here.
@@ -54,8 +52,8 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
                         }}
                     />
                     <UserEventModal
-                        modalID={`user-event-modal-${user.id}`}
-                        userId={user.id}
+                        modalID={`user-event-modal-${mutableUser.id}`}
+                        userId={mutableUser.id}
                         availableEvents={allEvents}
                         onUpdated={() => {
                             // Optionally refresh signups if needed.
@@ -92,6 +90,7 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
             data={users}
             renderRow={renderRow}
             pagination={pagination}
+            searchable
         />
     );
 };

@@ -1,6 +1,7 @@
 // components/admin/DataTable.tsx
-import React from 'react';
+import React, {useState} from 'react';
 import NextLink from 'components/reuseable/links/NextLink';
+import {useRouter} from "next/router";
 
 export interface PaginationProps {
     page: number;
@@ -16,6 +17,7 @@ interface DataTableProps<T> {
     data: T[];
     renderRow: (item: T) => React.ReactNode;
     pagination?: PaginationProps;
+    searchable?: boolean;
 }
 
 const Pagination: React.FC<PaginationProps> = ({page, totalCount, perPage, baseUrl}) => {
@@ -53,13 +55,56 @@ const Pagination: React.FC<PaginationProps> = ({page, totalCount, perPage, baseU
     );
 };
 
-const DataTable = <T, >({headerTitle, headerAction, headers, data, renderRow, pagination}: DataTableProps<T>) => {
+const DataTable = <T, >({
+                            headerTitle,
+                            headerAction,
+                            headers,
+                            data,
+                            renderRow,
+                            pagination,
+                            searchable
+                        }: DataTableProps<T>) => {
+    const router = useRouter();
+    // Get the current search term from the query or use an empty string.
+    const {search: searchQuery} = router.query;
+    const [searchInput, setSearchInput] = useState((searchQuery as string) || '');
+
+    const handleSearch = () => {
+        router.push({
+            pathname: router.pathname,
+            query: {
+                ...router.query,
+                search: searchInput,
+                page: 1, // Reset to first page on new search.
+            },
+        });
+    };
+
     return (
         <div className="card">
             {(headerTitle || headerAction) && (
                 <div className="card-header d-flex align-items-center">
                     {headerTitle && <h4 className="card-title mb-0">{headerTitle}</h4>}
-                    {headerAction && <div className="ms-auto">{headerAction}</div>}
+                    {searchable &&
+                        <div className="ms-auto">
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Search..."
+                                value={searchInput}
+                                onChange={(e) => setSearchInput(e.target.value)}
+                            />
+                        </div>
+                    }
+                    {searchable &&
+                        <div className="ms-2">
+                            <button className="btn btn-soft-primary btn-sm rounded-pill" onClick={handleSearch}>Search
+                            </button>
+                        </div>
+                    }
+                    {headerAction && <div className={`ms-2 ${!searchable && "ms-auto"}`}>
+                        {headerAction}
+                    </div>}
                 </div>
             )}
             <div className="card-body">

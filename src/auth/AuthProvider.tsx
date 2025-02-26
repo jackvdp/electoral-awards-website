@@ -197,10 +197,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     const getUser = async (): Promise<MutableUserData | null> => {
         try {
             const user = state.currentUser;
-            console.log("**** 2", user)
             if (user === null) return null;
-
-            console.log("**** 3", user.id)
 
             const {data, error} = await supabase
                 .from('users')
