@@ -3,6 +3,7 @@ import {createCustomUserData, CreateUserData, MutableUserData} from 'backend/mod
 import {createClient} from "../backend/supabase/component";
 import {AuthContext, CustomAuthError} from './useAuth';
 import {User} from '@supabase/supabase-js';
+import supabaseAdmin from "backend/supabase/admin";
 
 interface AuthState {
     isLoggedIn: boolean;
@@ -174,6 +175,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
                         position: userData.position,
                         organisation: userData.organisation,
                         profile_image: userData.profileImage,
+                        role: userData.role,
                         created_at: new Date().toISOString(),
                         updated_at: new Date().toISOString()
                     }
@@ -219,7 +221,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
                 biography: data.biography,
                 position: data.position,
                 organisation: data.organisation,
-                profileImage: data.profile_image  // Note the case conversion
+                profileImage: data.profile_image,
+                role: data.role,
             };
         } catch (error) {
             handleError(error);
@@ -231,32 +234,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         try {
             setState(prev => ({...prev, loading: true, error: null}));
 
-            // Update auth metadata
-            const {error: authUpdateError} = await supabase.auth.updateUser({
-                data: createCustomUserData(userData)
+            // Call the API endpoint instead of direct Supabase calls
+            const response = await fetch(`/api/users/${userID}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
             });
 
-            if (authUpdateError) throw authUpdateError;
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to update user');
+            }
 
-            // Update user profile in users table
-            const {error: profileUpdateError} = await supabase
-                .from('users')
-                .update({
-                    email: userData.email,
-                    firstname: userData.firstname,
-                    lastname: userData.lastname,
-                    phone: userData.phone,
-                    country: userData.country,
-                    birthdate: userData.birthdate,
-                    biography: userData.biography,
-                    position: userData.position,
-                    organisation: userData.organisation,
-                    profile_image: userData.profileImage,
-                    updated_at: new Date().toISOString()
-                })
-                .eq('id', userID);
-
-            if (profileUpdateError) throw profileUpdateError;
+            const result = await response.json();
 
             setState(prev => ({
                 ...prev,
@@ -264,7 +256,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
                 error: null
             }));
 
-            return userData;
+            return result.user;
         } catch (error) {
             handleError(error);
             return null;

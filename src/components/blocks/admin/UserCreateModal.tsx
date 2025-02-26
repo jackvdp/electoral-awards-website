@@ -135,7 +135,7 @@ const CreateUserModal: FC<CreateUserModalProps> = ({modalID}) => {
                 defaultValue: "",
                 required: false,
                 options: [
-                    {label: 'User', value: ''},
+                    {label: 'User', value: 'user'},
                     {label: 'Admin', value: 'admin'},
                 ],
             },

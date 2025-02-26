@@ -6,14 +6,15 @@ import {User} from '@supabase/supabase-js';
 import {createClient} from 'backend/supabase/server-props';
 import AdminPage from "components/blocks/admin/AdminPage";
 import {userHeaders, userColumns, userRow} from "../../../src/components/blocks/admin/userColumns";
+import {MutableUserData} from "../../../src/backend/models/user";
 
 interface EventSignupsPageProps {
     event: IEvent;
-    signups: (User | string)[];
+    signups: (MutableUserData | string)[];
 }
 
 const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => {
-    const [currentSignups, setCurrentSignups] = useState<(User | string)[]>(signups);
+    const [currentSignups, setCurrentSignups] = useState<(MutableUserData | string)[]>(signups);
 
     // Handler to remove a user from the event's signups
     const handleRemoveSignup = async (userId: string) => {
@@ -37,7 +38,7 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
 
     const headers = userHeaders.concat(['Actions']);
 
-    const renderRow = (user: User | string) => {
+    const renderRow = (user: MutableUserData | string) => {
         if (typeof user === 'string') {
             return (
                 <tr>
@@ -46,7 +47,6 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
                 </tr>
             );
         }
-        const metadata = user.user_metadata || {};
         return (
             <tr key={user.id}>
                 {userRow(user)}

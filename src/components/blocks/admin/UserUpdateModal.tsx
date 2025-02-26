@@ -23,19 +23,18 @@ const UpdateUserModal: FC<UpdateUserModalProps> = ({modalID, userData, onUpdated
         // Build updated user data.
         const updatedUser: MutableUserData = {
             ...userData,
-            firstname: values.firstname,
-            lastname: values.lastname,
-            email: values.email,
-            phone: values.phone,
-            country: values.country,
-            birthdate: values.birthdate || "",
-            biography: values.biography || "",
-            position: values.position,
-            organisation: values.organisation,
+            firstname: values.firstname || userData.firstname,
+            lastname: values.lastname || userData.lastname,
+            email: values.email || userData.email,
+            phone: values.phone || userData.phone,
+            country: values.country || userData.country,
+            birthdate: values.birthdate || userData.birthdate,
+            biography: values.biography || userData.biography,
+            position: values.position || userData.position,
+            organisation: values.organisation || userData.organisation,
             profileImage: values.profileImage || userData.profileImage,
+            role: values.role || userData.role,
         };
-        // Set role (if provided) – an empty string means a regular user.
-        (updatedUser as any).role = values.role || '';
 
         const updated = await updateUser(updatedUser, userData.id);
         setIsUpdating(false);
@@ -122,7 +121,7 @@ const UpdateUserModal: FC<UpdateUserModalProps> = ({modalID, userData, onUpdated
                 defaultValue: (userData as any).role || '',
                 required: false,
                 options: [
-                    {label: 'User', value: ''},
+                    {label: 'User', value: 'user'},
                     {label: 'Admin', value: 'admin'},
                 ]
             }
