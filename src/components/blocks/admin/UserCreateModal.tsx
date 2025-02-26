@@ -4,6 +4,7 @@ import Modal from 'components/reuseable/modal/Modal';
 import ReusableForm, {InputItem} from 'components/reuseable/Form';
 import {CreateUserData} from 'backend/models/user';
 import {useAuth} from 'auth/useAuth';
+import inputItems from "./helpers/userInputItems";
 
 interface CreateUserModalProps {
     modalID: string;
@@ -43,111 +44,6 @@ const CreateUserModal: FC<CreateUserModalProps> = ({modalID}) => {
         } else {
             setAlertMessage('Failed to create user.');
         }
-    };
-
-    const inputItems = (): InputItem[] => {
-        return [
-            {
-                title: 'First Name',
-                placeholder: 'Enter first name',
-                type: 'input',
-                name: 'firstname',
-                defaultValue: "",
-                required: true,
-            },
-            {
-                title: 'Last Name',
-                placeholder: 'Enter last name',
-                type: 'input',
-                name: 'lastname',
-                defaultValue: "",
-                required: true,
-            },
-            {
-                title: 'Email',
-                placeholder: 'Enter email',
-                type: 'email',
-                name: 'email',
-                defaultValue: "",
-                required: true,
-            },
-            {
-                title: 'Password',
-                placeholder: 'Enter password',
-                type: 'password',
-                name: 'password',
-                defaultValue: "",
-                required: true,
-            },
-            {
-                title: 'Phone',
-                placeholder: 'Enter phone number',
-                type: 'phone',
-                name: 'phone',
-                defaultValue: "",
-                required: true,
-            },
-            {
-                title: 'Country',
-                placeholder: 'Select a country',
-                type: 'country',
-                name: 'country',
-                defaultValue: "",
-                required: true,
-            },
-            {
-                title: 'Birthdate',
-                placeholder: 'Enter birthdate',
-                type: 'input', // or use 'date' if supported
-                name: 'birthdate',
-                defaultValue: "",
-                required: false,
-            },
-            {
-                title: 'Biography',
-                placeholder: 'Enter biography',
-                type: 'area',
-                name: 'biography',
-                defaultValue: "",
-                required: false,
-            },
-            {
-                title: 'Position',
-                placeholder: 'Enter position',
-                type: 'input',
-                name: 'position',
-                defaultValue: "",
-                required: true,
-            },
-            {
-                title: 'Organisation',
-                placeholder: 'Enter organisation',
-                type: 'input',
-                name: 'organisation',
-                defaultValue: "",
-                required: true,
-            },
-            {
-                title: 'Role',
-                placeholder: 'Select role',
-                type: 'select',
-                name: 'role',
-                defaultValue: "",
-                required: false,
-                options: [
-                    {label: 'User', value: 'user'},
-                    {label: 'Admin', value: 'admin'},
-                ],
-            },
-            {
-                title: 'Profile Image URL',
-                placeholder: 'Enter profile image URL',
-                type: 'input',
-                name: 'profileImage',
-                defaultValue: "",
-                required: false,
-            },
-        ];
     };
 
     return (

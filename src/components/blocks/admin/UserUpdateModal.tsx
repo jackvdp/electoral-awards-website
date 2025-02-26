@@ -4,6 +4,7 @@ import Modal from 'components/reuseable/modal/Modal';
 import ReusableForm, {InputItem} from 'components/reuseable/Form';
 import {MutableUserData} from 'backend/models/user';
 import {useAuth} from 'auth/useAuth';
+import inputItems from "./helpers/userInputItems";
 
 interface UpdateUserModalProps {
     modalID: string;
@@ -47,87 +48,6 @@ const UpdateUserModal: FC<UpdateUserModalProps> = ({modalID, userData, onUpdated
         }
     };
 
-    const inputItems = (): InputItem[] => {
-        return [
-            {
-                title: 'First Name',
-                placeholder: 'Enter first name',
-                type: 'input',
-                name: 'firstname',
-                defaultValue: userData.firstname,
-                required: true
-            },
-            {
-                title: 'Last Name',
-                placeholder: 'Enter last name',
-                type: 'input',
-                name: 'lastname',
-                defaultValue: userData.lastname,
-                required: true
-            },
-            {
-                title: 'Email',
-                placeholder: 'Enter email',
-                type: 'email',
-                name: 'email',
-                defaultValue: userData.email,
-                required: true
-            },
-            {
-                title: 'Phone',
-                placeholder: 'Enter phone',
-                type: 'phone',
-                name: 'phone',
-                defaultValue: userData.phone,
-                required: true
-            },
-            {
-                title: 'Country',
-                placeholder: 'Enter country',
-                type: 'country',
-                name: 'country',
-                defaultValue: userData.country,
-                required: true
-            },
-            {
-                title: 'Biography',
-                placeholder: 'Enter biography',
-                type: 'area',
-                name: 'biography',
-                defaultValue: userData.biography,
-                required: false
-            },
-            {
-                title: 'Position',
-                placeholder: 'Enter position',
-                type: 'input',
-                name: 'position',
-                defaultValue: userData.position,
-                required: true
-            },
-            {
-                title: 'Organisation',
-                placeholder: 'Enter organisation',
-                type: 'input',
-                name: 'organisation',
-                defaultValue: userData.organisation,
-                required: true
-            },
-            {
-                title: 'Role',
-                placeholder: 'Select role',
-                type: 'select',
-                name: 'role',
-                defaultValue: (userData as any).role || '',
-                required: false,
-                options: [
-                    {label: 'User', value: 'user'},
-                    {label: 'Admin', value: 'admin'},
-                ]
-            }
-        ];
-    };
-
     return (
         <Modal
             id={modalID}
@@ -141,7 +61,7 @@ const UpdateUserModal: FC<UpdateUserModalProps> = ({modalID, userData, onUpdated
                     <h4 className="mb-3">Update User</h4>
                     {alertMessage && <p className="text-info">{alertMessage}</p>}
                     <ReusableForm
-                        inputItems={inputItems()}
+                        inputItems={inputItems(userData)}
                         submitButtonTitle={isUpdating ? 'Updating...' : 'Update User'}
                         onSubmit={handleFormSubmit}
                         disableSubmitInitially={false}
