@@ -1,9 +1,9 @@
 // components/admin/EventsTable.tsx
 import React from 'react';
-import DataTable from './DataTable';
+import DataTable from './reusables/DataTable';
 import {IEvent} from 'backend/models/event';
-import CreateEventModal from "./CreateEventModal";
-import UpdateEventModal from "./UpdateEventModal";
+import CreateEventModal from "./eventModals/CreateEventModal";
+import UpdateEventModal from "./eventModals/UpdateEventModal";
 import Link from "next/link";
 
 interface EventsTableProps {

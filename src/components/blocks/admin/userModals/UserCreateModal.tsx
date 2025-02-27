@@ -4,7 +4,7 @@ import Modal from 'components/reuseable/modal/Modal';
 import ReusableForm, {InputItem} from 'components/reuseable/Form';
 import {CreateUserData} from 'backend/models/user';
 import {useAuth} from 'auth/useAuth';
-import inputItems from "./helpers/userInputItems";
+import inputItems from "../reusables/userInputItems";
 
 interface CreateUserModalProps {
     modalID: string;

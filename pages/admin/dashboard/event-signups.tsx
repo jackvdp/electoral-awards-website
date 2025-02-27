@@ -1,11 +1,11 @@
 import {GetServerSideProps, NextPage} from 'next';
 import React, {useState} from 'react';
-import DataTable from 'components/blocks/admin/DataTable';
+import DataTable from 'components/blocks/admin/reusables/DataTable';
 import {IEvent} from 'backend/models/event';
 import {User} from '@supabase/supabase-js';
 import {createClient} from 'backend/supabase/server-props';
-import AdminPage from "components/blocks/admin/AdminPage";
-import {userHeaders, userColumns, userRow} from "../../../src/components/blocks/admin/userColumns";
+import AdminPage from "components/blocks/admin/reusables/AdminPage";
+import {userHeaders, userColumns, userRow} from "../../../src/components/blocks/admin/reusables/userColumns";
 import {MutableUserData} from "../../../src/backend/models/user";
 
 interface EventSignupsPageProps {

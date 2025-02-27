@@ -1,14 +1,14 @@
 // components/admin/UsersTable.tsx
 import React, {useState} from 'react';
-import DataTable, {PaginationProps} from './DataTable';
+import DataTable, {PaginationProps} from './reusables/DataTable';
 import {User} from '@supabase/supabase-js';
-import UpdateUserModal from './UserUpdateModal';
+import UpdateUserModal from './userModals/UserUpdateModal';
 import {MutableUserData} from 'backend/models/user';
 import {convertUser} from 'helpers/convertUser';
-import CreateUserModal from "./UserCreateModal";
-import UserEventModal from "./UserEventModal";
+import CreateUserModal from "./userModals/UserCreateModal";
+import UserEventModal from "./userModals/UserEventModal";
 import {IEvent} from "backend/models/event";
-import {userHeaders, userRow} from "./userColumns";
+import {userHeaders, userRow} from "./reusables/userColumns";
 
 interface UsersTableProps {
     users: MutableUserData[];

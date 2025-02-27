@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminSidebar, {SidebarLink} from 'components/blocks/admin/AdminSidebar';
+import AdminSidebar, {SidebarLink} from 'components/blocks/admin/reusables/AdminSidebar';
 
 interface DashboardProps {
     title: string;

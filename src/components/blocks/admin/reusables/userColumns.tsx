@@ -1,6 +1,6 @@
 import React from "react";
 import {User} from "@supabase/supabase-js";
-import {MutableUserData} from "../../../backend/models/user";
+import {MutableUserData} from "../../../../backend/models/user";
 
 export const userColumns = [
     {key: 'email', label: 'Email'},

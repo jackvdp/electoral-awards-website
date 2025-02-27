@@ -6,7 +6,7 @@ import EventsTable from 'components/blocks/admin/EventsTable';
 import {createClient} from 'backend/supabase/server-props';
 import supabaseAdmin from "backend/supabase/admin";
 import {User} from '@supabase/supabase-js';
-import AdminPage from "components/blocks/admin/AdminPage";
+import AdminPage from "components/blocks/admin/reusables/AdminPage";
 import {MutableUserData} from "../../../src/backend/models/user";
 import {IEvent} from "../../../src/backend/models/event";
 
