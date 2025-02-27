@@ -1,0 +1,9 @@
+– make users admin table sortable
+– Message under event header, saying sign in or sign up if they are not/message event has passed
+– Bug: Users are seemingly able to sign up via magic link
+– Bug: admin role when creating new user does not work
+– Bug: when admin adds user, it should not sign them in on that user
+– Ability to export users signed up to event as a CSV
+– when event or user is edited or deleted it should refresh the dashboard
+– User signups should not be in modal, but new page, and improve ui
+– Automated emails for event signup

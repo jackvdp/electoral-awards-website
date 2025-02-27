@@ -119,9 +119,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
 
     let events = [];
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
-    const eventsResponse = await fetch(`${baseUrl}/api/events`);
-    events = await eventsResponse.json();
+
+    if (currentTab === 'events') {
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
+        const eventsResponse = await fetch(`${baseUrl}/api/events`);
+        events = await eventsResponse.json();
+    }
 
     return {
         props: {
