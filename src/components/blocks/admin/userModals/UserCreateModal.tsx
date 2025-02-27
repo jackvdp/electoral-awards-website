@@ -1,17 +1,18 @@
 // components/admin/CreateUserModal.tsx
 import React, {FC, useState} from 'react';
 import Modal from 'components/reuseable/modal/Modal';
-import ReusableForm, {InputItem} from 'components/reuseable/Form';
+import ReusableForm from 'components/reuseable/Form';
 import {CreateUserData} from 'backend/models/user';
 import {useAuth} from 'auth/useAuth';
 import inputItems from "../reusables/userInputItems";
 
 interface CreateUserModalProps {
     modalID: string;
+    onCreated: () => void;
 }
 
-const CreateUserModal: FC<CreateUserModalProps> = ({modalID}) => {
-    const {createUser} = useAuth();
+const CreateUserModal: FC<CreateUserModalProps> = ({modalID, onCreated}) => {
+    const {createUserWithoutSignup} = useAuth();
     const [isCreating, setIsCreating] = useState(false);
     const [closeModalProgrammatically, setCloseModalProgrammatically] = useState(false);
     const [alertMessage, setAlertMessage] = useState<string | null>(null);
@@ -21,7 +22,7 @@ const CreateUserModal: FC<CreateUserModalProps> = ({modalID}) => {
         firstname: values.firstname,
         lastname: values.lastname,
         email: values.email,
-        password: values.password, // required for creation
+        password: randomAlphaNumericRandomPassword(),
         phone: values.phone,
         country: values.country,
         birthdate: values.birthdate || "",
@@ -32,15 +33,24 @@ const CreateUserModal: FC<CreateUserModalProps> = ({modalID}) => {
         role: values.role || "user",
     });
 
+    const randomAlphaNumericRandomPassword = () => {
+        const randomAlphaNumeric = () => {
+            const alphaNumeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            return alphaNumeric.charAt(Math.floor(Math.random() * alphaNumeric.length));
+        };
+        return Array.from({length: 10}, randomAlphaNumeric).join('');
+    }
+
     const handleFormSubmit = async (values: Record<string, string>) => {
         setAlertMessage(null);
         setIsCreating(true);
         const userData = buildUserData(values);
-        const success = await createUser(userData);
+        const success = await createUserWithoutSignup(userData);
         setIsCreating(false);
         if (success) {
             setAlertMessage('User created successfully.');
             setCloseModalProgrammatically(true);
+            onCreated();
         } else {
             setAlertMessage('Failed to create user.');
         }

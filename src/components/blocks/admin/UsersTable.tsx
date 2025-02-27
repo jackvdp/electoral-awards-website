@@ -8,6 +8,7 @@ import {IEvent} from "backend/models/event";
 import {userColumns, userRow} from "./reusables/userColumns";
 import Link from "next/link";
 import {useRouter} from 'next/router';
+import UserDeleteModal from "./userModals/UserDeleteModal";
 
 interface UsersTableProps {
     users: MutableUserData[];
@@ -41,13 +42,29 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
                           href={"/admin/dashboard/user-signups?userId=" + mutableUser.id}>
                         Signups
                     </Link>
-                    <button className="btn btn-sm btn-soft-red rounded-pill">Delete</button>
+                    <button className="btn btn-sm btn-soft-red rounded-pill"
+                            data-bs-toggle="modal"
+                            data-bs-target={`#delete-user-modal-${mutableUser.id}`}
+                    >
+                        Delete
+                    </button>
                     <UpdateUserModal
                         modalID={`update-user-modal-${mutableUser.id}`}
                         userData={mutableUser}
                         onUpdated={(updatedUser) => {
                             setSelectedUser(null);
+                            router.reload();
                         }}
+                    />
+                    <UserDeleteModal
+                        modalID={`delete-user-modal-${mutableUser.id}`}
+                        userData={mutableUser}
+                        onDeleted={
+                            () => {
+                                setSelectedUser(null);
+                                router.reload();
+                            }
+                        }
                     />
                 </td>
             </tr>
@@ -68,7 +85,10 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
                 data-bs-target="#create-user-modal"
                 className="btn btn-sm btn-primary rounded-pill">Add User
             </button>
-            <CreateUserModal modalID={"create-user-modal"}/>
+            <CreateUserModal
+                modalID={"create-user-modal"}
+                onCreated={() => router.reload()}
+            />
         </>
     );
 

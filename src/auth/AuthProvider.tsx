@@ -1,9 +1,8 @@
 import React, {ReactNode, useEffect, useState} from 'react';
-import {createCustomUserData, CreateUserData, MutableUserData} from 'backend/models/user';
+import {createCustomUserData, CreateUserData, createUserDataForDB, MutableUserData} from 'backend/models/user';
 import {createClient} from "../backend/supabase/component";
 import {AuthContext, CustomAuthError} from './useAuth';
 import {User} from '@supabase/supabase-js';
-import supabaseAdmin from "backend/supabase/admin";
 
 interface AuthState {
     isLoggedIn: boolean;
@@ -163,22 +162,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
             const {error: profileError} = await supabase
                 .from('users')
                 .insert([
-                    {
-                        id: data.user?.id,
-                        email: userData.email,
-                        firstname: userData.firstname,
-                        lastname: userData.lastname,
-                        phone: userData.phone,
-                        country: userData.country,
-                        birthdate: userData.birthdate,
-                        biography: userData.biography,
-                        position: userData.position,
-                        organisation: userData.organisation,
-                        profile_image: userData.profileImage,
-                        role: userData.role,
-                        created_at: new Date().toISOString(),
-                        updated_at: new Date().toISOString()
-                    }
+                    createUserDataForDB(data.user?.id, userData)
                 ]);
 
             if (profileError) throw profileError;
@@ -191,6 +175,39 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
 
             return true;
         } catch (error) {
+            handleError(error);
+            return false;
+        }
+    };
+
+    const createUserWithoutSignup = async (userData: CreateUserData): Promise<boolean> => {
+        try {
+            setState(prev => ({...prev, loading: true, error: null}));
+
+            const response = await fetch('/api/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to create user');
+            }
+
+            const data = await response.json();
+
+            setState(prev => ({
+                ...prev,
+                loading: false,
+                error: null
+            }));
+
+            return true;
+        } catch (error) {
+            setState(prev => ({...prev, loading: false}));
             handleError(error);
             return false;
         }
@@ -263,23 +280,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         }
     };
 
-    const deleteUser = async (userID: string, password: string): Promise<boolean> => {
+    // Shared method to handle user deletion core functionality
+    const deleteUserCore = async (userID: string): Promise<boolean> => {
         try {
-            setState(prev => ({...prev, loading: true, error: null}));
-            if (!state.currentUser?.email) {
-                throw new Error("No current user email found");
-            }
-            const supabase = createClient();
-            const {data: {session}, error: signInError} = await supabase.auth.signInWithPassword({
-                email: state.currentUser.email,
-                password: password,
-            });
-            if (signInError) {
-                // Throw a new error with a custom message:
-                throw new Error("Incorrect password");
-            }
-
-            // Call your secure API route to delete the user.
+            // Call your secure API route to delete the user
             const response = await fetch(`/api/users/${userID}`, {
                 method: 'DELETE',
                 headers: {'Content-Type': 'application/json'},
@@ -289,7 +293,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
                 throw new Error(data.error || "Failed to delete user. Please try again later.");
             }
 
-            // Reset state after deletion.
+            // Reset state after deletion
             setState(prev => ({
                 ...prev,
                 isLoggedIn: false,
@@ -299,7 +303,50 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
             }));
             return true;
         } catch (error: any) {
-            // Call your error handler (e.g., log the error) and then re-throw.
+            handleError(error);
+            throw error;
+        }
+    };
+
+    const deleteUser = async (userID: string, password: string): Promise<boolean> => {
+        try {
+            setState(prev => ({...prev, loading: true, error: null}));
+            if (!state.currentUser?.email) {
+                throw new Error("No current user email found");
+            }
+
+            // Verify user password
+            const supabase = createClient();
+            const {error: signInError} = await supabase.auth.signInWithPassword({
+                email: state.currentUser.email,
+                password: password,
+            });
+
+            if (signInError) {
+                throw new Error("Incorrect password");
+            }
+
+            // Proceed with deletion
+            return await deleteUserCore(userID);
+        } catch (error: any) {
+            // Set loading to false in case of error
+            setState(prev => ({...prev, loading: false}));
+            handleError(error);
+            throw error;
+        }
+    };
+
+// Method for admin use that doesn't require password
+    const deleteUserWithoutPassword = async (userID: string): Promise<boolean> => {
+        try {
+            setState(prev => ({...prev, loading: true, error: null}));
+            if (!state.currentUser?.email) {
+                throw new Error("No current user email found");
+            }
+
+            return await deleteUserCore(userID);
+        } catch (error: any) {
+            setState(prev => ({...prev, loading: false}));
             handleError(error);
             throw error;
         }
@@ -335,9 +382,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
             logInWithMagicLink,
             signout,
             createUser,
+            createUserWithoutSignup,
             getUser,
             updateUser,
-            deleteUser
+            deleteUser,
+            deleteUserWithoutPassword
         }}>
             {children}
         </AuthContext.Provider>

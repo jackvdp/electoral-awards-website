@@ -19,9 +19,11 @@ interface AuthContextProps {
     logInWithMagicLink: (email: string) => Promise<void>;
     signout: () => void;
     createUser: (userData: CreateUserData) => Promise<boolean>
+    createUserWithoutSignup: (userData: CreateUserData) => Promise<boolean>
     getUser: () => Promise<MutableUserData | null>;
     updateUser: (userData: MutableUserData, userID: string) => Promise<MutableUserData | null>
-    deleteUser: (userID: string, password: string) => Promise<boolean>
+    deleteUser: (userID: string, password: string) => Promise<boolean>;
+    deleteUserWithoutPassword: (userID: string) => Promise<boolean>;
 }
 
 export const AuthContext = createContext<AuthContextProps | undefined>(undefined);

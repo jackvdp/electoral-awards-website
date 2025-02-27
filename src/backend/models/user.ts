@@ -57,10 +57,47 @@ function createCustomUserData(data: MutableUserData | CreateUserData): CustomUse
     };
 }
 
+interface UserTable {
+    id: string | undefined;
+    email: string;
+    firstname: string;
+    lastname: string;
+    phone: string;
+    country: string;
+    birthdate: string;
+    biography: string;
+    position: string;
+    organisation: string;
+    profile_image: string;
+    role: string | undefined;
+    created_at: string;
+    updated_at: string;
+}
+
+function createUserDataForDB(userId: string | undefined, userData: CreateUserData): UserTable {
+    return {
+        id: userId,
+        email: userData.email,
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        phone: userData.phone,
+        country: userData.country,
+        birthdate: userData.birthdate,
+        biography: userData.biography,
+        position: userData.position,
+        organisation: userData.organisation,
+        profile_image: userData.profileImage,
+        role: userData.role,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+    }
+}
+
 export type {
     CustomUserData,
     MutableUserData,
-    CreateUserData
+    CreateUserData,
+    UserTable
 };
 
-export {createCustomUserData, createMutableUserData};
+export {createCustomUserData, createMutableUserData, createUserDataForDB};
