@@ -16,8 +16,8 @@ interface AdminSidebarProps {
 const AdminSidebar: React.FC<AdminSidebarProps> = ({links}) => {
     const router = useRouter();
     return (
-        <div className="card shadow-lg">
-            <div className="card-body">
+        <div className="">
+            <div className="">
                 <div className="list-group list-group-flush">
                     {links.map((link) => {
                         // extract tab value from link url; expects /admin/admin?tab=users etc.

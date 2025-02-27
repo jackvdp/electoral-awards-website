@@ -25,12 +25,12 @@ const AdminPage: React.FC<DashboardProps> = ({children, title}) => {
 
                 <div className="row gy-12">
                     {/* Sidebar */}
-                    <div className="col-md-4 col-lg-3">
+                    <div className="col-md-4 col-lg-2">
                         <AdminSidebar links={sidebarLinks}/>
                     </div>
 
                     {/* Main Content */}
-                    <div className="col-md-8 col-lg-9">{children}</div>
+                    <div className="col-md-8 col-lg-10">{children}</div>
                 </div>
             </div>
         </div>

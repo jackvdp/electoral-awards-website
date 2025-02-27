@@ -44,7 +44,7 @@ const Index: React.FC<DashboardProps> = ({tab, users, totalUsers, page, perPage,
     };
 
     return (
-        <AdminPage title={"Admin Index"}>{renderContent()}</AdminPage>
+        <AdminPage title={"Admin Dashboard"}>{renderContent()}</AdminPage>
     );
 };
 
