@@ -15,11 +15,9 @@ interface UsersTableProps {
     totalUsers: number;
     page: number;
     perPage: number;
-    allEvents: IEvent[];
 }
 
-const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage, allEvents}) => {
-    const [selectedUser, setSelectedUser] = useState<MutableUserData | null>(null);
+const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage}) => {
     const router = useRouter();
     const {sortBy, sortOrder} = router.query;
 
@@ -52,19 +50,15 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
                         modalID={`update-user-modal-${mutableUser.id}`}
                         userData={mutableUser}
                         onUpdated={(updatedUser) => {
-                            setSelectedUser(null);
                             router.reload();
                         }}
                     />
                     <UserDeleteModal
                         modalID={`delete-user-modal-${mutableUser.id}`}
                         userData={mutableUser}
-                        onDeleted={
-                            () => {
-                                setSelectedUser(null);
-                                router.reload();
-                            }
-                        }
+                        onDeleted={() => {
+                            router.reload();
+                        }}
                     />
                 </td>
             </tr>

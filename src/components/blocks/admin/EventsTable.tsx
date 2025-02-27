@@ -5,6 +5,7 @@ import {IEvent} from 'backend/models/event';
 import CreateEventModal from "./eventModals/CreateEventModal";
 import UpdateEventModal from "./eventModals/UpdateEventModal";
 import Link from "next/link";
+import {router} from "next/client";
 
 interface EventsTableProps {
     events: IEvent[];
@@ -41,6 +42,7 @@ const EventsTable: React.FC<EventsTableProps> = ({events}) => {
                     modalID={`update-event-modal-${event._id}`}
                     eventData={event}
                     onUpdated={() => {
+                        router.reload()
                     }}
                 />
             </td>
@@ -55,6 +57,7 @@ const EventsTable: React.FC<EventsTableProps> = ({events}) => {
                 className="btn btn-sm btn-primary rounded-pill">Create Event
             </button>
             <CreateEventModal modalID="create-event-modal" onCreated={() => {
+                router.reload();
             }}/>
         </>
     );
