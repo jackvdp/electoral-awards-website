@@ -7,8 +7,8 @@ import {createClient} from 'backend/supabase/server-props';
 import supabaseAdmin from "backend/supabase/admin";
 import {User} from '@supabase/supabase-js';
 import AdminPage from "components/blocks/admin/reusables/AdminPage";
-import {MutableUserData} from "../../../src/backend/models/user";
-import {IEvent} from "../../../src/backend/models/event";
+import {MutableUserData} from "backend/models/user";
+import {IEvent} from "backend/models/event";
 
 interface DashboardProps {
     tab: 'users' | 'events' | 'articles';
@@ -17,11 +17,12 @@ interface DashboardProps {
     page: number;
     perPage: number;
     events: IEvent[];
+    search?: string;
+    sortBy?: string;
+    sortOrder?: 'asc' | 'desc';
 }
 
 const Index: React.FC<DashboardProps> = ({tab, users, totalUsers, page, perPage, events}) => {
-
-
     const renderContent = () => {
         switch (tab) {
             case 'users':
@@ -63,59 +64,61 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         };
     }
 
-    const {tab = 'users', page = '1', search = ''} = ctx.query;
+    const {
+        tab = 'users',
+        page = '1',
+        search = '',
+        sortBy = 'country',  // Default sort field
+        sortOrder = 'asc'     // Default sort order
+    } = ctx.query;
+
     const currentTab = (tab as string) as 'users' | 'events' | 'articles';
     const currentPage = parseInt(page as string, 10) || 1;
-    const perPage = 20;
+    const perPage = 50;
+    const currentSortBy = sortBy as string;
+    const currentSortOrder = (sortOrder as string) === 'desc' ? 'desc' : 'asc';
 
     let users: User[] = [];
     let totalUsers = 0;
+
     if (currentTab === 'users') {
+        // Initialize the query
+        let query = supabaseAdmin
+            .from('users')
+            .select('*', {count: 'exact'});
 
+        // Apply search filter if present
         if (search && search.length > 0) {
-            // Use direct database query with search filter
-            let query = supabaseAdmin
-                .from('users')
-                .select('*', {count: 'exact'});
-
-            // Add search filter across multiple columns
             const searchTerm = `%${search}%`;
             query = query.or(`email.ilike.${searchTerm},firstname.ilike.${searchTerm},lastname.ilike.${searchTerm}`);
-
-            // Add sorting
-            query = query.order('country', {ascending: true})
-                .order('lastname', {ascending: true});
-
-            // Add pagination
-            const from = (currentPage - 1) * perPage;
-            const to = from + perPage - 1;
-            query = query.range(from, to);
-
-            // Execute the query
-            const {data: userData, error: usersError, count} = await query;
-
-            if (usersError) {
-                console.error("Error searching users:", usersError);
-            }
-
-            users = userData || [];
-            totalUsers = count || 0;
-        } else {
-            // No search term, just get paginated and sorted users
-            const {data: userData, error: usersError, count} = await supabaseAdmin
-                .from('users')
-                .select('*', {count: 'exact'})
-                .order('country', {ascending: true})
-                .order('lastname', {ascending: true})
-                .range((currentPage - 1) * perPage, currentPage * perPage - 1);
-
-            if (usersError) {
-                console.error("Error listing users:", usersError);
-            }
-
-            users = userData || [];
-            totalUsers = count || 0;
         }
+
+        // Apply sorting - validate sortBy against allowed columns first
+        const allowedSortColumns = ['email', 'country', 'firstname', 'lastname', 'organisation', 'position', 'role'];
+        const sortColumn = allowedSortColumns.includes(currentSortBy) ? currentSortBy : 'lastname';
+
+        // Primary sort by the selected column
+        query = query.order(sortColumn, {ascending: currentSortOrder === 'asc'});
+
+        // If not sorting by lastname as primary, add it as secondary sort
+        if (sortColumn !== 'lastname') {
+            query = query.order('lastname', {ascending: true});
+        }
+
+        // Apply pagination
+        const from = (currentPage - 1) * perPage;
+        const to = from + perPage - 1;
+        query = query.range(from, to);
+
+        // Execute the query
+        const {data: userData, error: usersError, count} = await query;
+
+        if (usersError) {
+            console.error("Error fetching users:", usersError);
+        }
+
+        users = userData || [];
+        totalUsers = count || 0;
     }
 
     let events = [];
@@ -134,7 +137,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             page: currentPage,
             perPage,
             events,
-            search
+            search: search || null,
+            sortBy: currentSortBy,
+            sortOrder: currentSortOrder
         },
     };
 };

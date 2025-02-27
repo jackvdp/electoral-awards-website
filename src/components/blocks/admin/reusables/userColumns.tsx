@@ -1,16 +1,16 @@
 import React from "react";
-import {User} from "@supabase/supabase-js";
 import {MutableUserData} from "../../../../backend/models/user";
+import {ColumnDef} from "../reusables/DataTable";
 
-export const userColumns = [
-    {key: 'email', label: 'Email'},
-    {key: 'country', label: 'Country'},
-    {key: 'firstname', label: 'First Name'},
-    {key: 'lastname', label: 'Last Name'},
-    {key: 'organisation', label: 'Organisation'},
-    {key: 'phone', label: 'Phone'},
-    {key: 'position', label: 'Position'},
-    {key: 'role', label: 'Role'},
+export const userColumns: ColumnDef[] = [
+    {key: 'email', label: 'Email', sortable: true},
+    {key: 'country', label: 'Country', sortable: true},
+    {key: 'firstname', label: 'First Name', sortable: true},
+    {key: 'lastname', label: 'Last Name', sortable: true},
+    {key: 'organisation', label: 'Organisation', sortable: true},
+    {key: 'phone', label: 'Phone', sortable: false},
+    {key: 'position', label: 'Position', sortable: true},
+    {key: 'role', label: 'Role', sortable: true},
 ];
 
 export const userHeaders = userColumns.map((col) => col.label);

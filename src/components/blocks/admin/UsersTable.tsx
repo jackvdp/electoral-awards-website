@@ -5,8 +5,9 @@ import UpdateUserModal from './userModals/UserUpdateModal';
 import {MutableUserData} from 'backend/models/user';
 import CreateUserModal from "./userModals/UserCreateModal";
 import {IEvent} from "backend/models/event";
-import {userHeaders, userRow} from "./reusables/userColumns";
+import {userColumns, userRow} from "./reusables/userColumns";
 import Link from "next/link";
+import {useRouter} from 'next/router';
 
 interface UsersTableProps {
     users: MutableUserData[];
@@ -18,8 +19,11 @@ interface UsersTableProps {
 
 const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage, allEvents}) => {
     const [selectedUser, setSelectedUser] = useState<MutableUserData | null>(null);
+    const router = useRouter();
+    const {sortBy, sortOrder} = router.query;
 
-    const headers = userHeaders.concat(['Actions']);
+    // Include sortBy and sortOrder in the pagination base URL
+    const baseUrl = `/admin/dashboard?tab=users${sortBy ? `&sortBy=${sortBy}` : ''}${sortOrder ? `&sortOrder=${sortOrder}` : ''}`;
 
     const renderRow = (mutableUser: MutableUserData) => {
         return (
@@ -54,7 +58,7 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
         page,
         totalCount: totalUsers,
         perPage,
-        baseUrl: '/admin/dashboard?tab=users',
+        baseUrl,
     };
 
     const headerAction = (
@@ -68,11 +72,14 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
         </>
     );
 
+    // Add 'Actions' column (not sortable)
+    const allColumns = [...userColumns, {key: 'actions', label: 'Actions', sortable: false}];
+
     return (
         <DataTable
             headerTitle="All Users"
             headerAction={headerAction}
-            headers={headers}
+            columns={allColumns}
             data={users}
             renderRow={renderRow}
             pagination={pagination}

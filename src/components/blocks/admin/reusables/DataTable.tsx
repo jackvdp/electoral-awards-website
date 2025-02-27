@@ -10,10 +10,17 @@ export interface PaginationProps {
     baseUrl: string;
 }
 
+export interface ColumnDef {
+    key: string;
+    label: string;
+    sortable?: boolean;
+}
+
 interface DataTableProps<T> {
     headerTitle?: string;
     headerAction?: React.ReactNode;
-    headers: string[];
+    headers?: string[];
+    columns?: ColumnDef[];
     data: T[];
     renderRow: (item: T) => React.ReactNode;
     pagination?: PaginationProps;
@@ -59,14 +66,15 @@ const DataTable = <T, >({
                             headerTitle,
                             headerAction,
                             headers,
+                            columns,
                             data,
                             renderRow,
                             pagination,
                             searchable
                         }: DataTableProps<T>) => {
     const router = useRouter();
-    // Get the current search term from the query or use an empty string.
-    const {search: searchQuery} = router.query;
+    // Get the current search term and sort parameters from the query
+    const {search: searchQuery, sortBy, sortOrder} = router.query;
     const [searchInput, setSearchInput] = useState((searchQuery as string) || '');
 
     const handleSearch = () => {
@@ -75,9 +83,51 @@ const DataTable = <T, >({
             query: {
                 ...router.query,
                 search: searchInput,
-                page: 1, // Reset to first page on new search.
+                page: 1, // Reset to first page on new search
             },
         });
+    };
+
+    const handleSort = (columnKey: string) => {
+        let newSortOrder = 'asc';
+
+        // If already sorting by this column, toggle the sort order
+        if (sortBy === columnKey) {
+            newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+        }
+
+        router.push({
+            pathname: router.pathname,
+            query: {
+                ...router.query,
+                sortBy: columnKey,
+                sortOrder: newSortOrder,
+                page: 1, // Reset to first page on sort change
+            },
+        });
+    };
+
+    // Render a sortable header cell
+    const renderHeaderCell = (column: ColumnDef) => {
+        if (column.sortable) {
+            const isSorted = sortBy === column.key;
+            const sortIcon = !isSorted
+                ? <i className="uil uil-sort text-muted ms-1"></i>
+                : sortOrder === 'asc'
+                    ? <i className="uil uil-sort-amount-up ms-1"></i>
+                    : <i className="uil uil-sort-amount-down ms-1"></i>;
+
+            return (
+                <th key={column.key} scope="col" onClick={() => handleSort(column.key)} style={{cursor: 'pointer'}}>
+                    <div className="d-flex align-items-center">
+                        {column.label}
+                        {sortIcon}
+                    </div>
+                </th>
+            );
+        }
+
+        return <th key={column.key} scope="col">{column.label}</th>;
     };
 
     return (
@@ -112,9 +162,15 @@ const DataTable = <T, >({
                     <table className="table table-hover">
                         <thead>
                         <tr>
-                            {headers.map((header, index) => (
-                                <th key={index} scope="col">{header}</th>
-                            ))}
+                            {columns ? (
+                                // Use column definitions with sort functionality
+                                columns.map(column => renderHeaderCell(column))
+                            ) : (
+                                // Fallback to simple headers without sorting
+                                headers?.map((header, index) => (
+                                    <th key={index} scope="col">{header}</th>
+                                ))
+                            )}
                         </tr>
                         </thead>
                         <tbody>
