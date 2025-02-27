@@ -1,7 +1,7 @@
 // pages/events/[id].tsx
 import {GetServerSideProps, NextPage} from 'next';
 import {IEvent} from 'backend/models/event';
-import {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import PageProgress from 'components/common/PageProgress';
 import {Navbar} from 'components/blocks/navbar';
 import NextLink from 'components/reuseable/links/NextLink';
@@ -9,8 +9,8 @@ import {Footer} from 'components/blocks/footer';
 import formatEventDates from 'helpers/formatEventDates';
 import ReactMarkdown from 'react-markdown';
 import EventsSidebar from 'components/blocks/events/EventsSidebar';
-import CustomHead from '../../src/components/common/CustomHead';
-import {useAuth} from '../../src/auth/useAuth';
+import CustomHead from 'components/common/CustomHead';
+import {useAuth} from 'auth/useAuth';
 
 interface EventPageProps {
     event: IEvent;
@@ -51,7 +51,16 @@ const EventPage: NextPage<EventPageProps> = ({event}) => {
 
     // Helper to render the sign-up section
     const renderSignupSection = () => {
-        if (!isLoggedIn || !currentUser) return null;
+        if (new Date(event.endDate) < new Date()) return <p className="text-muted mt-2">Event has passed.</p>;
+
+        if (!isLoggedIn || !currentUser) {
+            return <button
+                data-bs-toggle="modal"
+                data-bs-target="#modal-signin"
+                className="btn btn-soft-primary mt-4">
+                Login to Sign Up for Event
+            </button>
+        }
         if (isSignedUp) {
             return <p className="text-success mt-2">You are already signed up for this event!</p>;
         }
