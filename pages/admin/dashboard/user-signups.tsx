@@ -85,7 +85,9 @@ const EventSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, events:
     // Compute available events to add (exclude those already signed up)
     const availableForSignup = availableEvents.filter(event =>
         !currentSignups.some(signup => signup._id === event._id)
-    );
+    ).sort((a, b) => {
+        return (a.startDate < b.startDate) ? 1 : -1;
+    })
 
     const addInputItems: InputItem[] = [
         {
@@ -105,8 +107,10 @@ const EventSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, events:
     return (
         <AdminPage title={"Signups: " + user?.firstname + " " + user?.lastname}>
             <div>
-                <h4 className="mb-3">User Event Signups</h4>
+                <h1 className="mb-4">User Event Signups</h1>
                 {alertMessage && <p className="text-info">{alertMessage}</p>}
+
+                <hr className="my-8"/>
 
                 {/* Current Signups */}
                 <div className="mb-4">
@@ -130,6 +134,8 @@ const EventSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, events:
                         </ul>
                     )}
                 </div>
+
+                <hr className="my-8"/>
 
                 {/* Add Signup Form */}
                 <div>
