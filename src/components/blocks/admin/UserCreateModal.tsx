@@ -29,7 +29,7 @@ const CreateUserModal: FC<CreateUserModalProps> = ({modalID}) => {
         position: values.position,
         organisation: values.organisation,
         profileImage: values.profileImage || "",
-        role: values.role || "", // if empty, treat as regular user
+        role: values.role || "user",
     });
 
     const handleFormSubmit = async (values: Record<string, string>) => {
