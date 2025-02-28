@@ -20,6 +20,10 @@ export type FormProps = {
     disableSubmitInitially: boolean;
 };
 
+export function formatDateForForm(date: Date): string {
+    return new Date(date).toISOString().substring(0, 16)
+}
+
 const ReusableForm: React.FC<FormProps> = ({
                                                inputItems,
                                                onSubmit,
@@ -102,7 +106,7 @@ const ReusableForm: React.FC<FormProps> = ({
                             } else if (item.type === "phone") {
                                 inputType = "text"; // or "tel" if you prefer
                             } else if (item.type === "date") {
-                                inputType = "date";
+                                inputType = "datetime-local";
                             }
                             return (
                                 <div key={item.name} className="col-md-6">

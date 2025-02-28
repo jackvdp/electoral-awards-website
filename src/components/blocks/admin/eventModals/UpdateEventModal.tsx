@@ -1,7 +1,7 @@
 // components/admin/UpdateEventModal.tsx
 import React, {FC, useState} from 'react';
 import Modal from 'components/reuseable/modal/Modal';
-import ReusableForm, {InputItem} from 'components/reuseable/Form';
+import ReusableForm, {formatDateForForm, InputItem} from 'components/reuseable/Form';
 import SpeakersManager, {Speaker} from '../reusables/SpeakersManager';
 import {IEvent} from 'backend/models/event';
 import {useRouter} from 'next/router';
@@ -62,12 +62,19 @@ const UpdateEventModal: FC<UpdateEventModalProps> = ({modalID, eventData, onUpda
                 required: true,
             },
             {
+                title: 'Image URL',
+                placeholder: 'Enter image URL (optional)',
+                type: 'input',
+                name: 'imageURL',
+                defaultValue: eventData.imageURL || '',
+                required: false,
+            },
+            {
                 title: 'Start Date',
                 placeholder: 'Enter start date',
                 type: 'date',
                 name: 'startDate',
-                // Format date as YYYY-MM-DD for input type="date"
-                defaultValue: new Date(eventData.startDate).toISOString().substring(0, 10),
+                defaultValue: formatDateForForm(eventData.startDate),
                 required: true,
             },
             {
@@ -75,16 +82,8 @@ const UpdateEventModal: FC<UpdateEventModalProps> = ({modalID, eventData, onUpda
                 placeholder: 'Enter end date',
                 type: 'date',
                 name: 'endDate',
-                defaultValue: new Date(eventData.endDate).toISOString().substring(0, 10),
+                defaultValue: formatDateForForm(eventData.endDate),
                 required: true,
-            },
-            {
-                title: 'Image URL',
-                placeholder: 'Enter image URL (optional)',
-                type: 'input',
-                name: 'imageURL',
-                defaultValue: eventData.imageURL || '',
-                required: false,
             },
             {
                 title: 'Description',
