@@ -76,6 +76,45 @@ const EventPage: NextPage<EventPageProps> = ({event}) => {
         );
     };
 
+    // Helper to render the speakers section
+    const renderSpeakersSection = () => {
+        if (!event.speakers || event.speakers.length === 0) return null;
+
+        return (
+            <div className="speakers-section mb-5">
+                <h3 className="h2 mb-4">Speakers</h3>
+                <div className="row">
+                    {event.speakers.map((speaker, index) => (
+                        <div key={index} className="col-md-6 mb-4">
+                            <div className="">
+                                <div className="d-flex">
+                                    {speaker.imageURL && (
+                                        <div className="me-4">
+                                            <img
+                                                src={speaker.imageURL}
+                                                alt={speaker.name}
+                                                className="rounded-circle"
+                                                style={{
+                                                    width: '80px',
+                                                    height: '80px',
+                                                    objectFit: 'cover',
+                                                }}
+                                            />
+                                        </div>
+                                    )}
+                                    <div>
+                                        <h4 className="card-title mb-1">{speaker.name}</h4>
+                                        <p className="card-text">{speaker.description}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    };
+
     return (
         <Fragment>
             <CustomHead title={event.title} description={event.description}/>
@@ -111,7 +150,12 @@ const EventPage: NextPage<EventPageProps> = ({event}) => {
                     <div className="container py-6 py-md-8">
                         <div className="row gx-8 gx-xl-12">
                             <div className="col-md-8 mx-auto">
+                                {/* Speakers section */}
+                                {renderSpeakersSection()}
+
+                                {/* Event description */}
                                 <ReactMarkdown>{event.description}</ReactMarkdown>
+
                                 {/* Sign-up section at the bottom of the event details */}
                                 {renderSignupSection()}
                             </div>

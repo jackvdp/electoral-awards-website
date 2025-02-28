@@ -4,7 +4,7 @@ import Event from 'backend/models/event';
 
 async function getEventPreviews(res: NextApiResponse) {
     try {
-        const events = await Event.find({}, {title: 1, startDate: 1, imageURL: 1});
+        const events = await Event.find({}, {title: 1, startDate: 1, endDate: 1, imageURL: 1});
         res.status(200).json(events || []);
     } catch (error) {
         if (error instanceof Error) {

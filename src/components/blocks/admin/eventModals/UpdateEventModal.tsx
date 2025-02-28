@@ -2,6 +2,7 @@
 import React, {FC, useState} from 'react';
 import Modal from 'components/reuseable/modal/Modal';
 import ReusableForm, {InputItem} from 'components/reuseable/Form';
+import SpeakersManager, {Speaker} from '../reusables/SpeakersManager';
 import {IEvent} from 'backend/models/event';
 import {useRouter} from 'next/router';
 
@@ -15,6 +16,7 @@ const UpdateEventModal: FC<UpdateEventModalProps> = ({modalID, eventData, onUpda
     const [isUpdating, setIsUpdating] = useState(false);
     const [closeModalProgrammatically, setCloseModalProgrammatically] = useState(false);
     const [alertMessage, setAlertMessage] = useState<string | null>(null);
+    const [speakers, setSpeakers] = useState<Speaker[]>(eventData.speakers || []);
     const router = useRouter();
 
     const handleFormSubmit = async (values: Record<string, string>) => {
@@ -32,6 +34,7 @@ const UpdateEventModal: FC<UpdateEventModalProps> = ({modalID, eventData, onUpda
                     imageURL: values.imageURL,
                     description: values.description,
                     location: values.location,
+                    speakers: speakers,
                 }),
             });
             const data = await res.json();
@@ -119,6 +122,12 @@ const UpdateEventModal: FC<UpdateEventModalProps> = ({modalID, eventData, onUpda
                         submitButtonTitle={isUpdating ? 'Updating...' : 'Update Event'}
                         onSubmit={handleFormSubmit}
                         disableSubmitInitially={false}
+                    />
+
+                    {/* Speakers Management Section */}
+                    <SpeakersManager
+                        initialSpeakers={eventData.speakers || []}
+                        onChange={setSpeakers}
                     />
                 </>
             }

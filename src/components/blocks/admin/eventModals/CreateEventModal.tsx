@@ -2,6 +2,7 @@
 import React, {FC, useState} from 'react';
 import Modal from 'components/reuseable/modal/Modal';
 import ReusableForm, {InputItem} from 'components/reuseable/Form';
+import SpeakersManager, {Speaker} from '../reusables/SpeakersManager';
 import {useRouter} from 'next/router';
 
 interface CreateEventModalProps {
@@ -13,6 +14,7 @@ const CreateEventModal: FC<CreateEventModalProps> = ({modalID, onCreated}) => {
     const [isCreating, setIsCreating] = useState(false);
     const [closeModalProgrammatically, setCloseModalProgrammatically] = useState(false);
     const [alertMessage, setAlertMessage] = useState<string | null>(null);
+    const [speakers, setSpeakers] = useState<Speaker[]>([]);
     const router = useRouter();
 
     const handleFormSubmit = async (values: Record<string, string>) => {
@@ -30,6 +32,7 @@ const CreateEventModal: FC<CreateEventModalProps> = ({modalID, onCreated}) => {
                     imageURL: values.imageURL,
                     description: values.description,
                     location: values.location,
+                    speakers: speakers,
                     // signups will default to an empty array on the backend.
                 }),
             });
@@ -60,7 +63,7 @@ const CreateEventModal: FC<CreateEventModalProps> = ({modalID, onCreated}) => {
             {
                 title: 'Start Date',
                 placeholder: 'Enter start date',
-                type: 'input', // use 'date' if supported by your ReusableForm
+                type: 'date',
                 name: 'startDate',
                 defaultValue: '',
                 required: true,
@@ -68,7 +71,7 @@ const CreateEventModal: FC<CreateEventModalProps> = ({modalID, onCreated}) => {
             {
                 title: 'End Date',
                 placeholder: 'Enter end date',
-                type: 'input', // use 'date' if supported
+                type: 'date',
                 name: 'endDate',
                 defaultValue: '',
                 required: true,
@@ -118,6 +121,9 @@ const CreateEventModal: FC<CreateEventModalProps> = ({modalID, onCreated}) => {
                         onSubmit={handleFormSubmit}
                         disableSubmitInitially={false}
                     />
+
+                    {/* Speakers Management Section */}
+                    <SpeakersManager onChange={setSpeakers}/>
                 </>
             }
         />

@@ -3,11 +3,13 @@ import NextLink from 'components/reuseable/links/NextLink';
 import FigureImage from 'components/reuseable/FigureImage';
 import styles from './Events.module.css';
 import SquareImage from "../../reuseable/SquareImage";
+import formatEventDates from "../../../helpers/formatEventDates";
 
 interface EventPreview {
     title: string;
     imageURL: string;
     startDate: string;
+    endDate: string;
     _id: string;
 }
 
@@ -58,7 +60,7 @@ const EventsSidebar: React.FC<EventsSidebarProps> = ({ignoreLimit}) => {
                 <h3 className="widget-title mb-6">{title}</h3>
 
                 <ul className="image-list">
-                    {events.map(({title, imageURL, _id, startDate}) => {
+                    {events.map(({title, imageURL, _id, startDate, endDate}) => {
                         return _id && (
                             <li key={_id}>
                                 {imageURL !== "" && <NextLink
@@ -74,11 +76,7 @@ const EventsSidebar: React.FC<EventsSidebarProps> = ({ignoreLimit}) => {
                                     <ul className="post-meta">
                                         <li className="post-date">
                                             <i className="uil uil-calendar-alt"/>
-                                            <span>{new Date(startDate).toLocaleDateString('en-GB', {
-                                                day: 'numeric',
-                                                month: 'short',
-                                                year: '2-digit'
-                                            })}</span>
+                                            <span>{formatEventDates(startDate, endDate, 'no-time')}</span>
                                         </li>
                                     </ul>
                                 </div>

@@ -1,4 +1,4 @@
-export default function formatEventDates(startDateInput: Date | string, endDateInput: Date | string): string {
+export default function formatEventDates(startDateInput: Date | string, endDateInput: Date | string, hideTime: "no-time" | null = null): string {
     // Ensure inputs are Date objects
     const startDate = new Date(startDateInput);
     const endDate = new Date(endDateInput);
@@ -58,6 +58,12 @@ export default function formatEventDates(startDateInput: Date | string, endDateI
     const isSameDay = startDate.toDateString() === endDate.toDateString();
 
     if (isSameDay) {
+
+        if (hideTime === 'no-time') {
+            // If hideTime is set, format as "31 Jan 24"
+            return formatDate(startDate)
+        }
+
         // If the dates are on the same day, format as "31 Jan 24, 14:00 – 16:00 (PST, UTC-8)"
         const timezone = getTimezoneInfo();
         return `${formatDate(startDate)}, ${formatTime(startDate)} – ${formatTime(endDate)} (${timezone})`;
