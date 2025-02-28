@@ -11,7 +11,8 @@ import ReactMarkdown from 'react-markdown';
 import EventsSidebar from 'components/blocks/events/EventsSidebar';
 import CustomHead from 'components/common/CustomHead';
 import {useAuth} from 'auth/useAuth';
-import CTA from "../../src/components/blocks/call-to-action/CTA";
+import CTA from "components/blocks/call-to-action/CTA";
+import Link from "next/link";
 
 interface EventPageProps {
     event: IEvent;
@@ -63,8 +64,8 @@ const EventPage: NextPage<EventPageProps> = ({event}) => {
             </button>
         }
         if (isSignedUp) {
-            return <p className="text-success mt-2">You are already signed up for this event! Go to <a
-                href="/account" className={"hover"}>account</a> page for more details.</p>;
+            return <p className="text-success mt-2">You are signed up for this event! Go to <Link
+                href="/account" className={"hover"}>account</Link> page for more details.</p>;
         }
         return (
             <>
