@@ -9,9 +9,10 @@ import {router} from "next/client";
 
 interface EventsTableProps {
     events: IEvent[];
+    title: string;
 }
 
-const EventsTable: React.FC<EventsTableProps> = ({events}) => {
+const EventsTable: React.FC<EventsTableProps> = ({events, title}) => {
     const headers = ['Title', 'Dates', 'Signups', 'Actions'];
 
     const renderRow = (event: IEvent) => (
@@ -64,7 +65,7 @@ const EventsTable: React.FC<EventsTableProps> = ({events}) => {
 
     return (
         <DataTable
-            headerTitle="All Events"
+            headerTitle={title}
             headerAction={headerAction}
             headers={headers}
             data={events}

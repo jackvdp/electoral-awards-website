@@ -11,7 +11,7 @@ import {MutableUserData} from "backend/models/user";
 import {IEvent} from "backend/models/event";
 
 interface DashboardProps {
-    tab: 'users' | 'events' | 'articles';
+    tab: 'users' | 'future-events' | 'past-events' | 'articles';
     users: MutableUserData[];
     totalUsers: number;
     page: number;
@@ -27,8 +27,12 @@ const Index: React.FC<DashboardProps> = ({tab, users, totalUsers, page, perPage,
         switch (tab) {
             case 'users':
                 return <UsersTable users={users} totalUsers={totalUsers} page={page} perPage={perPage}/>;
-            case 'events':
-                return <EventsTable events={events}/>;
+            case 'future-events':
+            case 'past-events':
+                return <EventsTable
+                    events={events}
+                    title={tab === 'future-events' ? 'Upcoming Events' : 'Past Events'}
+                />
             case 'articles':
                 return (
                     <div className="card">
@@ -71,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         sortOrder = 'asc'     // Default sort order
     } = ctx.query;
 
-    const currentTab = (tab as string) as 'users' | 'events' | 'articles';
+    const currentTab = (tab as string) as 'users' | 'future-events' | 'past-events' | 'articles';
     const currentPage = parseInt(page as string, 10) || 1;
     const perPage = 50;
     const currentSortBy = sortBy as string;
@@ -120,12 +124,25 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         totalUsers = count || 0;
     }
 
-    let events = [];
+    let events: IEvent[] = [];
 
-    if (currentTab === 'events') {
+    if (currentTab === 'future-events' || currentTab === 'past-events') {
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
         const eventsResponse = await fetch(`${baseUrl}/api/events`);
-        events = await eventsResponse.json();
+        events = await eventsResponse.json() as IEvent[];
+        const isFutureEvents = currentTab === 'future-events';
+        const currentDate = new Date();
+        // Filter events based on tab
+        events = events.filter(event => {
+            const eventDate = new Date(event.endDate);
+            return isFutureEvents ? eventDate >= currentDate : eventDate < currentDate;
+        });
+        // Sort events (ascending for future, descending for past)
+        events = events.sort((a, b) => {
+            const dateA = new Date(a.endDate).getTime();
+            const dateB = new Date(b.endDate).getTime();
+            return isFutureEvents ? dateA - dateB : dateB - dateA;
+        });
     }
 
     return {

@@ -1,5 +1,6 @@
 import React from 'react';
 import AdminSidebar, {SidebarLink} from 'components/blocks/admin/reusables/AdminSidebar';
+import {Navbar} from "../../navbar";
 
 interface DashboardProps {
     title: string;
@@ -10,7 +11,8 @@ const AdminPage: React.FC<DashboardProps> = ({children, title}) => {
 
     const sidebarLinks: SidebarLink[] = [
         {title: 'Users', url: '/admin/dashboard?tab=users', icon: 'uil-users-alt'},
-        {title: 'Events', url: '/admin/dashboard?tab=events', icon: 'uil-calendar-alt'},
+        {title: 'Upcoming Events', url: '/admin/dashboard?tab=future-events', icon: 'uil-calendar-alt'},
+        {title: 'Past Events', url: '/admin/dashboard?tab=past-events', icon: 'uil-calendar-slash'},
         {title: 'Articles', url: '/admin/dashboard?tab=articles', icon: 'uil-document-layout-left'},
     ];
 
