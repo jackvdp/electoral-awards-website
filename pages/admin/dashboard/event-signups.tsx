@@ -15,6 +15,7 @@ interface EventSignupsPageProps {
 
 const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => {
     const [currentSignups, setCurrentSignups] = useState<(MutableUserData | string)[]>(signups);
+    const [isDownloading, setIsDownloading] = useState(false);
 
     // Handler to remove a user from the event's signups
     const handleRemoveSignup = async (userId: string) => {
@@ -33,6 +34,79 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
             }
         } catch (error: any) {
             alert(error.message);
+        }
+    };
+
+    // Helper function to escape CSV field values
+    const escapeCSV = (field: string | null | undefined): string => {
+        if (field === null || field === undefined) return '';
+        const stringField = String(field);
+        // If the field contains commas, quotes, or newlines, wrap it in quotes
+        if (stringField.includes(',') || stringField.includes('"') || stringField.includes('\n')) {
+            // Double up any quotes
+            return `"${stringField.replace(/"/g, '""')}"`;
+        }
+        return stringField;
+    };
+
+    // Generate CSV content directly from the current signups
+    const generateCSV = (): string => {
+        // Define columns to include in the CSV
+        const columns = [
+            'id',
+            'email',
+            'firstname',
+            'lastname',
+            'organisation',
+            'position',
+            'country',
+            'role'
+        ];
+
+        // Create header row
+        const header = columns.join(',');
+
+        // Create data rows
+        const rows = currentSignups.map(user => {
+            if (typeof user === 'string') {
+                return `${user},,,,,,,"User not found"`;
+            }
+            return columns.map(col => escapeCSV(user[col as keyof MutableUserData])).join(',');
+        });
+
+        // Combine header and rows
+        return [header, ...rows].join('\n');
+    };
+
+    // Handler to download signups as CSV directly from client-side
+    const handleDownloadCSV = () => {
+        try {
+            setIsDownloading(true);
+
+            // Generate CSV content
+            const csv = generateCSV();
+
+            // Create a blob from the CSV string
+            const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+            const url = URL.createObjectURL(blob);
+
+            // Create an anchor element and trigger the download
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            // Create a sanitized filename based on event title
+            const filename = `${event.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_signups.csv`;
+            a.download = filename;
+
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error generating CSV:', error);
+            alert('Failed to generate CSV');
+        } finally {
+            setIsDownloading(false);
         }
     };
 
@@ -66,11 +140,22 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
         </td>
     )
 
+    const headerAction = (
+        <button
+            onClick={handleDownloadCSV}
+            disabled={isDownloading || currentSignups.length === 0}
+            className="btn btn-sm btn-success rounded-pill"
+        >
+            {isDownloading ? 'Downloading...' : 'Download Signups'}
+        </button>
+    );
+
     return (
         <AdminPage title={"Signups: " + event.title}>
             <DataTable
                 headerTitle="Signups"
                 headers={headers}
+                headerAction={headerAction}
                 data={currentSignups}
                 renderRow={renderRow}
             />

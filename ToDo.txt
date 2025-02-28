@@ -1,2 +1,3 @@
-– Ability to export users signed up to event as a CSV
 – Automated emails for event signup
+– Add author role and the ability for authors to create articles
+– Add speaker role and the ability to assign speakers to events (just save id to mongo, then fetch user details, and user profile pic stored in storage)

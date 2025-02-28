@@ -20,9 +20,36 @@ interface UsersTableProps {
 const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage}) => {
     const router = useRouter();
     const {sortBy, sortOrder} = router.query;
+    const [isDownloading, setIsDownloading] = useState(false);
 
     // Include sortBy and sortOrder in the pagination base URL
     const baseUrl = `/admin/dashboard?tab=users${sortBy ? `&sortBy=${sortBy}` : ''}${sortOrder ? `&sortOrder=${sortOrder}` : ''}`;
+
+    const handleDownloadCSV = async () => {
+        try {
+            setIsDownloading(true);
+            const response = await fetch('/api/users/export-users');
+
+            if (!response.ok) {
+                throw new Error('Failed to download users data');
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'users.csv';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error downloading users:', error);
+            alert('Failed to download users data');
+        } finally {
+            setIsDownloading(false);
+        }
+    };
 
     const renderRow = (mutableUser: MutableUserData) => {
         return (
@@ -74,6 +101,12 @@ const UsersTable: React.FC<UsersTableProps> = ({users, totalUsers, page, perPage
 
     const headerAction = (
         <>
+            <button
+                onClick={handleDownloadCSV}
+                disabled={isDownloading}
+                className="btn btn-sm btn-success rounded-pill me-2">
+                {isDownloading ? 'Downloading...' : 'Download Users'}
+            </button>
             <button
                 data-bs-toggle="modal"
                 data-bs-target="#create-user-modal"
