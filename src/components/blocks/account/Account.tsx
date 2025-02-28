@@ -9,8 +9,9 @@ import convertToInputItems from './convertToInputItems';
 import editUserData from './editUserData';
 import NextLink from 'components/reuseable/links/NextLink';
 import {Link as ScrollLink} from 'react-scroll';
-import ChangePasswordForm from "./ChangePasswordForm";
+import ChangePasswordFormModal from "./ChangePasswordForm";
 import formatEventDates from "../../../helpers/formatEventDates";
+import {router} from "next/client";
 
 interface Event {
     _id: string;
@@ -26,7 +27,7 @@ interface AccountProps {
 const Account: FC<AccountProps> = ({user}) => {
     const [alertStatus, setAlertStatus] = useState<'success' | 'failed' | null>(null);
     const [myEvents, setMyEvents] = useState<Event[]>([]);
-    const {getUser, updateUser, signout} = useAuth();
+    const {updateUser, signout} = useAuth();
     const deleteModalID = 'delete-account-modal';
 
     // Define the quick-access links for the sidebar
@@ -46,6 +47,11 @@ const Account: FC<AccountProps> = ({user}) => {
                 .catch((err) => console.error('Error fetching signed-up events:', err));
         }
     }, [user]);
+
+    function handleSignout() {
+        signout();
+        router.push('/');
+    }
 
     const handleFormSubmit = (values: Record<string, string>) => {
         setAlertStatus(null);
@@ -167,7 +173,15 @@ const Account: FC<AccountProps> = ({user}) => {
                             <hr className="my-8"/>
                             <section id="change-password" className="mb-12 ps-4">
                                 <h4 className="mb-4">Change Password:</h4>
-                                <ChangePasswordForm/>
+                                <p>To change your password, please click the button below.</p>
+                                <button
+                                    className={"btn btn-outline-primary"}
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modal-change-password"
+                                >
+                                    Change Password
+                                </button>
+                                <ChangePasswordFormModal modalID={"modal-change-password"}/>
                             </section>
                             <hr className="my-8"/>
                             {/* Section 4: Account Actions */}
@@ -177,7 +191,7 @@ const Account: FC<AccountProps> = ({user}) => {
                                     <div>
                                         <button
                                             type="button"
-                                            onClick={signout}
+                                            onClick={handleSignout}
                                             className="btn btn-outline-red btn-sm"
                                         >
                                             Log Out

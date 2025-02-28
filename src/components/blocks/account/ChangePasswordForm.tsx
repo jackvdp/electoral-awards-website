@@ -1,8 +1,13 @@
 // components/account/ChangePasswordForm.tsx
 import React, {FC, useState} from 'react';
 import {createClient} from 'backend/supabase/component';
+import Modal from "components/reuseable/modal/Modal";
 
-const ChangePasswordForm: FC = () => {
+interface ChangePasswordFormProps {
+    modalID: string;
+}
+
+const ChangePasswordFormModal: FC<ChangePasswordFormProps> = ({modalID}) => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -45,39 +50,44 @@ const ChangePasswordForm: FC = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-                <label htmlFor="newPassword" className="form-label">
-                    New Password
-                </label>
-                <input
-                    type="password"
-                    id="newPassword"
-                    className="form-control"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    required
-                />
-            </div>
-            <div className="mb-3">
-                <label htmlFor="confirmPassword" className="form-label">
-                    Confirm New Password
-                </label>
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    className="form-control"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                />
-            </div>
-            {message && <p>{message}</p>}
-            <button type="submit" className="btn btn-primary" disabled={loading}>
-                {loading ? 'Updating...' : 'Update Password'}
-            </button>
-        </form>
+        <Modal
+            id={modalID}
+            content={
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3">
+                        <label htmlFor="newPassword" className="form-label">
+                            New Password
+                        </label>
+                        <input
+                            type="password"
+                            id="newPassword"
+                            className="form-control"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="confirmPassword" className="form-label">
+                            Confirm New Password
+                        </label>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            className="form-control"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    {message && <p>{message}</p>}
+                    <button type="submit" className="btn btn-primary" disabled={loading}>
+                        {loading ? 'Updating...' : 'Update Password'}
+                    </button>
+                </form>
+            }
+        />
     );
 };
 
-export default ChangePasswordForm;
+export default ChangePasswordFormModal;
