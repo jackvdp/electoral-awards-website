@@ -107,7 +107,7 @@ const SpeakersManager: FC<SpeakersManagerProps> = ({initialSpeakers = [], onChan
             {/* Display added speakers */}
             {speakers.length > 0 && (
                 <div className="mb-3">
-                    <h6>Added Speakers:</h6>
+                    <h6 className={"text-muted"}>Added Speakers:</h6>
                     <div className="list-group">
                         {speakers.map((speaker, index) => (
                             <div key={index}
@@ -116,19 +116,19 @@ const SpeakersManager: FC<SpeakersManagerProps> = ({initialSpeakers = [], onChan
                                     <div className="speaker-order-controls me-3">
                                         <button
                                             type="button"
-                                            className="btn btn-sm btn-outline-secondary d-block mb-1"
+                                            className="btn btn-circle btn-sm btn-outline-secondary d-block mb-1"
                                             onClick={() => moveSpeakerUp(index)}
                                             disabled={index === 0}
                                         >
-                                            <i className="fas fa-chevron-up"></i>
+                                            <i className="fuil uil-arrow-up"></i>
                                         </button>
                                         <button
                                             type="button"
-                                            className="btn btn-sm btn-outline-secondary d-block"
+                                            className="btn btn-circle btn-sm btn-outline-secondary d-block"
                                             onClick={() => moveSpeakerDown(index)}
                                             disabled={index === speakers.length - 1}
                                         >
-                                            <i className="fas fa-chevron-down"></i>
+                                            <i className="uil uil-arrow-down"></i>
                                         </button>
                                     </div>
                                     <div>
@@ -162,7 +162,7 @@ const SpeakersManager: FC<SpeakersManagerProps> = ({initialSpeakers = [], onChan
             )}
 
             {/* Add/Edit speaker form */}
-            <div className="card p-3 mb-3">
+            <div className="p-3 mb-3">
                 <h6 className="text-muted">{isEditing ? "Edit Speaker" : "Add a Speaker"}</h6>
 
                 <div className="row">
@@ -227,6 +227,7 @@ const SpeakersManager: FC<SpeakersManagerProps> = ({initialSpeakers = [], onChan
                         Add Speaker
                     </button>
                 )}
+                <p className={"mt-2 text-muted small"}>* Make sure to press update event after editing speakers.</p>
             </div>
         </div>
     );
