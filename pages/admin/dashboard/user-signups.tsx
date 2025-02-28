@@ -1,11 +1,9 @@
 import {GetServerSideProps, NextPage} from 'next';
 import React, {useEffect, useState} from 'react';
-import DataTable from 'components/blocks/admin/reusables/DataTable';
 import {IEvent} from 'backend/models/event';
-import {User} from '@supabase/supabase-js';
 import {createClient} from 'backend/supabase/server-props';
 import AdminPage from "components/blocks/admin/reusables/AdminPage";
-import {userHeaders, userColumns, userRow} from "../../../src/components/blocks/admin/reusables/userColumns";
+
 import {
     createCustomUserData,
     createMutableUserData,
@@ -14,6 +12,7 @@ import {
 } from "../../../src/backend/models/user";
 import ReusableForm, {InputItem} from "../../../src/components/reuseable/Form";
 import Modal from "../../../src/components/reuseable/modal/Modal";
+import formatEventDates from "../../../src/helpers/formatEventDates";
 
 interface UserSignupsPageProps {
     userId: string;
@@ -98,7 +97,7 @@ const EventSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, events:
             defaultValue: '',
             required: true,
             options: availableForSignup.map(ev => ({
-                label: ev.title,
+                label: new Date(ev.startDate).toLocaleDateString("en-GB") + " – " + ev.title,
                 value: ev._id as string,
             })),
         },

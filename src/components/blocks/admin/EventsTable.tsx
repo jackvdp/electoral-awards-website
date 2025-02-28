@@ -6,6 +6,7 @@ import CreateEventModal from "./eventModals/CreateEventModal";
 import UpdateEventModal from "./eventModals/UpdateEventModal";
 import Link from "next/link";
 import {router} from "next/client";
+import formatEventDates from "../../../helpers/formatEventDates";
 
 interface EventsTableProps {
     events: IEvent[];
@@ -21,9 +22,7 @@ const EventsTable: React.FC<EventsTableProps> = ({events, title}) => {
                 <a href={"/events/" + event._id}>{event.title}</a>
             </td>
             <td>
-                {new Date(event.startDate).toLocaleDateString()}
-                {' '}-{' '}
-                {new Date(event.endDate).toLocaleDateString()}
+                {formatEventDates(event.startDate, event.endDate)}
             </td>
             <td>
                 <Link href={"/admin/dashboard/event-signups?eventId=" + event._id}>
