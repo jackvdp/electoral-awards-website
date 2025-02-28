@@ -6,7 +6,7 @@ import {User} from '@supabase/supabase-js';
 import {createClient} from 'backend/supabase/server-props';
 import AdminPage from "components/blocks/admin/reusables/AdminPage";
 import {userHeaders, userColumns, userRow} from "../../../src/components/blocks/admin/reusables/userColumns";
-import {MutableUserData} from "../../../src/backend/models/user";
+import {createMutableUserData, MutableUserData} from "../../../src/backend/models/user";
 
 interface EventSignupsPageProps {
     event: IEvent;
@@ -112,7 +112,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const signupIds: string[] = event.signups || [];
 
-    let signups: (User | string)[] = [];
+    let signups: (MutableUserData | string)[] = [];
 
     if (signupIds.length > 0) {
         signups = await Promise.all(
@@ -121,7 +121,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
                 if (error || !data) {
                     return id;
                 }
-                return data.user;
+                return createMutableUserData(data.user);
             })
         );
     }

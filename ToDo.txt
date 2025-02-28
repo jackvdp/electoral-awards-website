@@ -1,3 +1,2 @@
-- Users signed up details in event sign ups page
 – Ability to export users signed up to event as a CSV
 – Automated emails for event signup
