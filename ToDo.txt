@@ -1,5 +1,4 @@
-– Message under event header, saying sign in or sign up if they are not/message event has passed
 – Bug: Users are seemingly able to sign up via magic link
 – Ability to export users signed up to event as a CSV
-– when event or user is edited or deleted it should refresh the dashboard
+- Users signed up details in event sign ups page
 – Automated emails for event signup

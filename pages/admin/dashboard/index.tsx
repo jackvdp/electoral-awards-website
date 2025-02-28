@@ -26,8 +26,7 @@ const Index: React.FC<DashboardProps> = ({tab, users, totalUsers, page, perPage,
     const renderContent = () => {
         switch (tab) {
             case 'users':
-                return <UsersTable users={users} totalUsers={totalUsers} page={page} perPage={perPage}
-                                   allEvents={events}/>;
+                return <UsersTable users={users} totalUsers={totalUsers} page={page} perPage={perPage}/>;
             case 'events':
                 return <EventsTable events={events}/>;
             case 'articles':
