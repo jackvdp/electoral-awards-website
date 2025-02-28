@@ -1,4 +1,3 @@
-– Bug: Users are seemingly able to sign up via magic link
-– Ability to export users signed up to event as a CSV
 - Users signed up details in event sign ups page
+– Ability to export users signed up to event as a CSV
 – Automated emails for event signup
