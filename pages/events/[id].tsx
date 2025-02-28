@@ -11,6 +11,7 @@ import ReactMarkdown from 'react-markdown';
 import EventsSidebar from 'components/blocks/events/EventsSidebar';
 import CustomHead from 'components/common/CustomHead';
 import {useAuth} from 'auth/useAuth';
+import CTA from "../../src/components/blocks/call-to-action/CTA";
 
 interface EventPageProps {
     event: IEvent;
@@ -62,7 +63,8 @@ const EventPage: NextPage<EventPageProps> = ({event}) => {
             </button>
         }
         if (isSignedUp) {
-            return <p className="text-success mt-2">You are already signed up for this event!</p>;
+            return <p className="text-success mt-2">You are already signed up for this event! Go to <a
+                href="/account" className={"hover"}>account</a> page for more details.</p>;
         }
         return (
             <>
@@ -166,6 +168,8 @@ const EventPage: NextPage<EventPageProps> = ({event}) => {
                     </div>
                 </section>
             </main>
+
+            {!isLoggedIn && <CTA/>}
 
             <Footer/>
         </Fragment>

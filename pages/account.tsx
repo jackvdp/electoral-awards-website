@@ -1,23 +1,19 @@
-import {NextPage} from 'next';
-import {Fragment, useEffect} from 'react';
+import {GetServerSideProps, NextPage} from 'next';
+import {Fragment} from 'react';
 import {Navbar} from 'components/blocks/navbar';
 import {Footer} from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
 import Account from 'components/blocks/account/Account';
-import {useRouter} from 'next/router';
-import {useAuth} from 'auth/useAuth';
-import CustomHead from "../src/components/common/CustomHead";
+import CustomHead from "components/common/CustomHead";
+import {createClient} from "backend/supabase/server-props";
+import {User} from "@supabase/supabase-js";
+import {createMutableUserData, MutableUserData} from "../src/backend/models/user";
 
-const AccountPage: NextPage = () => {
+interface AccountPageProps {
+    user: MutableUserData
+}
 
-    const router = useRouter();
-    const {isLoggedIn} = useAuth()
-
-    useEffect(() => {
-        if (!isLoggedIn) {
-            router.push('/');
-        }
-    }, [isLoggedIn]);
+const AccountPage: NextPage<AccountPageProps> = ({user}) => {
 
     return (
         <Fragment>
@@ -29,7 +25,7 @@ const AccountPage: NextPage = () => {
 
             <Navbar/>
 
-            <Account/>
+            <Account user={user}/>
 
             <Footer/>
         </Fragment>
@@ -37,3 +33,24 @@ const AccountPage: NextPage = () => {
 };
 
 export default AccountPage;
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const supabase = createClient(ctx);
+
+    // Check session; ensure an admin session
+    const {data: {session}} = await supabase.auth.getSession();
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: {
+            user: createMutableUserData(session.user)
+        }
+    }
+}

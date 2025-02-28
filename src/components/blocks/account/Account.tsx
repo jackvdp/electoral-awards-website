@@ -19,8 +19,11 @@ interface Event {
     endDate: string;
 }
 
-const Account: FC = () => {
-    const [user, setUser] = useState<MutableUserData | null>(null);
+interface AccountProps {
+    user: MutableUserData
+}
+
+const Account: FC<AccountProps> = ({user}) => {
     const [alertStatus, setAlertStatus] = useState<'success' | 'failed' | null>(null);
     const [myEvents, setMyEvents] = useState<Event[]>([]);
     const {getUser, updateUser, signout} = useAuth();
@@ -33,19 +36,6 @@ const Account: FC = () => {
         {title: 'Change Password', url: 'change-password'},
         {title: 'Account Actions', url: 'account-actions'},
     ];
-
-    // Load user details
-    useEffect(() => {
-        const getUserData = async () => {
-            const userData = await getUser();
-            if (userData === null) {
-                setAlertStatus('failed');
-                return;
-            }
-            setUser(userData);
-        };
-        getUserData();
-    }, []);
 
     // Fetch events the user signed up for
     useEffect(() => {
@@ -67,7 +57,6 @@ const Account: FC = () => {
                 setAlertStatus('failed');
             } else {
                 setAlertStatus('success');
-                setUser(newUser);
             }
         })();
     };
