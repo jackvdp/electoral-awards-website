@@ -23,12 +23,15 @@ const EventPage: NextPage<EventPageProps> = ({event}) => {
     const [signupStatus, setSignupStatus] = useState<null | 'success' | 'failed'>(null);
     const [isSignedUp, setIsSignedUp] = useState<boolean>(false);
 
-    // Check if the user is already signed up when component mounts or event changes
+    const eventId = event._id;
+    const eventSignups = event.signups || [];
+
+    // Check if the user is already signed up when component mounts or relevant data changes
     useEffect(() => {
-        if (isLoggedIn && currentUser && event.signups) {
-            setIsSignedUp(event.signups.includes(currentUser.id));
+        if (isLoggedIn && currentUser) {
+            setIsSignedUp(eventSignups.includes(currentUser.id));
         }
-    }, [isLoggedIn, currentUser, event]);
+    }, [isLoggedIn, currentUser, eventSignups]);
 
     const handleSignup = async () => {
         if (!isLoggedIn || !currentUser) return;
@@ -37,7 +40,7 @@ const EventPage: NextPage<EventPageProps> = ({event}) => {
             const response = await fetch('/api/events/signup', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({eventId: event._id, userId: currentUser.id})
+                body: JSON.stringify({eventId: eventId, userId: currentUser.id})
             });
             const data = await response.json();
             if (response.ok) {
