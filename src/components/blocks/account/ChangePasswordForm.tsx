@@ -3,7 +3,6 @@ import React, {FC, useState} from 'react';
 import {createClient} from 'backend/supabase/component';
 
 const ChangePasswordForm: FC = () => {
-    const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -30,25 +29,12 @@ const ChangePasswordForm: FC = () => {
                 return;
             }
 
-            // Verify current password by re-authenticating
-            const {error: signInError} = await supabase.auth.signInWithPassword({
-                email: session.user.email,
-                password: currentPassword,
-            });
-
-            if (signInError) {
-                setMessage('Current password is incorrect');
-                setLoading(false);
-                return;
-            }
-
             // Update password
             const {error} = await supabase.auth.updateUser({password: newPassword});
             if (error) {
                 setMessage(error.message);
             } else {
                 setMessage('Password updated successfully');
-                setCurrentPassword('');
                 setNewPassword('');
                 setConfirmPassword('');
             }
@@ -60,19 +46,6 @@ const ChangePasswordForm: FC = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-                <label htmlFor="currentPassword" className="form-label">
-                    Current Password
-                </label>
-                <input
-                    type="password"
-                    id="currentPassword"
-                    className="form-control"
-                    value={currentPassword}
-                    onChange={(e) => setCurrentPassword(e.target.value)}
-                    required
-                />
-            </div>
             <div className="mb-3">
                 <label htmlFor="newPassword" className="form-label">
                     New Password

@@ -10,6 +10,7 @@ import editUserData from './editUserData';
 import NextLink from 'components/reuseable/links/NextLink';
 import {Link as ScrollLink} from 'react-scroll';
 import ChangePasswordForm from "./ChangePasswordForm";
+import formatEventDates from "../../../helpers/formatEventDates";
 
 interface Event {
     _id: string;
@@ -27,8 +28,8 @@ const Account: FC = () => {
 
     // Define the quick-access links for the sidebar
     const quickAccssLinks = [
-        {title: 'Account Details', url: 'account-details'},
         {title: 'Signed-Up Events', url: 'signed-up-events'},
+        {title: 'Account Details', url: 'account-details'},
         {title: 'Change Password', url: 'change-password'},
         {title: 'Account Actions', url: 'account-actions'},
     ];
@@ -104,31 +105,6 @@ const Account: FC = () => {
                     {/* Left Column: All Main Content */}
                     <div className="col-xl-10 order-xl-2">
                         <div className="pb-8 px-8">
-                            {/* Section 1: Account Details (Avatar and Form) */}
-                            <hr className="my-8"/>
-                            <section id="account-details" className="mb-12">
-                                {user && (
-                                    <>
-                                        <div className="d-flex align-items-center mb-8 ps-4">
-                                            <span className="avatar bg-pale-primary text-primary w-15 h-15 me-2">
-                                              <span className="text-uppercase fs-32">
-                                                {user.firstname.charAt(0) + user.lastname.charAt(0)}
-                                              </span>
-                                            </span>
-                                            <div>
-                                                <p className="mb-0 fw-bold">{user.firstname} {user.lastname}</p>
-                                                <p className="mb-0">{user.email}</p>
-                                            </div>
-                                        </div>
-                                        <ReusableForm
-                                            inputItems={convertToInputItems(user)}
-                                            submitButtonTitle="Update Account Details"
-                                            onSubmit={handleFormSubmit}
-                                            disableSubmitInitially={true}
-                                        />
-                                    </>
-                                )}
-                            </section>
                             {/* Section 2: Signed-Up Events */}
                             <hr className="my-8"/>
                             <section id="signed-up-events" className="mb-12 ps-4">
@@ -145,7 +121,7 @@ const Account: FC = () => {
                                                         {event.title}
                                                     </a>
                                                     <div className="text-muted">
-                                                        {new Date(event.startDate).toLocaleDateString()} – {new Date(event.endDate).toLocaleDateString()}
+                                                        {formatEventDates(event.startDate, event.endDate)}
                                                     </div>
                                                 </div>
                                                 <a
@@ -172,8 +148,34 @@ const Account: FC = () => {
                                     </p>
                                 )}
                             </section>
+                            {/* Section 1: Account Details (Avatar and Form) */}
                             <hr className="my-8"/>
+                            <section id="account-details" className="mb-12">
+                                {user && (
+                                    <>
+                                        <div className="d-flex align-items-center mb-8 ps-4">
+                                            <span className="avatar bg-pale-primary text-primary w-15 h-15 me-2">
+                                              <span className="text-uppercase fs-32">
+                                                {user.firstname.charAt(0) + user.lastname.charAt(0)}
+                                              </span>
+                                            </span>
+                                            <div>
+                                                <p className="mb-0 fw-bold">{user.firstname} {user.lastname}</p>
+                                                <p className="mb-0">{user.email}</p>
+                                            </div>
+                                        </div>
+                                        <ReusableForm
+                                            inputItems={convertToInputItems(user)}
+                                            submitButtonTitle="Update Account Details"
+                                            onSubmit={handleFormSubmit}
+                                            disableSubmitInitially={true}
+                                        />
+                                    </>
+                                )}
+                            </section>
+
                             {/* Section 3: Change Password */}
+                            <hr className="my-8"/>
                             <section id="change-password" className="mb-12 ps-4">
                                 <h4 className="mb-4">Change Password:</h4>
                                 <ChangePasswordForm/>

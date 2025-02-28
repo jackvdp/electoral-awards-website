@@ -115,7 +115,7 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
                                     isLoggedIn ?
                                         <NextLink
                                             title="Account"
-                                            className="btn btn-sm btn-outline-secondary my-custom-btn"
+                                            className="btn btn-sm primary my-custom-btn"
                                             href='/account'/> :
                                         <button
                                             className="btn btn-sm btn-outline-secondary my-custom-btn"
@@ -163,7 +163,7 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
 
                                 <NextLink
                                     title="Account"
-                                    className="btn btn-sm btn-outline-secondary my-custom-btn"
+                                    className="btn btn-sm btn-outline-primary my-custom-btn"
                                     href='/account'/> :
                                 <button
                                     className="btn btn-sm btn-outline-secondary my-custom-btn"
