@@ -107,7 +107,7 @@ const SpeakersManager: FC<SpeakersManagerProps> = ({initialSpeakers = [], onChan
             {/* Display added speakers */}
             {speakers.length > 0 && (
                 <div className="mb-3">
-                    <h6 className={"text-muted"}>Added Speakers:</h6>
+                    <h6 className="text-muted">Added Speakers:</h6>
                     <div className="list-group">
                         {speakers.map((speaker, index) => (
                             <div key={index}
@@ -120,7 +120,7 @@ const SpeakersManager: FC<SpeakersManagerProps> = ({initialSpeakers = [], onChan
                                             onClick={() => moveSpeakerUp(index)}
                                             disabled={index === 0}
                                         >
-                                            <i className="fuil uil-arrow-up"></i>
+                                            <i className="uil uil-arrow-up"></i>
                                         </button>
                                         <button
                                             type="button"
@@ -131,10 +131,26 @@ const SpeakersManager: FC<SpeakersManagerProps> = ({initialSpeakers = [], onChan
                                             <i className="uil uil-arrow-down"></i>
                                         </button>
                                     </div>
-                                    <div>
+
+                                    {/* Display speaker image if available */}
+                                    {speaker.imageURL && (
+                                        <div className="me-3">
+                                            <img
+                                                src={speaker.imageURL}
+                                                alt={speaker.name}
+                                                className="rounded-circle"
+                                                style={{
+                                                    width: '60px',
+                                                    height: '60px',
+                                                    objectFit: 'cover',
+                                                }}
+                                            />
+                                        </div>
+                                    )}
+
+                                    <div className="text-start">
                                         <strong>{speaker.name}</strong>
                                         <p className="mb-0 text-muted small">{speaker.description}</p>
-                                        {speaker.imageURL && <small className="text-info">Image URL added</small>}
                                     </div>
                                 </div>
                                 <div className="btn-group">
