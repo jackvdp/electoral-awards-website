@@ -24,8 +24,10 @@ export default function formatEventDates(startDateInput: Date | string, endDateI
         const offset = startDate.getTimezoneOffset();
         const hours = Math.abs(Math.floor(offset / 60));
         const minutes = Math.abs(offset % 60);
-        const sign = offset < 0 ? '+' : '-';
-        const utcString = `UTC${sign}${hours}${minutes > 0 ? `:${minutes.toString().padStart(2, '0')}` : ''}`;
+        const sign = offset == 0 ? '+' : offset < 0 ? '+' : '-';
+        const utcString = offset == 0 ?
+            'UTC' :
+            `UTC${sign}${hours}${minutes > 0 ? `:${minutes.toString().padStart(2, '0')}` : ''}`;
 
         // Get timezone abbreviation using Intl.DateTimeFormat
         try {
