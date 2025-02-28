@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from "next/link";
 
 const HomeAbout: React.FC = () => {
     return (
@@ -20,10 +21,10 @@ const HomeAbout: React.FC = () => {
                 fair and transparent processes, these awards shine a spotlight on individuals and organizations making a
                 real impact in securing the future of elections.
             </p>
-            <a href="#" className="btn btn-expand btn-primary rounded-pill">
+            <Link href="/events" className="btn btn-expand btn-primary rounded-pill">
                 <i className="uil uil-arrow-right"></i>
                 <span>See our events</span>
-            </a>
+            </Link>
         </>
     );
 };
