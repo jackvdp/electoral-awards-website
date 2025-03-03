@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ImageCard from './ImageCard';
 import useLightBox from 'hooks/useLightBox';
-import {FolderStructure} from 'backend/aws/helpers/getFilesFolders';
+import {FolderStructure} from 'backend/use_cases/images/getFilesFolders';
 import useProgressbar from 'hooks/useProgressbar';
 import TabBar from './ImageGalleryTabBar';
 
