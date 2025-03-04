@@ -55,7 +55,7 @@ async function signup(req: NextApiRequest, res: NextApiResponse) {
             return res.status(200).json({message: 'Already signed up or event not found'});
         }
 
-        await sendEventConfirmationEmail(eventRegistrationData)
+        sendEventConfirmationEmail(eventRegistrationData)
 
         return res.status(200).json({message: 'Successfully signed up for the event'});
     } catch (error: any) {

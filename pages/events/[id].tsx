@@ -13,6 +13,8 @@ import CustomHead from 'components/common/CustomHead';
 import {useAuth} from 'auth/useAuth';
 import CTA from "components/blocks/call-to-action/CTA";
 import Link from "next/link";
+import {createEventRegistrationData} from "../../src/backend/use_cases/events/confirmation-email";
+import {createMutableUserData} from "../../src/backend/models/user";
 
 interface EventPageProps {
     event: IEvent;
@@ -40,7 +42,13 @@ const EventPage: NextPage<EventPageProps> = ({event}) => {
             const response = await fetch('/api/events/signup', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({eventId: eventId, userId: currentUser.id})
+                body: JSON.stringify(
+                    {
+                        eventId: eventId,
+                        userId: currentUser.id,
+                        eventRegistrationData: createEventRegistrationData(createMutableUserData(currentUser), event)
+                    }
+                )
             });
             const data = await response.json();
             if (response.ok) {

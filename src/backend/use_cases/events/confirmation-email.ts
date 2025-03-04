@@ -1,6 +1,7 @@
 import axios from 'axios';
-import {CustomUserData, MutableUserData} from "../../models/user";
+import {CustomUserData} from "../../models/user";
 import {IEvent} from "../../models/event";
+import formatEventDates from "helpers/formatEventDates";
 
 export interface EventRegistrationData {
     name: string;
@@ -12,18 +13,12 @@ export interface EventRegistrationData {
 }
 
 export function createEventRegistrationData(user: CustomUserData, event: IEvent): EventRegistrationData {
-    const eventDate = new Date(event.startDate).toLocaleDateString('en-GB', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
 
     return {
         name: `${user.firstname} ${user.lastname}`,
         email: user.email,
         event_name: event.title,
-        event_date: eventDate,
+        event_date: formatEventDates(event.startDate, event.endDate),
         event_location: event.location,
         agenda_link: `https://www.electoralnetwork.org/events/${event._id}`
     };
