@@ -9,14 +9,13 @@ import {
     createMutableUserData,
     CustomUserData,
     MutableUserData
-} from "../../../src/backend/models/user";
-import ReusableForm, {InputItem} from "../../../src/components/reuseable/Form";
-import Modal from "../../../src/components/reuseable/modal/Modal";
-import formatEventDates from "../../../src/helpers/formatEventDates";
+} from "backend/models/user";
+import ReusableForm, {InputItem} from "components/reuseable/Form";
+import {createEventRegistrationData} from "backend/use_cases/events/confirmation-email";
 
 interface UserSignupsPageProps {
     userId: string;
-    user: CustomUserData | null;
+    user: CustomUserData;
     events: IEvent[];
 }
 
@@ -61,10 +60,21 @@ const EventSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, events:
     const handleAddSignup = async (values: Record<string, string>) => {
         setAlertMessage(null);
         try {
+            const event = availableEvents.find(ev => ev._id === values.event);
+            if (!event) {
+                setAlertMessage('Invalid event selected.');
+                return;
+            }
             const res = await fetch('/api/events/signup', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({userId, eventId: values.event}),
+                body: JSON.stringify(
+                    {
+                        userId,
+                        eventId: values.event,
+                        eventRegistrationData: createEventRegistrationData(user, event)
+                    }
+                ),
             });
             const data = await res.json();
             if (!res.ok) {
@@ -172,11 +182,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         return {notFound: true};
     }
 
-    let user: (MutableUserData | null) = null;
+
     const {data, error} = await supabase.auth.admin.getUserById(userId);
-    if (!error && data) {
-        user = createMutableUserData(data.user);
+    if (error || !data.user) {
+        return {notFound: true};
     }
+
+    const user: MutableUserData = createMutableUserData(data.user);
 
     let events = [];
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;

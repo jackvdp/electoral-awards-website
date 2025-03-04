@@ -1,6 +1,7 @@
 import {User} from "@supabase/supabase-js";
 
 interface BaseUserData {
+    email: string;
     firstname: string;
     lastname: string;
     phone: string;
@@ -14,12 +15,10 @@ interface BaseUserData {
 }
 
 interface MutableUserData extends BaseUserData {
-    email: string;
     id: string;
 }
 
 interface CreateUserData extends BaseUserData {
-    email: string;
     password: string;
 }
 
@@ -44,6 +43,7 @@ function createMutableUserData(user: User): MutableUserData {
 
 function createCustomUserData(data: MutableUserData | CreateUserData): CustomUserData {
     return {
+        email: data.email,
         firstname: data.firstname,
         lastname: data.lastname,
         phone: data.phone,
