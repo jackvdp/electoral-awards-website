@@ -13,7 +13,7 @@ import CustomHead from 'components/common/CustomHead';
 import {useAuth} from 'auth/useAuth';
 import CTA from "components/blocks/call-to-action/CTA";
 import Link from "next/link";
-import {createEventRegistrationData} from "../../src/backend/use_cases/events/confirmation-email";
+import {createEventRegistrationData} from "../../src/backend/use_cases/events/sendEventConfirmationEmail";
 import {createMutableUserData} from "../../src/backend/models/user";
 
 interface EventPageProps {

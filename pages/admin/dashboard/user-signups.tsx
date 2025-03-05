@@ -11,7 +11,7 @@ import {
     MutableUserData
 } from "backend/models/user";
 import ReusableForm, {InputItem} from "components/reuseable/Form";
-import {createEventRegistrationData} from "backend/use_cases/events/confirmation-email";
+import {createEventRegistrationData} from "backend/use_cases/events/sendEventConfirmationEmail";
 
 interface UserSignupsPageProps {
     userId: string;

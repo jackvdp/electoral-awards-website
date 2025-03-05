@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ServerClient } from "postmark";
-import { EventRegistrationData } from 'backend/use_cases/events/confirmation-email';
+import { EventRegistrationData } from 'backend/use_cases/events/sendEventConfirmationEmail';
 
 const postmarkClient = new ServerClient(process.env.POSTMARK_API_TOKEN!);
 

@@ -3,7 +3,7 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 import dbConnect from "backend/mongo";
 import {ObjectId} from 'mongodb';
 import mongoose from 'mongoose';
-import {EventRegistrationData, sendEventConfirmationEmail} from "backend/use_cases/events/confirmation-email";
+import {EventRegistrationData, sendEventConfirmationEmail} from "backend/use_cases/events/sendEventConfirmationEmail";
 
 interface SignupRequestBody {
     eventId: string;
