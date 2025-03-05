@@ -2,14 +2,17 @@
 import {FC, useState} from "react";
 import Modal from "components/reuseable/modal/Modal";
 import {useAuth} from "auth/useAuth";
+import {IEvent} from "backend/models/event";
+import {cancelEventAndSendConfirmation} from "backend/use_cases/events/cancelSignupEvent+SendConfirmation";
+import {createMutableUserData} from "backend/models/user";
 
 interface CancelSignupModalProps {
     modalID: string;
-    eventId: string;
+    event: IEvent;
     onCancelled: () => void;
 }
 
-const CancelSignupModal: FC<CancelSignupModalProps> = ({modalID, eventId, onCancelled}) => {
+const CancelSignupModal: FC<CancelSignupModalProps> = ({modalID, event, onCancelled}) => {
     const {currentUser} = useAuth();
     const [isCancelling, setIsCancelling] = useState(false);
     const [closeModalProgrammatically, setCloseModalProgrammatically] = useState(false);
@@ -18,12 +21,15 @@ const CancelSignupModal: FC<CancelSignupModalProps> = ({modalID, eventId, onCanc
         if (!currentUser) return;
         setIsCancelling(true);
         try {
-            const res = await fetch('/api/events/signup', {
-                method: 'DELETE',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({eventId, userId: currentUser.id})
-            });
-            if (res.ok) {
+            // If we have the full user object and event, use the complete use case
+            const result = await cancelEventAndSendConfirmation(
+                currentUser.id,
+                event._id as string,
+                createMutableUserData(currentUser),
+                event
+            );
+
+            if (result.success) {
                 setCloseModalProgrammatically(true);
                 onCancelled(); // remove the event from the list
             } else {

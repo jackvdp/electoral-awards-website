@@ -2,11 +2,14 @@ import {GetServerSideProps, NextPage} from 'next';
 import React, {useState} from 'react';
 import DataTable from 'components/blocks/admin/reusables/DataTable';
 import {IEvent} from 'backend/models/event';
-import {User} from '@supabase/supabase-js';
 import {createClient} from 'backend/supabase/server-props';
 import AdminPage from "components/blocks/admin/reusables/AdminPage";
-import {userHeaders, userColumns, userRow} from "../../../src/components/blocks/admin/reusables/userColumns";
-import {createMutableUserData, MutableUserData} from "../../../src/backend/models/user";
+import {userHeaders, userRow} from "components/blocks/admin/reusables/userColumns";
+import {createMutableUserData, MutableUserData} from "backend/models/user";
+import {
+    cancelEventAndSendConfirmation,
+    cancelEventSignup
+} from "backend/use_cases/events/cancelSignupEvent+SendConfirmation";
 
 interface EventSignupsPageProps {
     event: IEvent;
@@ -18,16 +21,27 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
     const [isDownloading, setIsDownloading] = useState(false);
 
     // Handler to remove a user from the event's signups
-    const handleRemoveSignup = async (userId: string) => {
+    const handleRemoveSignup = async (user: MutableUserData | string) => {
+        const userId = (typeof user === 'string') ? user : user.id;
         try {
-            const res = await fetch('/api/events/signup', {
-                method: 'DELETE',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({eventId: event._id, userId}),
-            });
-            const data = await res.json();
-            if (!res.ok) {
-                alert(data.error || 'Failed to remove signup.');
+            let result;
+
+            // Check if we have the full user data
+            if (typeof user !== 'string') {
+                // We have the full user object, so use the complete use case
+                result = await cancelEventAndSendConfirmation(
+                    userId,
+                    event._id as string,
+                    user,
+                    event
+                );
+            } else {
+                // We only have the userId, so just cancel the signup without email
+                result = await cancelEventSignup(userId, event._id as string);
+            }
+
+            if (!result.success) {
+                alert(result.error || 'Failed to remove signup.');
             } else {
                 // Filter out the removed user
                 setCurrentSignups(prev => prev.filter(u => (typeof u !== 'string') && u.id !== userId));
@@ -113,32 +127,20 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
     const headers = userHeaders.concat(['Actions']);
 
     const renderRow = (user: MutableUserData | string) => {
-        if (typeof user === 'string') {
-            return (
-                <tr>
-                    <td colSpan={4}>User not found: {user}</td>
-                    {removeButton(user)}
-                </tr>
-            );
-        }
         return (
-            <tr key={user.id}>
-                {userRow(user)}
-                {removeButton(user.id)}
+            <tr>
+                {(typeof user === 'string')  ? <td colSpan={4}>User not found: {user}</td> : userRow(user)}
+                <td>
+                    <button
+                        className="btn btn-sm btn-outline-danger"
+                        onClick={() => handleRemoveSignup(user)}
+                    >
+                        Remove
+                    </button>
+                </td>
             </tr>
         );
     };
-
-    const removeButton = (userId: string) => (
-        <td>
-            <button
-                className="btn btn-sm btn-outline-danger"
-                onClick={() => handleRemoveSignup(userId)}
-            >
-                Remove
-            </button>
-        </td>
-    )
 
     const headerAction = (
         <button

@@ -12,13 +12,7 @@ import {Link as ScrollLink} from 'react-scroll';
 import ChangePasswordFormModal from "./ChangePasswordForm";
 import formatEventDates from "../../../helpers/formatEventDates";
 import {router} from "next/client";
-
-interface Event {
-    _id: string;
-    title: string;
-    startDate: string;
-    endDate: string;
-}
+import {IEvent} from "../../../backend/models/event";
 
 interface AccountProps {
     user: MutableUserData
@@ -26,7 +20,7 @@ interface AccountProps {
 
 const Account: FC<AccountProps> = ({user}) => {
     const [alertStatus, setAlertStatus] = useState<'success' | 'failed' | null>(null);
-    const [myEvents, setMyEvents] = useState<Event[]>([]);
+    const [myEvents, setMyEvents] = useState<IEvent[]>([]);
     const {updateUser, signout} = useAuth();
     const deleteModalID = 'delete-account-modal';
 
@@ -108,7 +102,7 @@ const Account: FC<AccountProps> = ({user}) => {
                                     <ul className="list-group">
                                         {myEvents.map((event) => (
                                             <li
-                                                key={event._id}
+                                                key={event._id as string}
                                                 className="list-group-item d-flex justify-content-between align-items-center"
                                             >
                                                 <div>
@@ -128,7 +122,7 @@ const Account: FC<AccountProps> = ({user}) => {
                                                 </a>
                                                 <CancelSignupModal
                                                     modalID={`cancel-signup-modal-${event._id}`}
-                                                    eventId={event._id}
+                                                    event={event}
                                                     onCancelled={() =>
                                                         setMyEvents((prev) => prev.filter((e) => e._id !== event._id))
                                                     }

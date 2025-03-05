@@ -10,6 +10,7 @@ import {
 } from "backend/models/user";
 import ReusableForm, {InputItem} from "components/reuseable/Form";
 import {signupEventAndSendConfirmation} from "backend/use_cases/events/signupEvent+SendConfirmation";
+import {cancelEventAndSendConfirmation} from "../../../src/backend/use_cases/events/cancelSignupEvent+SendConfirmation";
 
 interface UserSignupsPageProps {
     userId: string;
@@ -38,16 +39,27 @@ const EventSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, events:
 
     const handleRemoveSignup = async (eventId: string) => {
         try {
-            const res = await fetch('/api/events/signup', {
-                method: 'DELETE',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({userId, eventId}),
-            });
-            const data = await res.json();
-            if (!res.ok) {
-                setAlertMessage(data.error || 'Failed to remove signup.');
+            // First, find the event details from currentSignups
+            const eventToCancel = currentSignups.find(e => e._id === eventId);
+
+            if (!eventToCancel) {
+                setAlertMessage('Event not found in current signups.');
+                return;
+            }
+
+            // Assuming we have the user data available in a variable called 'userData'
+            // If you have the full user object, use the complete use case
+            const result = await cancelEventAndSendConfirmation(
+                userId,
+                eventId,
+                user,
+                eventToCancel
+            );
+
+            if (!result.success) {
+                setAlertMessage(result.error || 'Failed to remove signup.');
             } else {
-                // Update local state by removing the event from current signups.
+                // Update local state by removing the event from current signups
                 setCurrentSignups(prev => prev.filter(e => e._id !== eventId));
             }
         } catch (error: any) {
