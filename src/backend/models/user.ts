@@ -37,7 +37,7 @@ function createMutableUserData(user: User): MutableUserData {
         position: user.user_metadata.position,
         organisation: user.user_metadata.organisation,
         profileImage: user.user_metadata.profileImage,
-        role: user.user_metadata.role,
+        role: user.user_metadata.role || 'user',
     };
 }
 

@@ -10,7 +10,7 @@ import {
 } from "backend/models/user";
 import ReusableForm, {InputItem} from "components/reuseable/Form";
 import {signupEventAndSendConfirmation} from "backend/use_cases/events/signupEvent+SendConfirmation";
-import {cancelEventAndSendConfirmation} from "../../../src/backend/use_cases/events/cancelSignupEvent+SendConfirmation";
+import {cancelEventAndSendConfirmation} from "backend/use_cases/events/cancelSignupEvent+SendConfirmation";
 
 interface UserSignupsPageProps {
     userId: string;
