@@ -24,10 +24,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(400).json({ error: 'Missing required fields' });
         }
 
+        const isWebinar = event_location.toLowerCase().includes('webinar') || event_name.toLowerCase().includes('webinar');
+        const templateAlias = isWebinar ? "webinar-confirmation" : "event-confirmation";
+
         const response = await postmarkClient.sendEmailWithTemplate({
             From: 'info@electoralnetwork.org',
             To: email,
-            TemplateAlias: "user-invitation",
+            TemplateAlias: templateAlias,
             TemplateModel: {
                 name,
                 event_name,
