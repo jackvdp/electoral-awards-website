@@ -9,7 +9,7 @@ export interface EventRegistrationData {
     event_name: string;
     event_date: string;
     event_location: string;
-    agenda_link: string;
+    agenda_url: string;
 }
 
 export function createEventRegistrationData(user: CustomUserData, event: IEvent): EventRegistrationData {
@@ -20,7 +20,7 @@ export function createEventRegistrationData(user: CustomUserData, event: IEvent)
         event_name: event.title,
         event_date: formatEventDates(event.startDate, event.endDate),
         event_location: event.location,
-        agenda_link: `https://www.electoralnetwork.org/events/${event._id}`
+        agenda_url: `https://www.electoralnetwork.org/events/${event._id}`
     };
 }
 

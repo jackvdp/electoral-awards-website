@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             event_name,
             event_date,
             event_location,
-            agenda_link,
+            agenda_url,
             email,
         } = req.body as EventRegistrationData;
 
@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
 
         const response = await postmarkClient.sendEmailWithTemplate({
-            From: 'it@parlicentre.org',
+            From: 'info@electoralnetwork.org',
             To: email,
             TemplateAlias: "user-invitation",
             TemplateModel: {
@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 event_name,
                 event_date,
                 event_location,
-                agenda_link
+                agenda_url
             },
         });
 
