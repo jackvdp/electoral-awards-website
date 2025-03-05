@@ -13,8 +13,8 @@ import CustomHead from 'components/common/CustomHead';
 import {useAuth} from 'auth/useAuth';
 import CTA from "components/blocks/call-to-action/CTA";
 import Link from "next/link";
-import {createEventRegistrationData} from "../../src/backend/use_cases/events/sendEventConfirmationEmail";
 import {createMutableUserData} from "../../src/backend/models/user";
+import {signupEventAndSendConfirmation} from "../../src/backend/use_cases/events/signupEvent+SendConfirmation";
 
 interface EventPageProps {
     event: IEvent;
@@ -25,7 +25,7 @@ const EventPage: NextPage<EventPageProps> = ({event}) => {
     const [signupStatus, setSignupStatus] = useState<null | 'success' | 'failed'>(null);
     const [isSignedUp, setIsSignedUp] = useState<boolean>(false);
 
-    const eventId = event._id;
+    const eventId = event._id as string;
     const eventSignups = event.signups || [];
 
     // Check if the user is already signed up when component mounts or relevant data changes
@@ -39,19 +39,14 @@ const EventPage: NextPage<EventPageProps> = ({event}) => {
         if (!isLoggedIn || !currentUser) return;
 
         try {
-            const response = await fetch('/api/events/signup', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(
-                    {
-                        eventId: eventId,
-                        userId: currentUser.id,
-                        eventRegistrationData: createEventRegistrationData(createMutableUserData(currentUser), event)
-                    }
-                )
-            });
-            const data = await response.json();
-            if (response.ok) {
+            const result = await signupEventAndSendConfirmation(
+                currentUser.id,
+                eventId,
+                createMutableUserData(currentUser),
+                event
+            );
+
+            if (result.success) {
                 setSignupStatus('success');
                 setIsSignedUp(true);
             } else {

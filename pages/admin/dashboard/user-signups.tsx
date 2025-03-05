@@ -3,15 +3,13 @@ import React, {useEffect, useState} from 'react';
 import {IEvent} from 'backend/models/event';
 import {createClient} from 'backend/supabase/server-props';
 import AdminPage from "components/blocks/admin/reusables/AdminPage";
-
 import {
-    createCustomUserData,
     createMutableUserData,
     CustomUserData,
     MutableUserData
 } from "backend/models/user";
 import ReusableForm, {InputItem} from "components/reuseable/Form";
-import {createEventRegistrationData} from "backend/use_cases/events/sendEventConfirmationEmail";
+import {signupEventAndSendConfirmation} from "backend/use_cases/events/signupEvent+SendConfirmation";
 
 interface UserSignupsPageProps {
     userId: string;
@@ -65,23 +63,21 @@ const EventSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, events:
                 setAlertMessage('Invalid event selected.');
                 return;
             }
-            const res = await fetch('/api/events/signup', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(
-                    {
-                        userId,
-                        eventId: values.event,
-                        eventRegistrationData: createEventRegistrationData(user, event)
-                    }
-                ),
-            });
-            const data = await res.json();
-            if (!res.ok) {
-                setAlertMessage(data.error || 'Failed to add signup.');
+
+            // Use the unified use case instead of direct API call
+            const result = await signupEventAndSendConfirmation(
+                userId,
+                values.event,
+                user,
+                event
+            );
+
+            if (!result.success) {
+                setAlertMessage(result.error || 'Failed to add signup.');
             } else {
                 setAlertMessage('User signed up successfully.');
-                // Refresh current signups.
+
+                // Refresh current signups
                 const res2 = await fetch(`/api/users/signups?userId=${userId}`);
                 const data2 = await res2.json();
                 setCurrentSignups(data2);

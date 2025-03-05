@@ -3,12 +3,10 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 import dbConnect from "backend/mongo";
 import {ObjectId} from 'mongodb';
 import mongoose from 'mongoose';
-import {EventRegistrationData, sendEventConfirmationEmail} from "backend/use_cases/events/sendEventConfirmationEmail";
 
 interface SignupRequestBody {
     eventId: string;
     userId: string;
-    eventRegistrationData: EventRegistrationData;
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -30,7 +28,7 @@ async function signup(req: NextApiRequest, res: NextApiResponse) {
         return res.status(405).json({error: 'Method not allowed'});
     }
 
-    const {eventId, userId, eventRegistrationData} = req.body as SignupRequestBody;
+    const {eventId, userId} = req.body as SignupRequestBody;
     if (!eventId || !userId) {
         return res.status(400).json({error: 'Missing eventId or userId'});
     }
@@ -54,8 +52,6 @@ async function signup(req: NextApiRequest, res: NextApiResponse) {
         if (result.modifiedCount === 0) {
             return res.status(200).json({message: 'Already signed up or event not found'});
         }
-
-        sendEventConfirmationEmail(eventRegistrationData)
 
         return res.status(200).json({message: 'Successfully signed up for the event'});
     } catch (error: any) {
