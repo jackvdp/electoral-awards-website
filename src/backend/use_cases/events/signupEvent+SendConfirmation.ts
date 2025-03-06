@@ -2,7 +2,6 @@ import axios from 'axios';
 import { CustomUserData } from "backend/models/user";
 import { IEvent } from "backend/models/event";
 import {createEventRegistrationData, sendEventConfirmationEmail} from "./sendEventConfirmationEmail";
-import {EventRegistrationData} from "./sendEventConfirmationEmail";
 
 export interface SignupResponse {
     success: boolean;
