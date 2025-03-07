@@ -6,45 +6,49 @@ import {createClient} from 'backend/supabase/server-props';
 import AdminPage from "components/blocks/admin/reusables/AdminPage";
 import {userHeaders, userRow} from "components/blocks/admin/reusables/userColumns";
 import {createMutableUserData, MutableUserData} from "backend/models/user";
-import {
-    cancelEventAndSendConfirmation,
-    cancelEventSignup
-} from "backend/use_cases/events/cancelSignupEvent+SendConfirmation";
+import {deleteBookingAndSendCancellation} from "backend/use_cases/bookings/deleteBooking+SendConfirmation";
+import {deleteBooking} from "backend/use_cases/bookings/deleteBooking";
+import {getEventBookings} from "backend/use_cases/bookings/getEventBookings";
+import {IBooking} from "backend/models/booking";
 
 interface EventSignupsPageProps {
     event: IEvent;
-    signups: (MutableUserData | string)[];
+    signups: {user: (MutableUserData | string), booking: IBooking}[];
 }
 
 const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => {
-    const [currentSignups, setCurrentSignups] = useState<(MutableUserData | string)[]>(signups);
+    const [currentSignups, setCurrentSignups] = useState<({user: (MutableUserData | string), booking: IBooking})[]>(signups);
     const [isDownloading, setIsDownloading] = useState(false);
 
     // Handler to remove a user from the event's signups
-    const handleRemoveSignup = async (user: MutableUserData | string) => {
+    const handleRemoveSignup = async (user: MutableUserData | string, booking: IBooking) => {
         const userId = (typeof user === 'string') ? user : user.id;
+
         try {
             let result;
 
             // Check if we have the full user data
             if (typeof user !== 'string') {
                 // We have the full user object, so use the complete use case
-                result = await cancelEventAndSendConfirmation(
-                    userId,
-                    event._id as string,
+                result = await deleteBookingAndSendCancellation({
+                    bookingId: booking._id as string,
                     user,
                     event
-                );
+                });
             } else {
-                // We only have the userId, so just cancel the signup without email
-                result = await cancelEventSignup(userId, event._id as string);
+                // We only have the userId, so just delete the booking without email
+                result = await deleteBooking({
+                    bookingId: booking._id as string
+                });
             }
 
             if (!result.success) {
-                alert(result.error || 'Failed to remove signup.');
+                alert(result.message || 'Failed to remove signup.');
             } else {
-                // Filter out the removed user
-                setCurrentSignups(prev => prev.filter(u => (typeof u !== 'string') && u.id !== userId));
+                // Filter out the removed signup
+                setCurrentSignups(prev => prev.filter(signup =>
+                    signup.booking._id !== booking._id
+                ));
             }
         } catch (error: any) {
             alert(error.message);
@@ -81,11 +85,12 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
         const header = columns.join(',');
 
         // Create data rows
-        const rows = currentSignups.map(user => {
+        const rows = currentSignups.map(signup => {
+            const user = signup.user;
             if (typeof user === 'string') {
                 return `${user},,,,,,,"User not found"`;
             }
-            return columns.map(col => escapeCSV(user[col as keyof MutableUserData])).join(',');
+            return columns.map(col => escapeCSV((user as MutableUserData)[col as keyof MutableUserData])).join(',');
         });
 
         // Combine header and rows
@@ -126,14 +131,14 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
 
     const headers = userHeaders.concat(['Actions']);
 
-    const renderRow = (user: MutableUserData | string) => {
+    function renderRow({user, booking}:{user: MutableUserData | string, booking: IBooking }) {
         return (
             <tr>
                 {(typeof user === 'string')  ? <td colSpan={4}>User not found: {user}</td> : userRow(user)}
                 <td>
                     <button
                         className="btn btn-sm btn-outline-danger"
-                        onClick={() => handleRemoveSignup(user)}
+                        onClick={() => handleRemoveSignup(user, booking)}
                     >
                         Remove
                     </button>
@@ -197,21 +202,28 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
     const event = await eventRes.json();
 
-    const signupIds: string[] = event.signups || [];
+    // Get bookings for this event
+    const { bookings } = await getEventBookings({
+        eventId: eventId as string,
+        status: 'accepted'
+    });
 
-    let signups: (MutableUserData | string)[] = [];
+    // Create the combined signups array with user and booking data
+    const signups = await Promise.all(
+        bookings.map(async (booking) => {
+            const {data, error} = await supabase.auth.admin.getUserById(booking.userId);
 
-    if (signupIds.length > 0) {
-        signups = await Promise.all(
-            signupIds.map(async (id) => {
-                const {data, error} = await supabase.auth.admin.getUserById(id);
-                if (error || !data) {
-                    return id;
-                }
-                return createMutableUserData(data.user);
-            })
-        );
-    }
+            // If user not found, return the user ID as string
+            const user = error || !data
+                ? booking.userId
+                : createMutableUserData(data.user);
+
+            return {
+                user,
+                booking: JSON.parse(JSON.stringify(booking)) // Serialize MongoDB object
+            };
+        })
+    );
 
     return {
         props: {
