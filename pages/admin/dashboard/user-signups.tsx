@@ -1,107 +1,82 @@
 import {GetServerSideProps, NextPage} from 'next';
 import React, {useEffect, useState} from 'react';
-import {IEvent} from 'backend/models/event';
+import Event, {IEvent} from 'backend/models/event';
 import {createClient} from 'backend/supabase/server-props';
 import AdminPage from "components/blocks/admin/reusables/AdminPage";
 import {
     createMutableUserData,
-    CustomUserData,
     MutableUserData
 } from "backend/models/user";
 import ReusableForm, {InputItem} from "components/reuseable/Form";
-import {signupEventAndSendConfirmation} from "backend/use_cases/events/signupEvent+SendConfirmation";
-import {cancelEventAndSendConfirmation} from "backend/use_cases/events/cancelSignupEvent+SendConfirmation";
+import {IBooking} from "backend/models/booking";
+import {getUserBookings} from "backend/use_cases/bookings/getUserBookings";
+import {createBookingAndSendConfirmation} from "backend/use_cases/bookings/createBooking+SendConfirmation";
+import {deleteBookingAndSendCancellation} from "backend/use_cases/bookings/deleteBooking+SendConfirmation";
+
+interface Signup { event: IEvent, booking: IBooking }
 
 interface UserSignupsPageProps {
     userId: string;
-    user: CustomUserData;
+    user: MutableUserData;
+    signups: Signup[];
     events: IEvent[];
 }
 
-const EventSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, events: availableEvents}) => {
-
-    const [currentSignups, setCurrentSignups] = useState<IEvent[]>([]);
+const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups, events }) => {
     const [alertMessage, setAlertMessage] = useState<string | null>(null);
+    const [currentSignups, setCurrentSignups] = useState<Signup[]>([]);
 
-    // Fetch current signups on mount.
     useEffect(() => {
-        const fetchSignups = async () => {
-            try {
-                const res = await fetch(`/api/users/signups?userId=${userId}`);
-                const data = await res.json();
-                setCurrentSignups(data);
-            } catch (error) {
-                console.error("Error fetching user signups", error);
-            }
-        };
-        fetchSignups();
-    }, []);
+        setCurrentSignups(signups);
+    }, [signups]);
 
-    const handleRemoveSignup = async (eventId: string) => {
+    const handleRemoveSignup = async (signup: Signup) => {
         try {
-            // First, find the event details from currentSignups
-            const eventToCancel = currentSignups.find(e => e._id === eventId);
-
-            if (!eventToCancel) {
-                setAlertMessage('Event not found in current signups.');
-                return;
-            }
-
-            // Assuming we have the user data available in a variable called 'userData'
-            // If you have the full user object, use the complete use case
-            const result = await cancelEventAndSendConfirmation(
-                userId,
-                eventId,
+            await deleteBookingAndSendCancellation({
                 user,
-                eventToCancel
+                bookingId: signup.booking._id as string,
+                event: signup.event
+            });
+
+            setCurrentSignups(prev =>
+                prev.filter(oldSignup => oldSignup.booking._id !== signup.booking._id)
             );
 
-            if (!result.success) {
-                setAlertMessage(result.error || 'Failed to remove signup.');
-            } else {
-                // Update local state by removing the event from current signups
-                setCurrentSignups(prev => prev.filter(e => e._id !== eventId));
-            }
+            setAlertMessage('Signup removed successfully.');
         } catch (error: any) {
-            setAlertMessage(error.message);
+            setAlertMessage(error.message || 'Failed to remove signup.');
         }
     };
 
     const handleAddSignup = async (values: Record<string, string>) => {
         setAlertMessage(null);
         try {
-            const event = availableEvents.find(ev => ev._id === values.event);
+            const event = events.find(ev => ev._id === values.event);
             if (!event) {
                 setAlertMessage('Invalid event selected.');
                 return;
             }
 
-            // Use the unified use case instead of direct API call
-            const result = await signupEventAndSendConfirmation(
-                userId,
-                values.event,
+            // The createBookingAndSendConfirmation function returns the booking directly
+            const booking = await createBookingAndSendConfirmation({
                 user,
                 event
-            );
+            });
 
-            if (!result.success) {
-                setAlertMessage(result.error || 'Failed to add signup.');
-            } else {
-                setAlertMessage('User signed up successfully.');
+            setAlertMessage('User signed up successfully.');
 
-                // Refresh current signups
-                const res2 = await fetch(`/api/users/signups?userId=${userId}`);
-                const data2 = await res2.json();
-                setCurrentSignups(data2);
-            }
+            // Update the current signups with the new signup
+            const newSignup = { event, booking };
+            setCurrentSignups(prev => [...prev, newSignup]);
+
         } catch (error: any) {
-            setAlertMessage(error.message);
+            setAlertMessage(error.message || 'Failed to add signup.');
         }
     };
 
     // Compute available events to add (exclude those already signed up)
-    const availableForSignup = availableEvents.filter(event =>
-        !currentSignups.some(signup => signup._id === event._id)
+    const availableForSignup = events.filter(event =>
+        !currentSignups.some(signup => signup.event._id === event._id)
     ).sort((a, b) => {
         return (a.startDate < b.startDate) ? 1 : -1;
     })
@@ -136,13 +111,13 @@ const EventSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, events:
                         <p>No current signups.</p>
                     ) : (
                         <ul className="list-group">
-                            {currentSignups.map(ev => (
-                                <li key={ev._id as string}
+                            {currentSignups.map(signup => (
+                                <li key={signup.booking._id as string}
                                     className="list-group-item d-flex justify-content-between align-items-center">
-                                    {ev.title}
+                                    {signup.event.title}
                                     <button
                                         className="btn btn-sm btn-outline-danger"
-                                        onClick={() => handleRemoveSignup(ev._id as string)}
+                                        onClick={() => handleRemoveSignup(signup)}
                                     >
                                         Remove
                                     </button>
@@ -169,7 +144,7 @@ const EventSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, events:
     );
 };
 
-export default EventSignupsPage;
+export default UserSignupsPage;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const supabase = createClient(ctx);
@@ -198,16 +173,30 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const user: MutableUserData = createMutableUserData(data.user);
 
-    let events = [];
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
-    const eventsResponse = await fetch(`${baseUrl}/api/events`);
-    events = await eventsResponse.json();
+    const { bookings } = await getUserBookings({ userId });
+
+    const eventIds = bookings.map(booking => booking.eventId);
+    const events: IEvent[] = await Event.find();
+
+    // Create a lookup map for faster access
+    const bookingMap = new Map();
+    bookings.forEach(booking => {
+        bookingMap.set(booking.eventId, booking);
+    });
+
+    const signups = events
+        .filter(event => eventIds.includes(event._id as string))
+        .map(event => ({
+            event,
+            booking: bookingMap.get(event._id as string)
+        }));
 
     return {
         props: {
-            events,
-            user,
-            userId
+            userId,
+            user: user,
+            events: JSON.parse(JSON.stringify(events)),
+            signups: JSON.parse(JSON.stringify(signups))
         },
     };
 };
