@@ -78,7 +78,7 @@ const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: in
         return (
             <>
                 <button onClick={handleSignup} className="btn btn-primary mt-4">
-                    Sign Up for Event
+                    Register for Event
                 </button>
                 {signupStatus === 'failed' && (
                     <p className="text-danger mt-2">There was a problem signing you up.</p>
