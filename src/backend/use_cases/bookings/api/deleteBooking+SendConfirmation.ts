@@ -11,8 +11,8 @@ export async function deleteBookingAPI({
                                                            event
                                                        }: {
     bookingId: string,
-    user: MutableUserData,
-    event: IEvent
+    user?: MutableUserData,
+    event?: IEvent
 }): Promise<{success: boolean, message: string}> {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
     const response = await fetch(baseUrl + `/api/bookings/${bookingId}`, {

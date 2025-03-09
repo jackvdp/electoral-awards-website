@@ -6,6 +6,7 @@ import { MutableUserData } from 'backend/models/user';
 import dbConnect from "backend/mongo";
 import {updateBookingAndSendConfirmation} from "backend/use_cases/bookings/updateBooking+SendConfirmation";
 import {updateBooking} from "backend/use_cases/bookings/updateBooking";
+import {deleteBooking} from "backend/use_cases/bookings/deleteBooking";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     switch (req.method) {
@@ -23,20 +24,28 @@ async function DELETE(req: NextApiRequest, res: NextApiResponse) {
     const { id } = req.query;
     const { user, event } = req.body;
 
-    if (!id || !user || !event) {
+    if (!id) {
         return res.status(400).json({
             success: false,
             message: 'Missing required parameters'
         });
     }
 
-    const result = await deleteBookingAndSendCancellation({
-        bookingId: id as string,
-        user: user as MutableUserData,
-        event: event as IEvent
-    });
+    if (!user || !event) {
+        const result = await deleteBooking({bookingId: id as string})
+        return res.status(result.success ? 200 : 400).json(result);
 
-    return res.status(result.success ? 200 : 400).json(result);
+    } else {
+
+        const result = await deleteBookingAndSendCancellation({
+            bookingId: id as string,
+            user: user as MutableUserData,
+            event: event as IEvent
+        });
+
+        return res.status(result.success ? 200 : 400).json(result);
+
+    }
 }
 
 async function PATCH(req: NextApiRequest, res: NextApiResponse) {

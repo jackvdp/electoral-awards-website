@@ -6,10 +6,9 @@ import {createClient} from 'backend/supabase/server-props';
 import AdminPage from "components/blocks/admin/reusables/AdminPage";
 import {userHeaders, userRow} from "components/blocks/admin/reusables/userColumns";
 import {createMutableUserData, MutableUserData} from "backend/models/user";
-import {deleteBookingAndSendCancellation} from "backend/use_cases/bookings/deleteBooking+SendConfirmation";
-import {deleteBooking} from "backend/use_cases/bookings/deleteBooking";
 import {getEventBookings} from "backend/use_cases/bookings/getEventBookings";
 import {IBooking} from "backend/models/booking";
+import {deleteBookingAPI} from "backend/use_cases/bookings/api/deleteBooking+SendConfirmation";
 
 interface EventSignupsPageProps {
     event: IEvent;
@@ -30,14 +29,14 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
             // Check if we have the full user data
             if (typeof user !== 'string') {
                 // We have the full user object, so use the complete use case
-                result = await deleteBookingAndSendCancellation({
+                result = await deleteBookingAPI({
                     bookingId: booking._id as string,
                     user,
                     event
                 });
             } else {
                 // We only have the userId, so just delete the booking without email
-                result = await deleteBooking({
+                result = await deleteBookingAPI({
                     bookingId: booking._id as string
                 });
             }
