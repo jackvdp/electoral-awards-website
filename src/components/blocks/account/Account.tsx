@@ -13,7 +13,6 @@ import formatEventDates from "helpers/formatEventDates";
 import {useRouter} from "next/router";
 import {IBooking} from "backend/models/booking";
 import {IEvent} from "backend/models/event";
-import * as process from "node:process";
 
 interface AccountProps {
     user: MutableUserData
@@ -46,7 +45,6 @@ const Account: FC<AccountProps> = ({user}) => {
                 try {
                     const response = await fetch(`/api/bookings/users/upcoming-bookings?userId=${user.id}`);
                     const result = await response.json();
-
                     if (result.success) {
                         setMyBookings(result.data);
                     } else {

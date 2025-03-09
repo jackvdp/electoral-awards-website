@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from "backend/mongo";
-import Booking from "backend/models/booking";
-import Event from 'backend/models/event';
+import Booking, {IBooking} from "backend/models/booking";
+import Event, {IEvent} from 'backend/models/event';
+import mongoose from 'mongoose';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'GET') {
@@ -19,39 +20,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const currentDate = new Date();
 
         // Find all bookings for the user
-        const bookings = await Booking.find({ userId })
-            .lean();
+        const bookings: IBooking[] = await Booking.find({ userId })
+
+        if (bookings.length === 0) {
+            return res.status(200).json({
+                success: true,
+                data: []
+            });
+        }
 
         // Get all event IDs from the bookings
-        const eventIds = bookings.map(booking => booking.eventId);
-
-        // Find all events that match the bookings and are upcoming
-        const events = await Event.find({
-            _id: { $in: eventIds },
-            endDate: { $gte: currentDate }
-        }).lean();
-
-        // Create a map of events for easier lookup
-        const eventMap = new Map();
-        events.forEach(event => {
-            eventMap.set(event._id as string, event);
+        const eventIds = bookings.map(booking => {
+            // Convert string IDs to ObjectId if needed
+            try {
+                return new mongoose.Types.ObjectId(booking.eventId);
+            } catch (e) {
+                return booking.eventId; // Keep as is if conversion fails
+            }
         });
 
-        // Combine booking and event data
-        const upcomingBookings = bookings
-            .filter(booking => {
-                // Only include bookings for events that are upcoming
-                const event = eventMap.get(booking.eventId.toString());
-                return event !== undefined;
-            })
-            .map(booking => {
-                // Combine booking with its associated event
-                const event = eventMap.get(booking.eventId.toString());
-                return {
-                    booking,
-                    event
-                };
-            });
+        // Find all events that match the bookings and are upcoming
+        const events: IEvent[] = await Event.find({
+            _id: { $in: eventIds },
+            endDate: { $gte: currentDate }
+        })
+
+        const upcomingBookings: { event: IEvent, booking: IBooking }[] = events.map(event => {
+            // @ts-ignore
+            const booking = bookings.find(booking => booking.eventId === event._id.toString())!
+            return { event, booking };
+        })
 
         return res.status(200).json({
             success: true,
