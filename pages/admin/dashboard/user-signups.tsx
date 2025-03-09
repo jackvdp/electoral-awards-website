@@ -64,8 +64,6 @@ const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups,
                 event
             });
 
-            console.log("****", booking);
-
             setAlertMessage('User signed up successfully.');
 
             // Update the current signups with the new signup
@@ -117,7 +115,7 @@ const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups,
                             {currentSignups.map(signup => (
                                 <li key={signup.booking._id as string}
                                     className="list-group-item d-flex justify-content-between align-items-center">
-                                    {signup.booking._id as string}
+                                    {signup.event.title}
                                     <button
                                         className="btn btn-sm btn-outline-danger"
                                         onClick={() => handleRemoveSignup(signup)}
