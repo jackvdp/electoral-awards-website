@@ -1,11 +1,12 @@
-'use server';
-
 import Booking, {IBooking} from "backend/models/booking";
+import dbConnect from "backend/mongo";
 
 export async function getUserBookings({ userId, status }: {
     userId: string,
     status?: string,
 }): Promise<{ bookings: IBooking[], total: number }> {
+    await dbConnect()
+
     try {
         const query: any = {userId}
 
@@ -23,7 +24,7 @@ export async function getUserBookings({ userId, status }: {
 
         return {bookings, total};
     } catch (error) {
-        console.error('Error getting event bookings:', error);
-        throw new Error('Failed to get event bookings');
+        console.error('Error getting user bookings:', error);
+        throw new Error('Failed to get user bookings');
     }
 }

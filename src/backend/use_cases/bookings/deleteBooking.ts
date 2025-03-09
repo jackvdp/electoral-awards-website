@@ -1,6 +1,4 @@
-'use server';
-
-import Booking from "../../models/booking";
+import Booking from "backend/models/booking";
 
 export async function deleteBooking({bookingId}: {bookingId: string}): Promise<{success: boolean, message: string}> {
     try {

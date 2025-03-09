@@ -1,6 +1,4 @@
-'use server';
-
-import Booking, {IBooking} from "../../models/booking";
+import Booking, {IBooking} from "backend/models/booking";
 
 export async function createBooking({userId, eventId}: {userId: string, eventId: string}): Promise<IBooking> {
     try {

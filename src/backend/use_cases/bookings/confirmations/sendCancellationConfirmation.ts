@@ -1,11 +1,9 @@
-'use server';
-
 import { ServerClient } from "postmark";
 import {BookingConfirmationData} from "./confirmationData";
 
-const postmarkClient = new ServerClient(process.env.POSTMARK_API_TOKEN!);
-
 export async function sendBookingCancellation(data: BookingConfirmationData): Promise<{ success: boolean; message: string }> {
+    const postmarkClient = new ServerClient(process.env.POSTMARK_API_TOKEN!);
+
     try {
         const {
             name,

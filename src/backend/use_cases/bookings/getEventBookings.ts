@@ -1,6 +1,4 @@
-'use server';
-
-import Booking, {IBooking} from "../../models/booking";
+import Booking, {IBooking} from "backend/models/booking";
 
 export async function getEventBookings({ eventId, status }: {
     eventId: string,

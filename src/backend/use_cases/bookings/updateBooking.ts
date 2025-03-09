@@ -1,13 +1,11 @@
-'use server';
-
-import Booking, { IBooking } from "../../models/booking";
+import Booking, { IBooking } from "backend/models/booking";
 
 export async function updateBooking({
                                         bookingId,
                                         status
                                     }: {
     bookingId: string,
-    status: string
+    status: "invited" | "accepted" | "rejected"
 }): Promise<{success: boolean, message: string, booking?: IBooking}> {
     try {
         const booking = await Booking.findById(bookingId);

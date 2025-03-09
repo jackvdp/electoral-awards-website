@@ -1,5 +1,3 @@
-"use server"
-
 import {IEvent} from "backend/models/event";
 import {MutableUserData} from "backend/models/user";
 import {IBooking} from "backend/models/booking";
