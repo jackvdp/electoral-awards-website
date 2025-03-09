@@ -13,8 +13,8 @@ import CustomHead from 'components/common/CustomHead';
 import {useAuth} from 'auth/useAuth';
 import CTA from "components/blocks/call-to-action/CTA";
 import Link from "next/link";
-import {createMutableUserData} from "../../src/backend/models/user";
-import {signupEventAndSendConfirmation} from "../../src/backend/use_cases/events/signupEvent+SendConfirmation";
+import {createMutableUserData} from "backend/models/user";
+import {createBookingAPI} from "backend/use_cases/bookings/api/createBooking+SendConfirmation";
 
 interface EventPageProps {
     event: IEvent;
@@ -39,14 +39,14 @@ const EventPage: NextPage<EventPageProps> = ({event}) => {
         if (!isLoggedIn || !currentUser) return;
 
         try {
-            const result = await signupEventAndSendConfirmation(
-                currentUser.id,
-                eventId,
-                createMutableUserData(currentUser),
-                event
+            const result = await createBookingAPI(
+                {
+                    user: createMutableUserData(currentUser),
+                    event
+                }
             );
 
-            if (result.success) {
+            if (result) {
                 setSignupStatus('success');
                 setIsSignedUp(true);
             } else {

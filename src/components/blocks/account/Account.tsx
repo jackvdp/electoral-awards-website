@@ -1,4 +1,3 @@
-// Account.tsx
 import React, {FC, useEffect, useState} from 'react';
 import ReusableForm from 'components/reuseable/Form';
 import {MutableUserData} from 'backend/models/user';
@@ -10,18 +9,26 @@ import editUserData from './editUserData';
 import NextLink from 'components/reuseable/links/NextLink';
 import {Link as ScrollLink} from 'react-scroll';
 import ChangePasswordFormModal from "./ChangePasswordForm";
-import formatEventDates from "../../../helpers/formatEventDates";
-import {router} from "next/client";
-import {IEvent} from "../../../backend/models/event";
+import formatEventDates from "helpers/formatEventDates";
+import {useRouter} from "next/router";
+import {IBooking} from "backend/models/booking";
+import {IEvent} from "backend/models/event";
+import * as process from "node:process";
 
 interface AccountProps {
     user: MutableUserData
 }
 
+interface BookingWithEvent {
+    booking: IBooking;
+    event: IEvent;
+}
+
 const Account: FC<AccountProps> = ({user}) => {
     const [alertStatus, setAlertStatus] = useState<'success' | 'failed' | null>(null);
-    const [myEvents, setMyEvents] = useState<IEvent[]>([]);
+    const [myBookings, setMyBookings] = useState<BookingWithEvent[]>([]);
     const {updateUser, signout} = useAuth();
+    const router = useRouter();
     const deleteModalID = 'delete-account-modal';
 
     // Define the quick-access links for the sidebar
@@ -34,12 +41,24 @@ const Account: FC<AccountProps> = ({user}) => {
 
     // Fetch events the user signed up for
     useEffect(() => {
-        if (user) {
-            fetch(`/api/users/signups?userId=${user.id}`)
-                .then((res) => res.json())
-                .then((data) => setMyEvents(data))
-                .catch((err) => console.error('Error fetching signed-up events:', err));
-        }
+        const fetchBookings = async () => {
+            if (user) {
+                try {
+                    const response = await fetch(`/api/bookings/users/upcoming-bookings?userId=${user.id}`);
+                    const result = await response.json();
+
+                    if (result.success) {
+                        setMyBookings(result.data);
+                    } else {
+                        console.error('Failed to fetch bookings:', result.message);
+                    }
+                } catch (error) {
+                    console.error('Error fetching bookings:', error);
+                }
+            }
+        };
+
+        fetchBookings();
     }, [user]);
 
     function handleSignout() {
@@ -98,33 +117,34 @@ const Account: FC<AccountProps> = ({user}) => {
                             <hr className="my-8"/>
                             <section id="signed-up-events" className="mb-12 ps-4">
                                 <h4 className={"mb-4"}>Your Signed-Up Events:</h4>
-                                {myEvents.length > 0 ? (
+                                {myBookings.length > 0 ? (
                                     <ul className="list-group">
-                                        {myEvents.map((event) => (
+                                        {myBookings.map((item) => (
                                             <li
-                                                key={event._id as string}
+                                                key={item.event._id as string}
                                                 className="list-group-item d-flex justify-content-between align-items-center"
                                             >
                                                 <div>
-                                                    <a className="hover" href={`/events/${event._id}`}>
-                                                        {event.title}
+                                                    <a className="hover" href={`/events/${item.event._id}`}>
+                                                        {item.event.title}
                                                     </a>
                                                     <div className="text-muted">
-                                                        {formatEventDates(event.startDate, event.endDate)}
+                                                        {formatEventDates(item.event.startDate, item.event.endDate)}
                                                     </div>
                                                 </div>
                                                 <a
                                                     className="hover text-danger"
                                                     data-bs-toggle="modal"
-                                                    data-bs-target={`#cancel-signup-modal-${event._id}`}
+                                                    data-bs-target={`#cancel-signup-modal-${item.event._id}`}
                                                 >
                                                     Cancel
                                                 </a>
                                                 <CancelSignupModal
-                                                    modalID={`cancel-signup-modal-${event._id}`}
-                                                    event={event}
+                                                    bookingId={item.booking._id as string}
+                                                    modalID={`cancel-signup-modal-${item.event._id}`}
+                                                    event={item.event}
                                                     onCancelled={() =>
-                                                        setMyEvents((prev) => prev.filter((e) => e._id !== event._id))
+                                                        setMyBookings((prev) => prev.filter((e) => e.event._id !== item.event._id))
                                                     }
                                                 />
                                             </li>

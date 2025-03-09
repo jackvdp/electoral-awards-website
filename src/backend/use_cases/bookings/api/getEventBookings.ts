@@ -6,7 +6,7 @@ import { IBooking } from "backend/models/booking";
  */
 export async function getEventBookingsAPI({ eventId, status }: {
     eventId: string,
-    status?: string,
+    status?: "invited" | "accepted" | "rejected",
 }): Promise<{ bookings: IBooking[], total: number }> {
     // Build the URL with optional status parameter
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
