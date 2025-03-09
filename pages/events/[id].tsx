@@ -15,25 +15,27 @@ import CTA from "components/blocks/call-to-action/CTA";
 import Link from "next/link";
 import {createMutableUserData} from "backend/models/user";
 import {createBookingAPI} from "backend/use_cases/bookings/api/createBooking+SendConfirmation";
+import {IBooking} from "backend/models/booking";
+import {createClient} from "backend/supabase/server-props";
+import {getUserBookings} from "backend/use_cases/bookings/getUserBookings";
+import {router} from "next/client";
 
 interface EventPageProps {
     event: IEvent;
+    userBooking?: IBooking;
+    isLoggedIn: boolean;
 }
 
-const EventPage: NextPage<EventPageProps> = ({event}) => {
+const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: initialLoggedInState}) => {
     const {isLoggedIn, currentUser} = useAuth();
     const [signupStatus, setSignupStatus] = useState<null | 'success' | 'failed'>(null);
-    const [isSignedUp, setIsSignedUp] = useState<boolean>(false);
+    const [booking, setBooking] = useState<IBooking | undefined>(userBooking);
 
-    const eventId = event._id as string;
-    const eventSignups = event.signups || [];
-
-    // Check if the user is already signed up when component mounts or relevant data changes
     useEffect(() => {
-        if (isLoggedIn && currentUser) {
-            setIsSignedUp(eventSignups.includes(currentUser.id));
+        if (isLoggedIn && !initialLoggedInState) {
+            window.location.reload();
         }
-    }, [isLoggedIn, currentUser, eventSignups]);
+    }, [isLoggedIn, initialLoggedInState]);
 
     const handleSignup = async () => {
         if (!isLoggedIn || !currentUser) return;
@@ -48,7 +50,7 @@ const EventPage: NextPage<EventPageProps> = ({event}) => {
 
             if (result) {
                 setSignupStatus('success');
-                setIsSignedUp(true);
+                setBooking(result);
             } else {
                 setSignupStatus('failed');
             }
@@ -69,7 +71,7 @@ const EventPage: NextPage<EventPageProps> = ({event}) => {
                 Login to Sign Up for Event
             </button>
         }
-        if (isSignedUp) {
+        if (booking) {
             return <p className="text-success mt-2">You are signed up for this event! Go to <Link
                 href="/account" className={"hover"}>account</Link> page for more details.</p>;
         }
@@ -199,16 +201,32 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             return {props: {}};
         }
         event = await res.json();
+
+        // Check if the user is logged in and has a booking for this event
+        const supabase = createClient(context);
+        const {data: {user}} = await supabase.auth.getUser();
+        let usrBooking: IBooking | undefined;
+        let isLoggedIn = false;
+
+        if (user) {
+            isLoggedIn = true;
+            const { bookings } = await getUserBookings({userId: user.id});
+            usrBooking = bookings.find(booking => booking.eventId === id);
+        }
+
+        return {
+            props: {
+                event,
+                userBooking: usrBooking ? JSON.parse(JSON.stringify(usrBooking)) : null,
+                isLoggedIn
+            }
+        };
     } catch (err: any) {
         console.error(err.message);
         context.res.writeHead(302, {Location: '/404'});
         context.res.end();
         return {props: {}};
     }
-
-    return {
-        props: {event}
-    };
 };
 
 export default EventPage;
