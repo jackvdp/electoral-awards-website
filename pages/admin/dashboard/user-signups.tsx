@@ -12,7 +12,7 @@ import {IBooking} from "backend/models/booking";
 import {getUserBookings} from "backend/use_cases/bookings/getUserBookings";
 import {createBookingAPI} from "backend/use_cases/bookings/api/createBooking+SendConfirmation";
 import {deleteBookingAPI} from "backend/use_cases/bookings/api/deleteBooking+SendConfirmation";
-import {getAllEventsAPI} from "../../../src/backend/use_cases/events/api/getEvents";
+import {getAllEventsAPI} from "backend/use_cases/events/api/getEvents";
 
 interface Signup { event: IEvent, booking: IBooking }
 interface UserSignupsPageProps {
@@ -63,6 +63,8 @@ const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups,
                 user,
                 event
             });
+
+            console.log("****", booking);
 
             setAlertMessage('User signed up successfully.');
 
@@ -115,7 +117,7 @@ const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups,
                             {currentSignups.map(signup => (
                                 <li key={signup.booking._id as string}
                                     className="list-group-item d-flex justify-content-between align-items-center">
-                                    {signup.event.title}
+                                    {signup.booking._id as string}
                                     <button
                                         className="btn btn-sm btn-outline-danger"
                                         onClick={() => handleRemoveSignup(signup)}

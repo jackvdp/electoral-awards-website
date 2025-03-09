@@ -26,7 +26,7 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
         }
 
         const result = await createBookingAndSendConfirmation(bookingData);
-        return res.status(200).json({ message: 'Booking created successfully', data: result });
+        return res.status(200).json(result);
     } catch (error) {
         console.error('Error in createBooking:', error);
         return res.status(500).json({ error: 'Internal server error' });

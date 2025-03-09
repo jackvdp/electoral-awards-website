@@ -19,13 +19,10 @@ export async function sendBookingCancellation(data: BookingConfirmationData): Pr
             throw new Error('Missing required fields');
         }
 
-        const isWebinar = event_location.toLowerCase().includes('webinar') || event_name.toLowerCase().includes('webinar');
-        const templateAlias = isWebinar ? "webinar-cancellation" : "event-cancellation";
-
         const response = await postmarkClient.sendEmailWithTemplate({
             From: 'info@electoralnetwork.org',
             To: email,
-            TemplateAlias: templateAlias,
+            TemplateAlias: "event-cancellation",
             TemplateModel: {
                 name,
                 event_name,
