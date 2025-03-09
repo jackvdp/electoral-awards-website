@@ -9,7 +9,8 @@ export async function getEventBookingsAPI({ eventId, status }: {
     status?: string,
 }): Promise<{ bookings: IBooking[], total: number }> {
     // Build the URL with optional status parameter
-    let url = `/api/bookings/events/${eventId}`;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
+    let url = baseUrl + `/api/bookings/events/${eventId}`;
     if (status) {
         url += `?status=${encodeURIComponent(status)}`;
     }

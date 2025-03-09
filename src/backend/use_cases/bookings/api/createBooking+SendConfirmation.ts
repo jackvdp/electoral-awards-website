@@ -9,7 +9,8 @@ export async function createBookingAPI({
     user: MutableUserData;
     event: IEvent;
 }): Promise<IBooking> {
-    const response = await fetch('/api/bookings', {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
+    const response = await fetch(`${baseUrl}/api/bookings`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

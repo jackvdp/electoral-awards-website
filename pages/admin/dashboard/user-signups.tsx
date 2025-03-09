@@ -1,6 +1,6 @@
 import {GetServerSideProps, NextPage} from 'next';
 import React, {useEffect, useState} from 'react';
-import Event, {IEvent} from 'backend/models/event';
+import {IEvent} from 'backend/models/event';
 import {createClient} from 'backend/supabase/server-props';
 import AdminPage from "components/blocks/admin/reusables/AdminPage";
 import {
@@ -10,11 +10,11 @@ import {
 import ReusableForm, {InputItem} from "components/reuseable/Form";
 import {IBooking} from "backend/models/booking";
 import {getUserBookings} from "backend/use_cases/bookings/getUserBookings";
-import {createBookingAndSendConfirmation} from "backend/use_cases/bookings/createBooking+SendConfirmation";
-import {deleteBookingAndSendCancellation} from "backend/use_cases/bookings/deleteBooking+SendConfirmation";
+import {createBookingAPI} from "backend/use_cases/bookings/api/createBooking+SendConfirmation";
+import {deleteBookingAPI} from "backend/use_cases/bookings/api/deleteBooking+SendConfirmation";
+import {getAllEventsAPI} from "../../../src/backend/use_cases/events/api/getEvents";
 
 interface Signup { event: IEvent, booking: IBooking }
-
 interface UserSignupsPageProps {
     userId: string;
     user: MutableUserData;
@@ -27,14 +27,15 @@ const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups,
     const [currentSignups, setCurrentSignups] = useState<Signup[]>([]);
 
     useEffect(() => {
+
         setCurrentSignups(signups);
     }, [signups]);
 
     const handleRemoveSignup = async (signup: Signup) => {
         try {
-            await deleteBookingAndSendCancellation({
-                user,
+            await deleteBookingAPI({
                 bookingId: signup.booking._id as string,
+                user,
                 event: signup.event
             });
 
@@ -58,7 +59,7 @@ const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups,
             }
 
             // The createBookingAndSendConfirmation function returns the booking directly
-            const booking = await createBookingAndSendConfirmation({
+            const booking = await createBookingAPI({
                 user,
                 event
             });
@@ -88,7 +89,7 @@ const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups,
             type: 'select',
             name: 'event',
             defaultValue: '',
-            required: true,
+            required: false,
             options: availableForSignup.map(ev => ({
                 label: new Date(ev.startDate).toLocaleDateString("en-GB") + " – " + ev.title,
                 value: ev._id as string,
@@ -174,9 +175,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const user: MutableUserData = createMutableUserData(data.user);
 
     const { bookings } = await getUserBookings({ userId });
-
     const eventIds = bookings.map(booking => booking.eventId);
-    const events: IEvent[] = await Event.find();
+    const events: IEvent[] = await getAllEventsAPI()
 
     // Create a lookup map for faster access
     const bookingMap = new Map();

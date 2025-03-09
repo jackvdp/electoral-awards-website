@@ -18,7 +18,8 @@ export async function updateBookingAPI({
     user: MutableUserData,
     event: IEvent
 }): Promise<{ success: boolean, message: string, booking?: IBooking }> {
-    const response = await fetch(`/api/bookings/${bookingId}`, {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
+    const response = await fetch(baseUrl + `/api/bookings/${bookingId}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',

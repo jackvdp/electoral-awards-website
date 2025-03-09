@@ -10,7 +10,8 @@ export async function getUserBookingsAPI({ userId, status }: {
     status?: string,
 }): Promise<{ bookings: IBooking[], total: number }> {
     // Build the URL with optional status parameter
-    let url = `/api/bookings/users/${userId}`;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
+    let url = baseUrl + `/api/bookings/users/${userId}`;
     if (status) {
         url += `?status=${encodeURIComponent(status)}`;
     }
