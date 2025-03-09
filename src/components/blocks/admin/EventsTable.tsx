@@ -6,15 +6,21 @@ import CreateEventModal from "./eventModals/CreateEventModal";
 import UpdateEventModal from "./eventModals/UpdateEventModal";
 import Link from "next/link";
 import {router} from "next/client";
-import formatEventDates from "../../../helpers/formatEventDates";
+import formatEventDates from "helpers/formatEventDates";
+import {IBooking} from "backend/models/booking";
 
 interface EventsTableProps {
     events: IEvent[];
+    bookingsByEvent: Record<string, IBooking[]>
     title: string;
 }
 
-const EventsTable: React.FC<EventsTableProps> = ({events, title}) => {
+const EventsTable: React.FC<EventsTableProps> = ({events, bookingsByEvent, title}) => {
     const headers = ['Title', 'Dates', 'Signups', 'Actions'];
+
+    function bookingsForEvent(event: IEvent) {
+        return bookingsByEvent[event._id as string] || [];
+    }
 
     const renderRow = (event: IEvent) => (
         <tr>
@@ -26,7 +32,7 @@ const EventsTable: React.FC<EventsTableProps> = ({events, title}) => {
             </td>
             <td>
                 <Link href={"/admin/dashboard/event-signups?eventId=" + event._id}>
-                    {event.signups ? event.signups.length : 0} signups
+                    {bookingsForEvent(event).length} signups
                 </Link>
             </td>
             <td>

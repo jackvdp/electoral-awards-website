@@ -9,6 +9,8 @@ import {User} from '@supabase/supabase-js';
 import AdminPage from "components/blocks/admin/reusables/AdminPage";
 import {MutableUserData} from "backend/models/user";
 import {IEvent} from "backend/models/event";
+import {IBooking} from "backend/models/booking";
+import {getMultipleEventBookings} from "backend/use_cases/bookings/getMultipleEventBookings";
 
 interface DashboardProps {
     tab: 'users' | 'future-events' | 'past-events' | 'articles';
@@ -17,12 +19,13 @@ interface DashboardProps {
     page: number;
     perPage: number;
     events: IEvent[];
+    bookingsByEvent: Record<string, IBooking[]>
     search?: string;
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
 }
 
-const Index: React.FC<DashboardProps> = ({tab, users, totalUsers, page, perPage, events}) => {
+const Index: React.FC<DashboardProps> = ({tab, users, totalUsers, page, perPage, events, bookingsByEvent}) => {
     const renderContent = () => {
         switch (tab) {
             case 'users':
@@ -31,6 +34,7 @@ const Index: React.FC<DashboardProps> = ({tab, users, totalUsers, page, perPage,
             case 'past-events':
                 return <EventsTable
                     events={events}
+                    bookingsByEvent={bookingsByEvent}
                     title={tab === 'future-events' ? 'Upcoming Events' : 'Past Events'}
                 />
             case 'articles':
@@ -125,6 +129,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
 
     let events: IEvent[] = [];
+    let bookingsByEventRecord: Record<string, IBooking[]> = {};
 
     if (currentTab === 'future-events' || currentTab === 'past-events') {
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
@@ -143,6 +148,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             const dateB = new Date(b.endDate).getTime();
             return isFutureEvents ? dateA - dateB : dateB - dateA;
         });
+
+        const eventIds = events.map(event => event._id as string);
+        const { bookingsByEvent } = await getMultipleEventBookings({ eventIds: eventIds, status: 'accepted' });
+        bookingsByEventRecord = bookingsByEvent
     }
 
     return {
@@ -153,6 +162,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             page: currentPage,
             perPage,
             events,
+            bookingsByEvent: JSON.parse(JSON.stringify(bookingsByEventRecord)),
             search: search || null,
             sortBy: currentSortBy,
             sortOrder: currentSortOrder
