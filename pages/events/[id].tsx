@@ -18,7 +18,6 @@ import {createBookingAPI} from "backend/use_cases/bookings/api/createBooking+Sen
 import {IBooking} from "backend/models/booking";
 import {createClient} from "backend/supabase/server-props";
 import {getUserBookings} from "backend/use_cases/bookings/getUserBookings";
-import {router} from "next/client";
 
 interface EventPageProps {
     event: IEvent;
@@ -29,7 +28,15 @@ interface EventPageProps {
 const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: initialLoggedInState}) => {
     const {isLoggedIn, currentUser} = useAuth();
     const [signupStatus, setSignupStatus] = useState<null | 'success' | 'failed'>(null);
-    const [booking, setBooking] = useState<IBooking | undefined>(userBooking);
+    const [booking, setBooking] = useState<IBooking | undefined>(undefined);
+
+    useEffect(() => {
+        if (userBooking?.eventId === event._id) {
+            setBooking(userBooking);
+        } else {
+            setBooking(undefined);
+        }
+    }, [userBooking, event._id]);
 
     useEffect(() => {
         if (isLoggedIn && !initialLoggedInState) {
@@ -41,12 +48,10 @@ const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: in
         if (!isLoggedIn || !currentUser) return;
 
         try {
-            const result = await createBookingAPI(
-                {
-                    user: createMutableUserData(currentUser),
-                    event
-                }
-            );
+            const result = await createBookingAPI({
+                user: createMutableUserData(currentUser),
+                event
+            });
 
             if (result) {
                 setSignupStatus('success');
@@ -210,7 +215,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
         if (user) {
             isLoggedIn = true;
-            const { bookings } = await getUserBookings({userId: user.id});
+            const {bookings} = await getUserBookings({userId: user.id});
             usrBooking = bookings.find(booking => booking.eventId === id);
         }
 
