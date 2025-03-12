@@ -9,6 +9,7 @@ import {createMutableUserData, MutableUserData} from "backend/models/user";
 import {getEventBookings} from "backend/use_cases/bookings/getEventBookings";
 import {IBooking} from "backend/models/booking";
 import {deleteBookingAPI} from "backend/use_cases/bookings/api/deleteBooking+SendConfirmation";
+import Head from "next/head";
 
 interface EventSignupsPageProps {
     event: IEvent;
@@ -158,6 +159,9 @@ const EventSignupsPage: NextPage<EventSignupsPageProps> = ({event, signups}) => 
 
     return (
         <AdminPage title={"Signups: " + event.title}>
+            <Head>
+                <title>Admin Dashboard | Event Signups: {event.title}</title>
+            </Head>
             <DataTable
                 headerTitle="Signups"
                 headers={headers}

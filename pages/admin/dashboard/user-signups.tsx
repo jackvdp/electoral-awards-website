@@ -13,6 +13,7 @@ import {getUserBookings} from "backend/use_cases/bookings/getUserBookings";
 import {createBookingAPI} from "backend/use_cases/bookings/api/createBooking+SendConfirmation";
 import {deleteBookingAPI} from "backend/use_cases/bookings/api/deleteBooking+SendConfirmation";
 import {getAllEventsAPI} from "backend/use_cases/events/api/getEvents";
+import Head from 'next/head';
 
 interface Signup { event: IEvent, booking: IBooking }
 interface UserSignupsPageProps {
@@ -99,6 +100,9 @@ const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups,
 
     return (
         <AdminPage title={"Signups: " + user?.firstname + " " + user?.lastname}>
+            <Head>
+                <title>Admin Dashboard | User Signups: {user.firstname + " " + user.lastname}</title>
+            </Head>
             <div>
                 <h1 className="mb-4">User Event Signups</h1>
                 {alertMessage && <p className="text-info">{alertMessage}</p>}

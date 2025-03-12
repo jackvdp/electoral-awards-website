@@ -11,6 +11,7 @@ import {MutableUserData} from "backend/models/user";
 import {IEvent} from "backend/models/event";
 import {IBooking} from "backend/models/booking";
 import {getMultipleEventBookings} from "backend/use_cases/bookings/getMultipleEventBookings";
+import Head from "next/head";
 
 interface DashboardProps {
     tab: 'users' | 'future-events' | 'past-events' | 'articles';
@@ -51,7 +52,12 @@ const Index: React.FC<DashboardProps> = ({tab, users, totalUsers, page, perPage,
     };
 
     return (
-        <AdminPage title={"Admin Dashboard"}>{renderContent()}</AdminPage>
+        <AdminPage title={"Admin Dashboard"}>
+            <Head>
+                <title>Admin Dashboard | { tab.charAt(0).toUpperCase() + tab.slice(1) }</title>
+            </Head>
+            {renderContent()}
+        </AdminPage>
     );
 };
 
