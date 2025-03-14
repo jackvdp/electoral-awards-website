@@ -1,6 +1,6 @@
-import {CustomUserData} from "../../../models/user";
-import {IEvent} from "../../../models/event";
-import formatEventDates from "../../../../helpers/formatEventDates";
+import {MutableUserData} from "backend/models/user";
+import {IEvent} from "backend/models/event";
+import formatEventDates from "helpers/formatEventDates";
 
 export interface BookingConfirmationData {
     name: string;
@@ -9,9 +9,11 @@ export interface BookingConfirmationData {
     event_date: string;
     event_location: string;
     agenda_url: string;
+    userId: string;
+    eventId: string;
 }
 
-export function createBookingConfirmationData(user: CustomUserData, event: IEvent): BookingConfirmationData {
+export function createBookingConfirmationData(user: MutableUserData, event: IEvent): BookingConfirmationData {
 
     return {
         name: `${user.firstname} ${user.lastname}`,
@@ -19,6 +21,8 @@ export function createBookingConfirmationData(user: CustomUserData, event: IEven
         event_name: event.title,
         event_date: formatEventDates(event.startDate, event.endDate),
         event_location: event.location,
-        agenda_url: `https://www.electoralnetwork.org/events/${event._id}`
+        agenda_url: `https://www.electoralnetwork.org/events/${event._id}`,
+        userId: user.id,
+        eventId: event._id as string
     };
 }

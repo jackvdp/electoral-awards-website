@@ -4,6 +4,7 @@ import { IBooking } from "backend/models/booking";
 import { updateBooking } from "./updateBooking";
 import { sendBookingConfirmation } from "./confirmations/sendBookingConfirmation";
 import { createBookingConfirmationData } from "./confirmations/confirmationData";
+import {sendInvitationConfirmation} from "./confirmations/sendInvitationConfirmation";
 
 export async function updateBookingAndSendConfirmation({
                                                            bookingId,
@@ -30,6 +31,10 @@ export async function updateBookingAndSendConfirmation({
             sendConfirmationEmailInBackground(user, event);
         }
 
+        if (status === 'invited') {
+            sendInvitationEmailInBackground(user, event)
+        }
+
         return result;
     } catch (error) {
         console.error('Error updating booking and sending confirmation:', error);
@@ -47,6 +52,16 @@ function sendConfirmationEmailInBackground(user: MutableUserData, event: IEvent)
             await sendBookingConfirmation(createBookingConfirmationData(user, event));
         } catch (emailError) {
             console.error('Failed to send booking confirmation email:', emailError);
+        }
+    });
+}
+
+function sendInvitationEmailInBackground(user: MutableUserData, event: IEvent): void {
+    Promise.resolve().then(async () => {
+        try {
+            await sendInvitationConfirmation(createBookingConfirmationData(user, event));
+        } catch (emailError) {
+            console.error('Failed to send invitation confirmation email:', emailError);
         }
     });
 }

@@ -1,4 +1,5 @@
 – Ability for admin to send invitations to users with two buttons (accept, decline)
+- When signing in from magic link it should take you to the page you were on
 – Bug: New user should have their role defaulted to user
 – Add author role and the ability for authors to create articles
 – Add speaker role and the ability to assign speakers to events (just save id to mongo, then fetch user details, and user profile pic stored in storage)
