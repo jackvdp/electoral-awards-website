@@ -7,14 +7,15 @@ import { MutableUserData } from 'backend/models/user';
 import formatEventDates from "helpers/formatEventDates";
 
 interface UserInvitationsListProps {
+    currentInvitations: IBooking[];
+    setCurrentInvitations: (invitations: IBooking[]) => void;
     userId: string;
     events: IEvent[];
     user: MutableUserData;
     onStatusChange?: () => void;
 }
 
-export default function UserInvitationsList({ userId, events, user, onStatusChange }: UserInvitationsListProps) {
-    const [invitations, setInvitations] = useState<IBooking[]>([]);
+export default function UserInvitationsList({ currentInvitations, setCurrentInvitations, userId, events, user, onStatusChange }: UserInvitationsListProps) {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -23,7 +24,7 @@ export default function UserInvitationsList({ userId, events, user, onStatusChan
         setError(null);
         try {
             const { bookings } = await getInvitations(userId);
-            setInvitations(bookings);
+            setCurrentInvitations(bookings);
         } catch (err) {
             console.error('Error fetching user invitations:', err);
             setError('Failed to load invitations for this user');
@@ -133,7 +134,7 @@ export default function UserInvitationsList({ userId, events, user, onStatusChan
         return <div className="alert alert-danger">{error}</div>;
     }
 
-    if (!invitations || invitations.length === 0) {
+    if (!currentInvitations || currentInvitations.length === 0) {
         return <p>No invitations found for this user.</p>;
     }
 
@@ -141,7 +142,7 @@ export default function UserInvitationsList({ userId, events, user, onStatusChan
         <div className="mb-4">
             <h5>Event Invitations:</h5>
             <ul className="list-group">
-                {invitations.map((invitation) => (
+                {currentInvitations.map((invitation) => (
                     <li key={invitation._id as string}
                         className="list-group-item d-flex justify-content-between align-items-center">
                         <div>

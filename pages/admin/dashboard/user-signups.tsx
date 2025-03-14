@@ -15,12 +15,17 @@ import {deleteBookingAPI} from "backend/use_cases/bookings/api/deleteBooking+Sen
 import {getAllEventsAPI} from "backend/use_cases/events/api/getEvents";
 import Head from 'next/head';
 import UserInvitationsList from "components/blocks/admin/invitations/InvitationsList";
-import { getInvitations } from 'backend/use_cases/bookings/api/getInvitations';
-import { createInvitationAndSendConfirmation } from 'backend/use_cases/bookings/api/createInvitation+SendConfirmation';
+import {getInvitations} from 'backend/use_cases/bookings/api/getInvitations';
+import {createInvitationAndSendConfirmation} from 'backend/use_cases/bookings/api/createInvitation+SendConfirmation';
 import UserSignUpsList from "components/blocks/admin/invitations/SignupsList";
 import TabNavigation from "components/blocks/admin/invitations/TabNavigation";
+import {getUserBookingsAPI} from "backend/use_cases/bookings/api/getUserBookings";
 
-interface Signup { event: IEvent, booking: IBooking }
+interface Signup {
+    event: IEvent,
+    booking: IBooking
+}
+
 interface UserSignupsPageProps {
     userId: string;
     user: MutableUserData;
@@ -29,7 +34,7 @@ interface UserSignupsPageProps {
     invitations: IBooking[];
 }
 
-const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups, events, invitations }) => {
+const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups, events, invitations}) => {
     const [alertMessage, setAlertMessage] = useState<string | null>(null);
     const [currentSignups, setCurrentSignups] = useState<Signup[]>([]);
     const [currentInvitations, setCurrentInvitations] = useState<IBooking[]>(invitations);
@@ -73,15 +78,15 @@ const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups,
 
             if (actionType === 'signup') {
                 // Handle signup
-                const booking = await createBookingAPI({ user, event });
+                const booking = await createBookingAPI({user, event});
                 setAlertMessage('User signed up successfully.');
 
                 // Update the current signups with the new signup
-                const newSignup = { event, booking };
+                const newSignup = {event, booking};
                 setCurrentSignups(prev => [...prev, newSignup]);
             } else {
                 // Handle invitation
-                const booking = await createInvitationAndSendConfirmation({ user, event });
+                const booking = await createInvitationAndSendConfirmation({user, event});
                 setAlertMessage('Invitation sent successfully.');
 
                 // Update the current invitations list
@@ -106,10 +111,29 @@ const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups,
 
     const refreshInvitations = async () => {
         try {
-            const { bookings } = await getInvitations(userId);
+            const {bookings} = await getInvitations(userId);
             setCurrentInvitations(bookings);
         } catch (error) {
             console.error('Failed to refresh invitations:', error);
+        }
+    };
+
+    const refreshSignups = async () => {
+        try {
+            const {bookings} = await getUserBookingsAPI({userId});
+            // Filter accepted bookings
+            const acceptedBookings = bookings.filter(booking => booking.status === 'accepted');
+
+            // Create updated signups with event data
+            const updatedSignups = acceptedBookings.map(booking => {
+                const event = events.find(e => e._id === booking.eventId);
+                if (!event) return null;
+                return {event, booking};
+            }).filter(Boolean) as Signup[];
+
+            setCurrentSignups(updatedSignups);
+        } catch (error) {
+            console.error('Failed to refresh signups:', error);
         }
     };
 
@@ -154,7 +178,7 @@ const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups,
                 {alertMessage && <p className="text-info">{alertMessage}</p>}
 
                 {/* Tab Navigation */}
-                <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
+                <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab}/>
 
                 <div className="tab-content mt-0 mt-md-5">
                     <div className={`tab-pane fade ${activeTab === 'signup' ? 'show active' : ''}`} id="signup-tab">
@@ -181,10 +205,15 @@ const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups,
                     <div className={`tab-pane fade ${activeTab === 'invite' ? 'show active' : ''}`} id="invite-tab">
                         {/* Invitations List */}
                         <UserInvitationsList
+                            currentInvitations={currentInvitations}
+                            setCurrentInvitations={setCurrentInvitations}
                             userId={userId}
                             user={user}
                             events={events}
-                            onStatusChange={refreshInvitations}
+                            onStatusChange={() => {
+                                refreshInvitations();
+                                refreshSignups();
+                            }}
                         />
 
                         <hr className="my-8"/>
@@ -235,11 +264,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const user: MutableUserData = createMutableUserData(data.user);
 
     // Fetch bookings (signups)
-    const { bookings } = await getUserBookings({ userId });
+    const {bookings} = await getUserBookings({userId});
     // Fetch all events
     const events: IEvent[] = await getAllEventsAPI();
     // Fetch invitations
-    const { bookings: invitations } = await getInvitations(userId);
+    const {bookings: invitations} = await getInvitations(userId);
 
     // Filter accepted bookings only
     const acceptedBookings = bookings.filter(booking => booking.status === 'accepted');
