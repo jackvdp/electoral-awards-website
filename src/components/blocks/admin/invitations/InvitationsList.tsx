@@ -4,7 +4,7 @@ import { IEvent } from 'backend/models/event';
 import { getInvitations } from "backend/use_cases/bookings/api/getInvitations";
 import { updateBookingAPI } from "backend/use_cases/bookings/api/updateBooking+SendConfirmation";
 import { MutableUserData } from 'backend/models/user';
-import formatEventDates from "../../../../helpers/formatEventDates";
+import formatEventDates from "helpers/formatEventDates";
 
 interface UserInvitationsListProps {
     userId: string;
@@ -39,28 +39,56 @@ export default function UserInvitationsList({ userId, events, user, onStatusChan
     }, [userId]);
 
     const handleResendInvitation = async (bookingId: string, eventId: string) => {
-        try {
-            // Find the event for this invitation
-            const event = events.find(e => e._id === eventId);
-            if (!event) {
-                throw new Error('Event not found');
+        if (window.confirm('Are you sure you want to resend this invitation?')) {
+            try {
+                // Find the event for this invitation
+                const event = events.find(e => e._id === eventId);
+                if (!event) {
+                    throw new Error('Event not found');
+                }
+
+                // Change status back to 'invited' to effectively resend the invitation
+                await updateBookingAPI({
+                    bookingId,
+                    status: 'invited',
+                    user,
+                    event
+                });
+
+                fetchUserInvitations();
+                if (onStatusChange) onStatusChange();
+            } catch (err) {
+                console.error('Error resending invitation:', err);
+                alert('Failed to resend invitation');
             }
-
-            // Change status back to 'invited' to effectively resend the invitation
-            await updateBookingAPI({
-                bookingId,
-                status: 'invited',
-                user,
-                event
-            });
-
-            fetchUserInvitations();
-            if (onStatusChange) onStatusChange();
-        } catch (err) {
-            console.error('Error resending invitation:', err);
-            alert('Failed to resend invitation');
         }
     };
+
+    const handleConfirmInvitation = async (bookingId: string, eventId: string) => {
+        if (window.confirm('Are you sure you want to accept this invitation for the user?')) {
+            try {
+                // Find the event for this invitation
+                const event = events.find(e => e._id === eventId);
+                if (!event) {
+                    throw new Error('Event not found');
+                }
+
+                // Change status back to 'invited' to effectively resend the invitation
+                await updateBookingAPI({
+                    bookingId,
+                    status: 'accepted',
+                    user,
+                    event
+                });
+
+                fetchUserInvitations();
+                if (onStatusChange) onStatusChange();
+            } catch (err) {
+                console.error('Error resending invitation:', err);
+                alert('Failed to resend invitation');
+            }
+        }
+    }
 
     const handleCancelInvitation = async (bookingId: string, eventId: string) => {
         if (window.confirm('Are you sure you want to cancel this invitation?')) {
@@ -169,13 +197,19 @@ export default function UserInvitationsList({ userId, events, user, onStatusChan
                                     <>
                                         <button
                                             onClick={() => handleResendInvitation(invitation._id as string, invitation.eventId)}
-                                            className="btn btn-primary rounded-pill mr-3"
+                                            className="btn btn-primary rounded-pill mr-3 btn-sm"
                                         >
                                             Resend
                                         </button>
                                         <button
+                                            onClick={() => handleConfirmInvitation(invitation._id as string, invitation.eventId)}
+                                            className="btn btn-green rounded-pill mr-3 btn-sm"
+                                        >
+                                            Confirm
+                                        </button>
+                                        <button
                                             onClick={() => handleCancelInvitation(invitation._id as string, invitation.eventId)}
-                                            className="btn btn-red rounded-pill mr-3"
+                                            className="btn btn-red rounded-pill mr-3 btn-sm"
                                         >
                                             Cancel
                                         </button>
