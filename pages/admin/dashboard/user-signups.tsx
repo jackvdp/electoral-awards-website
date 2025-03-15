@@ -1,5 +1,5 @@
 import {GetServerSideProps, NextPage} from 'next';
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {IEvent} from 'backend/models/event';
 import {createClient} from 'backend/supabase/server-props';
 import AdminPage from "components/blocks/admin/reusables/AdminPage";

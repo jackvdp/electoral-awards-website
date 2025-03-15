@@ -13,6 +13,8 @@ export async function getUserBookings({ userId, status }: {
         // Add status filter if provided
         if (status) {
             query.status = status;
+        } else {
+            query.status = 'accepted';
         }
 
         // Get total count for pagination

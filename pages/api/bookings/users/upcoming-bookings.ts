@@ -16,11 +16,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Extract user ID from query parameters
         const { userId } = req.query;
 
+        const query = { userId, status: 'accepted' };
+
         // Get current date to filter for upcoming events
         const currentDate = new Date();
 
         // Find all bookings for the user
-        const bookings: IBooking[] = await Booking.find({ userId })
+        const bookings: IBooking[] = await Booking
+            .find(query)
+            .sort({createdAt: -1}) // Sort by most recent first
 
         if (bookings.length === 0) {
             return res.status(200).json({
