@@ -49,20 +49,22 @@ const UserSignupsPage: NextPage<UserSignupsPageProps> = ({userId, user, signups,
     }, [invitations]);
 
     const handleRemoveSignup = async (signup: Signup) => {
-        try {
-            await deleteBookingAPI({
-                bookingId: signup.booking._id as string,
-                user,
-                event: signup.event
-            });
+        if (window.confirm(" Do you really want to remove this signup?")) {
+            try {
+                await deleteBookingAPI({
+                    bookingId: signup.booking._id as string,
+                    user,
+                    event: signup.event
+                });
 
-            setCurrentSignups(prev =>
-                prev.filter(oldSignup => oldSignup.booking._id !== signup.booking._id)
-            );
+                setCurrentSignups(prev =>
+                    prev.filter(oldSignup => oldSignup.booking._id !== signup.booking._id)
+                );
 
-            setAlertMessage('Signup removed successfully.');
-        } catch (error: any) {
-            setAlertMessage(error.message || 'Failed to remove signup.');
+                setAlertMessage('Signup removed successfully.');
+            } catch (error: any) {
+                setAlertMessage(error.message || 'Failed to remove signup.');
+            }
         }
     };
 
