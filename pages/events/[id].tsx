@@ -151,6 +151,21 @@ const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: in
                     <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     <strong>Thank you.</strong> You have {response === 'accepted' ? 'accepted' : 'declined'} the invitation to this event.
                     {response === 'accepted' && ' We look forward to seeing you!'}
+
+                    {/* Add sign-in prompt if user is not logged in */}
+                    {!isLoggedIn && (response === 'accepted') && (
+                        <>
+                            <p className="mt-2 mb-2">
+                                Please sign in to see event details, agenda and joining instructions.
+                            </p>
+                                <button
+                                    className="btn btn-sm btn-outline-green"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modal-signin">
+                                    Sign In
+                                </button>
+                        </>
+                    )}
                 </div>
             );
         }
@@ -160,6 +175,20 @@ const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: in
                 <div className="alert alert-danger alert-dismissible fade show" role="alert">
                     <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     <strong>Error!</strong> {message || 'There was a problem processing your response.'}
+
+                    {/* Add sign-in prompt for error cases too */}
+                    {!isLoggedIn && (
+                        <p className="mt-2 mb-0">
+                            Please try again later or{' '}
+                            <button
+                                className="btn btn-sm btn-outline-secondary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modal-signin">
+                                sign in
+                            </button>
+                            <span className="ms-2">to manage your invitations.</span>
+                        </p>
+                    )}
                 </div>
             );
         }
