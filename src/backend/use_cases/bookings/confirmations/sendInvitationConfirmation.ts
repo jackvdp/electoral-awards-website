@@ -12,15 +12,21 @@ export async function sendInvitationConfirmation(data: BookingConfirmationData):
             event_location,
             agenda_url,
             email,
+            eventId,
+            bookingId
         } = data;
 
         // Validate required fields
-        if (!name || !event_name || !event_date || !event_location || !email) {
+        if (!name || !event_name || !event_date || !event_location || !email || !eventId || !bookingId) {
             throw new Error('Missing required fields');
         }
 
         const isWebinar = event_location.toLowerCase().includes('webinar') || event_name.toLowerCase().includes('webinar');
         const templateAlias = isWebinar ? "webinar-invitation" : "event-invitation";
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
+        const eventPageUrl = `${baseUrl}/events/${eventId}`;
+        const accept_url = `${baseUrl}/api/bookings/respond?bookingId=${bookingId}&response=accepted&redirectUrl=${encodeURIComponent(eventPageUrl)}`;
+        const decline_url = `${baseUrl}/api/bookings/respond?bookingId=${bookingId}&response=rejected&redirectUrl=${encodeURIComponent(eventPageUrl)}`;
 
         const response = await postmarkClient.sendEmailWithTemplate({
             From: 'info@electoralnetwork.org',
@@ -32,7 +38,8 @@ export async function sendInvitationConfirmation(data: BookingConfirmationData):
                 event_date,
                 event_location,
                 agenda_url,
-                response_url: `${process.env.NEXT_PUBLIC_SITE_URL}/events/respond?eventId=${data.eventId}&userId=${data.userId}`
+                accept_url,
+                decline_url,
             },
         });
 

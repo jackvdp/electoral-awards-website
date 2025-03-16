@@ -32,7 +32,7 @@ export async function updateBookingAndSendConfirmation({
         }
 
         if (status === 'invited') {
-            sendInvitationEmailInBackground(user, event)
+            sendInvitationEmailInBackground(user, event, bookingId)
         }
 
         return result;
@@ -56,10 +56,10 @@ function sendConfirmationEmailInBackground(user: MutableUserData, event: IEvent)
     });
 }
 
-function sendInvitationEmailInBackground(user: MutableUserData, event: IEvent): void {
+function sendInvitationEmailInBackground(user: MutableUserData, event: IEvent, bookingId: string): void {
     Promise.resolve().then(async () => {
         try {
-            await sendInvitationConfirmation(createBookingConfirmationData(user, event));
+            await sendInvitationConfirmation(createBookingConfirmationData(user, event, bookingId));
         } catch (emailError) {
             console.error('Failed to send invitation confirmation email:', emailError);
         }

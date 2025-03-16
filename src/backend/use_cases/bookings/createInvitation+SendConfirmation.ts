@@ -12,7 +12,7 @@ export async function createInvitationAndSendConfirmation({user, event}: { user:
             eventId: event._id as string,
         });
 
-        sendInvitationEmailInBackground(user, event);
+        sendInvitationEmailInBackground(user, event, booking._id as string);
 
         return booking;
     } catch (error) {
@@ -22,10 +22,10 @@ export async function createInvitationAndSendConfirmation({user, event}: { user:
 }
 
 // Helper function to handle email sending in background
-function sendInvitationEmailInBackground(user: MutableUserData, event: IEvent): void {
+function sendInvitationEmailInBackground(user: MutableUserData, event: IEvent, bookingId: string): void {
     Promise.resolve().then(async () => {
         try {
-            await sendInvitationConfirmation(createBookingConfirmationData(user, event));
+            await sendInvitationConfirmation(createBookingConfirmationData(user, event, bookingId));
         } catch (emailError) {
             console.error('Failed to send invitation confirmation email:', emailError);
         }
