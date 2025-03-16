@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from 'backend/mongo';
 import { updateBooking } from 'backend/use_cases/bookings/updateBooking';
+import createClient from 'backend/supabase/api';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'GET') {
@@ -36,6 +37,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.redirect(
                 `${redirectUrl}?responseStatus=error&message=${encodeURIComponent(result.message)}`
             );
+        }
+
+        if (result.booking) {
+            const booking = result.booking;
+            const supabase = createClient(req, res);
+            const { data: { session } } = await supabase.auth.getSession();
+            const currentUserId = session?.user?.id;
+
+            // If a user is logged in and it's not the correct user for this booking
+            if (currentUserId && currentUserId !== booking.userId) {
+                // Log the user out
+                await supabase.auth.signOut();
+            }
         }
 
         // If no redirect URL is provided, return success JSON
