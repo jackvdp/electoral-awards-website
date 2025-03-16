@@ -18,6 +18,7 @@ import {createBookingAPI} from "backend/use_cases/bookings/api/createBooking+Sen
 import {IBooking} from "backend/models/booking";
 import {createClient} from "backend/supabase/server-props";
 import {getUserBookings} from "backend/use_cases/bookings/getUserBookings";
+import {useRouter} from "next/router";
 
 interface EventPageProps {
     event: IEvent;
@@ -29,6 +30,10 @@ const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: in
     const {isLoggedIn, currentUser} = useAuth();
     const [signupStatus, setSignupStatus] = useState<null | 'success' | 'failed'>(null);
     const [booking, setBooking] = useState<IBooking | undefined>(undefined);
+
+    const router = useRouter();
+    const { responseStatus, response, message } = router.query;
+    const [showResponseMessage, setShowResponseMessage] = useState(false);
 
     useEffect(() => {
         if (userBooking?.eventId === event._id) {
@@ -43,6 +48,12 @@ const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: in
             window.location.reload();
         }
     }, [isLoggedIn, initialLoggedInState]);
+
+    useEffect(() => {
+        if (responseStatus) {
+            setShowResponseMessage(true);
+        }
+    }, [responseStatus, router, event._id]);
 
     const handleSignup = async () => {
         if (!isLoggedIn || !currentUser) return;
@@ -131,6 +142,31 @@ const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: in
         );
     };
 
+    const renderResponseMessage = () => {
+        if (!showResponseMessage) return null;
+
+        if (responseStatus === 'success') {
+            return (
+                <div className={`alert ${response === 'accepted' ? 'alert-success' : 'alert-danger'} alert-dismissible fade show`} role="alert">
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <strong>Thank you.</strong> You have {response === 'accepted' ? 'accepted' : 'declined'} the invitation to this event.
+                    {response === 'accepted' && ' We look forward to seeing you!'}
+                </div>
+            );
+        }
+
+        if (responseStatus === 'error') {
+            return (
+                <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <strong>Error!</strong> {message || 'There was a problem processing your response.'}
+                </div>
+            );
+        }
+
+        return null;
+    };
+
     return (
         <Fragment>
             <CustomHead title={event.title} description={event.description}/>
@@ -154,6 +190,7 @@ const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: in
                                             <span>{formatEventDates(event.startDate, event.endDate)}</span>
                                         </li>
                                     </ul>
+                                    {renderResponseMessage()}
                                     {renderSignupSection()}
                                 </div>
                             </div>
