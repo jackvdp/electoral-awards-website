@@ -173,7 +173,7 @@ const LoginForm: FC = () => {
                     data-bs-dismiss="modal"
                     onClick={() => {
                         const currentPath = router.asPath;
-                        if (currentPath !== '/') {
+                        if (currentPath !== '/' && currentPath !== '/register') {
                             router.push(`/register?redirect=${encodeURIComponent(currentPath)}`);
                         } else {
                             router.push('/register');

@@ -5,10 +5,9 @@ import NextLink from './NextLink';
 interface RegisterLinkProps {
   title: string;
   className?: string;
-  dataAttributes?: Record<string, string>;
 }
 
-const RegisterLink: FC<RegisterLinkProps> = ({ title, className, dataAttributes = {} }) => {
+const RegisterLink: FC<RegisterLinkProps> = ({ title, className }) => {
   const router = useRouter();
   const [href, setHref] = useState('/register');
   
@@ -16,25 +15,17 @@ const RegisterLink: FC<RegisterLinkProps> = ({ title, className, dataAttributes 
     // Only run on client-side to avoid mismatch
     if (typeof window !== 'undefined') {
       const currentPath = window.location.pathname;
-      // Only add redirect for non-home pages
-      if (currentPath !== '/') {
+      if (currentPath !== '/' && currentPath !== '/register') {
         setHref(`/register?redirect=${encodeURIComponent(currentPath)}`);
       }
     }
   }, []);
-
-  // Convert data attributes to the correct format
-  const dataProps: any = {};
-  Object.entries(dataAttributes).forEach(([key, value]) => {
-    dataProps[`data-${key}`] = value;
-  });
   
   return (
     <NextLink 
       title={title} 
       href={href} 
       className={className}
-      {...dataProps}
     />
   );
 };
