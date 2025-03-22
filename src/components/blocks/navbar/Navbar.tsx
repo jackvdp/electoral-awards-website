@@ -7,6 +7,7 @@ import NextLink from 'components/reuseable/links/NextLink';
 import SocialLinks from 'components/reuseable/links/SocialLinks';
 import ListItemLink from 'components/reuseable/links/ListItemLink';
 import DropdownToggleLink from 'components/reuseable/links/DropdownToggleLink';
+import RegisterLink from 'components/reuseable/links/RegisterLink';
 // -------- partial header component -------- //
 import Info from './partials/Info';
 import Signin from './partials/Signin';
@@ -107,8 +108,7 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
                             <div className="my-6 d-flex flex-row">
                                 {/* ============= Join button ============= */}
                                 {!isLoggedIn &&
-                                    <NextLink title="Register" href={`/register?redirect=${encodeURIComponent(typeof window !== 'undefined' ? window.location.pathname : '')}`}
-                                              className="btn btn-sm btn-primary rounded me-4"/>
+                                    <RegisterLink title="Register" className="btn btn-sm btn-primary rounded me-4"/>
                                 }
                                 {/* ============= Sign in/out button ============= */}
                                 {
@@ -152,8 +152,7 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
                     {/* ============= Join button ============= */}
                     {!isLoggedIn &&
                         <li className="nav-item d-none d-sm-block">
-                            <NextLink title="Register" href={`/register?redirect=${encodeURIComponent(typeof window !== 'undefined' ? window.location.pathname : '')}`} data-bs-dismiss="offcanvas"
-                                      className="btn btn-sm btn-primary rounded"/>
+                            <RegisterLink title="Register" className="btn btn-sm btn-primary rounded" dataAttributes={{ "bs-dismiss": "offcanvas" }}/>
                         </li>}
 
                     {/* ============= Sign in/out button ============= */}

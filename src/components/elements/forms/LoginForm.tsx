@@ -1,5 +1,6 @@
 import {FC, FormEvent, Fragment, useState} from 'react';
 import NextLink from 'components/reuseable/links/NextLink';
+import RegisterLink from 'components/reuseable/links/RegisterLink';
 import {useAuth} from 'auth/useAuth';
 import {useRouter} from 'next/router';
 
@@ -38,11 +39,12 @@ const LoginForm: FC = () => {
         }
     };
 
-    const handleNavigateToRegister = () => {
-        // Add current path as redirect parameter
-        const currentPath = router.asPath;
-        router.push(`/register?redirect=${encodeURIComponent(currentPath)}`);
-    };
+    // No longer needed as we use RegisterLink
+    // const handleNavigateToRegister = () => {
+    //     // Add current path as redirect parameter
+    //     const currentPath = router.asPath;
+    //     router.push(`/register?redirect=${encodeURIComponent(currentPath)}`);
+    // };
 
     const handleNavigateToForgotPassword = () => {
         router.push('/forgot');
@@ -166,13 +168,11 @@ const LoginForm: FC = () => {
 
             <p className="mb-0">
                 Don&apos;t have an account?{' '}
-                <a
+                <RegisterLink
+                    title="Sign up"
                     className="hover"
-                    onClick={handleNavigateToRegister}
-                    data-bs-dismiss="modal"
-                >
-                    Sign up
-                </a>
+                    dataAttributes={{ "bs-dismiss": "modal" }}
+                />
             </p>
         </Fragment>
     );

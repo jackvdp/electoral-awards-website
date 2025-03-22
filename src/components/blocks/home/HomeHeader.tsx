@@ -1,5 +1,6 @@
 import React from 'react';
 import NextLink from 'components/reuseable/links/NextLink';
+import RegisterLink from 'components/reuseable/links/RegisterLink';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Autoplay, EffectFade} from 'swiper';
 import {useAuth} from "auth/useAuth";
@@ -75,9 +76,8 @@ const HomeHeader = () => {
 
                             {!isLoggedIn && (
                                 <div className="d-flex gap-2">
-                                    <NextLink
+                                    <RegisterLink
                                         title="Register"
-                                        href="/register"
                                         className="btn btn-soft-blue rounded-pill mt-2"
                                     />
                                     <NextLink

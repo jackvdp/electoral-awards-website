@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import NextLink from 'components/reuseable/links/NextLink';
+import RegisterLink from 'components/reuseable/links/RegisterLink';
 
 const CTA: FC = () => {
     return (
@@ -16,7 +17,7 @@ const CTA: FC = () => {
                             Join our community, enjoy access to industry leading events and connect with global experts in electoral management – Sign up now!
                         </p>
 
-                        <NextLink href={`/register?redirect=${encodeURIComponent(typeof window !== 'undefined' ? window.location.pathname : '')}`} title="Register" className="btn btn-lg btn-primary rounded-pill mx-1" />
+                        <RegisterLink title="Register" className="btn btn-lg btn-primary rounded-pill mx-1" />
                     </div>
                 </div>
             </div>
