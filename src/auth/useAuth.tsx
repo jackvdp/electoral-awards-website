@@ -16,7 +16,7 @@ interface AuthContextProps {
     loading: boolean;
     error: CustomAuthError | null;
     login: (username: string, password: string) => Promise<void>;
-    logInWithMagicLink: (email: string) => Promise<void>;
+    logInWithMagicLink: (email: string, redirectPath?: string) => Promise<void>;
     signout: () => void;
     createUser: (userData: CreateUserData) => Promise<boolean>
     createUserWithoutSignup: (userData: CreateUserData) => Promise<boolean>

@@ -117,15 +117,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         }
     };
 
-    const logInWithMagicLink = async (email: string): Promise<void> => {
+    const logInWithMagicLink = async (email: string, redirectPath?: string): Promise<void> => {
         try {
             setState(prev => ({...prev, loading: true, error: null}));
+
+            const redirectUrl = redirectPath 
+                ? `${process.env.NEXT_PUBLIC_BASE_URL}${redirectPath}` 
+                : process.env.NEXT_PUBLIC_BASE_URL;
 
             const {data, error} = await supabase.auth.signInWithOtp({
                 email,
                 options: {
                     shouldCreateUser: false,
-                    emailRedirectTo: process.env.NEXT_PUBLIC_BASE_URL,
+                    emailRedirectTo: redirectUrl,
                 },
             });
 

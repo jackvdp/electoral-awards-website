@@ -29,7 +29,8 @@ const LoginForm: FC = () => {
         event.preventDefault();
         setMagicLinkSent(false);
         try {
-            await logInWithMagicLink(email);
+            const currentPath = router.asPath;
+            await logInWithMagicLink(email, currentPath);
             setFailedToLogin(false);
             setMagicLinkSent(true);
         } catch (error) {
