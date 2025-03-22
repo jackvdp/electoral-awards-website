@@ -34,6 +34,7 @@ const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: in
     const router = useRouter();
     const { responseStatus, response, message } = router.query;
     const [showResponseMessage, setShowResponseMessage] = useState(false);
+    const [hasReloaded, setHasReloaded] = useState(false);
 
     useEffect(() => {
         if (userBooking?.eventId === event._id) {
@@ -44,10 +45,11 @@ const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: in
     }, [userBooking, event._id]);
 
     useEffect(() => {
-        if (isLoggedIn && !initialLoggedInState) {
-            window.location.reload();
+        if (isLoggedIn && !initialLoggedInState && !hasReloaded) {
+            setHasReloaded(true);
+            router.replace(router.asPath);
         }
-    }, [isLoggedIn, initialLoggedInState]);
+    }, [isLoggedIn, initialLoggedInState, hasReloaded, router]);
 
     useEffect(() => {
         if (responseStatus) {
