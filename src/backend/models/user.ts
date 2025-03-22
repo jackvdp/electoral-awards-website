@@ -53,7 +53,7 @@ function createCustomUserData(data: MutableUserData | CreateUserData): CustomUse
         position: data.position,
         organisation: data.organisation,
         profileImage: data.profileImage,
-        role: data.role,
+        role: data.role || 'user',
     };
 }
 
@@ -87,7 +87,7 @@ function createUserDataForDB(userId: string | undefined, userData: CreateUserDat
         position: userData.position,
         organisation: userData.organisation,
         profile_image: userData.profileImage,
-        role: userData.role,
+        role: userData.role || 'user',
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
     }
