@@ -15,9 +15,12 @@ const RegisterPage: NextPage = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            router.push('/account');
+            // Get the referrer from query parameter or default to account page
+            const { redirect } = router.query;
+            const redirectPath = typeof redirect === 'string' ? redirect : '/account';
+            router.push(redirectPath);
         }
-    }, [isLoggedIn]);
+    }, [isLoggedIn, router.query]);
 
     return (
         <Fragment>

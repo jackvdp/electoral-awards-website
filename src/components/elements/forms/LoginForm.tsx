@@ -39,7 +39,9 @@ const LoginForm: FC = () => {
     };
 
     const handleNavigateToRegister = () => {
-        router.push('/register');
+        // Add current path as redirect parameter
+        const currentPath = router.asPath;
+        router.push(`/register?redirect=${encodeURIComponent(currentPath)}`);
     };
 
     const handleNavigateToForgotPassword = () => {
