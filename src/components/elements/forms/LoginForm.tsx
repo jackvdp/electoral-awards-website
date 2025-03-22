@@ -168,11 +168,20 @@ const LoginForm: FC = () => {
 
             <p className="mb-0">
                 Don&apos;t have an account?{' '}
-                <RegisterLink
-                    title="Sign up"
+                <a
                     className="hover"
-                    dataAttributes={{ "bs-dismiss": "modal" }}
-                />
+                    data-bs-dismiss="modal"
+                    onClick={() => {
+                        const currentPath = router.asPath;
+                        if (currentPath !== '/') {
+                            router.push(`/register?redirect=${encodeURIComponent(currentPath)}`);
+                        } else {
+                            router.push('/register');
+                        }
+                    }}
+                >
+                    Sign up
+                </a>
             </p>
         </Fragment>
     );
