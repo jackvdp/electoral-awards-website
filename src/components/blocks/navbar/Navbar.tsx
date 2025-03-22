@@ -107,7 +107,7 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
                             <div className="my-6 d-flex flex-row">
                                 {/* ============= Join button ============= */}
                                 {!isLoggedIn &&
-                                    <NextLink title="Register" href="/register"
+                                    <NextLink title="Register" href={`/register?redirect=${encodeURIComponent(typeof window !== 'undefined' ? window.location.pathname : '')}`}
                                               className="btn btn-sm btn-primary rounded me-4"/>
                                 }
                                 {/* ============= Sign in/out button ============= */}
@@ -152,7 +152,7 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
                     {/* ============= Join button ============= */}
                     {!isLoggedIn &&
                         <li className="nav-item d-none d-sm-block">
-                            <NextLink title="Register" href="/register" data-bs-dismiss="offcanvas"
+                            <NextLink title="Register" href={`/register?redirect=${encodeURIComponent(typeof window !== 'undefined' ? window.location.pathname : '')}`} data-bs-dismiss="offcanvas"
                                       className="btn btn-sm btn-primary rounded"/>
                         </li>}
 
