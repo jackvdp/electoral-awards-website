@@ -39,12 +39,14 @@ const LoginForm: FC = () => {
         }
     };
 
-    // No longer needed as we use RegisterLink
-    // const handleNavigateToRegister = () => {
-    //     // Add current path as redirect parameter
-    //     const currentPath = router.asPath;
-    //     router.push(`/register?redirect=${encodeURIComponent(currentPath)}`);
-    // };
+    const handleNavigateToRegister = () => {
+        const currentPath = router.asPath;
+        if (currentPath !== '/' && currentPath !== '/register') {
+            router.push(`/register?redirect=${encodeURIComponent(currentPath)}`);
+        } else {
+            router.push('/register');
+        }
+    };
 
     const handleNavigateToForgotPassword = () => {
         router.push('/forgot');
@@ -171,14 +173,7 @@ const LoginForm: FC = () => {
                 <a
                     className="hover"
                     data-bs-dismiss="modal"
-                    onClick={() => {
-                        const currentPath = router.asPath;
-                        if (currentPath !== '/' && currentPath !== '/register') {
-                            router.push(`/register?redirect=${encodeURIComponent(currentPath)}`);
-                        } else {
-                            router.push('/register');
-                        }
-                    }}
+                    onClick={handleNavigateToRegister}
                 >
                     Sign up
                 </a>

@@ -15,6 +15,7 @@ import Signup from './partials/Signup';
 // -------- data -------- //
 import {contactInfo} from 'data/contact';
 import styles from './navbar.module.css'
+import {useRouter} from "next/router";
 
 interface NavbarProps {
     barSitsOnTop?: boolean;
@@ -24,6 +25,7 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
     const sticky = useSticky(350);
     const navbarRef = useRef<HTMLElement | null>(null);
     const {isLoggedIn, currentUser} = useAuth();
+    const router = useRouter();
 
     // dynamically render the logo
     const logo = 'ICPSLogo';
@@ -152,7 +154,7 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
                     {/* ============= Join button ============= */}
                     {!isLoggedIn &&
                         <li className="nav-item d-none d-sm-block">
-                            <RegisterLink title="Register" className="btn btn-sm btn-primary rounded" dataAttributes={{ "bs-dismiss": "offcanvas" }}/>
+                            <RegisterLink title="Register" className="btn btn-sm btn-primary rounded"/>
                         </li>}
 
                     {/* ============= Sign in/out button ============= */}
