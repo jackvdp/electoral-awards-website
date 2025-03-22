@@ -17,8 +17,13 @@ const RegisterPage: NextPage = () => {
         if (isLoggedIn) {
             // Get the referrer from query parameter or default to account page
             const { redirect } = router.query;
-            const redirectPath = typeof redirect === 'string' ? redirect : '/account';
-            router.push(redirectPath);
+            // Only use redirect if it's defined and not the home page
+            if (typeof redirect === 'string' && redirect !== '/' && redirect !== '') {
+                router.push(redirect);
+            } else {
+                // Default to account page
+                router.push('/account');
+            }
         }
     }, [isLoggedIn, router.query]);
 
