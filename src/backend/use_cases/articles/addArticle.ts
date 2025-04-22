@@ -4,12 +4,14 @@ import { Error as MongooseError } from 'mongoose';
 
 async function addArticle(req: NextApiRequest, res: NextApiResponse) {
     try {
+        console.log(req.body)
         const newArticle = new Article(req.body);
         await newArticle.save();
 
         res.status(201).json({ message: 'Article added successfully' });
     } catch (error) {
         if (error instanceof MongooseError.ValidationError) {
+            console.log(error);
             res.status(400).json({ message: 'Validation failed', errors: error.errors });
         } else if (error instanceof Error) {
             res.status(500).json({ message: 'Failed to add article', error: error.message });

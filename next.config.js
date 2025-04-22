@@ -7,7 +7,7 @@ const nextConfig = {
             'electoralwebsite.s3.amazonaws.com',
             '4y9kpertpu07sqtv.public.blob.vercel-storage.com',
             't4.ftcdn.net',
-            'as2.ftcdn.net/'
+            'as2.ftcdn.net'
         ],
     }
 }

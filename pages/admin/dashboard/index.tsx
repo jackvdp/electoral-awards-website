@@ -1,16 +1,18 @@
 // pages/admin/index.tsx
-import {GetServerSideProps} from 'next';
+import { GetServerSideProps } from 'next';
 import React from 'react';
 import UsersTable from 'components/blocks/admin/UsersTable';
 import EventsTable from 'components/blocks/admin/EventsTable';
-import {createClient} from 'backend/supabase/server-props';
+import ArticlesTable from 'components/blocks/admin/ArticlesTable';
+import { createClient } from 'backend/supabase/server-props';
 import supabaseAdmin from "backend/supabase/admin";
-import {User} from '@supabase/supabase-js';
+import { User } from '@supabase/supabase-js';
 import AdminPage from "components/blocks/admin/reusables/AdminPage";
-import {MutableUserData} from "backend/models/user";
-import {IEvent} from "backend/models/event";
-import {IBooking} from "backend/models/booking";
-import {getMultipleEventBookings} from "backend/use_cases/bookings/getMultipleEventBookings";
+import { MutableUserData } from "backend/models/user";
+import { IEvent } from "backend/models/event";
+import { IArticle } from "backend/models/article";
+import { IBooking } from "backend/models/booking";
+import { getMultipleEventBookings } from "backend/use_cases/bookings/getMultipleEventBookings";
 import Head from "next/head";
 
 interface DashboardProps {
@@ -20,13 +22,23 @@ interface DashboardProps {
     page: number;
     perPage: number;
     events: IEvent[];
+    articles: IArticle[];
     bookingsByEvent: Record<string, IBooking[]>
     search?: string;
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
 }
 
-const Index: React.FC<DashboardProps> = ({tab, users, totalUsers, page, perPage, events, bookingsByEvent}) => {
+const Index: React.FC<DashboardProps> = ({
+                                             tab,
+                                             users,
+                                             totalUsers,
+                                             page,
+                                             perPage,
+                                             events,
+                                             articles,
+                                             bookingsByEvent
+                                         }) => {
     const renderContent = () => {
         switch (tab) {
             case 'users':
@@ -39,13 +51,7 @@ const Index: React.FC<DashboardProps> = ({tab, users, totalUsers, page, perPage,
                     title={tab === 'future-events' ? 'Upcoming Events' : 'Past Events'}
                 />
             case 'articles':
-                return (
-                    <div className="card">
-                        <div className="card-body">
-                            <h4 className="text-center">Articles section coming soon...</h4>
-                        </div>
-                    </div>
-                );
+                return <ArticlesTable articles={articles} />;
             default:
                 return null;
         }
@@ -160,6 +166,21 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         bookingsByEventRecord = bookingsByEvent
     }
 
+    let articles: IArticle[] = [];
+
+    if (currentTab === 'articles') {
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
+        const articlesResponse = await fetch(`${baseUrl}/api/articles`);
+        articles = await articlesResponse.json() as IArticle[];
+
+        // Sort articles by date (newest first)
+        articles = articles.sort((a, b) => {
+            const dateA = new Date(a.date).getTime();
+            const dateB = new Date(b.date).getTime();
+            return dateB - dateA;
+        });
+    }
+
     return {
         props: {
             tab: currentTab,
@@ -168,6 +189,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             page: currentPage,
             perPage,
             events,
+            articles,
             bookingsByEvent: JSON.parse(JSON.stringify(bookingsByEventRecord)),
             search: search || null,
             sortBy: currentSortBy,
