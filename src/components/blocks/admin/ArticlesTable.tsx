@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import DataTable from './reusables/DataTable';
 import { IArticle } from 'backend/models/article';
-import {deleteArticleAPI} from "backend/use_cases/articles/api/articlesAPI";
+import { deleteArticleAPI } from "backend/use_cases/articles/api/articlesAPI";
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import CreateArticleModal from "./articleModals/createArticleModal";
@@ -45,6 +45,7 @@ const ArticlesTable: React.FC<ArticlesTableProps> = ({ articles }) => {
                 article._id === updatedArticle._id ? updatedArticle : article
             )
         );
+        setSelectedArticle(null); // Clear the selected article
     };
 
     const renderRow = (article: IArticle) => (
@@ -63,6 +64,8 @@ const ArticlesTable: React.FC<ArticlesTableProps> = ({ articles }) => {
                 </Link>
                 <button
                     className="btn btn-sm btn-soft-primary rounded-pill me-1"
+                    data-bs-toggle="modal"
+                    data-bs-target={`#update-article-modal-${article._id}`}
                     onClick={() => openUpdateModal(article)}
                 >
                     Edit
@@ -90,6 +93,20 @@ const ArticlesTable: React.FC<ArticlesTableProps> = ({ articles }) => {
                 modalID="create-article-modal"
                 onCreated={handleArticleCreated}
             />
+        </>
+    );
+
+    return (
+        <>
+            <DataTable
+                headerTitle="Articles"
+                headerAction={headerAction}
+                headers={headers}
+                data={currentArticles}
+                renderRow={renderRow}
+            />
+
+            {/* Render update modal outside the DataTable component */}
             {selectedArticle && (
                 <UpdateArticleModal
                     modalID={`update-article-modal-${selectedArticle._id}`}
@@ -98,16 +115,6 @@ const ArticlesTable: React.FC<ArticlesTableProps> = ({ articles }) => {
                 />
             )}
         </>
-    );
-
-    return (
-        <DataTable
-            headerTitle="Articles"
-            headerAction={headerAction}
-            headers={headers}
-            data={currentArticles}
-            renderRow={renderRow}
-        />
     );
 };
 

@@ -48,7 +48,7 @@ const CreateArticleModal: React.FC<CreateArticleModalProps> = ({ modalID, onCrea
                 category: values.category,
                 link: generateSlug(values.title),
                 image: values.image,
-                date: values.date || new Date().toISOString().split('T')[0],
+                date: new Date().toISOString(), // Use proper ISO format
             };
 
             console.log("Submitting article data:", articleData);
@@ -86,14 +86,6 @@ const CreateArticleModal: React.FC<CreateArticleModalProps> = ({ modalID, onCrea
             type: 'input',
             name: 'image',
             defaultValue: '',
-            required: true
-        },
-        {
-            title: 'Date',
-            placeholder: 'YYYY-MM-DD',
-            type: 'date',
-            name: 'date',
-            defaultValue: new Date().toISOString().split('T')[0],
             required: true
         },
         {

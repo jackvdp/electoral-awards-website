@@ -1,3 +1,4 @@
+// backend/use_cases/articles/api/articlesAPI.ts
 import { IArticle } from "backend/models/article";
 
 /**
@@ -38,27 +39,6 @@ export async function getArticleByIdAPI(id: string): Promise<IArticle> {
     if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to fetch article');
-    }
-
-    return await response.json();
-}
-
-/**
- * Client-side function to fetch article previews
- * @returns A promise that resolves to an array of IArticle objects with preview data
- */
-export async function getArticlePreviewsAPI(): Promise<IArticle[]> {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
-    const response = await fetch(`${baseUrl}/api/articles/preview`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to fetch article previews');
     }
 
     return await response.json();
