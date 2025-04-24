@@ -4,6 +4,7 @@ import { createArticleAPI } from "backend/use_cases/articles/api/articlesAPI";
 import { IArticle } from 'backend/models/article';
 import ReusableForm, { InputItem } from 'components/reuseable/Form';
 import RichTextEditor from './RichTextEditor';
+import {IEvent} from "../../../../backend/models/event";
 
 interface CreateArticleModalProps {
     modalID: string;
@@ -53,8 +54,8 @@ const CreateArticleModal: React.FC<CreateArticleModalProps> = ({ modalID, onCrea
 
             console.log("Submitting article data:", articleData);
 
-            // Create article
-            await createArticleAPI(articleData);
+
+            await createArticleAPI(articleData as IArticle);
         } catch (error) {
             console.error('Error creating article:', error);
             setErrorMessage(error instanceof Error ? error.message : 'Failed to create article');

@@ -49,7 +49,7 @@ export async function getArticleByIdAPI(id: string): Promise<IArticle> {
  * @param article The article data to create
  * @returns A promise that resolves to the success message
  */
-export async function createArticleAPI(article: Omit<IArticle, '_id'>): Promise<{ message: string }> {
+export async function createArticleAPI(article: IArticle): Promise<{ message: string }> {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
     const response = await fetch(`${baseUrl}/api/articles`, {
         method: 'POST',

@@ -155,8 +155,6 @@ const UpdateArticleModal: React.FC<UpdateArticleModalProps> = ({ modalID, articl
                                 submitButtonTitle=""
                                 onSubmit={() => {}}
                                 disableSubmitInitially={false}
-                                isSubmitting={isSubmitting}
-                                noSubmitButton={true}
                             />
 
                             <div className="mb-3">
