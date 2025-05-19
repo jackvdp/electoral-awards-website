@@ -7,11 +7,11 @@ import PageProgress from 'components/common/PageProgress';
 import CustomHead from "components/common/CustomHead";
 import {Day} from "data/schedule";
 
-const Schedule= ({ schedule }: { schedule: Day[]}) => {
+const Schedule= ({ schedule, headTitle, dates  }: { schedule: Day[], headTitle: string, dates: string}) => {
     return (
         <Fragment>
             <CustomHead
-                title="Schedule – 20th International Electoral Awards"
+                title={headTitle}
                 description="Celebrating excellence in electoral management. Recognizing outstanding contributions and innovations in election administration and democratic processes."
             />
             <PageProgress/>
@@ -22,7 +22,7 @@ const Schedule= ({ schedule }: { schedule: Day[]}) => {
 
             <main className="content-wrapper">
                 <section className="container wrapper bg-light px-2 py-md-10 py-5 ">
-                    <h2 className="mb-5 text-center">Sunday, 15th – Wednesday, 18th December 2024</h2>
+                    <h2 className="mb-5 text-center">{dates}</h2>
                     <TabBarAndContent items={
                         schedule.map(day => ({
                             title: day.title.split(':')[0],

@@ -5,7 +5,11 @@ import Schedule from "components/pages/schedule";
 
 const Programme: NextPage = () => {
     return (
-        <Schedule schedule={schedule}/>
+        <Schedule
+            schedule={schedule}
+            headTitle={"Schedule – 20th International Electoral Awards"}
+            dates={"Sunday, 15th – Wednesday, 18th December 2024"}
+        />
     );
 };
 
