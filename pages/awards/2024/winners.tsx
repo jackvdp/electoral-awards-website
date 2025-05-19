@@ -1,13 +1,12 @@
 import {NextPage} from 'next';
 import {Fragment} from 'react';
-// -------- custom component -------- //
 import {Navbar} from 'components/blocks/navbar';
 import {Footer} from 'components/blocks/footer';
 import {awards} from 'data/winners24';
 import SimpleBanner from 'components/blocks/banner/SimpleBanner';
 import WinnerCard from 'components/elements/winners/WinnerCard';
 import PageProgress from 'components/common/PageProgress';
-import CustomHead from "../../src/components/common/CustomHead";
+import CustomHead from "components/common/CustomHead";
 
 const Winners: NextPage = () => {
     return (

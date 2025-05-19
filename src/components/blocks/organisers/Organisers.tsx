@@ -1,9 +1,12 @@
-import { FC } from 'react';
 import TeamCard from './OrganiserCard';
-// -------- data -------- //
-import organisers from 'data/organisers';
 
-const Team: FC = () => {
+const Team = ({ organisers } : {organisers: {
+    id: number
+    name: string
+    image: string
+    designation: string
+    description: string
+  }[] }) => {
   return (
     <section
       className="mb-14"

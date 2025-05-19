@@ -1,8 +1,8 @@
 import {Fragment} from "react";
-import PageProgress from "../../src/components/common/PageProgress";
-import {Navbar} from "../../src/components/blocks/navbar";
-import SimpleBanner from "../../src/components/blocks/banner/SimpleBanner";
-import {Footer} from "../../src/components/blocks/footer";
+import PageProgress from "components/common/PageProgress";
+import {Navbar} from "components/blocks/navbar";
+import SimpleBanner from "components/blocks/banner/SimpleBanner";
+import {Footer} from "components/blocks/footer";
 import Image from 'next/image';
 
 export default function VisaRequirementsPage() {

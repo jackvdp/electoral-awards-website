@@ -1,4 +1,4 @@
-const organisers = [
+const organisers25 = [
   {
     id: 1,
     name: 'International Centre of Parliamentary Stduies',
@@ -8,11 +8,11 @@ const organisers = [
   },
   {
     id: 2,
-    name: 'Junta Central Electoral de la República Dominicanas',
-    image: '/img/logos/jce.png',
-    designation: 'Santo Domingo, Dominican Republic',
-    description: `The Junta Central Electoral serves as the co-host and local partner of theis year's International Electoral Awards. The Commission plays a pivotal role in the facilitation of the event, from logistical arrangements to offering local and expert insights.`
+    name: 'Independent Electoral Commission of Botswana (IEC)',
+    image: '/img/logos/iec-botswana.png',
+    designation: 'Gaborone, Botswana',
+    description: `The Independent Electoral Commission (IEC) of Botswana serves as the co-host and local partner of the 21st International Electoral Awards. Established in 1997 to enhance transparency and fairness in the electoral process, the IEC is responsible for conducting and supervising elections and referenda in Botswana. The Commission comprises seven members, including a High Court judge as Chairperson, and is guided by a mission to deliver impartial and innovative electoral services that foster democratic participation. With a vision to be a renowned provider of credible elections, the IEC plays a critical role in promoting electoral integrity and citizen engagement across the country.`
   }
 ];
 
-export default organisers;
+export default organisers25;

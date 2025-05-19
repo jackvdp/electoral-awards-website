@@ -4,7 +4,7 @@ import {Fragment} from 'react';
 import {Navbar} from 'components/blocks/navbar';
 import {Footer} from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
-import CustomHead from "../../src/components/common/CustomHead";
+import CustomHead from "components/common/CustomHead";
 
 const LocationPage: NextPage = () => {
     return (

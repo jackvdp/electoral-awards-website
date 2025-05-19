@@ -6,7 +6,7 @@ import {Footer} from 'components/blocks/footer';
 import SimpleBanner from 'components/blocks/banner/SimpleBanner';
 import Judges from 'components/blocks/judges/Judges2023';
 import PageProgress from 'components/common/PageProgress';
-import CustomHead from "../../src/components/common/CustomHead";
+import CustomHead from "components/common/CustomHead";
 
 const JudgesPage: NextPage = () => {
     return (
