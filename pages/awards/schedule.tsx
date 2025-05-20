@@ -8,7 +8,7 @@ const Programme: NextPage = () => {
         <Schedule
             schedule={schedule}
             headTitle={"Schedule – 21st International Electoral Awards"}
-            dates={"Monday, 1st – Thursday, 4th October 2025"}
+            dates={"Wednesday, 1st – Saturday, 4th October 2025"}
         />
     );
 };
