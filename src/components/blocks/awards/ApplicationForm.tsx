@@ -602,6 +602,9 @@ const ApplicationForm: React.FC = () => {
                         For a comprehensive description of all award categories, please <Link href="/awards/categories">click
                         here</Link>.
                     </b>
+                    <p>
+                        If you prefer to complete the application offline, you can download the <Link href="/files/submission-form.docx" target="_blank">Word version of the application form</Link>.
+                    </p>
                 </div>
             </div>
             <div className="card p-md-10 p-5" ref={cardRef}>
