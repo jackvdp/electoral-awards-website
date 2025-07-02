@@ -1,6 +1,6 @@
-import React, {useState, ChangeEvent, FormEvent, useRef, useEffect} from 'react';
+import React, { useState, ChangeEvent, FormEvent, useRef, useEffect } from 'react';
 import useProgressbar from 'hooks/useProgressbar';
-import {AwardCategory, categories} from 'data/award-categories';
+import { AwardCategory, categories } from 'data/award-categories';
 import Link from 'next/link';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
@@ -30,10 +30,41 @@ interface FormErrors {
     [key: string]: string;
 }
 
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const ALLOWED_FILE_TYPES = [
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'image/jpeg',
+    'image/png'
+];
+
+// Centralized error alert component
+const ErrorAlert: React.FC<{ errors: string | string[] }> = ({ errors }) => {
+    const errorList = Array.isArray(errors) ? errors : [errors];
+    return (
+        <div className="alert alert-danger alert-dismissible fade show" role="alert">
+            <h5 className="alert-heading">
+                <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                Please correct the following:
+            </h5>
+            <ul className="mb-0">
+                {errorList.map((error, idx) => (
+                    <li key={idx}>{error}</li>
+                ))}
+            </ul>
+        </div>
+    );
+};
+
 const ApplicationForm: React.FC = () => {
     const [step, setStep] = useState<number>(1);
-    const steps: number = 5;
+    const steps = 5;
     const cardRef = useRef<HTMLDivElement>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [lastSaved, setLastSaved] = useState<Date | null>(null);
+
+
     const [formData, setFormData] = useState<FormData>({
         nominatorName: '',
         nominatorOrganization: '',
@@ -55,26 +86,224 @@ const ApplicationForm: React.FC = () => {
         referencePhone: '',
         additionalDocuments: [],
     });
+
     const [errors, setErrors] = useState<FormErrors>({});
-    const [isCurrentStepComplete, setIsCurrentStepComplete] = useState(false);
     const [attemptedNext, setAttemptedNext] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const [progress, setProgress] = useState(0);
-    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
+
     useProgressbar(submitSuccess ? 100 : progress);
+
+    // Show specific field errors
+    const getFieldError = (fieldName: string) => {
+        return errors[fieldName] && attemptedNext ? (
+            <div className="invalid-feedback d-block">
+                {errors[fieldName]}
+            </div>
+        ) : null;
+    };
 
     const scrollToTop = () => {
         if (cardRef.current) {
-            cardRef.current.scrollIntoView({behavior: 'smooth'});
+            cardRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     };
 
+    const validateEmail = (email: string): boolean => {
+        const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return re.test(email);
+    };
+
+    const validatePhone = (phone: string): boolean => {
+        return /^\+?\d+$/.test(phone);
+    };
+
+    const isNonEmptyString = (value: string): boolean => {
+        return value.trim().length > 0;
+    };
+
+    // Check overall submission readiness
+    useEffect(() => {
+        const complete =
+            isNonEmptyString(formData.nominatorName) &&
+            isNonEmptyString(formData.nominatorOrganization) &&
+            isNonEmptyString(formData.nominatorPosition) &&
+            validateEmail(formData.email) &&
+            validatePhone(formData.nominatorPhone) &&
+            isNonEmptyString(formData.nomineeName) &&
+            validateEmail(formData.nomineeEmail) &&
+            validatePhone(formData.nomineePhone) &&
+            isNonEmptyString(formData.awardCategory) &&
+            isNonEmptyString(formData.initiativeDescription) &&
+            isNonEmptyString(formData.supportingEvidence);
+        setIsReadyToSubmit(complete && step === steps);
+    }, [formData, step]);
+
+    // Update progress bar
+    useEffect(() => {
+        setProgress(((step - 1) / steps) * 100);
+    }, [step]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            localStorage.setItem(
+                'awardFormDraft',
+                JSON.stringify({ formData, currentStep: step, savedAt: new Date().toISOString() })
+            );
+            setLastSaved(new Date());
+        }, 1000);
+        return () => clearTimeout(timer);
+    }, [formData, step]);
+
+    // Load draft on mount
+    useEffect(() => {
+        const draft = localStorage.getItem('awardFormDraft');
+        if (!draft) return;             // nothing to restore
+
+        try {
+            const { formData: savedData, currentStep, savedAt } = JSON.parse(draft);
+            // check that at least one field has non-empty content
+            const hasData = Object.entries(savedData).some(([k, v]) =>
+                k === 'additionalDocuments'
+                    ? Array.isArray(v) && v.length > 0
+                    : typeof v === 'string' && v.trim() !== ''
+            );
+            const ageHrs = (Date.now() - new Date(savedAt).getTime()) / (1000 * 60 * 60);
+
+            if (hasData && ageHrs < 24 && window.confirm('Restore your previous draft?')) {
+                setFormData({ ...savedData, additionalDocuments: [] });
+                setStep(currentStep);
+            }
+        } catch {
+            console.error('Error loading draft');
+        }
+    }, []);
+
+
+    // Real-time validation on input change
+    const handleInputChange = (
+        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    ) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+        setErrors(prev => ({ ...prev, [name]: '' }));
+
+        // Real-time email validation
+        if (['email', 'nomineeEmail', 'referenceEmail'].includes(name)) {
+            if (value && !validateEmail(value)) {
+                setErrors(prev => ({ ...prev, [name]: 'Invalid email format' }));
+            }
+        }
+        // Real-time phone validation
+        if (['nominatorPhone', 'nomineePhone', 'referencePhone'].includes(name)) {
+            if (value && !validatePhone(value)) {
+                setErrors(prev => ({ ...prev, [name]: 'Invalid phone format (e.g., +1234567890)' }));
+            }
+        }
+    };
+
+    // File upload with size/type checks
+    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files?.length) {
+            const newFiles = Array.from(e.target.files);
+            const valid: File[] = [];
+            const fileErrors: string[] = [];
+
+            newFiles.forEach(file => {
+                if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+                    fileErrors.push(`${file.name}: Invalid file type. Allowed: PDF, DOC, DOCX, JPG, PNG`);
+                } else if (file.size > MAX_FILE_SIZE) {
+                    fileErrors.push(`${file.name}: File too large. Max size: 10MB`);
+                } else {
+                    valid.push(file);
+                }
+            });
+
+            if (fileErrors.length) {
+                setErrors(prev => ({ ...prev, fileUpload: fileErrors.join('\n') }));
+            } else {
+                setErrors(prev => ({ ...prev, fileUpload: '' }));
+                setFormData(prev => ({
+                    ...prev,
+                    additionalDocuments: [...prev.additionalDocuments, ...valid],
+                }));
+            }
+        }
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    };
+
+    const handleFileDelete = (idx: number) => {
+        setFormData(prev => ({
+            ...prev,
+            additionalDocuments: prev.additionalDocuments.filter((_, i) => i !== idx),
+        }));
+        if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+
+    // Summary of missing fields per step
+    const getStepValidationSummary = (currentStep: number): string[] => {
+        const missing: string[] = [];
+        if (currentStep === 1) {
+            if (!formData.nominatorName) missing.push('Nominator name');
+            if (!formData.nominatorOrganization) missing.push('Organization');
+            if (!formData.nominatorPosition) missing.push('Position');
+            if (!formData.email) missing.push('Email');
+            if (!formData.nominatorPhone) missing.push('Phone');
+        }
+        if (currentStep === 2) {
+            if (!formData.nomineeName) missing.push('Nominee name');
+            if (!formData.nomineeEmail) missing.push('Email');
+            if (!formData.nomineePhone) missing.push('Phone');
+        }
+        if (currentStep === 3) {
+            if (!formData.awardCategory) missing.push('Category');
+            if (!formData.initiativeDescription) missing.push('Initiative description');
+            if (!formData.supportingEvidence) missing.push('Supporting evidence');
+        }
+        return missing;
+    };
+
+    // Validate one step
+    const validateStep = (currentStep: number): boolean => {
+        const newErrors: FormErrors = {};
+        switch (currentStep) {
+            case 1:
+                if (!formData.nominatorName) newErrors.nominatorName = 'Required';
+                if (!formData.nominatorOrganization) newErrors.nominatorOrganization = 'Required';
+                if (!formData.nominatorPosition) newErrors.nominatorPosition = 'Required';
+                if (!formData.email) newErrors.email = 'Required';
+                else if (!validateEmail(formData.email)) newErrors.email = 'Invalid email';
+                if (!formData.nominatorPhone) newErrors.nominatorPhone = 'Required';
+                else if (!validatePhone(formData.nominatorPhone)) newErrors.nominatorPhone = 'Invalid phone';
+                break;
+            case 2:
+                if (!formData.nomineeName) newErrors.nomineeName = 'Required';
+                if (!formData.nomineeEmail) newErrors.nomineeEmail = 'Required';
+                else if (!validateEmail(formData.nomineeEmail)) newErrors.nomineeEmail = 'Invalid email';
+                if (!formData.nomineePhone) newErrors.nomineePhone = 'Required';
+                else if (!validatePhone(formData.nomineePhone)) newErrors.nomineePhone = 'Invalid phone';
+                break;
+            case 3:
+                if (!formData.awardCategory) newErrors.awardCategory = 'Required';
+                if (!formData.initiativeDescription) newErrors.initiativeDescription = 'Required';
+                if (!formData.supportingEvidence) newErrors.supportingEvidence = 'Required';
+                break;
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const nextStep = () => {
-        if (isCurrentStepComplete) {
+        setAttemptedNext(true);
+        if (validateStep(step)) {
             setStep(prev => Math.min(prev + 1, steps));
             scrollToTop();
+            setAttemptedNext(false);
         }
     };
 
@@ -83,133 +312,81 @@ const ApplicationForm: React.FC = () => {
         scrollToTop();
     };
 
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const {name, value} = e.target;
-        setFormData({...formData, [name]: value});
-        setErrors(prevErrors => ({...prevErrors, [name]: ''}));
-        if (attemptedNext) {
-            validateStep(step);
+    // Submission with retry & timeout
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>, retryCount = 0) => {
+        e.preventDefault();
+        if (!isReadyToSubmit) {
+            setSubmitError('Please complete all required fields before submitting.');
+            return;
         }
-    };
+        setIsSubmitting(true);
+        setSubmitError(null);
+        setSubmitSuccess(false);
 
-    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length > 0) {
-            const newFiles = Array.from(e.target.files as FileList);
-            setFormData(prevData => ({
-                ...prevData,
-                additionalDocuments: [...prevData.additionalDocuments, ...newFiles]
-            }));
+        try {
+            const dataToSend = new FormData();
+            Object.entries(formData).forEach(([key, val]) => {
+                if (key === 'additionalDocuments') {
+                    formData.additionalDocuments.forEach((file, i) => {
+                        dataToSend.append(`document_${i}`, file, file.name);
+                    });
+                } else {
+                    dataToSend.append(key, val as string);
+                }
+            });
+
+            const response = await fetch('https://formspree.io/f/mqazqnnd', {
+                method: 'POST',
+                body: dataToSend,
+                headers: { Accept: 'application/json' },
+            });
+
+            if (!response.ok) {
+                if (response.status >= 500 && retryCount < 2) {
+                    setTimeout(() => handleSubmit(e, retryCount + 1), 2000);
+                    return;
+                }
+                const errData = await response.json();
+                throw new Error(errData.message || `Server error: ${response.status}`);
+            }
+
+            setSubmitSuccess(true);
+            setFormData({
+                nominatorName: '',
+                nominatorOrganization: '',
+                nominatorPosition: '',
+                email: '',
+                nominatorPhone: '',
+                nomineeName: '',
+                nomineePosition: '',
+                nomineeOrganization: '',
+                nomineeEmail: '',
+                nomineePhone: '',
+                awardCategory: '',
+                initiativeDescription: '',
+                supportingEvidence: '',
+                referenceName: '',
+                referencePosition: '',
+                referenceOrganization: '',
+                referenceEmail: '',
+                referencePhone: '',
+                additionalDocuments: [],
+            });
+            setStep(1);
+        } catch (err: unknown) {
+            let msg = 'An unknown error occurred';
+            if (err instanceof DOMException && err.name === 'AbortError') {
+                msg = 'Request timed out. Please try again.';
+            } else if (err instanceof TypeError) {
+                msg = 'Network error. Check your connection.';
+            } else if (err instanceof Error) {
+                msg = err.message;
+            }
+            setSubmitError(msg);
+            console.error(err);
+        } finally {
+            setIsSubmitting(false);
         }
-        if (fileInputRef.current) {
-            fileInputRef.current.value = '';
-        }
-    };
-
-    const handleFileDelete = (index: number) => {
-        setFormData(prevData => ({
-            ...prevData,
-            additionalDocuments: prevData.additionalDocuments.filter((_, i) => i !== index)
-        }));
-
-        // Clear the file input
-        if (fileInputRef.current) {
-            fileInputRef.current.value = '';
-        }
-    };
-
-    const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
-
-    const isNonEmptyString = (value: string | null): boolean => {
-        return typeof value === 'string' && value.trim().length > 0;
-    };
-
-    // Add this useEffect hook to check form completeness
-    useEffect(() => {
-        const isFormComplete: boolean =
-            isNonEmptyString(formData.nominatorName) &&
-            isNonEmptyString(formData.nominatorOrganization) &&
-            isNonEmptyString(formData.nominatorPosition) &&
-            isNonEmptyString(formData.email) &&
-            isNonEmptyString(formData.nominatorPhone) &&
-            isNonEmptyString(formData.nomineeName) &&
-            isNonEmptyString(formData.nomineeEmail) &&
-            isNonEmptyString(formData.nomineePhone) &&
-            isNonEmptyString(formData.awardCategory) &&
-            isNonEmptyString(formData.initiativeDescription) &&
-            isNonEmptyString(formData.supportingEvidence);
-
-        setIsReadyToSubmit(isFormComplete && step === steps);
-    }, [formData, step, steps]);
-
-    useEffect(() => {
-        const newProgress = ((step - 1) / (steps)) * 100;
-        setProgress(newProgress);
-    }, [step, steps]);
-
-    useEffect(() => {
-        setIsCurrentStepComplete(isStepComplete(step));
-    }, [formData, step]);
-
-    const validateEmail = (email: string): boolean => {
-        const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return re.test(email);
-    };
-
-    const validatePhone = (phone: string): boolean => {
-        const re = /^\+?[1-9]\d{1,14}$/;
-        return re.test(phone);
-    };
-
-    const isStepComplete = (currentStep: number): boolean => {
-        switch (currentStep) {
-            case 1:
-                return !!formData.nominatorName && !!formData.nominatorOrganization &&
-                    !!formData.nominatorPosition && !!formData.email &&
-                    !!formData.nominatorPhone;
-            case 2:
-                return !!formData.nomineeName && !!formData.nomineeEmail &&
-                    !!formData.nomineePhone;
-            case 3:
-                return !!formData.awardCategory && !!formData.initiativeDescription &&
-                    !!formData.supportingEvidence;
-            case 4:
-            case 5:
-                return true; // These steps are optional
-            default:
-                return false;
-        }
-    };
-
-    const validateStep = (currentStep: number): boolean => {
-        const newErrors: { [key: string]: string } = {};
-
-        switch (currentStep) {
-            case 1:
-                if (!formData.nominatorName) newErrors.nominatorName = "Nominator name is required";
-                if (!formData.nominatorOrganization) newErrors.nominatorOrganization = "Organization is required";
-                if (!formData.nominatorPosition) newErrors.nominatorPosition = "Position is required";
-                if (!formData.email) newErrors.email = "Email is required";
-                else if (!validateEmail(formData.email)) newErrors.email = "Invalid email format";
-                if (!formData.nominatorPhone) newErrors.nominatorPhone = "Phone number is required";
-                else if (!validatePhone(formData.nominatorPhone)) newErrors.nominatorPhone = "Invalid phone number format";
-                break;
-            case 2:
-                if (!formData.nomineeName) newErrors.nomineeName = "Nominee name is required";
-                if (!formData.nomineeEmail) newErrors.nomineeEmail = "Email is required";
-                else if (!validateEmail(formData.nomineeEmail)) newErrors.nomineeEmail = "Invalid email format";
-                if (!formData.nomineePhone) newErrors.nomineePhone = "Phone number is required";
-                else if (!validatePhone(formData.nomineePhone)) newErrors.nomineePhone = "Invalid phone number format";
-                break;
-            case 3:
-                if (!formData.awardCategory) newErrors.awardCategory = "Award category is required";
-                if (!formData.initiativeDescription) newErrors.initiativeDescription = "Initiative description is required";
-                if (!formData.supportingEvidence) newErrors.supportingEvidence = "Supporting evidence is required";
-                break;
-            // Cases 4 and 5 are optional, so no validation needed
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
     };
 
     const renderStep = () => {
@@ -224,62 +401,61 @@ const ApplicationForm: React.FC = () => {
                             <label htmlFor="nominatorName" className="form-label">Full Name</label>
                             <input
                                 type="text"
-                                className="form-control"
+                                className={`form-control ${errors.nominatorName && attemptedNext ? 'is-invalid' : ''}`}
                                 id="nominatorName"
                                 name="nominatorName"
                                 value={formData.nominatorName}
                                 onChange={handleInputChange}
-                                required
                             />
+                            {getFieldError('nominatorName')}
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="nominatorOrganization"
-                                   className="form-label">Organization/Institution</label>
+                            <label htmlFor="nominatorOrganization" className="form-label">Organization/Institution</label>
                             <input
                                 type="text"
-                                className="form-control"
+                                className={`form-control ${errors.nominatorOrganization && attemptedNext ? 'is-invalid' : ''}`}
                                 id="nominatorOrganization"
                                 name="nominatorOrganization"
                                 value={formData.nominatorOrganization}
                                 onChange={handleInputChange}
-                                required
                             />
+                            {getFieldError('nominatorOrganization')}
                         </div>
                         <div className="mb-3">
                             <label htmlFor="nominatorPosition" className="form-label">Position/Title</label>
                             <input
                                 type="text"
-                                className="form-control"
+                                className={`form-control ${errors.nominatorPosition && attemptedNext ? 'is-invalid' : ''}`}
                                 id="nominatorPosition"
                                 name="nominatorPosition"
                                 value={formData.nominatorPosition}
                                 onChange={handleInputChange}
-                                required
                             />
+                            {getFieldError('nominatorPosition')}
                         </div>
                         <div className="mb-3">
                             <label htmlFor="email" className="form-label">Email Address</label>
                             <input
                                 type="email"
-                                className="form-control"
+                                className={`form-control ${errors.email && attemptedNext ? 'is-invalid' : ''}`}
                                 id="email"
                                 name="email"
                                 value={formData.email}
                                 onChange={handleInputChange}
-                                required
                             />
+                            {getFieldError('email')}
                         </div>
                         <div className="mb-3">
                             <label htmlFor="nominatorPhone" className="form-label">Phone Number</label>
                             <input
                                 type="tel"
-                                className="form-control"
+                                className={`form-control ${errors.nominatorPhone && attemptedNext ? 'is-invalid' : ''}`}
                                 id="nominatorPhone"
                                 name="nominatorPhone"
                                 value={formData.nominatorPhone}
                                 onChange={handleInputChange}
-                                required
                             />
+                            {getFieldError('nominatorPhone')}
                         </div>
                     </>
                 );
@@ -505,92 +681,11 @@ const ApplicationForm: React.FC = () => {
         }
     };
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (!isReadyToSubmit) {
-            setSubmitError('Please fill out all required fields before submitting.');
-            return;
-        }
-        setIsSubmitting(true);
-        setSubmitError(null);
-        setSubmitSuccess(false);
-
-        try {
-            const formDataToSend = new FormData();
-            Object.entries(formData).forEach(([key, value]) => {
-                if (key === 'additionalDocuments') {
-                    value.forEach((file: File, index: number) => {
-                        formDataToSend.append(`additionalDocument_${index}`, file, file.name);
-                    });
-                } else if (typeof value === 'string') {
-                    formDataToSend.append(key, value);
-                }
-            });
-
-            const response = await fetch(
-                "https://formspree.io/f/mqazqnnd",
-                {
-                    method: "POST",
-                    body: formDataToSend,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                }
-            );
-
-            const data = await response.json();
-
-            if (response.ok) {
-                setSubmitSuccess(true);
-                // Reset form data...
-                setFormData({
-                    nominatorName: '',
-                    nominatorOrganization: '',
-                    nominatorPosition: '',
-                    email: '',
-                    nominatorPhone: '',
-                    nomineeName: '',
-                    nomineePosition: '',
-                    nomineeOrganization: '',
-                    nomineeEmail: '',
-                    nomineePhone: '',
-                    awardCategory: '',
-                    initiativeDescription: '',
-                    supportingEvidence: '',
-                    referenceName: '',
-                    referencePosition: '',
-                    referenceOrganization: '',
-                    referenceEmail: '',
-                    referencePhone: '',
-                    additionalDocuments: [],
-                });
-                setStep(1);
-            } else {
-                if (data.errors) {
-                    const errorMessages = data.errors.map((error: any) => `${error.field} - ${error.message}`).join(', ');
-                    console.log('Validation errors:', errorMessages);
-                    throw new Error(`Validation errors: ${errorMessages}`);
-                } else {
-                    throw new Error('Form submission failed');
-                }
-            }
-        } catch (error: unknown) {
-            let errorMessage = 'An unknown error occurred';
-            if (error instanceof Error) {
-                errorMessage = error.message;
-            }
-            setSubmitError(`There was an error submitting the form: ${errorMessage}`);
-            console.error('Form submission error:', error);
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
     return (
-        <div className='col-md-12'>
-            <div className="mb-5 pb-6 pb-md-12 text-center">
-                <div className="card p-md-10 p-5">
-                    <h3 className='display-4'>Submit Nomination</h3>
+        <div className="col-md-12">
+            <div className="mb-5 text-center">
+                <div className="card p-5">
+                    <h3 className="display-4">Submit Nomination</h3>
                     <p>
                         We invite electoral practitioners, academics, researchers, and innovators from across the global
                         electoral community to submit nominations for the International Electoral Awards. These
@@ -603,59 +698,42 @@ const ApplicationForm: React.FC = () => {
                     <p>
                         If you prefer to complete the application offline, you can download the <Link href="/files/submission-form.docx" target="_blank">Word version of the application form</Link>.
                     </p>
+
                 </div>
             </div>
-            <div className="card p-md-10 p-5" ref={cardRef}>
-                <div className="col-md-6">
-                    <ul className="progress-list">
-                        <li>
-                            <p>{submitSuccess ? "" : `Section ${step} out of ${steps}`}</p>
-                            <div
-                                className="progressbar line blue"
-                                data-value={submitSuccess ? "100" : progress.toString()}
-                            />
-                        </li>
-                    </ul>
-                </div>
+            <div className="card p-5" ref={cardRef}>
                 {submitSuccess ? (
                     <div className="alert alert-success" role="alert">
                         Thank you for your submission! We have received your application.
                     </div>
                 ) : (
-                    <form className="mt-3" onSubmit={handleSubmit}>
+                    <form onSubmit={e => handleSubmit(e)}>
                         {renderStep()}
-                        {submitError && (
-                            <div className="alert alert-danger" role="alert">
-                                {submitError}
+                        {errors.fileUpload && <ErrorAlert errors={errors.fileUpload} />}
+                        {submitError && <ErrorAlert errors={submitError} />}
+                        {lastSaved && (
+                            <div className="text-muted small mb-2">
+                                Last saved at {lastSaved.toLocaleTimeString()}
                             </div>
                         )}
-                        <div className="mt-10">
-                            {step > 1 && (
-                                <button type="button" className="btn btn-secondary me-2" onClick={prevStep}
-                                        disabled={isSubmitting}>
-                                    Previous
-                                </button>
-                            )}
+
+                        {!isNonEmptyString(submitSuccess.toString()) && (
+                            <div className="text-secondary mt-2">Section {step} of {steps}</div>
+                        )}
+                        {!isReadyToSubmit && attemptedNext && (
+                            <div className="text-danger mt-2">
+                                <small>Missing required fields: {getStepValidationSummary(step).join(', ')}</small>
+                            </div>
+                        )}
+                        <div className="mt-4">
+                            {step > 1 && <button type="button" className="btn btn-secondary me-2" onClick={prevStep} disabled={isSubmitting}>Previous</button>}
                             {step < steps ? (
-                                <button
-                                    type="button"
-                                    className="btn btn-primary"
-                                    onClick={nextStep}
-                                    disabled={isSubmitting || !isCurrentStepComplete}
-                                >
-                                    Next
-                                </button>
+                                <button type="button" className="btn btn-primary" onClick={nextStep} disabled={isSubmitting}>Next</button>
                             ) : (
-                                <button
-                                    type="submit"
-                                    className="btn btn-success"
-                                    disabled={isSubmitting || !isReadyToSubmit}
-                                >
+                                <button type="submit" className="btn btn-success" disabled={isSubmitting || !isReadyToSubmit}>
                                     {isSubmitting ? 'Submitting...' : 'Submit Application'}
                                 </button>
                             )}
-                            {
-                                <p className="text-secondary mt-2">{isCurrentStepComplete ? "" : "*Please fill out all required fields"}</p>}
                         </div>
                     </form>
                 )}
