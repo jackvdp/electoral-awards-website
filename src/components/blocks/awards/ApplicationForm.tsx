@@ -381,7 +381,6 @@ const ApplicationForm: React.FC = () => {
                                 value={formData.initiativeDescription}
                                 onChange={handleInputChange}
                                 required
-                                maxLength={200}
                             ></textarea>
                         </div>
                         <div className="mb-3">
@@ -395,7 +394,6 @@ const ApplicationForm: React.FC = () => {
                                 value={formData.supportingEvidence}
                                 onChange={handleInputChange}
                                 required
-                                maxLength={1000}
                             ></textarea>
                         </div>
                     </>
