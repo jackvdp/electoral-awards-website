@@ -232,7 +232,9 @@ const validateEmail = (email: string): boolean => {
 };
 
 const validatePhone = (phone: string): boolean => {
-    return phone.startsWith("+") && phone.length > 7 && /^\+[0-9]+$/.test(phone);
+    // Remove spaces and check if it contains only numbers, plus sign, and spaces
+    const cleanPhone = phone.replace(/\s/g, ''); // Remove all spaces
+    return cleanPhone.length > 7 && /^[\+0-9]+$/.test(cleanPhone);
 };
 
 const validateCountry = (country: string): boolean => {
