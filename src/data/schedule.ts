@@ -10,14 +10,14 @@ export type Day = {
 
 export const schedule: Day[] = [
     {
-        title: "Monday: Arrival of Delegates & Welcome Dinner",
+        title: "Wednesday: Arrival of Delegates & Welcome Dinner",
         events: [
             { time: "All day", description: "<p>Arrival & Registration</p>" },
             { time: "18:00", description: "<p>Welcome Drinks / Informal Networking Reception</p>" }
         ]
     },
     {
-        title: "Tuesday: Symposium – Botswana’s 2024 Elections & Inclusive Participation",
+        title: "Thursday: Symposium – Botswana’s 2024 Elections & Inclusive Participation",
         events: [
             { time: "09:00", description: "<p>Symposium Registration</p>" },
             { time: "09:30", description: "<p>Opening & Welcoming Address</p><ul><li>President of the Republic of Botswana</li><li>Chair, Independent Electoral Commission of Botswana</li><li>CEO, International Centre for Parliamentary Studies (ICPS)</li></ul>" },
@@ -36,7 +36,7 @@ export const schedule: Day[] = [
         ]
     },
     {
-        title: "Wednesday: Symposium – Disinformation & Misinformation in Elections",
+        title: "Friday: Symposium – Disinformation & Misinformation in Elections",
         events: [
             { time: "09:30", description: "<p>Symposium Opening</p>" },
             { time: "09:45 – 10:15", description: "<p><strong>Keynote:</strong> Election Truth in the Age of AI‑Generated Content</p>" },
@@ -52,7 +52,7 @@ export const schedule: Day[] = [
         ]
     },
     {
-        title: "Thursday: Departures & Morning Sightseeing",
+        title: "Saturday: Departures & Morning Sightseeing",
         events: [
             { time: "10:00", description: "<p>City / Cultural Tour for delegates with late flights</p>" },
             { time: "All day", description: "<p>Departures</p>" }
