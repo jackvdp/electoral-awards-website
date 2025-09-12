@@ -39,7 +39,7 @@ export const schedule: Day[] = [
         events: [
             { time: "09:30", description: "<p>Symposium Opening</p>" },
             { time: "09:45 – 10:15", description: "<p><strong>Election Challenges in Libya from 2012 to 2022</strong> – Dr Khaled Elkadiki</p>" },
-            { time: "10:15 – 11:15", description: "<p><strong>Morning Panel — \"Improving Trust in Election: Global Approaches & Tools\"</strong></p><ol><li>Commissioner Dr Gerson Sindano – Electoral Commission of Namibia</li><li>Charles Symons – Co-Founder of Buzzmint</li><li>TBC</li><li>TBC</li></ol>" },
+            { time: "10:15 – 11:15", description: "<p><strong>Morning Panel — \"Improving Trust in Election: Global Approaches & Tools\"</strong></p><ol><li>Commissioner Dr Gerson Sindano – Electoral Commission of Namibia</li><li>Charles Symons – Co-Founder of Buzzmint</li><li>Industry Voice</li><li>TBC</li></ol>" },
             { time: "11:15 – 11:30", description: "<p>Coffee Break</p>" },
             { time: "11:30 – 12:00", description:  "<p><strong>Keynote: Tackling Misinformation\"</strong></p><p>Sy Mamabolo – CEO of the Electoral Commission of South Africa</p>" },
             { time: "12:15 – 12:45", description: "<p><strong>Keynote — \"Election Truth in the Age of AI‑Generated Content\"</strong></p><p>Commissioner Thomas Hicks – United States EAC</p>" },
