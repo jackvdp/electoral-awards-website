@@ -3,7 +3,7 @@ export const FAQs = [
     no: 'One',
     expand: true,
     heading: 'When is the Awards & Symposium?',
-    body: `The 21st International Electoral Awards will be held on Tuesday 1st October 2025. This will be the main event of a four-day programme running from 1st–4th October. For a full schedule, please see [here](/awards/schedule).`
+    body: `The 21st International Electoral Awards will be held on Wednesday 1st October 2025. This will be the main event of a four-day programme running from 1st–4th October. For a full schedule, please see [here](/awards/schedule).`
   },
   {
     no: 'Two',
@@ -15,7 +15,7 @@ export const FAQs = [
     no: 'Three',
     expand: true,
     heading: 'Where will the event be held?',
-    body: `The venue in Gaborone, Botswana will be announced shortly. Venue details and booking information will be shared with all registered participants.`
+    body: `The 21st International Electoral Awards & Symposium will take place at the Avani Hotel in Gaborone, Botswana. Full venue details and booking information are available on our website: [here](https://secure.minorhotels.com/rooms.aspx?language=en&bc=AV&hc=VGAB&checkin=01%2F10%2F2025&nights=1&rooms=1&children=0&infants=0&group=3IC25I&currency=BWP).`
   },
   {
     no: 'Four',
