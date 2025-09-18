@@ -39,7 +39,7 @@ export const schedule: Day[] = [
         events: [
             { time: "09:00", description: "<p>Symposium Opening</p>" },
             { time: "09:00 – 09:30", description: "<p><strong>Keynote Presentation: \"Election Challenges in Libya from 2012 to 2022\"</strong></p><p>Dr Khaled Elkadiki</p>" },
-            { time: "09:45 – 10:15", description: "<p><strong>In Conversation</strong></p><ul><li>Lee Jung-ok – Former Minister of Gender Equality and Family of South Korea</li><li>Bruno Kaufmann – Director of International Cooperation, Swiss Democracy Foundation</li></ul>" },
+            { time: "09:45 – 10:15", description: "<p><strong>In Conversation</strong></p><ul><li>Lee Jung-ok – Former Minister of Gender Equality and Family of South Korea</li><li>Joe Matthews – Founder-Publisher of Democracy Local,</li></ul>" },
             { time: "10:15 – 11:15", description: "<p><strong>Morning Panel — \"Improving Trust in Election: Global Approaches & Tools\"</strong></p><ol><li>Commissioner Dr Gerson Sindano – Electoral Commission of Namibia</li><li>Tamar Tsertsvadze, Central Election Commission of Georgia</li><li>Industry Voice</li><li>TBC</li></ol>" },
             { time: "11:15 – 11:30", description: "<p>Coffee Break</p>" },
             { time: "11:30 – 12:00", description:  "<p><strong>Keynote: \"Tackling Misinformation\"</strong></p><p>Sy Mamabolo – CEO of the Electoral Commission of South Africa</p>" },
