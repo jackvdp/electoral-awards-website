@@ -57,5 +57,31 @@ export const schedule: Day[] = [
             { time: "10:00", description: "<p>Optional City / Cultural Tour for delegates with late flights</p>" },
             { time: "All day", description: "<p>Departures</p>" }
         ]
-    }
+    },
+
+    {
+        title: "Awards Ceremony Timings",
+        events: [
+            { time: "19:00", description: "<h3>The International Electoral Awards</h3><p>Move attendees into main ballroom</p>" },
+            { time: "19:15", description: "<b>Award Ceremony Start</b>" },
+            { time: "19:25", description: "<p>Presentation from CEO of ICPS</p>" },
+            { time: "19:30", description: "<p>Presentation from IEC</p>" },
+            { time: "19:40", description: "<b>Opening Entertainment</b>" },
+            { time: "19:50", description: "<p>Presentation 1: International Institutional Engagement Award</p>" },
+            { time: "20:00", description: "<p>Presentation 2: Electoral Conflict Management Award</p>" },
+            { time: "20:10", description: "<p>Presentation 3: Meritorious Achievement Award</p>" },
+            { time: "20:20", description: "<b>Entertainment</b>" },
+            { time: "20:30", description: "<p>Presentation 4: Accessibility for All Award</p>" },
+            { time: "20:40", description: "<p>Presentation 5: First Time Voter Award</p>" },
+            { time: "20:50", description: "<p>Presentation 6: Election Management Award</p>" },
+            { time: "21:00", description: "<b>Entertainment & Main Course to be served</b>" },
+            { time: "21:10", description: "<p>Presentation 7: Citizens' Engagement Award</p>" },
+            { time: "21:20", description: "<p>Presentation 8: Electoral Ergonomic Award</p>" },
+            { time: "21:30", description: "<p>Presentation 9: Lifetime Achievement Award</p>" },
+            { time: "21:40", description: "<b>Dessert to be served</b>" },
+            { time: "21:50", description: "<p>Presentation 11: Electoral Commission of the Year</p>" },
+            { time: "22:00", description: "<p>Presentation 12: Electoral Commissioner of the Year</p>" },
+            { time: "22:10", description: "<b>CEO of ICPS & Hon. Moeti Caesar Mohwasa, Minister for State President, Republic of Botswana closing speech</b>" }
+        ]
+    },
 ];
