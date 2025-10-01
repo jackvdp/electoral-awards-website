@@ -39,7 +39,7 @@ export const schedule: Day[] = [
         events: [
             { time: "09:00", description: "<p>Symposium Opening</p>" },
             { time: "09:00 – 09:20", description: "<p><strong>Reflection on the 2024 Indian Election</strong></p><ul><li>Dr Madhukar Gupta – State Election Commissioner of Rajasthan, State Election Commission</li></ul>" },
-            { time: "09:25 – 09:40", description: "<p><strong>Reflection on the 2024 Somaliland Presidential Election</strong></p><ul><li>Musa Hassan Yousuf, Chairman of Somaliland Electoral Commission</li></ul>" },
+            { time: "09:25 – 09:40", description: "<p><strong>Reflection on the 2024 Somaliland Presidential Election</strong></p><ul><li>Musa Hassan Yousuf, Chairman of the Electoral Commission of the Republic of Somaliland</li></ul>" },
             { time: "09:45 – 10:15", description: "<p><strong>In Conversation</strong></p><ul><li>Lee Jung-ok – Former Minister of Gender Equality and Family of South Korea</li><li>Joe Matthews – Founder-Publisher of Democracy Local,</li></ul>" },
             { time: "10:15 – 11:15", description: "<p><strong>Morning Panel — \"Improving Trust in Election: Global Approaches & Tools\"</strong></p><ol><li>Commissioner Dr Gerson Sindano – Electoral Commission of Namibia</li><li>Tamar Tsertsvadze, Central Election Commission of Georgia</li><li>Industry Voice</li></ol>" },
             { time: "11:15 – 11:30", description: "<p>Coffee Break</p>" },
