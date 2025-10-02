@@ -82,7 +82,7 @@ export const schedule: Day[] = [
             { time: "21:40", description: "<b>Dessert to be served</b>" },
             { time: "21:50", description: "<p>Presentation 11: Electoral Commission of the Year</p>" },
             { time: "22:00", description: "<p>Presentation 12: Electoral Commissioner of the Year</p>" },
-            { time: "22:10", description: "<b>CEO of ICPS & Hon. Moeti Caesar Mohwasa, Minister for State President, Republic of Botswana closing speech</b>" }
+            { time: "22:10", description: "<b>Mr Matt Gokhool, CEO of ICPS & Hon. Ms Maipelo Mophuting, Assistant Minister for State President, Republic of Botswana, closing speech</b>" }
         ]
     },
 ];
