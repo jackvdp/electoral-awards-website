@@ -31,7 +31,7 @@ export const schedule: Day[] = [
             { time: "15:45 – 16:00", description: "<p>Coffee Break</p>" },
             { time: "16:00 – 16:30", description: "<p><strong>Keynote — \"Digital Tools for Inclusive Voter Education\"</strong></p><p>Mr Kenneth Setimela – Founder & MD at LeveragePoint</p>" },
             { time: "16:45 – 17:15", description: "<p><strong>Keynote — \"Buenos Aires City Elections 2025\"</strong></p><p>Dr. Federico Fahey – Electoral Management Institute Buenos Aires</p>" },
-            { time: "17:30 – 18:00", description: "<p><strong>Keynote – Online Voting Introduction – How to introduce online voting in the electoral process</strong></p><p>Victor Hidalgo – Global Solutions Manager, Lumi</p>" },
+            { time: "17:30 – 18:00", description: "<p><strong>Keynote – \"Online Voting Introduction: How to introduce online voting in the electoral process\"</strong></p><p>Victor Hidalgo – Global Solutions Manager, Lumi</p>" },
         ]
     },
     {
