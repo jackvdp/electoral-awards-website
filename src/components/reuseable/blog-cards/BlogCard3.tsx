@@ -19,8 +19,8 @@ const BlogCard3: FC<BlogCard3Props> = (props) => {
   const { title, category, description, link, image, date } = props;
 
   return (
-    <article className="item post col-md-6">
-      <div className="card">
+    <article className="item post col-md-6 d-flex">
+      <div className="card flex-fill d-flex flex-column">
         <figure className="card-img-top overlay overlay-1 hover-scale">
           {/* <Link href={link}>
             <a>
@@ -33,7 +33,7 @@ const BlogCard3: FC<BlogCard3Props> = (props) => {
           </figcaption>
         </figure>
 
-        <div className="card-body">
+        <div className="card-body flex-fill d-flex flex-column">
           <div className="post-header">
             {/* <div className="post-category text-line">
               <NextLink title={category} href="#" className="hover" />
@@ -49,7 +49,7 @@ const BlogCard3: FC<BlogCard3Props> = (props) => {
           </div>
         </div>
 
-        <div className="card-footer">
+        <div className="card-footer mt-auto">
           <ul className="post-meta d-flex mb-0">
             <li className="post-date">
               <i className="uil uil-calendar-alt" />
