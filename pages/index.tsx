@@ -10,7 +10,8 @@ import HomeEventsSidebar from 'components/blocks/events/EventsSidebar';
 import HomeAbout from 'components/blocks/home/HomeAbout';
 import Features from 'components/blocks/features/features';
 import {useAuth} from 'auth/useAuth';
-import CustomHead from "../src/components/common/CustomHead";
+import CustomHead from "components/common/CustomHead";
+import HomeArticles from "components/blocks/home/HomeArticles";
 
 const Home: NextPage = () => {
 
@@ -41,6 +42,8 @@ const Home: NextPage = () => {
                     </div>
 
                 </div>
+
+                <HomeArticles/>
 
                 <div className='pb-md-8'>
                     <Features/>
