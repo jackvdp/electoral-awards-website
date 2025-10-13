@@ -13,7 +13,7 @@ const SubmitPage: NextPage = () => {
     return (
         <Fragment>
             <CustomHead
-                title="Submit Your Nomination – 21st International Electoral Awards"
+                title="Submit Your Nomination – 22nd International Electoral Awards"
                 description="Celebrating excellence in electoral management. Recognizing outstanding contributions and innovations in election administration and democratic processes."
             />
             <PageProgress/>
@@ -22,7 +22,7 @@ const SubmitPage: NextPage = () => {
 
             <main className="content-wrapper">
 
-                <SimpleBanner title={"Submit Nomination for 21st International Electoral Awards"}></SimpleBanner>
+                <SimpleBanner title={"Submit Nomination for 22nd International Electoral Awards"}></SimpleBanner>
 
                 <div
                     className="container pt-14 pt-md-16 pb-7 pt-md-8 d-flex flex-column justify-content-center align-items-center">
