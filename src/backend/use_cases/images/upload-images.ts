@@ -63,10 +63,10 @@ async function createImageVersions(filePath: string): Promise<{ [key: string]: B
     };
 
     // Only create HD version if original is larger than MAX_HEIGHT
-    if (metadata.height && metadata.height > MAX_HEIGHT) {
+    // if (metadata.height && metadata.height > MAX_HEIGHT) {
         const hdVersion = await processImage(filePath, MAX_HEIGHT);
         versions.hd = hdVersion.buffer;
-    }
+    // }
 
     // Always create thumbnail
     const thumbnailVersion = await processImage(filePath, THUMBNAIL_HEIGHT);
