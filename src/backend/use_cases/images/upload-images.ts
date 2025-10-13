@@ -142,9 +142,34 @@ function isImageFile(filename: string): boolean {
 
 export async function uploadAllImages(rootDir: string) {
     try {
-        const results: { [key: string]: ImageVersions } = {};
+        console.log('=== UPLOAD STARTED ===');
+        console.log('Root directory:', rootDir);
+        console.log('Absolute path:', path.resolve(rootDir));
+        
+        // Check if directory exists
+        try {
+            const stats = await fs.stat(rootDir);
+            console.log('Directory exists:', stats.isDirectory());
+        } catch (error) {
+            console.error('Directory does not exist or cannot be accessed:', error);
+            throw error;
+        }
 
+        // List directory contents
+        try {
+            const contents = await fs.readdir(rootDir);
+            console.log('Directory contents:', contents);
+        } catch (error) {
+            console.error('Cannot read directory:', error);
+        }
+
+        const results: { [key: string]: ImageVersions } = {};
+        let imageCount = 0;
+
+        console.log('Starting to walk directory...');
         for await (const filePath of walkDirectory(rootDir)) {
+            imageCount++;
+            console.log(`[${imageCount}] Found image: ${filePath}`);
             console.log(`Processing ${filePath}...`);
             try {
                 const relativePath = path.relative(rootDir, filePath);
@@ -161,6 +186,8 @@ export async function uploadAllImages(rootDir: string) {
             }
         }
 
+        console.log(`Total images found: ${imageCount}`);
+
         // Save results to a JSON file
         await fs.writeFile(
             'upload-results.json',
@@ -168,6 +195,7 @@ export async function uploadAllImages(rootDir: string) {
         );
 
         console.log('Upload complete! Results saved to upload-results.json');
+        console.log('=== UPLOAD FINISHED ===');
         return results;
     } catch (error) {
         console.error('Upload failed:', error);
