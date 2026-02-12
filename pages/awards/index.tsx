@@ -71,6 +71,9 @@ const AboutAwards: NextPage = () => {
                                 <li>
                                     <Link className="text-decoration-none" href="/awards/2024/">20th International Electoral Awards (2024) — Santo Domingo, Dominican Republic</Link>
                                 </li>
+                                <li>
+                                    <Link className="text-decoration-none" href="/awards/2023/about">19th International Electoral Awards (2023) — Cascais, Portugal</Link>
+                                </li>
                             </ul>
                         </div>
 

@@ -60,7 +60,6 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
                             <DropdownToggleLink title="Awards" className="nav-link dropdown-toggle"/>
 
                             <ul className="dropdown-menu">
-                                <ListItemLink href="/awards/winners" title="Winners" linkClassName="dropdown-item"/>
                                 <ListItemLink href="/awards" title="About" linkClassName="dropdown-item"/>
                                 <ListItemLink href="/awards/schedule" title="Schedule" linkClassName="dropdown-item"/>
                                 {/*<ListItemLink href="/awards/location" title="Location" linkClassName="dropdown-item"/>*/}
@@ -69,6 +68,18 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
                                 {/*<ListItemLink href="/awards/whatsapp" title="WhatsApp Group" linkClassName="dropdown-item" />*/}
                                 {/*<ListItemLink href="/awards/visa" title="Visa Requirements" linkClassName="dropdown-item" />*/}
                                  <ListItemLink href="/awards/submit" title="Submit Nomination" linkClassName="dropdown-item" />
+                                <li className="dropdown dropdown-submenu dropend">
+                                    <DropdownToggleLink title="2025"/>
+                                    <ul className="dropdown-menu">
+                                        <ListItemLink href="/awards/2025/winners" title="Winners"
+                                                      linkClassName="dropdown-item"/>
+                                        <ListItemLink href="/awards/2025" title="About"
+                                                      linkClassName="dropdown-item"/>
+
+                                        <ListItemLink href="/awards/2025/schedule" title="Schedule"
+                                                      linkClassName="dropdown-item"/>
+                                    </ul>
+                                </li>
                                 <li className="dropdown dropdown-submenu dropend">
                                     <DropdownToggleLink title="2024"/>
                                     <ul className="dropdown-menu">
