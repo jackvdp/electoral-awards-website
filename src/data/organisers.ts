@@ -1,18 +1,18 @@
-const organisers25 = [
+const organisers = [
   {
     id: 1,
-    name: 'International Centre of Parliamentary Stduies',
+    name: 'International Centre for Parliamentary Studies',
     image: '/img/logos/ICPSLogo Original.png',
-    designation: 'London, United Kingdon',
-    description: `The International Centre for Parliamentary Studies (ICPS) is the organizer and host of the International Electoral Awards. The awards are an initiative to acknowledge notable contributions in the electoral management.`
+    designation: 'London, United Kingdom',
+    description: `The International Centre for Parliamentary Studies (ICPS) is the organiser and host of the International Electoral Awards. The awards are an initiative to acknowledge notable contributions in electoral management.`
   },
   {
     id: 2,
-    name: 'Independent Electoral Commission of Botswana (IEC)',
-    image: '/img/logos/iec-botswana.png',
-    designation: 'Gaborone, Botswana',
-    description: `The Independent Electoral Commission (IEC) of Botswana serves as the co-host and local partner of the 21st International Electoral Awards. Established in 1997 to enhance transparency and fairness in the electoral process, the IEC is responsible for conducting and supervising elections and referenda in Botswana. The Commission comprises seven members, including a High Court judge as Chairperson, and is guided by a mission to deliver impartial and innovative electoral services that foster democratic participation. With a vision to be a renowned provider of credible elections, the IEC plays a critical role in promoting electoral integrity and citizen engagement across the country.`
+    name: 'Commission on Elections of the Philippines (COMELEC)',
+    image: '/img/logos/comelec.png',
+    designation: 'Manila, Philippines',
+    description: `The Commission on Elections (COMELEC) is the constitutional body responsible for enforcing and administering all laws and regulations relating to the conduct of elections, initiative, referendum, and recall in the Philippines. As co-host of the 22nd International Electoral Awards, COMELEC brings decades of experience in managing large-scale democratic exercises across a diverse and dynamic archipelago nation.`
   }
 ];
 
-export default organisers25;
+export default organisers;

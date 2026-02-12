@@ -1,14 +1,14 @@
 import {NextPage} from 'next';
 import React from 'react';
-import {schedule} from 'data/schedule';
+import {schedule} from 'data/schedule2025';
 import Schedule from "components/pages/schedule";
 
 const Programme: NextPage = () => {
     return (
         <Schedule
             schedule={schedule}
-            headTitle={"Schedule – 22nd International Electoral Awards"}
-            dates={"Wednesday, 25th – Saturday, 28th November 2026"}
+            headTitle={"Schedule – 21st International Electoral Awards"}
+            dates={"Wednesday, 1st – Saturday, 4th October 2025"}
         />
     );
 };
