@@ -62,27 +62,25 @@ const HomeHeader = () => {
                             <h1 className="display-1 text-white mb-3 text-start">
                                 Electoral Stakeholders&apos; Network
                             </h1>
-                            <p className="lead fs-lg text-start">
-                                Connecting Leaders in Electoral Management
+                            <p className="lead fs-lg text-start mb-4">
+                                22nd International Electoral Awards &amp; Symposium
+                                <br/>
+                                <strong>25&ndash;28 November 2026 &middot; Manila, Philippines</strong>
                             </p>
 
                             <p className="text-start">
-                                The Electoral Stakeholders&apos; Network connects electoral professionals, policymakers,
-                                and
-                                innovators to strengthen democracy worldwide. Through symposiums, research, and awards,
-                                we foster knowledge-sharing, international cooperation, and solutions for electoral
-                                integrity, transparency, and voter participation.
+                                The only international electoral symposium of its kind this year. Join electoral leaders, technology providers, and practitioners from around the world for keynotes, panels, breakout sessions, and the prestigious Awards Ceremony. Don&apos;t miss it.
                             </p>
 
                             {!isLoggedIn && (
                                 <div className="d-flex gap-2">
-                                    <RegisterLink
-                                        title="Register"
+                                    <NextLink
+                                        title="Awards &amp; Symposium"
+                                        href="/awards"
                                         className="btn btn-soft-blue rounded-pill mt-2"
                                     />
-                                    <NextLink
-                                        title="View Events"
-                                        href="/events"
+                                    <RegisterLink
+                                        title="Register"
                                         className="btn btn-blue rounded-pill mt-2"
                                     />
                                 </div>
@@ -91,7 +89,7 @@ const HomeHeader = () => {
                             {isLoggedIn && (
                                 <div className="d-flex gap-2">
                                     <NextLink
-                                        title="Awards"
+                                        title="Awards &amp; Symposium"
                                         href="/awards"
                                         className="btn btn-soft-blue rounded-pill mt-2"
                                     />
