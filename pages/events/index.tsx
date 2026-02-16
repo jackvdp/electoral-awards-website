@@ -32,10 +32,9 @@ const BlogTwo: NextPage = () => {
                         <div className="container py-10 py-md-14 text-center">
                             <div className="row">
                                 <div className="col-md-7 col-lg-6 col-xl-5 mx-auto">
-                                    <h1 className="display-1 mb-3">Events</h1>
+                                    <h1 className="display-1 mb-3">Events &amp; Awards</h1>
                                     <p className="lead px-lg-5 px-xxl-8 mb-1">
-                                        Bringing Experts and Leaders Together in a Curated Calendar of Premier Electoral
-                                        Events and Insightful Webinars.
+                                        From the International Electoral Awards &amp; Symposium to expert webinars and roundtables &mdash; explore our calendar of premier events for electoral professionals.
                                     </p>
                                 </div>
                             </div>

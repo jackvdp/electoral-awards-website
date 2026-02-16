@@ -27,7 +27,7 @@ export const FAQs = [
     no: 'Five',
     expand: true,
     heading: 'What does the programme look like?',
-    body: `The four-day programme includes a welcome reception, two days of symposium sessions with keynotes and panels, the Awards Ceremony dinner, and an optional cultural tour. For the provisional schedule, please see the [schedule page](/awards/schedule).`
+    body: `The four-day programme includes a welcome reception, two days of symposium sessions with keynotes and panels, the Awards Ceremony dinner, and an optional cultural tour. New for 2026, the programme will also feature dedicated breakout sessions — offering focused discussions, hands-on demonstrations, and peer-to-peer exchanges alongside the main symposium. Confirmed topics will be announced shortly. For the provisional schedule, please see the [schedule page](/awards/schedule).`
   },
   {
     no: 'Six',
