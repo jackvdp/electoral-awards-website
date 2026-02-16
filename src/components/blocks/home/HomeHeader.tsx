@@ -57,52 +57,43 @@ const HomeHeader = () => {
             {/* Content */}
             <div className={styles.contentWrapper}>
                 <div className="container pt-6 pt-md-20 pb-6 pb-md-20">
-                    <div className="row">
-                        <div className="col-md-8 col-lg-7 col-xl-6 col-xxl-6 mt-md-10 mt-6">
-                            <h1 className="display-1 text-white mb-3 text-start">
+                    <div className="row justify-content-center">
+                        <div className="col-lg-9 col-xl-8 text-center mt-md-10 mt-6">
+                            <p className="text-uppercase ls-xl text-white mb-3 fw-bold" style={{letterSpacing: '0.2em', fontSize: '0.85rem'}}>
                                 Electoral Stakeholders&apos; Network
-                            </h1>
-                            <p className="lead fs-lg text-start mb-4">
+                            </p>
+                            <h1 className="display-1 text-white mb-4">
                                 22nd International Electoral Awards &amp; Symposium
-                                <br/>
-                                <strong>25&ndash;28 November 2026 &middot; Manila, Philippines</strong>
+                            </h1>
+                            <p className="lead fs-lg text-white mb-3">
+                                25&ndash;28 November 2026 &middot; Manila, Philippines
+                            </p>
+                            <p className="lead text-white px-lg-10 mb-5" style={{opacity: 0.9}}>
+                                The only international electoral symposium of its kind this year. Join electoral leaders, technology providers, and practitioners from around the world for keynotes, panels, breakout sessions, and the prestigious Awards Ceremony.
                             </p>
 
-                            <p className="text-start">
-                                The only international electoral symposium of its kind this year. Join electoral leaders, technology providers, and practitioners from around the world for keynotes, panels, breakout sessions, and the prestigious Awards Ceremony. Don&apos;t miss it.
-                            </p>
-
-                            {!isLoggedIn && (
-                                <div className="d-flex gap-2">
-                                    <NextLink
-                                        title="Awards &amp; Symposium"
-                                        href="/awards"
-                                        className="btn btn-soft-blue rounded-pill mt-2"
-                                    />
+                            <div className="d-flex justify-content-center gap-3">
+                                <NextLink
+                                    title="Awards &amp; Symposium"
+                                    href="/awards"
+                                    className="btn btn-lg btn-white rounded-pill"
+                                />
+                                {!isLoggedIn ? (
                                     <RegisterLink
                                         title="Register"
-                                        className="btn btn-blue rounded-pill mt-2"
+                                        className="btn btn-lg btn-outline-white rounded-pill"
                                     />
-                                </div>
-                            )}
-
-                            {isLoggedIn && (
-                                <div className="d-flex gap-2">
-                                    <NextLink
-                                        title="Awards &amp; Symposium"
-                                        href="/awards"
-                                        className="btn btn-soft-blue rounded-pill mt-2"
-                                    />
+                                ) : (
                                     <NextLink
                                         title="View Events"
                                         href="/events"
-                                        className="btn btn-blue rounded-pill mt-2"
+                                        className="btn btn-lg btn-outline-white rounded-pill"
                                     />
-                                </div>
-                            )}
+                                )}
+                            </div>
 
                             {!isLoggedIn && (
-                                <p className={`lead fs-md py-4 text-start ${styles.subtitleText}`}>
+                                <p className={`fs-md mt-5 ${styles.subtitleText}`}>
                                     Already a member?{' '}
                                     <a
                                         data-bs-toggle="modal"
