@@ -20,7 +20,7 @@ const HomeAbout: React.FC = () => {
                 practices on key issues like electoral integrity, technology, and inclusive participation. Join us in
                 shaping the future of democratic elections.
             </p>
-            <div className="d-flex gap-2">
+            <div className="d-flex flex-column flex-md-row gap-2">
                 <Link href="/awards" className="btn btn-expand btn-primary rounded-pill">
                     <i className="uil uil-arrow-right"></i>
                     <span>Awards &amp; Symposium</span>
