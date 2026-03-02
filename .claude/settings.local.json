@@ -14,7 +14,10 @@
       "Bash(git -C /Users/jackvanderpump/Repos/electoral-awards-website commit -m \"$\\(cat <<''EOF''\nArchive 2025 awards and launch 2026 site for Manila\n\nArchive the 21st Awards \\(Gaborone, 2025\\) into /awards/2025/ and update\nthe main /awards/ pages for the 22nd Awards \\(Manila, 25–28 Nov 2026\\)\nco-hosted with COMELEC.\n\n- Create 2025 archive data files \\(schedule2025, organisers25, faq2025, judges25\\)\n- Create /awards/2025/ pages \\(index, schedule, winners\\) following 2024 pattern\n- Update main data files for 2026 \\(schedule, organisers, faq, judges placeholder\\)\n- Update /awards/ index with Manila/COMELEC details and previous years links\n- Update schedule page for 2026 dates\n- Update winners page to show 2025 as most recent with year links\n- Replace WhatsApp page with placeholder for 2026\n- Fix ICPS typos in new organisers data \\(Stduies → Studies, Kingdon → Kingdom\\)\n- Add COMELEC logo\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(git -C /Users/jackvanderpump/Repos/electoral-awards-website push -u origin feature/2026-awards-launch)",
       "Bash(gh pr create:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(node:*)",
+      "Bash(chmod +x:*)",
+      "Bash(EVENT_JSON='{\"\"title\"\":\"\"Test\"\"}' node:*)"
     ]
   }
 }

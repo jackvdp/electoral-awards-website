@@ -8,6 +8,7 @@ import NextLink from 'components/reuseable/links/NextLink';
 import {Footer} from 'components/blocks/footer';
 import formatEventDates from 'helpers/formatEventDates';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import EventsSidebar from 'components/blocks/events/EventsSidebar';
 import CustomHead from 'components/common/CustomHead';
 import {useAuth} from 'auth/useAuth';
@@ -238,7 +239,7 @@ const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: in
                                 {renderSpeakersSection()}
 
                                 {/* Event description */}
-                                <ReactMarkdown>{event.description}</ReactMarkdown>
+                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{event.description}</ReactMarkdown>
 
                                 {/* Sign-up section at the bottom of the event details */}
                                 {renderSignupSection()}
