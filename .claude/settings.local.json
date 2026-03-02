@@ -17,7 +17,9 @@
       "Bash(curl:*)",
       "Bash(node:*)",
       "Bash(chmod +x:*)",
-      "Bash(EVENT_JSON='{\"\"title\"\":\"\"Test\"\"}' node:*)"
+      "Bash(EVENT_JSON='{\"\"title\"\":\"\"Test\"\"}' node:*)",
+      "Bash(EVENT_ID='69a5e816d4cec1d1c565819e' node:*)",
+      "Skill(electoral-network)"
     ]
   }
 }

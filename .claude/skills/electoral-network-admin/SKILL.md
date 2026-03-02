@@ -116,8 +116,8 @@ EOF
 ```
 
 ### Creating Documents
-- For simple text drafts, output directly in the conversation
-- For files the user needs to keep, write to the ICPS folder:
+- **Emails:** Save to the repo at `emails/` as `.txt` files, named `YYYY-MM-<topic>.txt` (e.g. `emails/2026-04-workforce-webinar-invitation.txt`)
+- For other documents the user needs to keep, write to the ICPS folder:
   `/Users/jackvanderpump/Dropbox/My Mac (Mac-Pro)/Desktop/ICPS/Electoral/`
 - For website content, edit files in:
   `/Users/jackvanderpump/Repos/electoral-awards-website/src/data/`
