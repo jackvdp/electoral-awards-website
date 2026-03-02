@@ -239,7 +239,16 @@ const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: in
                                 {renderSpeakersSection()}
 
                                 {/* Event description */}
-                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{event.description}</ReactMarkdown>
+                                <ReactMarkdown
+                                    remarkPlugins={[remarkGfm]}
+                                    components={{
+                                        table: ({node, ...props}) => (
+                                            <div className="table-responsive">
+                                                <table className="table table-bordered table-striped" {...props} />
+                                            </div>
+                                        ),
+                                    }}
+                                >{event.description}</ReactMarkdown>
 
                                 {/* Sign-up section at the bottom of the event details */}
                                 {renderSignupSection()}
