@@ -42,8 +42,9 @@ The Network connects electoral management bodies, civil society organisations, a
 
 ### 22nd Awards (2026) — PLANNING
 - **Dates:** 29 November – 3 December 2026
-- **Location:** Manila, Philippines
+- **Location:** The Manila Hotel, Manila, Philippines
 - **Co-host:** Commission on Elections (COMELEC) of the Philippines
+- **Accommodation:** Provided for all delegates at the venue
 
 ## Award Categories (11)
 
@@ -96,25 +97,26 @@ The Network connects electoral management bodies, civil society organisations, a
 
 ---
 
-# Event Structure (4-Day Format)
+# Event Structure (5-Day Format, 2026)
 
-## Day 1 — Arrival & Welcome
-- Registration of delegates
-- Welcome reception and networking dinner
+## Day 0 (Saturday) — Arrivals
+- Arrival and registration of delegates
 
-## Day 2 — Symposium (Theme 1)
-- Opening and welcoming session
-- Keynote presentations
-- Panel discussions
+## Day 1 (Sunday) — Cultural Tour & Cultural Night
+- Morning: Cultural tour
+- Evening: Cultural night
+
+## Day 2 (Monday) — Symposium (Part 1)
+- Opening and welcoming session (COMELEC and ICPS)
+- Keynote presentations and panel discussions
 - Fringe demonstrations and networking
 
-## Day 3 — Symposium (Theme 2) & Awards Ceremony
+## Day 3 (Tuesday) — Symposium (Part 2) & Awards Ceremony
 - Continued panels and keynotes
-- Parallel industry showcases
+- Parallel fringe events and industry demonstrations
 - 19:00 — The International Electoral Awards Ceremony (dinner, entertainment, award presentations)
 
-## Day 4 — Departures
-- Optional cultural tour
+## Day 4 (Wednesday) — Departures
 - Departures
 
 ---
@@ -165,3 +167,7 @@ The Network connects electoral management bodies, civil society organisations, a
 | `src/data/schedule.ts` | Event schedule |
 | `src/data/sponsors.ts` | Sponsors |
 | `src/data/organisers.ts` | Co-host organisations |
+| `emails/` | Drafted emails and correspondence (`.txt` files, named `YYYY-MM-<topic>.txt`) |
+
+## Events (MongoDB)
+Events and webinars are stored in MongoDB, not static files. Use the `/add-event` and `/edit-event` skills to manage them.

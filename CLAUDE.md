@@ -69,10 +69,16 @@ src/
 
 ## The Awards Programme
 
-### Current Edition: 21st International Electoral Awards (2025)
+### Previous Edition: 21st International Electoral Awards (2025) — COMPLETED
 - **Dates:** 1–4 October 2025
 - **Location:** Avani Hotel, Gaborone, Botswana
 - **Co-hosts:** ICPS + Independent Electoral Commission (IEC) of Botswana
+
+### Current Edition: 22nd International Electoral Awards (2026) — PLANNING
+- **Dates:** 29 November – 3 December 2026
+- **Location:** The Manila Hotel, Manila, Philippines
+- **Co-hosts:** ICPS + Commission on Elections of the Philippines (COMELEC)
+- **Accommodation:** Provided for all delegates at the venue
 
 ### Award Categories (11)
 
@@ -99,12 +105,13 @@ src/
 
 ---
 
-## Event Structure (4-Day Format)
+## Event Structure (5-Day Format, 2026)
 
-- **Day 1:** Arrival, registration, welcome reception
-- **Day 2:** Symposium (panels, keynotes, fringe events)
-- **Day 3:** Symposium continues + Awards Ceremony (evening)
-- **Day 4:** Cultural tour (optional) + departures
+- **Day 0:** Arrivals
+- **Day 1:** Cultural tour (AM) + Cultural night (PM)
+- **Day 2:** Symposium (Part 1) — panels, keynotes, fringe events
+- **Day 3:** Symposium (Part 2) + Awards Ceremony (evening)
+- **Day 4:** Departures
 
 ### 2025 Themes
 - Dis/misinformation in elections

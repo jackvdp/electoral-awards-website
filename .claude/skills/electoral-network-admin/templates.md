@@ -74,7 +74,7 @@ On behalf of the International Centre for Parliamentary Studies (ICPS) and the E
 
 The International Electoral Awards, organised annually by ICPS, celebrate excellence and innovation in electoral administration and democratic governance. This year's edition is co-hosted by **[co-host full name]**, in partnership with ICPS, and will convene electoral leaders, experts, and institutions from across [region] and the globe.
 
-Over four days, delegates will take part in high-level panel discussions, keynote sessions, fringe demonstrations, networking events, and the distinguished Awards Ceremony.
+Over five days, delegates will enjoy a cultural tour, two days of symposium sessions with keynote presentations, panel discussions, fringe demonstrations, networking events, and the distinguished Awards Ceremony.
 
 [Include itinerary at a glance]
 

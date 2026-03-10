@@ -19,7 +19,13 @@
       "Bash(chmod +x:*)",
       "Bash(EVENT_JSON='{\"\"title\"\":\"\"Test\"\"}' node:*)",
       "Bash(EVENT_ID='69a5e816d4cec1d1c565819e' node:*)",
-      "Skill(electoral-network)"
+      "Skill(electoral-network)",
+      "Bash(EVENT_ID='69a5e816d4cec1d1c565819e' UPDATE_JSON='{ \"startDate\": \"2026-04-17T13:00:00Z\", \"endDate\": \"2026-04-17T15:00:00Z\" }' node:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(EVENT_ID='69938de4f4f23e0fef2e3129' node:*)",
+      "Skill(electoral-network-admin)"
     ]
   }
 }
