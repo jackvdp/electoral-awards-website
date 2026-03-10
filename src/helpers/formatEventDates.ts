@@ -54,10 +54,16 @@ export default function formatEventDates(startDateInput: Date | string, endDateI
         }
     };
 
-    // Check if the start and end dates are on the same day
+    // Helper to format a date in UTC (for multi-day / full-day events)
+    const formatDateUTC = (date: Date): string => {
+        return date.toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: '2-digit', timeZone: 'UTC'});
+    };
+
+    // Check if the start and end dates are on the same day (in UTC)
+    const isSameDayUTC = startDate.toISOString().slice(0, 10) === endDate.toISOString().slice(0, 10);
     const isSameDay = startDate.toDateString() === endDate.toDateString();
 
-    if (isSameDay) {
+    if (isSameDay || isSameDayUTC) {
 
         if (hideTime === 'no-time') {
             // If hideTime is set, format as "31 Jan 24"
@@ -68,7 +74,7 @@ export default function formatEventDates(startDateInput: Date | string, endDateI
         const timezone = getTimezoneInfo();
         return `${formatDate(startDate)}, ${formatTime(startDate)} – ${formatTime(endDate)} (${timezone})`;
     } else {
-        // If the dates are on different days, format as "31 Jan 24 - 1 Feb 24"
-        return `${formatDate(startDate)} - ${formatDate(endDate)}`;
+        // Multi-day events use UTC to avoid timezone shifting dates
+        return `${formatDateUTC(startDate)} - ${formatDateUTC(endDate)}`;
     }
 }
