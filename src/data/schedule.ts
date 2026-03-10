@@ -10,14 +10,20 @@ export type Day = {
 
 export const schedule: Day[] = [
     {
-        title: "Day 1 (Wednesday, 25 November) — Arrival of Delegates & Welcome Reception",
+        title: "Day 0 (Saturday, 29 November) — Arrivals",
         events: [
             { time: "All day", description: "<p>Arrival & Registration</p>" },
-            { time: "18:00", description: "<p>Welcome Reception / Informal Networking</p>" }
         ]
     },
     {
-        title: "Day 2 (Thursday, 26 November) — Symposium: Electoral Innovation & Technology in Asia-Pacific",
+        title: "Day 1 (Sunday, 30 November) — Cultural Tour & Cultural Night",
+        events: [
+            { time: "Morning", description: "<p>Cultural Tour</p>" },
+            { time: "Evening", description: "<p>Cultural Night</p>" },
+        ]
+    },
+    {
+        title: "Day 2 (Monday, 1 December) — Symposium (Part 1)",
         events: [
             { time: "08:30", description: "<p>Symposium Registration</p>" },
             { time: "09:00", description: "<p><strong>Opening & Welcoming Session</strong></p><p>Addresses from COMELEC and ICPS leadership</p>" },
@@ -29,7 +35,7 @@ export const schedule: Day[] = [
         ]
     },
     {
-        title: "Day 3 (Friday, 27 November) — Symposium & Awards Ceremony",
+        title: "Day 3 (Tuesday, 2 December) — Symposium (Part 2) & Awards Ceremony",
         events: [
             { time: "09:00 – 13:00", description: "<p><strong>Morning Sessions — Strengthening Public Trust & Combating Disinformation</strong></p><p>Keynotes and panels — details to be confirmed</p>" },
             { time: "09:30 – 13:00", description: "<p>(Parallel) Fringe Events / Industry Demonstrations</p>" },
@@ -39,9 +45,8 @@ export const schedule: Day[] = [
         ]
     },
     {
-        title: "Day 4 (Saturday, 28 November) — Cultural Tour & Departures",
+        title: "Day 4 (Wednesday, 3 December) — Departures",
         events: [
-            { time: "10:00", description: "<p>Optional Cultural Tour for delegates with late flights</p>" },
             { time: "All day", description: "<p>Departures</p>" }
         ]
     },

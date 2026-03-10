@@ -1,0 +1,43 @@
+ICPS Electoral Workforce Webinar
+
+Proposed Date: Friday 17 April 2026
+Duration: 2 hours
+Platform: Zoom
+
+Title: Empowering the Election Workforce: From Global Survey Findings to Blockchain Solutions
+
+Description: ICPS present the results of a global electoral workforce survey spanning 26 jurisdictions across four regions. Drawing on responses from senior electoral officials worldwide, this webinar examines the operational challenges facing Election Management Bodies — from managing temporary workforces of up to 1.5 million staff, to training gaps, credential verification, and workforce retention between election cycles. The session then turns to solutions, with a deep dive into how blockchain technology can address the pain points identified by practitioners — from secure credential verification to streamlined workforce management. With perspectives from academia, the field, and technology partners, join us for an honest, data-led conversation about what electoral officials told us they need and the practical tools that could deliver it.
+
+Format:
+14:00–14:10 — Survey Findings (ICPS)
+14:10–14:30 — Academic Perspective (e.g. IFES, International IDEA) + Q&A
+14:30–14:50 — Practitioner Perspective (TBC) + Q&A
+14:50–15:15 — Blockchain 101: What Electoral Officials Need to Know (BSVA) + Q&A
+15:15–15:40 — Blockchain Solutions for the Election Workforce (Charlie Symons, Buzzmint) + Q&A
+15:40–16:00 — Roundtable Discussion
+
+Changes from previous version:
+- Title updated to emphasise blockchain focus
+- Description restructured into two halves: problem (survey) and solution (blockchain)
+- Blockchain 101 extended from 15 to 20 minutes
+- Solutions extended from 15 to 20 minutes
+- Academic and Practitioner slots kept at 15 minutes each
+- Blockchain sessions given clearer, more descriptive titles
+- Overall structure unchanged: survey intro, external perspectives, blockchain deep-dive, roundtable
+
+Speakers:
+- ICPS — Survey findings
+- Academic/NGO (TBC) — e.g. IFES, International IDEA
+- Practitioner (TBC) — ideally someone with blockchain experience, otherwise high-interest survey respondent
+- BSVA (TBC) — Blockchain 101
+- Charlie Symons (Buzzmint) — Solutions
+
+Logistics:
+- BSVA manning Zoom chat throughout
+- Short Q&A (5 mins) after each speaker
+
+Open items:
+- Confirm BSVA speaker for Blockchain 101
+- Confirm date (currently proposed 17 April)
+- Identify academic/NGO speaker
+- Identify practitioner speaker (Suriname, Nigeria, Kenya/Lesotho shortlisted)

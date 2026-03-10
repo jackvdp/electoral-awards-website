@@ -9,7 +9,7 @@ export const FAQs = [
     no: 'Two',
     expand: true,
     heading: 'When and where is the 2026 event?',
-    body: `The 22nd International Electoral Awards & Symposium will take place from 25th to 28th November 2026 in Manila, Philippines, co-hosted by the Commission on Elections of the Philippines (COMELEC) and ICPS.`
+    body: `The 22nd International Electoral Awards & Symposium will take place from 29th November to 3rd December 2026 in Manila, Philippines, co-hosted by the Commission on Elections of the Philippines (COMELEC) and ICPS.`
   },
   {
     no: 'Three',

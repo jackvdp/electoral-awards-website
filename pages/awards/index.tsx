@@ -18,7 +18,7 @@ const AboutAwards: NextPage = () => {
         <Fragment>
             <CustomHead
                 title="22nd International Electoral Awards"
-                description="Honouring excellence in electoral innovation and democratic integrity. The 22nd International Electoral Awards take place 25–28 November 2026 in Manila, Philippines."
+                description="Honouring excellence in electoral innovation and democratic integrity. The 22nd International Electoral Awards take place 29 November – 3 December 2026 in Manila, Philippines."
             />
             <PageProgress/>
 
@@ -34,7 +34,7 @@ const AboutAwards: NextPage = () => {
                         <h2 className="mb-5 text-uppercase text-muted text-center">The Premier Global Electoral Event</h2>
 
                         <p className="mb-5 px-lg-12 px-xl-15">
-                            For over two decades, the <strong>International Electoral Awards &amp; Symposium</strong> has been the foremost gathering for electoral professionals worldwide. The <strong>22nd edition</strong> takes place from <strong>25th to 28th November 2026</strong> in <strong>Manila, Philippines</strong>, co-hosted by the <strong>Commission on Elections of the Philippines (COMELEC)</strong> and the <strong>International Centre for Parliamentary Studies (ICPS)</strong>.
+                            For over two decades, the <strong>International Electoral Awards &amp; Symposium</strong> has been the foremost gathering for electoral professionals worldwide. The <strong>22nd edition</strong> takes place from <strong>29th November to 3rd December 2026</strong> in <strong>Manila, Philippines</strong>, co-hosted by the <strong>Commission on Elections of the Philippines (COMELEC)</strong> and the <strong>International Centre for Parliamentary Studies (ICPS)</strong>.
                         </p>
                         <p className="mb-5 px-lg-12 px-xl-15">
                             Building on 21 years of success, the 2026 event promises to be the <strong>largest and most ambitious yet</strong>. This will be the <strong>only international electoral symposium of its kind this year</strong> &mdash; an unmissable opportunity for election management bodies, technology providers, civil society organisations, and anyone committed to strengthening democratic processes around the world.

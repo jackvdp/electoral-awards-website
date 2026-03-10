@@ -11,7 +11,7 @@ const BlogTemplate: FC = () => {
                     <div className="card-body p-6">
                         <h4 className="mb-3">22nd International Electoral Awards &amp; Symposium</h4>
                         <p className="mb-2">
-                            <strong>25&ndash;28 November 2026 &middot; Manila, Philippines</strong>
+                            <strong>29 November &ndash; 3 December 2026 &middot; Manila, Philippines</strong>
                         </p>
                         <p className="mb-3">
                             The only international electoral symposium of its kind this year &mdash; featuring keynote addresses, panel discussions, dedicated breakout sessions, and the prestigious Awards Ceremony. Don&apos;t miss it.

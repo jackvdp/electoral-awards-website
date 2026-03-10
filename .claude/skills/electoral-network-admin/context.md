@@ -41,7 +41,7 @@ The Network connects electoral management bodies, civil society organisations, a
 - **Status:** Post-event close-out phase
 
 ### 22nd Awards (2026) — PLANNING
-- **Dates:** 25–28 November 2026
+- **Dates:** 29 November – 3 December 2026
 - **Location:** Manila, Philippines
 - **Co-host:** Commission on Elections (COMELEC) of the Philippines
 

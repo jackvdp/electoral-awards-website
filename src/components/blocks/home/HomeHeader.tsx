@@ -66,7 +66,7 @@ const HomeHeader = () => {
                                 22nd International Electoral Awards &amp; Symposium
                             </h1>
                             <p className={`lead text-white mb-3 ${styles.heroDate}`}>
-                                25&ndash;28 November 2026 &middot; Manila, Philippines
+                                29 November &ndash; 3 December 2026 &middot; Manila, Philippines
                             </p>
                             <p className={`lead text-white px-lg-10 mb-5 ${styles.heroBody}`} style={{opacity: 0.9}}>
                                 The only international electoral symposium of its kind this year. Join electoral leaders, technology providers, and practitioners from around the world for keynotes, panels, breakout sessions, and the prestigious Awards Ceremony.
