@@ -21,8 +21,11 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({links}) => {
                 <div className="list-group list-group-flush">
                     {links.map((link) => {
                         // extract tab value from link url; expects /admin/admin?tab=users etc.
-                        const tabValue = new URL(link.url, 'http://dummy').searchParams.get('tab');
-                        const active = router.query.tab === tabValue;
+                        const parsed = new URL(link.url, 'http://dummy');
+                        const tabValue = parsed.searchParams.get('tab');
+                        const active = tabValue
+                            ? router.query.tab === tabValue
+                            : router.asPath === link.url;
                         return (
                             <NextLink
                                 key={link.url}
