@@ -21,6 +21,7 @@ interface CommEmail {
     status: 'drafted' | 'sent' | 'pending';
     phase: number;
     tags: string[];    // e.g. ['registration', 'nominations', 'speakers']
+    templateFile?: string; // .eml filename in emails/ directory
 }
 
 interface Phase {
@@ -52,6 +53,7 @@ const emails: CommEmail[] = [
         detail: 'Full event details, dates, venue, COMELEC co-host, free attendance, accommodation covered.',
         status: 'drafted',
         tags: ['registration'],
+        templateFile: '2026-03-email-01-invitation.eml',
     },
     {
         id: 2, wc: '30 Mar', weekStart: '2026-03-30', phase: 1,
@@ -608,6 +610,9 @@ const CommsPlan: NextPage = () => {
                                                     >
                                                         {statusConfig[email.status].label}
                                                     </span>
+                                                    {email.templateFile && (
+                                                        <i className="uil uil-file-download-alt ms-2" style={{ color: '#3f78e0', fontSize: '1rem' }} title="Template available"></i>
+                                                    )}
                                                 </td>
                                                 <td>
                                                     <i className={`uil ${isExpanded ? 'uil-angle-up' : 'uil-angle-down'}`}></i>
@@ -621,7 +626,18 @@ const CommsPlan: NextPage = () => {
                                                                 <div className="col-md-8">
                                                                     <p className="mb-2"><strong>Detail:</strong> {email.detail}</p>
                                                                     <p className="mb-2"><strong>Audience:</strong> {email.audience}</p>
-                                                                    <p className="mb-0"><strong>CTA:</strong> {email.cta}</p>
+                                                                    <p className="mb-2"><strong>CTA:</strong> {email.cta}</p>
+                                                                    {email.templateFile && (
+                                                                        <a
+                                                                            href={`/api/comms-templates/${email.templateFile}`}
+                                                                            className="btn btn-sm btn-primary mt-1"
+                                                                            download={email.templateFile}
+                                                                            onClick={(e) => e.stopPropagation()}
+                                                                        >
+                                                                            <i className="uil uil-download-alt me-1"></i>
+                                                                            Download Outlook Template
+                                                                        </a>
+                                                                    )}
                                                                 </div>
                                                                 <div className="col-md-4">
                                                                     <div className="p-2" style={{ background: '#fff', borderRadius: 4, border: '1px solid #dee2e6' }}>
