@@ -717,7 +717,7 @@ const CommsPlan: NextPage = () => {
                 <div className="card-body" style={{ fontSize: '0.85rem' }}>
                     <ul className="mb-0">
                         <li className="mb-2">Segment the database by region and engagement level. <strong>Asia-Pacific contacts</strong> should receive additional emphasis given the Manila location.</li>
-                        <li className="mb-2">Phone outreach is most effective <strong>1–2 weeks after an email campaign</strong>, when the event is fresh in recipients' minds.</li>
+                        <li className="mb-2">Phone outreach is most effective <strong>1–2 weeks after an email campaign</strong>, when the event is fresh in recipients&apos; minds.</li>
                         <li className="mb-2">LinkedIn posts should mix promotional content with engagement posts (polls, questions, throwbacks) to avoid being purely transactional.</li>
                         <li>Track registration sources to understand which channels convert best and adjust resource allocation accordingly.</li>
                     </ul>
