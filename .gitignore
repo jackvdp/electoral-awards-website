@@ -1164,3 +1164,6 @@ next-env.d.ts
 /bucket/photos/Portugal November 2023/1126 - 19th Annual International Electoral Affairs Symposium - Portugal 2023.jpg
 /bucket/photos/Portugal November 2023/1127 - 19th Annual International Electoral Affairs Symposium - Portugal 2023.jpg
 /bucket/photos/Portugal November 2023/1128 - 19th Annual International Electoral Affairs Symposium - Portugal 2023.jpg
+
+# Local docs (PDFs, Office files, working documents — not for version control)
+/docs/

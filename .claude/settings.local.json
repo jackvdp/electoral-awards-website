@@ -25,7 +25,9 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(EVENT_ID='69938de4f4f23e0fef2e3129' node:*)",
-      "Skill(electoral-network-admin)"
+      "Skill(electoral-network-admin)",
+      "Bash(sqlite3:*)",
+      "Skill(outlook-email)"
     ]
   }
 }

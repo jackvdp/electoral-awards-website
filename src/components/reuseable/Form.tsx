@@ -66,7 +66,7 @@ const ReusableForm: React.FC<FormProps> = ({
                 case "phone":
                     if (item.required && !validatePhone(value)) {
                         newErrors[item.name] =
-                            "Invalid phone number (please include country code e.g. +44...)";
+                            "Please enter a valid phone number";
                         isValid = false;
                     }
                     break;
@@ -104,7 +104,7 @@ const ReusableForm: React.FC<FormProps> = ({
                             } else if (item.type === "email") {
                                 inputType = "email";
                             } else if (item.type === "phone") {
-                                inputType = "text"; // or "tel" if you prefer
+                                inputType = "tel";
                             } else if (item.type === "date") {
                                 inputType = "datetime-local";
                             }
@@ -232,9 +232,8 @@ const validateEmail = (email: string): boolean => {
 };
 
 const validatePhone = (phone: string): boolean => {
-    // Remove spaces and check if it contains only numbers, plus sign, and spaces
-    const cleanPhone = phone.replace(/\s/g, ''); // Remove all spaces
-    return cleanPhone.length > 7 && /^[\+0-9]+$/.test(cleanPhone);
+    const cleanPhone = phone.replace(/[\s\-\(\)]/g, '');
+    return cleanPhone.length >= 7 && /^[\+0-9]+$/.test(cleanPhone);
 };
 
 const validateCountry = (country: string): boolean => {
