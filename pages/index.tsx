@@ -21,7 +21,7 @@ const Home: NextPage = () => {
         <Fragment>
             <CustomHead
                 title="Home"
-                description="Electoral Stakeholders' Network - A global community connecting electoral professionals, managers, and organizations to share knowledge, best practices, and foster collaboration in election management."
+                description="Electoral Members' Network - A global community connecting electoral professionals, managers, and organizations to share knowledge, best practices, and foster collaboration in election management."
             />
             <PageProgress/>
 

@@ -23,7 +23,7 @@ const BlogTemplate: FC = () => {
                 </div>
 
                 <div className='mb-8'>
-                    <p>The Electoral Stakeholders&apos; Network hosts a range of events, including webinars, in-person
+                    <p>The Electoral Members&apos; Network hosts a range of events, including webinars, in-person
                         symposiums, and the prestigious International Electoral Awards. These gatherings bring together
                         electoral commissioners, political analysts, and seasoned practitioners to explore key electoral
                         challenges and innovations, offering valuable insights into global electoral dynamics.</p>

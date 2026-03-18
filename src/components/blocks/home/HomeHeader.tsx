@@ -60,7 +60,7 @@ const HomeHeader = () => {
                     <div className="row justify-content-center">
                         <div className="col-lg-9 col-xl-8 text-center mt-md-10 mt-6">
                             <p className="text-uppercase ls-xl text-white mb-3 fw-bold" style={{letterSpacing: '0.2em', fontSize: '0.85rem'}}>
-                                Electoral Stakeholders&apos; Network
+                                Electoral Members&apos; Network
                             </p>
                             <h1 className="display-1 text-white mb-4">
                                 22nd International Electoral Awards &amp; Symposium

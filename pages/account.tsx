@@ -19,7 +19,7 @@ const AccountPage: NextPage<AccountPageProps> = ({user}) => {
         <Fragment>
             <CustomHead
                 title="Account"
-                description="Manage your Electoral Stakeholders' Network profile, update your professional information, and customize your network preferences and notifications."
+                description="Manage your Electoral Members' Network profile, update your professional information, and customize your network preferences and notifications."
             />
             <PageProgress/>
 

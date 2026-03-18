@@ -11,7 +11,7 @@ const AboutPage: NextPage = () => {
         <Fragment>
             <CustomHead
                 title="About"
-                description="Learn about the Electoral Stakeholders' Network, our mission to strengthen electoral processes worldwide through professional networking, knowledge sharing, and capacity building."
+                description="Learn about the Electoral Members' Network, our mission to strengthen electoral processes worldwide through professional networking, knowledge sharing, and capacity building."
             />
             <PageProgress/>
 

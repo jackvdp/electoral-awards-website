@@ -7,7 +7,7 @@ const HomeAbout: React.FC = () => {
             <h3 className="display-4 mb-3">Global Network for Electoral Excellence</h3>
             <p className="lead fs-lg lh-sm">Home of the International Electoral Awards &amp; Symposium.</p>
             <p className="mb-3">
-                The Electoral Stakeholders&apos; Network unites electoral leaders, experts, and innovators worldwide to
+                The Electoral Members&apos; Network unites electoral leaders, experts, and innovators worldwide to
                 enhance electoral management and democratic integrity. We achieve this through high-impact <b>events,
                 professional training, insightful publications, and our flagship International Electoral Awards</b>,
                 which celebrate excellence in the field.

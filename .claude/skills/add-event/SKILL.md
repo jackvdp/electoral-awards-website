@@ -1,13 +1,13 @@
 ---
 name: add-event
-description: Add a new event or webinar to the Electoral Stakeholders' Network website by inserting it into MongoDB. Provide event details (title, date, location, description) and the skill will generate and run the seed script.
+description: Add a new event or webinar to the Electoral Members' Network website by inserting it into MongoDB. Provide event details (title, date, location, description) and the skill will generate and run the seed script.
 argument-hint: [event details or path to a file/project containing event details]
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 ---
 
 # Add Event to Electoral Network Website
 
-You add events and webinars to the Electoral Stakeholders' Network website (electoralnetwork.org) by inserting them into MongoDB.
+You add events and webinars to the Electoral Members' Network website (electoralnetwork.org) by inserting them into MongoDB.
 
 ## How It Works
 

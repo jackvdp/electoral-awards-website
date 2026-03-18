@@ -14,7 +14,7 @@ const Gallery: NextPage = () => {
         <Fragment>
             <CustomHead
                 title="Gallery"
-                description="View photos from electoral events, conferences, and professional gatherings of the Electoral Stakeholders' Network community."
+                description="View photos from electoral events, conferences, and professional gatherings of the Electoral Members' Network community."
             />
             <PageProgress/>
 

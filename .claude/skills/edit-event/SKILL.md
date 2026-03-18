@@ -1,13 +1,13 @@
 ---
 name: edit-event
-description: Edit an existing event or webinar on the Electoral Stakeholders' Network website. Update any combination of fields (title, dates, location, description, image, speakers) in MongoDB.
+description: Edit an existing event or webinar on the Electoral Members' Network website. Update any combination of fields (title, dates, location, description, image, speakers) in MongoDB.
 argument-hint: [what to change, e.g. "change the workforce webinar date to 15 April"]
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 ---
 
 # Edit Event on Electoral Network Website
 
-You edit existing events and webinars on the Electoral Stakeholders' Network website (electoralnetwork.org) by updating them in MongoDB.
+You edit existing events and webinars on the Electoral Members' Network website (electoralnetwork.org) by updating them in MongoDB.
 
 ## How It Works
 

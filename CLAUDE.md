@@ -1,8 +1,8 @@
-# Electoral Stakeholders' Network — Website & Project Context
+# Electoral Members' Network — Website & Project Context
 
 ## Project Overview
 
-This is the website for the **International Electoral Awards & Symposium**, run by the **International Centre for Parliamentary Studies (ICPS)** and the **Electoral Stakeholders' Network**. The site is at **electoralnetwork.org**.
+This is the website for the **International Electoral Awards & Symposium**, run by the **International Centre for Parliamentary Studies (ICPS)** and the **Electoral Members' Network**. The site is at **electoralnetwork.org**.
 
 **Jack Vanderpump** (Head of Policy Research, ICPS) manages the Network, the awards programme, the website, and all associated communications. His responsibilities span event logistics, delegate relations, nominations management, judging coordination, content publication, and year-round Network activities.
 

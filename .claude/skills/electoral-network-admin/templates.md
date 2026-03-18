@@ -8,7 +8,7 @@ Dear [Title Surname],
 
 Thank you for your valuable contribution to the [Nth] International Electoral Awards & Symposium in [City]. Your session on **[Session Title]** was a highlight of the programme and generated excellent discussion among delegates.
 
-If you are happy for us to publish your slides on the Electoral Stakeholders' Network website, please confirm by replying to this email. Your **Speaker Certificate** is attached for your records.
+If you are happy for us to publish your slides on the Electoral Members' Network website, please confirm by replying to this email. Your **Speaker Certificate** is attached for your records.
 
 We would welcome your feedback via this short survey: [link]
 
@@ -33,7 +33,7 @@ Presentation slides and recordings will be shared in due course.
 
 We would be grateful for your feedback via this short survey: [link]
 
-We look forward to staying in touch through the Electoral Stakeholders' Network.
+We look forward to staying in touch through the Electoral Members' Network.
 
 Warm regards,
 
@@ -47,7 +47,7 @@ Warm regards,
 
 Dear [Name],
 
-On behalf of ICPS and the Electoral Stakeholders' Network, congratulations on being recognised at the [Nth] International Electoral Awards.
+On behalf of ICPS and the Electoral Members' Network, congratulations on being recognised at the [Nth] International Electoral Awards.
 
 Your achievement in [brief description] is a testament to [their contribution].
 
@@ -70,7 +70,7 @@ Kind regards,
 
 Dear [Name/esteemed colleague],
 
-On behalf of the International Centre for Parliamentary Studies (ICPS) and the Electoral Stakeholders' Network, I am pleased to invite [you/your Commission] to participate in the **[Nth] International Electoral Awards and Symposium**, taking place from **[dates]** in **[City, Country]**.
+On behalf of the International Centre for Parliamentary Studies (ICPS) and the Electoral Members' Network, I am pleased to invite [you/your Commission] to participate in the **[Nth] International Electoral Awards and Symposium**, taking place from **[dates]** in **[City, Country]**.
 
 The International Electoral Awards, organised annually by ICPS, celebrate excellence and innovation in electoral administration and democratic governance. This year's edition is co-hosted by **[co-host full name]**, in partnership with ICPS, and will convene electoral leaders, experts, and institutions from across [region] and the globe.
 
@@ -176,7 +176,7 @@ www.electoralnetwork.org
 
 Dear [Name/colleague],
 
-We are pleased to invite you to the next **Electoral Stakeholders' Network webinar**:
+We are pleased to invite you to the next **Electoral Members' Network webinar**:
 
 **[Webinar Title]**
 **Date:** [Day, Date Month Year]

@@ -8,7 +8,7 @@ The **International Centre for Parliamentary Studies (ICPS)** builds public-sect
 **Contact:** electoral@parlicentre.org
 **Website:** electoralnetwork.org
 
-## Electoral Stakeholders' Network
+## Electoral Members' Network
 
 The Network connects electoral management bodies, civil society organisations, academics, observers, and practitioners worldwide. Its activities include:
 
