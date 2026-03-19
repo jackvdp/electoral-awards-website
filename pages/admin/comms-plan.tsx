@@ -15,6 +15,7 @@ const tagColours: Record<string, string> = {
     nominations: '#45c4a0',
     speakers: '#7c69ef',
     programme: '#f78b77',
+    webinars: '#e8a317',
     logistics: '#6c757d',
 };
 
@@ -53,7 +54,7 @@ const CommsPlan: NextPage<CommsPlanPageProps> = ({ plan }) => {
         ? emails.filter(e => e.tags.includes(filterTag))
         : emails;
 
-    const allTags = ['registration', 'nominations', 'speakers', 'programme', 'logistics'];
+    const allTags = ['registration', 'nominations', 'speakers', 'programme', 'webinars', 'logistics'];
 
     return (
         <AdminPage title="Delegate Acquisition — Comms Plan">
