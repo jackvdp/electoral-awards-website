@@ -13,43 +13,26 @@ An interactive email assistant that reads the Exchange mailbox in Apple Mail, wa
 
 ### Step 1 — Fetch the inbox
 
-Fetch all messages from the **Exchange** account inbox. Write the following to `/tmp/apple-mail-inbox.applescript` and run with `osascript`:
+Fetch all messages from the **Exchange** account inbox using the `fetch.sh` script:
 
-```applescript
-set maxCount to 30
-set output to ""
-set delimChar to ASCII character 30
+```bash
+# Fetch 30 most recent emails (default)
+.claude/skills/apple-mail-inbox/fetch.sh
 
-tell application "Mail"
-    set exchangeAccount to account "Exchange"
-    set inboxMailbox to mailbox "Inbox" of exchangeAccount
-    set inboxMessages to messages of inboxMailbox
-    set msgCount to count of inboxMessages
-    if msgCount > maxCount then set msgCount to maxCount
+# Fetch a specific number
+.claude/skills/apple-mail-inbox/fetch.sh --max 10
 
-    repeat with i from 1 to msgCount
-        set msg to item i of inboxMessages
-        set msgFrom to sender of msg
-        set msgSubject to subject of msg
-        set msgDate to date received of msg
-        set msgRead to read status of msg
-        set msgContent to content of msg
+# Search by subject or sender
+.claude/skills/apple-mail-inbox/fetch.sh --search "COMELEC"
 
-        if (count of msgContent) > 500 then
-            set msgContent to text 1 thru 500 of msgContent
-        end if
-
-        set output to output & "FROM: " & msgFrom & linefeed
-        set output to output & "SUBJECT: " & msgSubject & linefeed
-        set output to output & "DATE: " & (msgDate as string) & linefeed
-        set output to output & "READ: " & (msgRead as string) & linefeed
-        set output to output & "BODY: " & msgContent & linefeed
-        set output to output & delimChar & linefeed
-    end repeat
-end tell
-
-return output
+# Paginate — skip the first 20, fetch the next 30
+.claude/skills/apple-mail-inbox/fetch.sh --offset 20 --max 30
 ```
+
+**Arguments:**
+- `--max N` — maximum emails to fetch (default: 30)
+- `--search "term"` — filter by subject or sender
+- `--offset N` — skip the first N messages (for pagination)
 
 ### Step 2 — Present emails one at a time
 
@@ -102,28 +85,21 @@ If the user says "skip all" or "just show me the list", present a summary table 
 
 ---
 
-## AppleScript Templates
+## Scripts
+
+All scripts are in `.claude/skills/apple-mail-inbox/`.
+
+| Script | Purpose |
+|--------|---------|
+| `fetch.sh` | Fetch inbox emails (with optional search, pagination) |
+| `reply.sh` | Open a draft reply in Apple Mail (with optional CC) |
 
 ### Get Full Email Body
 
-```applescript
-tell application "Mail"
-    set exchangeAccount to account "Exchange"
-    set inboxMailbox to mailbox "Inbox" of exchangeAccount
-    set inboxMessages to messages of inboxMailbox
+To read the full body of a specific email, use the search flag:
 
-    repeat with msg in inboxMessages
-        if sender of msg contains "SENDER_MATCH" then
-            set msgFrom to sender of msg
-            set msgSubject to subject of msg
-            set msgDate to date received of msg
-            set msgContent to content of msg
-            return "FROM: " & msgFrom & linefeed & "SUBJECT: " & msgSubject & linefeed & "DATE: " & (msgDate as string) & linefeed & "BODY: " & msgContent
-        end if
-    end repeat
-end tell
-
-return "No message found."
+```bash
+.claude/skills/apple-mail-inbox/fetch.sh --search "sender@example.com" --max 1
 ```
 
 ### Reply to an Email — `reply.sh`
@@ -177,48 +153,6 @@ Thank you for your email.
 - Do NOT set the `content` property of the reply — this overwrites the thread
 - Do NOT use `Cmd+A` — this can select and replace the thread
 - Uses `delay 2` to let the reply window fully load before pasting
-
-### Search Messages
-
-```applescript
-set searchTerm to "SEARCH_TERM_HERE"
-set maxCount to 50
-set output to ""
-set delimChar to ASCII character 30
-
-tell application "Mail"
-    set exchangeAccount to account "Exchange"
-    set inboxMailbox to mailbox "Inbox" of exchangeAccount
-    set inboxMessages to messages of inboxMailbox
-    set msgCount to count of inboxMessages
-    if msgCount > maxCount then set msgCount to maxCount
-
-    repeat with i from 1 to msgCount
-        set msg to item i of inboxMessages
-        set msgFrom to sender of msg
-        set msgSubject to subject of msg
-
-        if msgSubject contains searchTerm or msgFrom contains searchTerm then
-            set msgDate to date received of msg
-            set msgRead to read status of msg
-            set msgContent to content of msg
-
-            if (count of msgContent) > 500 then
-                set msgContent to text 1 thru 500 of msgContent
-            end if
-
-            set output to output & "FROM: " & msgFrom & linefeed
-            set output to output & "SUBJECT: " & msgSubject & linefeed
-            set output to output & "DATE: " & (msgDate as string) & linefeed
-            set output to output & "READ: " & (msgRead as string) & linefeed
-            set output to output & "BODY: " & msgContent & linefeed
-            set output to output & delimChar & linefeed
-        end if
-    end repeat
-end tell
-
-return output
-```
 
 ---
 
