@@ -7,7 +7,7 @@ allowed-tools: Bash, Read, Write
 
 # Email Assistant
 
-An interactive email assistant that reads the Exchange mailbox in Apple Mail, walks through emails one by one, and drafts replies on request. **Never sends emails — only opens drafts for the user to review and send.**
+An interactive email assistant that reads the Exchange mailbox in Apple Mail, groups emails into conversations, and walks through them conversation by conversation. Drafts replies on request. **Never sends emails — only opens drafts for the user to review and send.**
 
 ## Workflow
 
@@ -34,37 +34,62 @@ Fetch all messages from the **Exchange** account inbox using the `fetch.sh` scri
 - `--search "term"` — filter by subject or sender
 - `--offset N` — skip the first N messages (for pagination)
 
-### Step 2 — Present emails one at a time
+### Step 2 — Group into conversations
 
-Show the user **one email at a time**, formatted as:
+After fetching, group emails into **conversations** by threading them together. Emails belong to the same conversation if they share a subject line (ignoring `Re:`, `FW:`, `Fwd:` prefixes) or are clearly part of the same exchange between the same participants.
+
+Present a summary table of conversations first:
 
 ```
-**Email 1 of N**
-**From:** Sender Name <email>
-**Date:** Day, DD Month YYYY
-**Subject:** Subject line
+You have **N conversations** in your inbox:
 
-> Body preview (first few lines, quoted)
+| # | From | Subject | Messages | Latest |
+|---|------|---------|----------|--------|
+| 1 | name(s) | subject | count | date |
+```
+
+Then note which conversations likely need attention (e.g., unread, awaiting reply, action requested) and which are resolved/informational.
+
+### Step 3 — Walk through conversations one at a time
+
+Present **one conversation at a time**, showing:
+
+```
+**Conversation 1 of N**
+**Subject:** Subject line
+**Between:** Participant names
+**Messages:** N emails (oldest date – newest date)
+
+> Summary of the conversation thread — what was discussed, what was asked, where it stands now
+
+**Latest message:**
+**From:** Sender <email>
+**Date:** Day, DD Month YYYY
+
+> Body preview of the most recent message
 ```
 
 Then ask:
 
 > **What would you like to do?**
-> - **Reply** — I'll draft a response for you
-> - **Skip** — move to the next email
+> - **Reply** — I'll draft a response to the latest message
+> - **Skip** — move to the next conversation
+> - **Read all** — show every message in this thread
 > - **Search** — find a specific email
 > - Or tell me what you'd like to say and I'll draft it
 
-### Step 3 — Suggest and draft replies
+### Step 4 — Suggest and draft replies
 
 When the user asks to reply (or says what they want to say):
 
-1. **Read the full email** if only a preview was fetched — use the "Get Full Email Body" template below
+1. **Read the full email** if only a preview was fetched — use the search flag on `fetch.sh`
 2. **Suggest a response** — show the user a draft in a code block first, so they can review/edit before it goes into Mail
 3. **Ask for confirmation** — "Shall I open this as a draft in Mail?"
-4. **Open the draft** in Apple Mail using the reply template below
+4. **Open the draft** in Apple Mail using `reply.sh`
 
-If the email clearly needs a response and the context is obvious, proactively suggest what the reply could say. If it's ambiguous, ask the user what they'd like to convey.
+If the conversation clearly needs a response and the context is obvious, proactively suggest what the reply could say. If it's ambiguous, ask the user what they'd like to convey.
+
+**Reply to the most recent message** in the conversation by default. If the user wants to reply to a specific earlier message, match by that sender instead.
 
 **Style for drafts:**
 - Professional, warm, concise — matching Jack's tone
@@ -73,15 +98,11 @@ If the email clearly needs a response and the context is obvious, proactively su
 - Start with "Dear [Name]," or "Hi [Name]," as appropriate
 - Keep replies focused and to the point
 
-### Step 4 — Continue through the inbox
+### Step 5 — Continue through the inbox
 
-After each email is handled (replied or skipped), move to the next one. Keep a running count so the user knows their progress.
+After each conversation is handled (replied or skipped), move to the next one. Keep a running count so the user knows their progress.
 
-If the user says "skip all" or "just show me the list", present a summary table instead:
-
-| # | From | Subject | Date |
-|---|------|---------|------|
-| 1 | name | subject | date |
+If the user says "skip all" or "just show me the list", present the summary table again.
 
 ---
 
