@@ -27,7 +27,10 @@
       "Bash(EVENT_ID='69938de4f4f23e0fef2e3129' node:*)",
       "Skill(electoral-network-admin)",
       "Bash(sqlite3:*)",
-      "Skill(outlook-email)"
+      "Skill(outlook-email)",
+      "Skill(add-event)",
+      "Skill(edit-event)",
+      "Bash(EVENT_ID='69bb1ea6286c3296233b2367' UPDATE_JSON='{ \"imageURL\": \"https://t3.ftcdn.net/jpg/00/70/76/96/240_F_70769626_UtjlYeesatbYM3tPk68lLNOzXJfdkdr4.jpg\" }' node .claude/skills/edit-event/update-event.mjs)"
     ]
   }
 }
