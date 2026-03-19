@@ -28,6 +28,7 @@ export interface Phase {
 
 export interface SocialPost {
     wc: string;
+    weekStart: string; // ISO date for calendar positioning and matching to emails
     count: number;
     description: string;
 }
@@ -341,24 +342,24 @@ export const commsPlan2026: CommsPlanData = {
     ],
 
     socialPosts: [
-        { wc: '16 Mar', count: 4, description: 'Event announcement series — venue reveal, value prop, 2025 highlights' },
-        { wc: '30 Mar', count: 3, description: '2026 programme announcement — Awards + 3 webinars overview, save-the-dates graphic' },
-        { wc: '6 Apr', count: 2, description: 'Webinar 1 promo — Empowering the Election Workforce (17 Apr), speaker/topic teaser' },
-        { wc: '13 Apr', count: 3, description: 'Nominations open — category spotlights, winner testimonial' },
-        { wc: '20 Apr', count: 2, description: 'Webinar 1 recap — key findings graphic, link to recording, quote from speaker' },
-        { wc: '11 May', count: 2, description: 'Programme themes — poll/engagement post' },
-        { wc: '18 May', count: 2, description: 'Webinar 2 promo — Speed in Election Results Transmission (11 Jun), topic preview' },
-        { wc: '25 May', count: 3, description: 'Speaker reveals with headshots and quotes' },
-        { wc: '8 Jun', count: 3, description: 'Category deep-dive, nomination reminder, Webinar 2 this week reminder' },
-        { wc: '15 Jun', count: 2, description: 'Webinar 2 recap — key insights graphic, link to recording' },
-        { wc: '6 Jul', count: 2, description: 'Milestone celebration — delegate map graphic' },
-        { wc: '3 Aug', count: 3, description: 'Nominations closing countdown (4 weeks, 2 weeks, final days)' },
-        { wc: '25 Aug', count: 2, description: 'Webinar 3 promo — Inclusive Elections (16 Sep), topic preview, speaker teaser' },
-        { wc: '7 Sep', count: 2, description: 'Webinar 3 reminder — one week to go, sign up now' },
-        { wc: '14 Sep', count: 3, description: 'Programme release — infographic, session spotlight, Webinar 3 this week' },
-        { wc: '21 Sep', count: 2, description: 'Webinar 3 recap — key takeaways graphic, link to recording' },
-        { wc: '12 Oct', count: 4, description: 'Shortlist announcement — category-by-category spotlights' },
-        { wc: '26 Oct', count: 4, description: 'Countdown series — one month, behind-the-scenes, two weeks, this week' },
+        { wc: '16 Mar', weekStart: '2026-03-16', count: 4, description: 'Event announcement series — venue reveal, value prop, 2025 highlights' },
+        { wc: '30 Mar', weekStart: '2026-03-30', count: 3, description: '2026 programme announcement — Awards + 3 webinars overview, save-the-dates graphic' },
+        { wc: '6 Apr', weekStart: '2026-04-06', count: 2, description: 'Webinar 1 promo — Empowering the Election Workforce (17 Apr), speaker/topic teaser' },
+        { wc: '13 Apr', weekStart: '2026-04-13', count: 3, description: 'Nominations open — category spotlights, winner testimonial' },
+        { wc: '20 Apr', weekStart: '2026-04-20', count: 2, description: 'Webinar 1 recap — key findings graphic, link to recording, quote from speaker' },
+        { wc: '11 May', weekStart: '2026-05-11', count: 2, description: 'Programme themes — poll/engagement post' },
+        { wc: '18 May', weekStart: '2026-05-18', count: 2, description: 'Webinar 2 promo — Speed in Election Results Transmission (11 Jun), topic preview' },
+        { wc: '25 May', weekStart: '2026-05-25', count: 3, description: 'Speaker reveals with headshots and quotes' },
+        { wc: '8 Jun', weekStart: '2026-06-08', count: 3, description: 'Category deep-dive, nomination reminder, Webinar 2 this week reminder' },
+        { wc: '15 Jun', weekStart: '2026-06-15', count: 2, description: 'Webinar 2 recap — key insights graphic, link to recording' },
+        { wc: '6 Jul', weekStart: '2026-07-06', count: 2, description: 'Milestone celebration — delegate map graphic' },
+        { wc: '3 Aug', weekStart: '2026-08-03', count: 3, description: 'Nominations closing countdown (4 weeks, 2 weeks, final days)' },
+        { wc: '25 Aug', weekStart: '2026-08-25', count: 2, description: 'Webinar 3 promo — Inclusive Elections (16 Sep), topic preview, speaker teaser' },
+        { wc: '7 Sep', weekStart: '2026-09-07', count: 2, description: 'Webinar 3 reminder — one week to go, sign up now' },
+        { wc: '14 Sep', weekStart: '2026-09-14', count: 3, description: 'Programme release — infographic, session spotlight, Webinar 3 this week' },
+        { wc: '21 Sep', weekStart: '2026-09-21', count: 2, description: 'Webinar 3 recap — key takeaways graphic, link to recording' },
+        { wc: '12 Oct', weekStart: '2026-10-12', count: 4, description: 'Shortlist announcement — category-by-category spotlights' },
+        { wc: '26 Oct', weekStart: '2026-10-26', count: 4, description: 'Countdown series — one month, behind-the-scenes, two weeks, this week' },
     ],
 
     sellingPoints: [
