@@ -48,7 +48,7 @@ export interface CommsPlanData {
 }
 
 export const commsPlan2026: CommsPlanData = {
-    title: '22nd International Electoral Awards & Symposium',
+    title: '2026 Programme: 22nd International Electoral Awards & Symposium | Webinars',
     subtitle: '29 November – 3 December 2026 | The Manila Hotel, Manila, Philippines',
     coHost: 'Co-hosted by ICPS & COMELEC',
     targetDelegates: '150–200',

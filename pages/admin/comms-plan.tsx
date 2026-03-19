@@ -232,7 +232,7 @@ const CommsPlan: NextPage<CommsPlanPageProps> = ({ plan }) => {
             {/* ── Filter Tags ── */}
             <div className="card mb-4">
                 <div className="card-header bg-white d-flex align-items-center justify-content-between flex-wrap">
-                    <h5 className="mb-0">Fortnightly Email Schedule</h5>
+                    <h5 className="mb-0">Email Schedule</h5>
                     <div className="d-flex gap-2 flex-wrap mt-2 mt-md-0">
                         <button
                             className={`btn btn-sm ${!filterTag ? 'btn-dark' : 'btn-outline-secondary'}`}
