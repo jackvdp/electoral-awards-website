@@ -30,7 +30,9 @@
       "Skill(outlook-email)",
       "Skill(add-event)",
       "Skill(edit-event)",
-      "Bash(EVENT_ID='69bb1ea6286c3296233b2367' UPDATE_JSON='{ \"imageURL\": \"https://t3.ftcdn.net/jpg/00/70/76/96/240_F_70769626_UtjlYeesatbYM3tPk68lLNOzXJfdkdr4.jpg\" }' node .claude/skills/edit-event/update-event.mjs)"
+      "Bash(EVENT_ID='69bb1ea6286c3296233b2367' UPDATE_JSON='{ \"imageURL\": \"https://t3.ftcdn.net/jpg/00/70/76/96/240_F_70769626_UtjlYeesatbYM3tPk68lLNOzXJfdkdr4.jpg\" }' node .claude/skills/edit-event/update-event.mjs)",
+      "Bash(mv /Users/jackvanderpump/.claude/skills/apple-mail-inbox/SKILL.md /Users/jackvanderpump/Repos/electoral-awards-website/.claude/skills/apple-mail-inbox/SKILL.md)",
+      "Bash(rmdir /Users/jackvanderpump/.claude/skills/apple-mail-inbox)"
     ]
   }
 }
