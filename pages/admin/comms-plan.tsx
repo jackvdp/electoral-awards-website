@@ -133,7 +133,12 @@ const CommsPlan: NextPage<CommsPlanPageProps> = ({ plan }) => {
                                                 return (
                                                     <div
                                                         key={email.id}
-                                                        onClick={() => setExpandedEmail(expandedEmail === email.id ? null : email.id)}
+                                                        onClick={() => {
+                                                            setExpandedEmail(expandedEmail === email.id ? null : email.id);
+                                                            setTimeout(() => {
+                                                                document.getElementById(`email-${email.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                                            }, 50);
+                                                        }}
                                                         title={`Email ${email.id}: ${email.primary}`}
                                                         style={{
                                                             position: 'absolute',
@@ -283,6 +288,7 @@ const CommsPlan: NextPage<CommsPlanPageProps> = ({ plan }) => {
                                     return (
                                         <React.Fragment key={email.id}>
                                             <tr
+                                                id={`email-${email.id}`}
                                                 onClick={() => setExpandedEmail(isExpanded ? null : email.id)}
                                                 style={{ cursor: 'pointer', borderLeft: `3px solid ${phase.colour}` }}
                                             >
