@@ -161,6 +161,16 @@ Thank you for your email.
 - `--sender` (required) — email address or name to match the message to reply to
 - `--body` (required) — the reply text to paste into the message (supports multiline)
 - `--cc` (optional, repeatable) — CC recipient email address
+- `--html` (optional) — treat `--body` as HTML content, enabling rich text with clickable links, bold, etc.
+
+**Always use `--html` mode** when the body contains links. Wrap the body in a `<div>` with paragraphs (`<p>`) and use `<a href='...'>` for links. Example:
+
+```bash
+.claude/skills/apple-mail-inbox/reply.sh \
+  --sender "email@example.com" \
+  --html \
+  --body "<div><p>Dear X,</p><p>Please visit <a href='https://electoralnetwork.org'>electoralnetwork.org</a> for details.</p></div>"
+```
 
 **How it works under the hood:**
 - Generates a temporary AppleScript at `/tmp/mail-reply.applescript`
