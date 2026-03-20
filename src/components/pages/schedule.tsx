@@ -6,8 +6,9 @@ import {TabBarAndContent} from 'components/reuseable/TabBar';
 import PageProgress from 'components/common/PageProgress';
 import CustomHead from "components/common/CustomHead";
 import {Day} from "data/schedule";
+import EventSignupButton from "components/blocks/awards/EventSignupButton";
 
-const Schedule= ({ schedule, headTitle, dates  }: { schedule: Day[], headTitle: string, dates: string}) => {
+const Schedule= ({ schedule, headTitle, dates, eventId  }: { schedule: Day[], headTitle: string, dates: string, eventId?: string | null}) => {
     return (
         <Fragment>
             <CustomHead
@@ -23,6 +24,11 @@ const Schedule= ({ schedule, headTitle, dates  }: { schedule: Day[], headTitle: 
             <main className="content-wrapper">
                 <section className="container wrapper bg-light px-2 py-md-10 py-5 ">
                     <h2 className="mb-5 text-center">{dates}</h2>
+                    {eventId && (
+                        <div className="text-center mb-8">
+                            <EventSignupButton eventId={eventId}/>
+                        </div>
+                    )}
                     <TabBarAndContent items={
                         schedule.map(day => ({
                             title: day.title.split(':')[0],
@@ -30,6 +36,11 @@ const Schedule= ({ schedule, headTitle, dates  }: { schedule: Day[], headTitle: 
                             icon: <i className="uil uil-calendar-alt pe-1"/>
                         }))
                     }/>
+                    {eventId && (
+                        <div className="text-center mt-8">
+                            <EventSignupButton eventId={eventId}/>
+                        </div>
+                    )}
                 </section>
             </main>
 

@@ -10,6 +10,8 @@ import Footer from 'components/blocks/footer/Footer';
 import type { NextPage } from 'next';
 import organisers from "data/organisers";
 import {FAQs} from "../../src/data/faq";
+import {AWARDS_EVENT_ID} from "data/awards-config";
+import EventSignupButton from "components/blocks/awards/EventSignupButton";
 
 
 const AboutAwards: NextPage = () => {
@@ -29,6 +31,12 @@ const AboutAwards: NextPage = () => {
                 <SimpleBanner title={"22nd International Electoral Awards"}></SimpleBanner>
 
                 <div className="container pt-14 pt-md-16 pb-7 pt-md-8">
+
+                    {AWARDS_EVENT_ID && (
+                        <div className="text-center mb-10">
+                            <EventSignupButton eventId={AWARDS_EVENT_ID}/>
+                        </div>
+                    )}
 
                     <div className='mb-5 mb-md-10'>
                         <h2 className="mb-5 text-uppercase text-muted text-center">The Premier Global Electoral Event</h2>
@@ -52,9 +60,11 @@ const AboutAwards: NextPage = () => {
                         <div className='px-lg-12 px-xl-15'>
                             <h3 className="mt-10 mb-5 ">Key Links</h3>
                             <ul>
-                                {/*<li>*/}
-                                {/*    <Link className="text-decoration-none" href="/events/TODO">Register for the event</Link>*/}
-                                {/*</li>*/}
+                                {AWARDS_EVENT_ID && (
+                                    <li>
+                                        <Link className="text-decoration-none" href={`/events/${AWARDS_EVENT_ID}`}>Register for the event</Link>
+                                    </li>
+                                )}
                                 <li>
                                     <Link className="text-decoration-none" href="/awards/schedule">View the provisional schedule</Link>
                                 </li>
@@ -90,6 +100,12 @@ const AboutAwards: NextPage = () => {
                     <section id="faq">
                         <FAQ questions={FAQs}/>
                     </section>
+
+                    {AWARDS_EVENT_ID && (
+                        <div className="text-center mt-10 mb-5">
+                            <EventSignupButton eventId={AWARDS_EVENT_ID}/>
+                        </div>
+                    )}
 
                 </div>
             </main>

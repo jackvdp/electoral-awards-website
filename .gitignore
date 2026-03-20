@@ -1167,3 +1167,5 @@ next-env.d.ts
 
 # Local docs (PDFs, Office files, working documents — not for version control)
 /docs/
+
+.claude/settings.local.json
