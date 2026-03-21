@@ -82,10 +82,20 @@ const EventSignupButton: React.FC<EventSignupButtonProps> = ({eventId}) => {
     }
 
     if (!isLoggedIn || !currentUser) {
+        const openModal = () => {
+            const modal = document.getElementById('modal-signin');
+            if (modal) {
+                modal.dataset.heading = 'Register for the Awards';
+                modal.dataset.description = 'To register, please sign in to your account or click Sign Up below to create one.';
+                const bootstrap = require('bootstrap');
+                const bsModal = bootstrap.Modal.getOrCreateInstance(modal);
+                bsModal.show();
+            }
+        };
+
         return (
             <button
-                data-bs-toggle="modal"
-                data-bs-target="#modal-signin"
+                onClick={openModal}
                 className="btn btn-primary rounded-pill mt-4"
             >
                 Register for the Awards

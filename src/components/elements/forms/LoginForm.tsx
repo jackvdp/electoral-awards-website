@@ -4,7 +4,12 @@ import RegisterLink from 'components/reuseable/links/RegisterLink';
 import {useAuth} from 'auth/useAuth';
 import {useRouter} from 'next/router';
 
-const LoginForm: FC = () => {
+interface LoginFormProps {
+    heading?: string;
+    description?: string;
+}
+
+const LoginForm: FC<LoginFormProps> = ({ heading, description }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [magicLinkSent, setMagicLinkSent] = useState(false);
@@ -72,9 +77,9 @@ const LoginForm: FC = () => {
 
     return (
         <Fragment>
-            <h2 className="mb-3 text-start">Welcome Back</h2>
+            <h2 className="mb-3 text-start">{heading || 'Welcome Back'}</h2>
             <p className="lead text-start">
-                Choose your sign in method below.
+                {description || 'Choose your sign in method below.'}
             </p>
 
             <ul className="nav nav-tabs nav-tabs-basic">
