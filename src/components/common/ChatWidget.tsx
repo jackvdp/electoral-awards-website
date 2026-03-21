@@ -90,7 +90,7 @@ export default function ChatWidget() {
                         a: ({ href, children }) => (
                           <a
                             href={href}
-                            target={href?.startsWith('http') ? '_blank' : undefined}
+                            target="_blank"
                             rel="noopener noreferrer"
                           >
                             {children}
