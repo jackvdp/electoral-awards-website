@@ -14,6 +14,7 @@ function getMessageText(message: UIMessage): string {
 export default function ChatWidget() {
   const { pathname } = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -51,21 +52,31 @@ export default function ChatWidget() {
     <>
       {/* Chat panel */}
       {isOpen && (
-        <div className="chat-widget-panel bg-white">
+        <div className={`chat-widget-panel bg-white ${isFullscreen ? 'chat-widget-panel--fullscreen' : ''}`}>
           {/* Header */}
           <div
             className="d-flex align-items-center justify-content-between px-3 py-2 border-bottom bg-primary text-white"
             style={{ borderRadius: '0.75rem 0.75rem 0 0' }}
           >
             <span className="fw-bold small">Chat with us</span>
-            <button
-              type="button"
-              className="btn btn-link text-white p-0 lh-1"
-              onClick={() => setIsOpen(false)}
-              aria-label="Close chat"
-            >
-              <i className="uil uil-times" style={{ fontSize: '1.25rem' }} />
-            </button>
+            <div className="d-flex gap-2 align-items-center">
+              <button
+                type="button"
+                className="btn btn-link text-white p-0 lh-1"
+                onClick={() => setIsFullscreen((prev) => !prev)}
+                aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+              >
+                <i className={isFullscreen ? 'uil uil-compress-alt' : 'uil uil-expand-alt'} style={{ fontSize: '1.1rem' }} />
+              </button>
+              <button
+                type="button"
+                className="btn btn-link text-white p-0 lh-1"
+                onClick={() => setIsOpen(false)}
+                aria-label="Close chat"
+              >
+                <i className="uil uil-times" style={{ fontSize: '1.25rem' }} />
+              </button>
+            </div>
           </div>
 
           {/* Messages */}
