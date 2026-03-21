@@ -44,13 +44,14 @@
   }
 
   &--fullscreen {
-    top: 1rem;
-    left: 1rem;
-    right: 1rem;
-    bottom: 6rem;
-    width: calc(100% - 2rem);
-    max-height: calc(100% - 7rem);
-    border-radius: 0.75rem;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    z-index: 1060;
   }
 }
 
