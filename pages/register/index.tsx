@@ -6,7 +6,7 @@ import PageProgress from 'components/common/PageProgress';
 import Register from 'components/blocks/register/Register';
 import {useRouter} from 'next/router';
 import {useAuth} from 'auth/useAuth';
-import CustomHead from "../src/components/common/CustomHead";
+import CustomHead from "components/common/CustomHead";
 
 const RegisterPage: NextPage = () => {
 

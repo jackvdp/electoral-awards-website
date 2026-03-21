@@ -87,6 +87,7 @@ const EventSignupButton: React.FC<EventSignupButtonProps> = ({eventId}) => {
             if (modal) {
                 modal.dataset.heading = 'Register for the Awards';
                 modal.dataset.description = 'To register, please sign in to your account or click Sign Up below to create one.';
+                modal.dataset.signupUrl = '/register/awards';
                 const bootstrap = require('bootstrap');
                 const bsModal = bootstrap.Modal.getOrCreateInstance(modal);
                 bsModal.show();

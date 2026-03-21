@@ -7,9 +7,10 @@ import {useRouter} from 'next/router';
 interface LoginFormProps {
     heading?: string;
     description?: string;
+    signupUrl?: string;
 }
 
-const LoginForm: FC<LoginFormProps> = ({ heading, description }) => {
+const LoginForm: FC<LoginFormProps> = ({ heading, description, signupUrl }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [magicLinkSent, setMagicLinkSent] = useState(false);
@@ -45,11 +46,15 @@ const LoginForm: FC<LoginFormProps> = ({ heading, description }) => {
     };
 
     const handleNavigateToRegister = () => {
-        const currentPath = router.asPath;
-        if (currentPath !== '/' && currentPath !== '/register') {
-            router.push(`/register?redirect=${encodeURIComponent(currentPath)}`);
+        if (signupUrl) {
+            router.push(signupUrl);
         } else {
-            router.push('/register');
+            const currentPath = router.asPath;
+            if (currentPath !== '/' && currentPath !== '/register') {
+                router.push(`/register?redirect=${encodeURIComponent(currentPath)}`);
+            } else {
+                router.push('/register');
+            }
         }
     };
 

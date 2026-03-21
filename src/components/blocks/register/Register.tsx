@@ -3,8 +3,14 @@ import ReusableForm, {InputItem} from 'components/reuseable/Form';
 import {CreateUserData} from 'backend/models/user';
 import {useAuth} from 'auth/useAuth';
 
-const Register: React.FC = () => {
-    const {createUser} = useAuth();
+interface RegisterProps {
+    heading?: string;
+    description?: string;
+    onSuccess?: () => void;
+}
+
+const Register: React.FC<RegisterProps> = ({ heading, description, onSuccess }) => {
+    const {createUser, error: authError} = useAuth();
     const [showAlert, setShowAlert] = useState<boolean>(false);
 
     const handleFormSubmit = (values: Record<string, string>) => {
@@ -12,10 +18,9 @@ const Register: React.FC = () => {
 
         const userModel = createUserData(values);
         const create = async () => {
-            console.log("****")
             const success = await createUser(userModel);
             if (success) {
-                console.log(`User created successfully`);
+                onSuccess?.();
             } else {
                 setShowAlert(true);
             }
@@ -23,10 +28,23 @@ const Register: React.FC = () => {
         create()
     };
 
+    const isUserExists = authError?.message?.toLowerCase().includes('already registered')
+        || authError?.message?.toLowerCase().includes('already been registered');
+
     const failedAlert = () => {
         return (
             <div className={`alert alert-danger alert-icon alert-dismissible fade show`} role="alert">
-                <i className="uil uil-times-circle"/> Failed to create account profile. Please try again.{' '}
+                <i className="uil uil-times-circle"/>{' '}
+                {isUserExists ? (
+                    <>
+                        An account with this email address already exists. Please{' '}
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal-signin" className="alert-link">sign in</a>{' '}
+                        instead, or use a different email address.
+                    </>
+                ) : (
+                    'Failed to create account profile. Please try again.'
+                )}
+                {' '}
                 <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
             </div>
         )
@@ -35,9 +53,9 @@ const Register: React.FC = () => {
     return (
         <div className='row'>
             <div className="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                <h2 className="display-4 mb-3 text-center">Become a member</h2>
+                <h2 className="display-4 mb-3 text-center">{heading || 'Become a member'}</h2>
                 <p className="lead text-center mb-10">
-                    Gain exclusive access to events, webinars, and expert connections.
+                    {description || 'Gain exclusive access to events, webinars, and expert connections.'}
                 </p>
 
                 <div className="container">

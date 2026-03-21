@@ -6,11 +6,10 @@ import ReactMarkdown from 'react-markdown';
 
 const STORAGE_KEY = 'chat-messages';
 
-const welcomeMessage: UIMessage = {
+const welcomeMessage = {
   id: 'welcome',
-  role: 'assistant',
-  content: '',
-  parts: [{ type: 'text', text: 'Hello! I can help with questions about the International Electoral Awards & Symposium. What would you like to know?' }],
+  role: 'assistant' as const,
+  parts: [{ type: 'text' as const, text: 'Hello! I can help with questions about the International Electoral Awards & Symposium. What would you like to know?' }],
 };
 
 function getMessageText(message: UIMessage): string {
