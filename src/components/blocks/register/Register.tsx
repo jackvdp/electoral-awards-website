@@ -38,7 +38,7 @@ const Register: React.FC<RegisterProps> = ({ heading, description, onSuccess }) 
                 {isUserExists ? (
                     <>
                         An account with this email address already exists. Please{' '}
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal-signin" className="alert-link">sign in</a>{' '}
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal-signin" className="alert-link text-decoration-underline">sign in</a>{' '}
                         instead, or use a different email address.
                     </>
                 ) : (
