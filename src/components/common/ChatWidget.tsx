@@ -1,7 +1,15 @@
 import { useChat } from '@ai-sdk/react';
+import { UIMessage } from 'ai';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+
+function getMessageText(message: UIMessage): string {
+  return message.parts
+    .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
+    .map((p) => p.text)
+    .join('');
+}
 
 export default function ChatWidget() {
   const { pathname } = useRouter();
@@ -79,10 +87,10 @@ export default function ChatWidget() {
                         ),
                       }}
                     >
-                      {message.content}
+                      {getMessageText(message)}
                     </ReactMarkdown>
                   ) : (
-                    message.content
+                    getMessageText(message)
                   )}
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import { streamText } from 'ai';
+import { streamText, convertToModelMessages } from 'ai';
 import { anthropic } from '@ai-sdk/anthropic';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { FAQs } from 'data/faq';
@@ -131,7 +131,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const result = streamText({
     model: anthropic('claude-haiku-4-5-20251001'),
     system: systemPrompt,
-    messages,
+    messages: await convertToModelMessages(messages),
     maxOutputTokens: 500,
   });
 
