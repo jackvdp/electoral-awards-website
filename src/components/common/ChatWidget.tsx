@@ -4,11 +4,31 @@ import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
+const STORAGE_KEY = 'chat-messages';
+
+const welcomeMessage: UIMessage = {
+  id: 'welcome',
+  role: 'assistant',
+  content: '',
+  parts: [{ type: 'text', text: 'Hello! I can help with questions about the International Electoral Awards & Symposium. What would you like to know?' }],
+};
+
 function getMessageText(message: UIMessage): string {
   return message.parts
     .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
     .map((p) => p.text)
     .join('');
+}
+
+function loadMessages(): UIMessage[] {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch {}
+  return [welcomeMessage];
 }
 
 export default function ChatWidget() {
@@ -18,17 +38,17 @@ export default function ChatWidget() {
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const { messages, sendMessage, status, error } = useChat({
+  const { messages, sendMessage, setMessages, status, error } = useChat({
     id: 'site-chat',
-    messages: [
-      {
-        id: 'welcome',
-        role: 'assistant',
-        content: 'Hello! I can help with questions about the International Electoral Awards & Symposium. What would you like to know?',
-        parts: [{ type: 'text', text: 'Hello! I can help with questions about the International Electoral Awards & Symposium. What would you like to know?' }],
-      },
-    ],
+    messages: loadMessages(),
   });
+
+  // Persist messages to localStorage
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+    }
+  }, [messages]);
 
   const isStreaming = status === 'submitted' || status === 'streaming';
 
