@@ -60,11 +60,11 @@ export default function ChatWidget() {
             <span className="fw-bold small">Chat with us</span>
             <button
               type="button"
-              className="btn btn-sm btn-link text-white p-0"
+              className="btn btn-link text-white p-0 lh-1"
               onClick={() => setIsOpen(false)}
               aria-label="Close chat"
             >
-              <i className="uil uil-times fs-5" />
+              <i className="uil uil-times" style={{ fontSize: '1.25rem' }} />
             </button>
           </div>
 
