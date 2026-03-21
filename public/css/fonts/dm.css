@@ -79,7 +79,7 @@ h2.post-title,
 }
 @media (min-width: 1200px) {
   h2.post-title,
-.h2.post-title {
+  .h2.post-title {
     font-size: 1.4rem;
   }
 }

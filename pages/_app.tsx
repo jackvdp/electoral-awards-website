@@ -2,8 +2,11 @@ import Head from 'next/head';
 import {useRouter} from 'next/router';
 import type {AppProps} from 'next/app';
 import {Fragment, useEffect} from 'react';
+import dynamic from 'next/dynamic';
 import ThemeProvider from 'theme/ThemeProvider';
 import {AuthProvider} from 'auth/AuthProvider';
+
+const ChatWidget = dynamic(() => import('components/common/ChatWidget'), { ssr: false });
 
 // Bootstrap and custom scss
 import 'assets/scss/style.scss';
@@ -81,6 +84,7 @@ function MyApp({Component, pageProps}: AppProps) {
                 <ThemeProvider>
                     <div className="page-loader"/>
                     <Component {...pageProps} />
+                    <ChatWidget />
                 </ThemeProvider>
             </AuthProvider>
         </Fragment>
