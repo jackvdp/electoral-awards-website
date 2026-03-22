@@ -12,7 +12,7 @@ const MAX_AGE_MS = 3 * 60 * 60 * 1000; // 3 hours
 const welcomeMessage = {
   id: 'welcome',
   role: 'assistant' as const,
-  parts: [{ type: 'text' as const, text: 'Hello! I can help with questions about the International Electoral Awards & Symposium. What would you like to know?' }],
+  parts: [{ type: 'text' as const, text: 'Hello! I\'m the Electoral Network assistant. I can help with event details, the Annual Awards, nominations, registration, past winners, and account queries such as password resets or sign-in links. How can I help?' }],
 };
 
 function getMessageText(message: UIMessage): string {
