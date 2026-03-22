@@ -12,9 +12,16 @@ interface RegisterProps {
 const Register: React.FC<RegisterProps> = ({ heading, description, onSuccess }) => {
     const {createUser, error: authError} = useAuth();
     const [showAlert, setShowAlert] = useState<boolean>(false);
+    const [passwordMismatch, setPasswordMismatch] = useState<boolean>(false);
 
     const handleFormSubmit = (values: Record<string, string>) => {
-        setShowAlert(false)
+        setShowAlert(false);
+        setPasswordMismatch(false);
+
+        if (values.password !== values.confirmPassword) {
+            setPasswordMismatch(true);
+            return;
+        }
 
         const userModel = createUserData(values);
         const create = async () => {
@@ -61,6 +68,13 @@ const Register: React.FC<RegisterProps> = ({ heading, description, onSuccess }) 
                 <div className="container">
                     <div className='row px-md-12 px-4'>
                         {showAlert && failedAlert()}
+                        {passwordMismatch && (
+                            <div className="alert alert-danger alert-icon alert-dismissible fade show" role="alert">
+                                <i className="uil uil-times-circle"/> Passwords do not match. Please try again.{' '}
+                                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"
+                                    onClick={() => setPasswordMismatch(false)} />
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -97,9 +111,17 @@ const inputItems = (): InputItem[] => {
         },
         {
             title: 'Password',
-            placeholder: 'Enter your passwrord',
+            placeholder: 'Enter your password',
             type: 'password',
             name: 'password',
+            defaultValue: "",
+            required: true,
+        },
+        {
+            title: 'Confirm Password',
+            placeholder: 'Re-enter your password',
+            type: 'password',
+            name: 'confirmPassword',
             defaultValue: "",
             required: true,
         },
