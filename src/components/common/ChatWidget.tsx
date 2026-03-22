@@ -5,6 +5,8 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 const STORAGE_KEY = 'chat-messages';
+const STORAGE_TIME_KEY = 'chat-messages-time';
+const MAX_AGE_MS = 3 * 60 * 60 * 1000; // 3 hours
 
 const welcomeMessage = {
   id: 'welcome',
@@ -21,6 +23,13 @@ function getMessageText(message: UIMessage): string {
 
 function loadMessages(): UIMessage[] {
   try {
+    const storedTime = localStorage.getItem(STORAGE_TIME_KEY);
+    if (storedTime && Date.now() - Number(storedTime) > MAX_AGE_MS) {
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(STORAGE_TIME_KEY);
+      return [welcomeMessage];
+    }
+
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       const parsed = JSON.parse(stored);
@@ -46,6 +55,7 @@ export default function ChatWidget() {
   useEffect(() => {
     if (messages.length > 0) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+      localStorage.setItem(STORAGE_TIME_KEY, String(Date.now()));
     }
   }, [messages]);
 
