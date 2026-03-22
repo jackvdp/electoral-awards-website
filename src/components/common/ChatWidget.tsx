@@ -143,7 +143,10 @@ export default function ChatWidget() {
 
           {/* Messages */}
           <div className="chat-widget-messages">
-            {messages.map((message) => (
+            {messages.map((message) => {
+              const text = getMessageText(message);
+              if (!text) return null;
+              return (
               <div key={message.id} className={`chat-message chat-message--${message.role}`}>
                 <div className="chat-message-bubble">
                   {message.role === 'assistant' ? (
@@ -167,7 +170,8 @@ export default function ChatWidget() {
                   )}
                 </div>
               </div>
-            ))}
+              );
+            })}
 
             {isStreaming && (messages[messages.length - 1] as { role: string })?.role === 'user' && (
               <div className="chat-message chat-message--assistant">
