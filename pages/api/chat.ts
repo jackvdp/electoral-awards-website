@@ -47,11 +47,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(429).json({ error: 'Too many requests. Please try again shortly.' });
   }
 
-  const { messages } = req.body;
+  const { messages, isLoggedIn, userName } = req.body;
+
+  let userContext = '\n\nUSER STATUS: The user is not signed in.';
+  if (isLoggedIn && userName) {
+    userContext = `\n\nUSER STATUS: The user is signed in as ${userName}. They can register for events directly.`;
+  } else if (isLoggedIn) {
+    userContext = '\n\nUSER STATUS: The user is signed in. They can register for events directly.';
+  }
 
   const result = streamText({
     model: anthropic('claude-haiku-4-5-20251001'),
-    system: systemPrompt,
+    system: systemPrompt + userContext,
     messages: await convertToModelMessages(messages),
     maxOutputTokens: 500,
   });

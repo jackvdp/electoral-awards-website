@@ -3,6 +3,7 @@ import { UIMessage } from 'ai';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { useAuth } from 'auth/useAuth';
 
 const STORAGE_KEY = 'chat-messages';
 const STORAGE_TIME_KEY = 'chat-messages-time';
@@ -41,6 +42,7 @@ function loadMessages(): UIMessage[] {
 
 export default function ChatWidget() {
   const { pathname } = useRouter();
+  const { isLoggedIn, currentUser } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [input, setInput] = useState('');
@@ -74,7 +76,12 @@ export default function ChatWidget() {
     const text = input.trim();
     if (!text || isStreaming) return;
     setInput('');
-    sendMessage({ text });
+    sendMessage({ text }, {
+      body: {
+        isLoggedIn,
+        userName: currentUser?.user_metadata?.firstname || null,
+      },
+    });
   };
 
   return (
