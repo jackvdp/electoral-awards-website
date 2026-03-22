@@ -97,6 +97,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         description: 'Send a password reset email to the user. Use when the user has forgotten their password and wants to reset it.',
         inputSchema: z.object({ email: z.string() }),
         execute: async ({ email }) => {
+          const exists = await checkEmailExists(email);
+          if (!exists) return { sent: false, error: 'No account found with that email address.' };
           await sendPasswordReset(email);
           return { sent: true };
         },
@@ -105,6 +107,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         description: "Send a magic sign-in link to the user's email so they can log in without a password. Use when the user wants to sign in via email link.",
         inputSchema: z.object({ email: z.string() }),
         execute: async ({ email }) => {
+          const exists = await checkEmailExists(email);
+          if (!exists) return { sent: false, error: 'No account found with that email address.' };
           await sendMagicLink(email);
           return { sent: true };
         },
