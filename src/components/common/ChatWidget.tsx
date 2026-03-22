@@ -45,6 +45,7 @@ export default function ChatWidget() {
   const { isLoggedIn, currentUser } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showClosePrompt, setShowClosePrompt] = useState(false);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -70,6 +71,31 @@ export default function ChatWidget() {
 
   // Hide on admin pages
   if (pathname.startsWith('/admin')) return null;
+
+  const handleClose = () => {
+    // Only show prompt if there's a real conversation (more than just the welcome message)
+    if (messages.length > 1) {
+      setShowClosePrompt(true);
+    } else {
+      setIsOpen(false);
+      setIsFullscreen(false);
+    }
+  };
+
+  const handleSaveAndClose = () => {
+    setShowClosePrompt(false);
+    setIsOpen(false);
+    setIsFullscreen(false);
+  };
+
+  const handleDiscardAndClose = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(STORAGE_TIME_KEY);
+    setMessages([welcomeMessage]);
+    setShowClosePrompt(false);
+    setIsOpen(false);
+    setIsFullscreen(false);
+  };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -107,7 +133,7 @@ export default function ChatWidget() {
               <button
                 type="button"
                 className="btn btn-link text-white p-0 lh-1"
-                onClick={() => setIsOpen(false)}
+                onClick={handleClose}
                 aria-label="Close chat"
               >
                 <i className="uil uil-times" style={{ fontSize: '1.25rem' }} />
@@ -162,6 +188,36 @@ export default function ChatWidget() {
             <div ref={messagesEndRef} />
           </div>
 
+          {/* Close prompt */}
+          {showClosePrompt && (
+            <div className="border-top p-3 text-center bg-light">
+              <p className="small mb-2">Save this conversation for later?</p>
+              <div className="d-flex justify-content-center gap-2">
+                <button
+                  type="button"
+                  className="btn btn-sm btn-primary"
+                  onClick={handleSaveAndClose}
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-sm btn-outline-secondary"
+                  onClick={handleDiscardAndClose}
+                >
+                  Discard
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-sm btn-link text-muted"
+                  onClick={() => setShowClosePrompt(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Input */}
           <form onSubmit={handleSubmit} className="d-flex border-top p-2 gap-2">
             <input
@@ -188,7 +244,7 @@ export default function ChatWidget() {
       <button
         type="button"
         className="chat-widget-bubble btn btn-primary rounded-circle shadow-lg"
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() => isOpen ? handleClose() : setIsOpen(true)}
         aria-label={isOpen ? 'Close chat' : 'Open chat'}
       >
         <i className={isOpen ? 'uil uil-times' : 'uil uil-comment-dots'} />
