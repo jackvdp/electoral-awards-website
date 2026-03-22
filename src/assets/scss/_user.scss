@@ -80,7 +80,11 @@
       border-radius: 1rem 1rem 0.25rem 1rem;
       max-width: 85%;
       text-align: left;
-      font-size: 0.875rem;
+      font-size: 0.75rem;
+
+      .chat-widget-panel--fullscreen & {
+        font-size: 0.875rem;
+      }
     }
   }
 
@@ -93,7 +97,11 @@
       padding: 0.5rem 0.75rem;
       border-radius: 1rem 1rem 1rem 0.25rem;
       max-width: 85%;
-      font-size: 0.875rem;
+      font-size: 0.75rem;
+
+      .chat-widget-panel--fullscreen & {
+        font-size: 0.875rem;
+      }
 
       p:last-child {
         margin-bottom: 0;
