@@ -3,6 +3,9 @@ import { anthropic } from '@ai-sdk/anthropic';
 import { z } from 'zod';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { systemPrompt } from 'data/chatbot-prompt';
+import { checkEmailExists } from 'backend/use_cases/auth/checkEmailExists';
+import { sendPasswordReset } from 'backend/use_cases/auth/sendPasswordReset';
+import { sendMagicLink } from 'backend/use_cases/auth/sendMagicLink';
 
 // --- Rate limiting ---
 const rateLimitMap = new Map<string, number[]>();
@@ -80,6 +83,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             description: e.description,
             speakers: e.speakers?.map((s: any) => s.name) || [],
           }));
+        },
+      }),
+      checkEmailExists: tool({
+        description: 'Check if a user account exists for a given email address. Use when the user wants to know if they have an account.',
+        inputSchema: z.object({ email: z.string() }),
+        execute: async ({ email }) => {
+          const exists = await checkEmailExists(email);
+          return { exists };
+        },
+      }),
+      sendPasswordReset: tool({
+        description: 'Send a password reset email to the user. Use when the user has forgotten their password and wants to reset it.',
+        inputSchema: z.object({ email: z.string() }),
+        execute: async ({ email }) => {
+          await sendPasswordReset(email);
+          return { sent: true };
+        },
+      }),
+      sendMagicLink: tool({
+        description: "Send a magic sign-in link to the user's email so they can log in without a password. Use when the user wants to sign in via email link.",
+        inputSchema: z.object({ email: z.string() }),
+        execute: async ({ email }) => {
+          await sendMagicLink(email);
+          return { sent: true };
         },
       }),
     },
