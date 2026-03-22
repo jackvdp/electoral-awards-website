@@ -84,6 +84,11 @@ const Register: React.FC<RegisterProps> = ({ heading, description, onSuccess }) 
                     onSubmit={handleFormSubmit}
                     disableSubmitInitially={false}
                 />
+
+                <p className="text-center mt-4">
+                    Already have an account?{' '}
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#modal-signin" className="hover">Sign in here</a>
+                </p>
             </div>
         </div>
     );
