@@ -48,6 +48,7 @@ export default function ChatWidget() {
   const [showClosePrompt, setShowClosePrompt] = useState(false);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { messages, sendMessage, setMessages, status, error } = useChat({
     id: 'site-chat',
@@ -68,6 +69,14 @@ export default function ChatWidget() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isStreaming]);
+
+  // Scroll to bottom and focus input when chat opens
+  useEffect(() => {
+    if (isOpen) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'instant' });
+      inputRef.current?.focus();
+    }
+  }, [isOpen]);
 
   // Hide on admin pages
   if (pathname.startsWith('/admin')) return null;
@@ -225,6 +234,7 @@ export default function ChatWidget() {
           {/* Input */}
           <form onSubmit={handleSubmit} className="d-flex border-top p-2 gap-2">
             <input
+              ref={inputRef}
               type="text"
               className="form-control form-control-sm"
               placeholder="Type a message..."
