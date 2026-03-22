@@ -153,32 +153,54 @@ export default function ChatWidget() {
           {/* Messages */}
           <div className="chat-widget-messages">
             {messages.map((message) => {
-              const text = getMessageText(message);
-              if (!text) return null;
+              if (message.role !== 'assistant') {
+                const text = getMessageText(message);
+                if (!text) return null;
+                return (
+                  <div key={message.id} className={`chat-message chat-message--${message.role}`}>
+                    <div className="chat-message-bubble">{text}</div>
+                  </div>
+                );
+              }
+
+              // Render each text part as its own bubble so multi-step
+              // tool responses appear as separate messages
+              const textParts = message.parts.filter(
+                (p): p is { type: 'text'; text: string } => p.type === 'text' && !!p.text.trim()
+              );
+              if (textParts.length === 0) return null;
+
+              const isLastMessage = message === messages[messages.length - 1];
+              const lastPart = message.parts[message.parts.length - 1];
+              const waitingForTool = isStreaming && isLastMessage && lastPart?.type === 'tool-invocation';
+
               return (
-              <div key={message.id} className={`chat-message chat-message--${message.role}`}>
-                <div className="chat-message-bubble">
-                  {message.role === 'assistant' ? (
-                    <ReactMarkdown
-                      components={{
-                        a: ({ href, children }) => (
-                          <a
-                            href={href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {children}
-                          </a>
-                        ),
-                      }}
-                    >
-                      {getMessageText(message)}
-                    </ReactMarkdown>
-                  ) : (
-                    getMessageText(message)
+                <div key={message.id}>
+                  {textParts.map((part, i) => (
+                    <div key={`${message.id}-${i}`} className="chat-message chat-message--assistant">
+                      <div className="chat-message-bubble">
+                        <ReactMarkdown
+                          components={{
+                            a: ({ href, children }) => (
+                              <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>
+                            ),
+                          }}
+                        >
+                          {part.text}
+                        </ReactMarkdown>
+                      </div>
+                    </div>
+                  ))}
+                  {waitingForTool && (
+                    <div className="chat-message chat-message--assistant">
+                      <div className="chat-typing-indicator">
+                        <span />
+                        <span />
+                        <span />
+                      </div>
+                    </div>
                   )}
                 </div>
-              </div>
               );
             })}
 
