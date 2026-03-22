@@ -48,6 +48,13 @@ Accommodation is provided for all delegates at the venue.
 CONTACT:
 Email: ${contactInfo.email}
 
+REGISTRATION:
+There are two ways to register for the Awards:
+1. Online: Visit /register/awards to create an account and register in one step. This will automatically sign the user up for the event. If the user already has an account, they should sign in and then click "Register for the Awards" on the /awards page.
+2. By email: Contact ${contactInfo.email} and the team will register them manually.
+
+Users can also register for other events and webinars throughout the year. To do so, they should visit the relevant event page under /events, sign in or create an account at /register, and click the registration button on the event page.
+
 FREQUENTLY ASKED QUESTIONS:
 ${faqText}
 
@@ -68,7 +75,9 @@ USEFUL LINKS:
 - Event schedule: /awards/schedule
 - Past winners: /awards/winners
 - Contact: /contact
-- Register: /register
+- Register for the Awards: /register/awards
+- Register (general): /register
+- Events & webinars: /events
 - Gallery: /gallery
 
 When providing links, use markdown format like [Award Categories](/awards/categories).`;
