@@ -15,6 +15,7 @@ const AdminPage: React.FC<DashboardProps> = ({children, title}) => {
         {title: 'Past Events', url: '/admin/dashboard?tab=past-events', icon: 'uil-calendar-slash'},
         {title: 'Articles', url: '/admin/dashboard?tab=articles', icon: 'uil-document-layout-left'},
         {title: 'Comms Plan', url: '/admin/comms-plan', icon: 'uil-envelope-send'},
+        {title: 'Email Reply', url: '/admin/email-reply', icon: 'uil-envelope-edit'},
     ];
 
     return (
