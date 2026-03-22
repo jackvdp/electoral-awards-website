@@ -32,6 +32,12 @@ export const FAQs = [
   {
     no: 'Six',
     expand: true,
+    heading: 'Is financial assistance available for delegates?',
+    body: `The organisers provide accommodation at the venue, meals during the event, and airport transfers for all registered delegates. Unfortunately, we are unable to provide any support with airfare or travel costs. For further questions, please contact [electoral@parlicentre.org](mailto:electoral@parlicentre.org).`
+  },
+  {
+    no: 'Seven',
+    expand: true,
     heading: 'How can I get in touch?',
     body: `For all enquiries about the 22nd International Electoral Awards & Symposium, please email [electoral@parlicentre.org](mailto:electoral@parlicentre.org) or visit our [contact page](/contact).`
   }
