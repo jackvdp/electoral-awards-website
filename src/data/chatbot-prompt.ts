@@ -87,4 +87,4 @@ USEFUL LINKS:
 When providing links, use markdown format like [Award Categories](/awards/categories).`;
 }
 
-export const systemPrompt = buildSystemPrompt();
+export const systemPrompt = buildSystemPrompt;

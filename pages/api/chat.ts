@@ -3,8 +3,6 @@ import { anthropic } from '@ai-sdk/anthropic';
 import { z } from 'zod';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { systemPrompt } from 'data/chatbot-prompt';
-import dbConnect from 'backend/mongo';
-import Event from 'backend/models/event';
 
 // --- Rate limiting ---
 const rateLimitMap = new Map<string, number[]>();
@@ -59,11 +57,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     userContext = '\n\nUSER STATUS: The user is signed in. They can register for events directly.';
   }
 
-  await dbConnect();
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
   const result = streamText({
     model: anthropic('claude-haiku-4-5-20251001'),
-    system: systemPrompt + userContext,
+    system: systemPrompt() + userContext,
     messages: await convertToModelMessages(messages),
     maxOutputTokens: 500,
     tools: {
@@ -71,7 +69,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         description: 'Fetch all upcoming and past events and webinars from the database. Use this when the user asks about events, webinars, or what is coming up.',
         inputSchema: z.object({}),
         execute: async () => {
-          const events = await Event.find().lean();
+          const res = await fetch(`${baseUrl}/api/events`);
+          if (!res.ok) return [];
+          const events = await res.json();
           return events.map((e: any) => ({
             title: e.title,
             startDate: e.startDate,
