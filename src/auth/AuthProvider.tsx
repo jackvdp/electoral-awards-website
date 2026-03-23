@@ -185,7 +185,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         }
     };
 
-    const createUserWithoutSignup = async (userData: CreateUserData): Promise<boolean> => {
+    const createUserWithoutSignup = async (userData: CreateUserData): Promise<{ success: boolean; error?: string }> => {
         try {
             setState(prev => ({...prev, loading: true, error: null}));
 
@@ -199,7 +199,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to create user');
+                const message = errorData.error || 'Failed to create user';
+                setState(prev => ({...prev, loading: false}));
+                return { success: false, error: message };
             }
 
             const data = await response.json();
@@ -210,11 +212,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
                 error: null
             }));
 
-            return true;
+            return { success: true };
         } catch (error) {
             setState(prev => ({...prev, loading: false}));
             handleError(error);
-            return false;
+            return { success: false, error: 'An unexpected error occurred. Please try again.' };
         }
     };
 

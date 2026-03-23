@@ -16,6 +16,7 @@ const CreateUserModal: FC<CreateUserModalProps> = ({modalID, onCreated}) => {
     const [isCreating, setIsCreating] = useState(false);
     const [closeModalProgrammatically, setCloseModalProgrammatically] = useState(false);
     const [alertMessage, setAlertMessage] = useState<string | null>(null);
+    const [alertType, setAlertType] = useState<'success' | 'danger'>('success');
 
     // Build a CreateUserData object from form values.
     const buildUserData = (values: Record<string, string>): CreateUserData => ({
@@ -45,14 +46,16 @@ const CreateUserModal: FC<CreateUserModalProps> = ({modalID, onCreated}) => {
         setAlertMessage(null);
         setIsCreating(true);
         const userData = buildUserData(values);
-        const success = await createUserWithoutSignup(userData);
+        const result = await createUserWithoutSignup(userData);
         setIsCreating(false);
-        if (success) {
+        if (result.success) {
+            setAlertType('success');
             setAlertMessage('User created successfully.');
             setCloseModalProgrammatically(true);
             onCreated();
         } else {
-            setAlertMessage('Failed to create user.');
+            setAlertType('danger');
+            setAlertMessage(result.error || 'Failed to create user.');
         }
     };
 
@@ -67,7 +70,9 @@ const CreateUserModal: FC<CreateUserModalProps> = ({modalID, onCreated}) => {
             content={
                 <>
                     <h4 className="mb-3">Create User</h4>
-                    {alertMessage && <p className="text-info">{alertMessage}</p>}
+                    {alertMessage && (
+                        <div className={`alert alert-${alertType}`} role="alert">{alertMessage}</div>
+                    )}
                     <ReusableForm
                         inputItems={inputItems()}
                         submitButtonTitle={isCreating ? 'Creating...' : 'Create User'}

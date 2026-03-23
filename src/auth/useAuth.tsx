@@ -19,7 +19,7 @@ interface AuthContextProps {
     logInWithMagicLink: (email: string, redirectPath?: string) => Promise<void>;
     signout: () => void;
     createUser: (userData: CreateUserData) => Promise<boolean>
-    createUserWithoutSignup: (userData: CreateUserData) => Promise<boolean>
+    createUserWithoutSignup: (userData: CreateUserData) => Promise<{ success: boolean; error?: string }>
     getUser: () => Promise<MutableUserData | null>;
     updateUser: (userData: MutableUserData, userID: string) => Promise<MutableUserData | null>
     deleteUser: (userID: string, password: string) => Promise<boolean>;
