@@ -3,6 +3,7 @@ import React, { useState, useRef } from 'react';
 import { createClient } from 'backend/supabase/server-props';
 import AdminPage from 'components/blocks/admin/reusables/AdminPage';
 import Head from 'next/head';
+import ReactMarkdown from 'react-markdown';
 
 const EmailReply: NextPage = () => {
   const [emailInput, setEmailInput] = useState('');
@@ -63,7 +64,25 @@ const EmailReply: NextPage = () => {
   };
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(reply);
+    // Convert markdown to basic HTML so formatting is preserved when pasting into email clients
+    const html = reply
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>')
+      .replace(/^#{1,6}\s+(.+)$/gm, '<strong>$1</strong>')
+      .replace(/^[-*]\s+(.+)$/gm, '<li>$1</li>')
+      .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
+      .split('\n\n').map(p => p.startsWith('<ul>') || p.startsWith('<strong>') ? p : `<p>${p}</p>`).join('')
+      .replace(/\n/g, '<br>');
+
+    const blob = new Blob([html], { type: 'text/html' });
+    const plainBlob = new Blob([reply], { type: 'text/plain' });
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        'text/html': blob,
+        'text/plain': plainBlob,
+      }),
+    ]);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -152,19 +171,19 @@ const EmailReply: NextPage = () => {
             </div>
             <div className="card-body">
               {reply ? (
-                <pre
-                  className="mb-0"
-                  style={{
-                    whiteSpace: 'pre-wrap',
-                    wordWrap: 'break-word',
-                    fontFamily: 'inherit',
-                    fontSize: '0.9rem',
-                    minHeight: 300,
-                  }}
-                >
-                  {reply}
+                <div style={{ fontSize: '0.9rem', minHeight: 300 }}>
+                  <ReactMarkdown
+                    components={{
+                      p: ({ children }) => <p style={{ marginBottom: '0.5rem' }}>{children}</p>,
+                      a: ({ href, children }) => (
+                        <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>
+                      ),
+                    }}
+                  >
+                    {reply}
+                  </ReactMarkdown>
                   {isGenerating && <span className="text-muted">▊</span>}
-                </pre>
+                </div>
               ) : (
                 <div
                   className="d-flex align-items-center justify-content-center text-muted"
