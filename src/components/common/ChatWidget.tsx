@@ -50,6 +50,8 @@ export default function ChatWidget() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const lastUserMessage = useRef<string>('');
+
   const { messages, sendMessage, setMessages, status, error } = useChat({
     id: 'site-chat',
     messages: loadMessages(),
@@ -106,11 +108,27 @@ export default function ChatWidget() {
     setIsFullscreen(false);
   };
 
+  const handleRetry = () => {
+    if (!lastUserMessage.current || isStreaming) return;
+    // Remove the failed assistant message if present
+    const lastMsg = messages[messages.length - 1];
+    if (lastMsg?.role === 'assistant') {
+      setMessages(messages.slice(0, -1));
+    }
+    sendMessage({ text: lastUserMessage.current }, {
+      body: {
+        isLoggedIn,
+        userName: currentUser?.user_metadata?.firstname || null,
+      },
+    });
+  };
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const text = input.trim();
     if (!text || isStreaming) return;
     setInput('');
+    lastUserMessage.current = text;
     sendMessage({ text }, {
       body: {
         isLoggedIn,
@@ -216,7 +234,18 @@ export default function ChatWidget() {
 
             {error && (
               <div className="chat-message chat-message--assistant">
-                <div className="chat-message-bubble text-danger small">Something went wrong. Please try again.</div>
+                <div className="chat-message-bubble text-danger small">
+                  Something went wrong.
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-outline-danger ms-2"
+                    onClick={handleRetry}
+                    style={{ fontSize: '0.7rem', padding: '0.15rem 0.4rem' }}
+                  >
+                    <i className="uil uil-redo me-1" />
+                    Retry
+                  </button>
+                </div>
               </div>
             )}
 

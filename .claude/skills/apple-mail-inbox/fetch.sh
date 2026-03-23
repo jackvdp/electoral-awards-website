@@ -56,8 +56,8 @@ tell application "Mail"
             set msgRead to read status of msg
             set msgContent to content of msg
 
-            if (count of msgContent) > 500 then
-                set msgContent to text 1 thru 500 of msgContent
+            if (count of msgContent) > 3000 then
+                set msgContent to text 1 thru 3000 of msgContent
             end if
 
             set output to output & "FROM: " & msgFrom & linefeed

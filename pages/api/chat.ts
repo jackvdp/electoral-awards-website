@@ -40,6 +40,23 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
+// --- Validation ---
+const MAX_MESSAGES = 20;
+const MAX_MESSAGE_LENGTH = 2000;
+const MAX_BODY_SIZE = 50_000; // ~50KB
+
+function validateMessages(messages: unknown): messages is Array<{ role: string; content: string }> {
+  if (!Array.isArray(messages)) return false;
+  if (messages.length > MAX_MESSAGES) return false;
+  return messages.every(
+    (m) =>
+      m &&
+      typeof m === 'object' &&
+      typeof m.role === 'string' &&
+      ['user', 'assistant'].includes(m.role)
+  );
+}
+
 // --- API handler ---
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -51,21 +68,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(429).json({ error: 'Too many requests. Please try again shortly.' });
   }
 
-  const { messages, isLoggedIn, userName } = req.body;
+  const body = req.body;
+
+  // Validate body size
+  if (JSON.stringify(body).length > MAX_BODY_SIZE) {
+    return res.status(413).json({ error: 'Request too large.' });
+  }
+
+  const { messages, isLoggedIn, userName } = body;
+
+  // Validate messages
+  if (!validateMessages(messages)) {
+    return res.status(400).json({ error: 'Invalid messages.' });
+  }
 
   let userContext = '\n\nUSER STATUS: The user is not signed in.';
-  if (isLoggedIn && userName) {
-    userContext = `\n\nUSER STATUS: The user is signed in as ${userName}. They can register for events directly.`;
+  if (isLoggedIn && userName && typeof userName === 'string') {
+    const safeName = userName.slice(0, 100);
+    userContext = `\n\nUSER STATUS: The user is signed in as ${safeName}. They can register for events directly.`;
   } else if (isLoggedIn) {
     userContext = '\n\nUSER STATUS: The user is signed in. They can register for events directly.';
   }
 
+  // Only send the last 20 messages to keep token usage down
+  const recentMessages = messages.slice(-MAX_MESSAGES) as any[];
+
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
+  try {
   const result = streamText({
     model: anthropic('claude-haiku-4-5-20251001'),
     system: systemPrompt() + userContext,
-    messages: await convertToModelMessages(messages),
+    messages: await convertToModelMessages(recentMessages),
     maxOutputTokens: 500,
     tools: {
       getEvents: tool({
@@ -118,4 +152,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   });
 
   result.pipeUIMessageStreamToResponse(res);
+  } catch (err) {
+    console.error('Chat API error:', err);
+    if (!res.headersSent) {
+      return res.status(500).json({ error: 'Something went wrong. Please try again.' });
+    }
+  }
 }
