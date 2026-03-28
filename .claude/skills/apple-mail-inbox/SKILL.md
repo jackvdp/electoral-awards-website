@@ -113,7 +113,7 @@ All scripts are in `.claude/skills/apple-mail-inbox/`.
 | Script | Purpose |
 |--------|---------|
 | `fetch.sh` | Fetch inbox emails (with optional search, pagination) |
-| `reply.sh` | Open a draft reply in Apple Mail (with optional CC) |
+| `reply.sh` | Open a reply-all draft in Apple Mail (with optional additional CC) |
 
 ### Get Full Email Body
 
@@ -130,7 +130,7 @@ Use the `reply.sh` bash script located alongside this skill file. It wraps the A
 **Usage:**
 
 ```bash
-# Basic reply
+# Basic reply (always reply-all to preserve CC recipients)
 .claude/skills/apple-mail-inbox/reply.sh \
   --sender "email@example.com" \
   --body "Dear X,
@@ -192,12 +192,13 @@ Thank you for your email.
 1. **NEVER send an email.** Only open draft reply windows for the user to review and send manually.
 2. **Always use the Exchange account** — `account "Exchange"`, mailbox `"Inbox"`.
 3. **Do not include a signature** in drafted replies — Jack's signature is already configured in Mail.
-4. **Preserve the email thread** — use the clipboard-paste method with `Cmd+Up` then `Cmd+V`. Never use `set content of` (overwrites thread). Never use `Cmd+A` (selects and can replace thread).
-5. **Use `delay 2`** after `reply msg opening window yes` — gives the reply window time to fully load before pasting.
-6. **Show the draft text to the user first** in a code block before opening it in Mail, so they can request changes.
-7. **Match sender by email address** for precision when replying (e.g., `"Caroline.Fawkes@vi.gov"` not just `"Caroline"`).
-8. **British English** throughout all drafted responses.
-9. **CC Swastee Ramsurrun** (`s.ramsurrun@parlistudies.org`) on all emails relating to electoral administration, delegate matters, awards logistics, COMELEC coordination, or Network operations. Use the "Reply with CC Recipients" template for these.
+4. **Always reply all** — the script uses `reply to all` so existing CC recipients are preserved. Use `--cc` only for *additional* recipients not already on the thread.
+5. **Preserve the email thread** — use the clipboard-paste method with `Cmd+Up` then `Cmd+V`. Never use `set content of` (overwrites thread). Never use `Cmd+A` (selects and can replace thread).
+6. **Use `delay 2`** after `reply msg opening window yes with reply to all` — gives the reply window time to fully load before pasting.
+7. **Show the draft text to the user first** in a code block before opening it in Mail, so they can request changes.
+8. **Match sender by email address** for precision when replying (e.g., `"Caroline.Fawkes@vi.gov"` not just `"Caroline"`).
+9. **British English** throughout all drafted responses.
+10. **CC Swastee Ramsurrun** (`s.ramsurrun@parlistudies.org`) on all emails relating to electoral administration, delegate matters, awards logistics, COMELEC coordination, or Network operations. Use the "Reply with CC Recipients" template for these.
 
 ## Notes
 

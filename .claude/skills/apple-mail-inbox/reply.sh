@@ -68,7 +68,7 @@ tell application "Mail"
 
     repeat with msg in inboxMessages
         if sender of msg contains "$SENDER" then
-            set replyMsg to reply msg opening window yes
+            set replyMsg to reply msg opening window yes with reply to all
             delay 2
 
 $CC_SCRIPT
@@ -105,7 +105,7 @@ tell application "Mail"
 
     repeat with msg in inboxMessages
         if sender of msg contains "$SENDER" then
-            set replyMsg to reply msg opening window yes
+            set replyMsg to reply msg opening window yes with reply to all
             delay 2
 
 $CC_SCRIPT
