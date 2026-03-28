@@ -13,14 +13,15 @@ type BlogCard3Props = {
   category: string;
   description: string;
   date: string;
+  columnClass?: string;
 };
 // ========================================================
 
 const BlogCard3: FC<BlogCard3Props> = (props) => {
-  const { title, category, description, link, image, date } = props;
+  const { title, category, description, link, image, date, columnClass = 'col-md-6' } = props;
 
   return (
-    <article className="item post col-md-6 d-flex">
+    <article className={`item post ${columnClass} d-flex`}>
       <div className="card flex-fill d-flex flex-column">
         <figure className="card-img-top overlay overlay-1 hover-scale">
           <Link href={link}>

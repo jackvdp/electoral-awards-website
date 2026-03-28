@@ -6,9 +6,7 @@ import {Footer} from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
 import CTA from 'components/blocks/call-to-action/CTA';
 import HomeHeader from 'components/blocks/home/HomeHeader';
-import HomeEventsSidebar from 'components/blocks/events/EventsSidebar';
-import HomeAbout from 'components/blocks/home/HomeAbout';
-import Features from 'components/blocks/features/features';
+import HomeProgramme from 'components/blocks/home/HomeProgramme';
 import {useAuth} from 'auth/useAuth';
 import CustomHead from "components/common/CustomHead";
 import HomeArticles from "components/blocks/home/HomeArticles";
@@ -30,24 +28,9 @@ const Home: NextPage = () => {
             <main className="content-wrapper">
                 <HomeHeader/>
 
-                <div className="container py-5 py-md-10">
-
-                    <div className="row gx-lg-8 gx-xl-12 pt-md-8">
-                        <div className="col-md-8">
-                            <HomeAbout/>
-                        </div>
-                        <div className="col-md-4">
-                            <HomeEventsSidebar/>
-                        </div>
-                    </div>
-
-                </div>
+                <HomeProgramme/>
 
                 <HomeArticles/>
-
-                <div className='pb-md-8'>
-                    <Features/>
-                </div>
 
                 {!isLoggedIn && <CTA/>}
 

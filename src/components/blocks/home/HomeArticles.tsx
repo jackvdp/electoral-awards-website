@@ -24,7 +24,7 @@ const HomeArticles: React.FC = () => {
                     // Get the latest 4 articles, sorted by date
                     const sortedArticles = data
                         .sort((a: Article, b: Article) => new Date(b.date).getTime() - new Date(a.date).getTime())
-                        .slice(0, 4);
+                        .slice(0, 3);
                     setArticles(sortedArticles);
                 }
             } catch (error) {
@@ -62,8 +62,7 @@ const HomeArticles: React.FC = () => {
                     <div className="col-md-10 col-xl-8 mx-auto">
                         <h2 className="display-4 mb-3">Latest Insights</h2>
                         <p className="lead fs-lg mb-10">
-                            Stay informed with our latest articles on professional development, 
-                            public service excellence, and industry best practices.
+                            Analysis and insight on electoral management, innovation, and democratic practice from around the world.
                         </p>
                     </div>
                 </div>
@@ -74,6 +73,7 @@ const HomeArticles: React.FC = () => {
                             key={article._id}
                             {...article}
                             link={`/articles/${article._id}`}
+                            columnClass="col-md-4"
                         />
                     ))}
                 </div>
