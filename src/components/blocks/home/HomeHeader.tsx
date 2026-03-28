@@ -61,6 +61,9 @@ const HomeHeader = () => {
                     <div className="container">
                         <div className="row justify-content-center">
                             <div className="col-lg-10 col-xl-9 text-center">
+                                <p className="text-uppercase text-white mb-3 fw-bold" style={{letterSpacing: '0.15em', fontSize: '0.85rem', opacity: 0.85}}>
+                                    Electoral Members&apos; Network
+                                </p>
                                 <h1 className="display-1 text-white mb-4" style={{fontWeight: 700}}>
                                     22nd International Electoral Awards &amp; Symposium
                                 </h1>
