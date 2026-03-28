@@ -10,20 +10,20 @@ export type Day = {
 
 export const schedule: Day[] = [
     {
-        title: "Day 0 (Saturday, 29 November) — Arrivals",
+        title: "Day 0 (Sunday, 29 November) — Arrivals",
         events: [
             { time: "All day", description: "<p>Arrival & Registration</p>" },
         ]
     },
     {
-        title: "Day 1 (Sunday, 30 November) — Cultural Tour & Cultural Night",
+        title: "Day 1 (Monday, 30 November) — Cultural Tour & Cultural Night",
         events: [
             { time: "Morning", description: "<p>Cultural Tour</p>" },
             { time: "Evening", description: "<p>Cultural Night</p>" },
         ]
     },
     {
-        title: "Day 2 (Monday, 1 December) — Symposium (Part 1)",
+        title: "Day 2 (Tuesday, 1 December) — Symposium (Part 1)",
         events: [
             { time: "08:30", description: "<p>Symposium Registration</p>" },
             { time: "09:00", description: "<p><strong>Opening & Welcoming Session</strong></p><p>Addresses from COMELEC and ICPS leadership</p>" },
@@ -35,7 +35,7 @@ export const schedule: Day[] = [
         ]
     },
     {
-        title: "Day 3 (Tuesday, 2 December) — Symposium (Part 2) & Awards Ceremony",
+        title: "Day 3 (Wednesday, 2 December) — Symposium (Part 2) & Awards Ceremony",
         events: [
             { time: "09:00 – 13:00", description: "<p><strong>Morning Sessions — Strengthening Public Trust & Combating Disinformation</strong></p><p>Keynotes and panels — details to be confirmed</p>" },
             { time: "09:30 – 13:00", description: "<p>(Parallel) Fringe Events / Industry Demonstrations</p>" },
@@ -45,7 +45,7 @@ export const schedule: Day[] = [
         ]
     },
     {
-        title: "Day 4 (Wednesday, 3 December) — Departures",
+        title: "Day 4 (Thursday, 3 December) — Departures",
         events: [
             { time: "All day", description: "<p>Departures</p>" }
         ]
