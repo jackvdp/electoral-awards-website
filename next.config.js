@@ -8,7 +8,8 @@ const nextConfig = {
             '4y9kpertpu07sqtv.public.blob.vercel-storage.com',
             't3.ftcdn.net',
             't4.ftcdn.net',
-            'as2.ftcdn.net'
+            'as2.ftcdn.net',
+            'images.unsplash.com'
         ],
     }
 }

@@ -19,7 +19,7 @@ const BlogDetailsTemplate: FC<ArticleProps> = (props) => {
 
     return (
         <div className="card">
-            {props.image && props.image !== '-' && <FigureImage width={960} height={600} src={props.image} className="card-img-top" />}
+            {props.image && <FigureImage width={960} height={600} src={props.image} className="card-img-top" />}
 
             <div className="card-body">
                 <div className="classic-view">
