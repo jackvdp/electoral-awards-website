@@ -14,10 +14,20 @@ const CTA: FC = () => {
                         <h2 className="display-4 mb-3 text-center">Want to join?</h2>
 
                         <p className="lead mb-5 px-md-16 px-lg-3">
-                            Join our community, enjoy access to industry leading events and connect with global experts in electoral management – Sign up now!
+                            Join our community, enjoy access to industry leading events and connect with global experts in electoral management.
                         </p>
 
-                        <RegisterLink title="Register" className="btn btn-lg btn-primary rounded-pill mx-1" />
+                        <div className="d-flex flex-column flex-md-row justify-content-center gap-3">
+                            <RegisterLink title="Register" className="btn btn-lg btn-primary rounded-pill" />
+                            <a
+                                data-bs-toggle="modal"
+                                data-bs-target="#modal-signin"
+                                className="btn btn-lg btn-outline-primary rounded-pill"
+                                style={{ cursor: 'pointer' }}
+                            >
+                                Sign In
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

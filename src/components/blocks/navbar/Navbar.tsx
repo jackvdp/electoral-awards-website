@@ -54,7 +54,7 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
 
                 <div className="offcanvas-body ms-lg-auto d-flex flex-column h-100">
                     <ul className="navbar-nav">
-                        <ListItemLink title="Home" href='/'/>
+                        <ListItemLink title={<i className="uil uil-home" />} href='/'/>
 
                         <li className="nav-item dropdown">
                             <DropdownToggleLink title="Awards" className="nav-link dropdown-toggle"/>

@@ -5,6 +5,7 @@ import {Navbar} from 'components/blocks/navbar';
 import {Footer} from 'components/blocks/footer';
 import PageProgress from 'components/common/PageProgress';
 import CTA from 'components/blocks/call-to-action/CTA';
+import LoggedInCTA from 'components/blocks/call-to-action/LoggedInCTA';
 import HomeHeader from 'components/blocks/home/HomeHeader';
 import HomeProgramme from 'components/blocks/home/HomeProgramme';
 import {useAuth} from 'auth/useAuth';
@@ -32,7 +33,7 @@ const Home: NextPage = () => {
 
                 <HomeArticles/>
 
-                {!isLoggedIn && <CTA/>}
+                {isLoggedIn ? <LoggedInCTA/> : <CTA/>}
 
             </main>
 
