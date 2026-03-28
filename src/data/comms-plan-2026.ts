@@ -105,8 +105,9 @@ export const commsPlan2026: CommsPlanData = {
             cta: 'Register now / Save the dates',
             audience: 'Full database.',
             detail: 'Announce the full 2026 programme: the 22nd International Electoral Awards in Manila (29 Nov – 3 Dec), plus three webinars — Empowering the Election Workforce (17 Apr), Speed in Election Results Transmission (11 Jun), and Inclusive Elections (16 Sep). Recap 2025 highlights and set the tone for the year. Soft tease that nominations open in April.',
-            status: 'pending',
+            status: 'drafted',
             tags: ['registration', 'nominations', 'webinars'],
+            templateFile: '2026-03-email-02-programme-announcement.eml',
         },
         {
             id: 3, wc: '6 Apr', weekStart: '2026-04-06', phase: 1,
