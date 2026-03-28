@@ -91,6 +91,10 @@ If the conversation clearly needs a response and the context is obvious, proacti
 
 **Reply to the most recent message** in the conversation by default. If the user wants to reply to a specific earlier message, match by that sender instead.
 
+**Prefer reply-all:** Always use `reply.sh` (which does reply-all) rather than composing a new email, so existing recipients and thread context are preserved. The user can adjust recipients in Mail before sending.
+
+**Adding recipients:** Only use `--cc` to add recipients whose email address you know for certain from the conversation. Never add placeholder addresses or guess email addresses — let the user sort those out.
+
 **Style for drafts:**
 - Professional, warm, concise — matching Jack's tone
 - British English throughout
