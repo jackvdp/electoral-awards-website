@@ -5,6 +5,18 @@ interface LinkPreviewData {
     image?: string;
 }
 
+function decodeHtmlEntities(str: string): string {
+    return str
+        .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+        .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(parseInt(dec, 10)))
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&apos;/g, "'")
+        .replace(/&#39;/g, "'");
+}
+
 function isValidUrl(str: string): boolean {
     try {
         const url = new URL(str);
@@ -73,8 +85,8 @@ async function fetchLinkPreview(url: string): Promise<LinkPreviewData | null> {
 
         return {
             url,
-            title,
-            description,
+            title: title ? decodeHtmlEntities(title) : undefined,
+            description: description ? decodeHtmlEntities(description) : undefined,
             image: image || undefined,
         };
     } catch {

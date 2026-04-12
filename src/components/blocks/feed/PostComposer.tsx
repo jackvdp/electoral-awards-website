@@ -149,11 +149,12 @@ const PostComposer: FC<PostComposerProps> = ({ onPostCreated, userFirstname }) =
                         <LinkPreview {...linkPreview} />
                         <button
                             type="button"
-                            className="btn btn-sm btn-light position-absolute top-0 end-0 m-1 rounded-circle"
+                            className="btn btn-sm position-absolute top-0 end-0 m-2 rounded-circle d-flex align-items-center justify-content-center"
+                            style={{ width: 28, height: 28, backgroundColor: 'rgba(0,0,0,0.6)', color: '#fff', padding: 0 }}
                             onClick={() => { setLinkPreview(null); previewUrlRef.current = 'dismissed'; }}
                             aria-label="Remove preview"
                         >
-                            <i className="uil uil-times" />
+                            <i className="uil uil-times fs-16" />
                         </button>
                     </div>
                 )}

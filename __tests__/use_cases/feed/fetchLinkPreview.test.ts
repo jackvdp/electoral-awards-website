@@ -101,6 +101,33 @@ describe('fetchLinkPreview', () => {
         expect(result).toBeNull();
     });
 
+    it('should decode HTML entities in title and description', async () => {
+        const html = `
+            <html>
+            <head>
+                <meta property="og:title" content="It&#x27;s a test &amp; more" />
+                <meta property="og:description" content="Quotes &quot;here&quot; &#39;too&#39;" />
+            </head>
+            <body></body>
+            </html>
+        `;
+
+        (global.fetch as jest.Mock).mockResolvedValue({
+            ok: true,
+            headers: { get: () => 'text/html' },
+            text: async () => html,
+        });
+
+        const result = await fetchLinkPreview('https://example.com/entities');
+
+        expect(result).toEqual({
+            url: 'https://example.com/entities',
+            title: "It's a test & more",
+            description: `Quotes "here" 'too'`,
+            image: undefined,
+        });
+    });
+
     it('should handle twitter:title and twitter:description', async () => {
         const html = `
             <html>
