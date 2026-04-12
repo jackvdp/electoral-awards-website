@@ -53,8 +53,8 @@ const FeedPage: NextPage<FeedPageProps> = ({
 
                 <section className="wrapper bg-light">
                     <div className="container pb-14 pb-md-16">
-                        <div className="row mt-n17">
-                            <div className="col-lg-8 col-xl-7 mx-auto">
+                        <div className="row">
+                            <div className="col-lg-8 col-xl-7 mx-auto mt-n17">
                                 <Feed
                                     initialPosts={posts}
                                     initialAuthors={authors}
