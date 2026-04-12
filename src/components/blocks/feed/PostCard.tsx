@@ -1,5 +1,6 @@
-import { FC, useState } from 'react';
+import { FC, useState, useCallback } from 'react';
 import PostActions from './PostActions';
+import CommentSection from './CommentSection';
 
 interface PostAuthor {
     id: string;
@@ -20,9 +21,11 @@ interface PostCardProps {
         updatedAt: string;
     };
     author?: PostAuthor;
+    authors: Record<string, PostAuthor>;
     currentUserId: string;
     isAdmin: boolean;
     onDelete: (postId: string) => void;
+    onAuthorsLoaded: (newAuthors: Record<string, PostAuthor>) => void;
 }
 
 function timeAgo(dateStr: string): string {
@@ -41,9 +44,11 @@ function timeAgo(dateStr: string): string {
     return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
-const PostCard: FC<PostCardProps> = ({ post, author, currentUserId, isAdmin, onDelete }) => {
+const PostCard: FC<PostCardProps> = ({ post, author, authors, currentUserId, isAdmin, onDelete, onAuthorsLoaded }) => {
     const [showMenu, setShowMenu] = useState(false);
     const [deleting, setDeleting] = useState(false);
+    const [showComments, setShowComments] = useState(false);
+    const [commentCount, setCommentCount] = useState(post.commentCount);
 
     const isOwner = post.authorId === currentUserId;
     const canDelete = isOwner || isAdmin;
@@ -65,6 +70,10 @@ const PostCard: FC<PostCardProps> = ({ post, author, currentUserId, isAdmin, onD
             setShowMenu(false);
         }
     };
+
+    const handleCommentCountChange = useCallback((delta: number) => {
+        setCommentCount(prev => Math.max(0, prev + delta));
+    }, []);
 
     const authorName = author ? `${author.firstname} ${author.lastname}` : 'Unknown member';
     const initials = author ? `${author.firstname?.[0] || ''}${author.lastname?.[0] || ''}` : '?';
@@ -138,10 +147,22 @@ const PostCard: FC<PostCardProps> = ({ post, author, currentUserId, isAdmin, onD
             <PostActions
                 postId={post._id}
                 likeCount={post.likes.length}
-                commentCount={post.commentCount}
+                commentCount={commentCount}
                 isLiked={post.likes.includes(currentUserId)}
-                onCommentToggle={() => {}}
+                onCommentToggle={() => setShowComments(!showComments)}
             />
+
+            {/* Comments */}
+            {showComments && (
+                <CommentSection
+                    postId={post._id}
+                    currentUserId={currentUserId}
+                    isAdmin={isAdmin}
+                    authors={authors}
+                    onAuthorsLoaded={onAuthorsLoaded}
+                    onCommentCountChange={handleCommentCountChange}
+                />
+            )}
         </div>
     );
 };

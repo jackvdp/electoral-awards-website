@@ -22,147 +22,87 @@ const baseAuthor = {
     profile_image: '',
 };
 
+const baseAuthors = { 'user-1': baseAuthor };
+const noop = jest.fn();
+
+const renderCard = (overrides: Record<string, any> = {}) =>
+    render(
+        <PostCard
+            post={basePost}
+            author={baseAuthor}
+            authors={baseAuthors}
+            currentUserId="user-1"
+            isAdmin={false}
+            onDelete={noop}
+            onAuthorsLoaded={noop}
+            {...overrides}
+        />
+    );
+
 describe('PostCard', () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
     it('renders the post content', () => {
-        render(
-            <PostCard
-                post={basePost}
-                author={baseAuthor}
-                currentUserId="user-1"
-                isAdmin={false}
-                onDelete={jest.fn()}
-            />
-        );
-
+        renderCard();
         expect(screen.getByText('Test post content')).toBeInTheDocument();
     });
 
     it('renders the author name and organisation', () => {
-        render(
-            <PostCard
-                post={basePost}
-                author={baseAuthor}
-                currentUserId="user-1"
-                isAdmin={false}
-                onDelete={jest.fn()}
-            />
-        );
-
+        renderCard();
         expect(screen.getByText('Jane Smith')).toBeInTheDocument();
         expect(screen.getByText(/Electoral Commission/)).toBeInTheDocument();
     });
 
     it('shows initials when no profile image', () => {
-        render(
-            <PostCard
-                post={basePost}
-                author={{ ...baseAuthor, profile_image: '' }}
-                currentUserId="user-1"
-                isAdmin={false}
-                onDelete={jest.fn()}
-            />
-        );
-
+        renderCard({ author: { ...baseAuthor, profile_image: '' } });
         expect(screen.getByText('JS')).toBeInTheDocument();
     });
 
     it('shows "Unknown member" when author is undefined', () => {
-        render(
-            <PostCard
-                post={basePost}
-                author={undefined}
-                currentUserId="user-1"
-                isAdmin={false}
-                onDelete={jest.fn()}
-            />
-        );
-
+        renderCard({ author: undefined });
         expect(screen.getByText('Unknown member')).toBeInTheDocument();
     });
 
     it('shows delete menu for the post author', () => {
-        render(
-            <PostCard
-                post={basePost}
-                author={baseAuthor}
-                currentUserId="user-1"
-                isAdmin={false}
-                onDelete={jest.fn()}
-            />
-        );
-
-        // The ellipsis menu button should exist
+        renderCard();
         const menuButton = screen.getByRole('button', { name: '' });
         expect(menuButton).toBeInTheDocument();
     });
 
     it('shows delete menu for admin even when not author', () => {
-        render(
-            <PostCard
-                post={basePost}
-                author={baseAuthor}
-                currentUserId="admin-user"
-                isAdmin={true}
-                onDelete={jest.fn()}
-            />
-        );
-
-        // Menu button should exist for admin
+        renderCard({ currentUserId: 'admin-user', isAdmin: true });
         const buttons = screen.getAllByRole('button');
         const menuButton = buttons.find(btn => btn.querySelector('.uil-ellipsis-h'));
         expect(menuButton).toBeTruthy();
     });
 
     it('does not show delete menu for non-author, non-admin', () => {
-        render(
-            <PostCard
-                post={basePost}
-                author={baseAuthor}
-                currentUserId="other-user"
-                isAdmin={false}
-                onDelete={jest.fn()}
-            />
-        );
-
+        renderCard({ currentUserId: 'other-user', isAdmin: false });
         const buttons = screen.getAllByRole('button');
         const menuButton = buttons.find(btn => btn.querySelector('.uil-ellipsis-h'));
         expect(menuButton).toBeFalsy();
     });
 
     it('shows "edited" label when post was updated', () => {
-        const editedPost = {
-            ...basePost,
-            updatedAt: new Date(Date.now() + 60000).toISOString(),
-        };
-
-        render(
-            <PostCard
-                post={editedPost}
-                author={baseAuthor}
-                currentUserId="user-1"
-                isAdmin={false}
-                onDelete={jest.fn()}
-            />
-        );
-
+        renderCard({
+            post: { ...basePost, updatedAt: new Date(Date.now() + 60000).toISOString() },
+        });
         expect(screen.getByText(/edited/)).toBeInTheDocument();
     });
 
     it('shows "just now" for a recent post', () => {
-        render(
-            <PostCard
-                post={basePost}
-                author={baseAuthor}
-                currentUserId="user-1"
-                isAdmin={false}
-                onDelete={jest.fn()}
-            />
-        );
-
+        renderCard();
         expect(screen.getByText(/just now/)).toBeInTheDocument();
+    });
+
+    it('toggles comment section when comment button is clicked', () => {
+        renderCard();
+        const commentButton = screen.getByText('Comment');
+        fireEvent.click(commentButton);
+
+        // CommentSection should now be rendered (it shows a spinner while loading)
+        expect(screen.getByRole('status')).toBeInTheDocument();
     });
 });

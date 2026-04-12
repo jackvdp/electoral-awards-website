@@ -144,6 +144,10 @@ const Feed: FC<FeedProps> = ({
         setPosts(prev => prev.filter(p => p._id !== postId));
     };
 
+    const handleAuthorsLoaded = useCallback((newAuthors: Record<string, PostAuthor>) => {
+        setAuthors(prev => ({ ...prev, ...newAuthors }));
+    }, []);
+
     // Infinite scroll
     useEffect(() => {
         const handleScroll = () => {
@@ -185,9 +189,11 @@ const Feed: FC<FeedProps> = ({
                             key={post._id}
                             post={post}
                             author={authors[post.authorId]}
+                            authors={authors}
                             currentUserId={currentUserId}
                             isAdmin={isAdmin}
                             onDelete={handlePostDeleted}
+                            onAuthorsLoaded={handleAuthorsLoaded}
                         />
                     ))}
                 </div>
