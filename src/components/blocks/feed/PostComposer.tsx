@@ -1,4 +1,6 @@
 import { FC, useState, FormEvent } from 'react';
+import MentionInput from './MentionInput';
+import { parseMentions } from 'backend/use_cases/feed/parseMentions';
 
 interface PostComposerProps {
     onPostCreated: (post: any) => void;
@@ -22,10 +24,15 @@ const PostComposer: FC<PostComposerProps> = ({ onPostCreated, userFirstname }) =
         setError(null);
 
         try {
+            const { mentionIds } = parseMentions(content);
+
             const res = await fetch('/api/feed', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: content.trim() }),
+                body: JSON.stringify({
+                    content: content.trim(),
+                    mentions: mentionIds,
+                }),
             });
 
             if (!res.ok) {
@@ -46,16 +53,15 @@ const PostComposer: FC<PostComposerProps> = ({ onPostCreated, userFirstname }) =
     return (
         <div className="card shadow-lg rounded-4 p-4 mb-5">
             <form onSubmit={handleSubmit}>
-                <textarea
-                    className="form-control border-0 bg-light rounded-3 mb-3"
-                    rows={3}
-                    placeholder={userFirstname ? `What's on your mind, ${userFirstname}?` : "What's on your mind?"}
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    maxLength={maxChars}
-                    disabled={submitting}
-                    style={{ resize: 'none' }}
-                />
+                <div className="mb-3">
+                    <MentionInput
+                        value={content}
+                        onChange={setContent}
+                        placeholder={userFirstname ? `What's on your mind, ${userFirstname}?` : "What's on your mind?"}
+                        maxLength={maxChars}
+                        disabled={submitting}
+                    />
+                </div>
 
                 <div className="d-flex justify-content-between align-items-center">
                     <small className={`text-${charCount > maxChars * 0.9 ? 'danger' : 'muted'}`}>

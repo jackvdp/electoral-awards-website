@@ -1,5 +1,6 @@
 import { FC, useState, useCallback } from 'react';
 import PostActions from './PostActions';
+import PostContent from './PostContent';
 import CommentSection from './CommentSection';
 
 interface PostAuthor {
@@ -139,8 +140,8 @@ const PostCard: FC<PostCardProps> = ({ post, author, authors, currentUserId, isA
             </div>
 
             {/* Content */}
-            <div className="mb-3" style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-                {post.content}
+            <div className="mb-3">
+                <PostContent text={post.content} />
             </div>
 
             {/* Actions */}
