@@ -1,7 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import createClient from 'backend/supabase/api';
+import supabaseAdmin from 'backend/supabase/admin';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    // Auth check with the user's session
     const supabase = createClient(req, res);
     const { data: { user }, error } = await supabase.auth.getUser();
 
@@ -21,7 +23,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const userIds = ids.split(',').filter(Boolean).slice(0, 50);
 
-    const { data: users, error: fetchError } = await supabase
+    // Use admin client to bypass RLS on users table
+    const { data: users, error: fetchError } = await supabaseAdmin
         .from('users')
         .select('id, firstname, lastname, organisation, profile_image')
         .in('id', userIds);

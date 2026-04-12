@@ -7,6 +7,7 @@ import CustomHead from 'components/common/CustomHead';
 import Feed, { FeedPost } from 'components/blocks/feed/Feed';
 import { PostAuthor } from 'components/blocks/feed/PostCard';
 import { createClient } from 'backend/supabase/server-props';
+import supabaseAdmin from 'backend/supabase/admin';
 import dbConnect from 'backend/mongo';
 import Post from 'backend/models/post';
 
@@ -108,7 +109,7 @@ export const getServerSideProps: GetServerSideProps<FeedPageProps> = async (ctx)
     const authors: Record<string, PostAuthor> = {};
 
     if (authorIds.length > 0) {
-        const { data: users } = await supabase
+        const { data: users } = await supabaseAdmin
             .from('users')
             .select('id, firstname, lastname, organisation, profile_image')
             .in('id', authorIds);
@@ -121,6 +122,17 @@ export const getServerSideProps: GetServerSideProps<FeedPageProps> = async (ctx)
     const hasMore = serialisedPosts.length === 20;
     const user = session.user;
     const isAdmin = user.user_metadata?.role === 'admin';
+
+    // Ensure current user is always in authors map
+    if (!authors[user.id]) {
+        authors[user.id] = {
+            id: user.id,
+            firstname: user.user_metadata?.firstname || '',
+            lastname: user.user_metadata?.lastname || '',
+            organisation: user.user_metadata?.organisation || '',
+            profile_image: user.user_metadata?.profileImage || '',
+        };
+    }
 
     return {
         props: {
