@@ -77,10 +77,13 @@ const Feed: FC<FeedProps> = ({
             if (!latestPostRef.current) return;
 
             try {
-                const res = await fetch(`/api/feed?after=${latestPostRef.current}&limit=1`);
+                const res = await fetch(`/api/feed?after=${encodeURIComponent(latestPostRef.current)}&limit=10`);
                 if (res.ok) {
                     const data = await res.json();
-                    if (data.posts.length > 0) {
+                    // Only show banner if there are genuinely new posts we haven't seen
+                    const currentIds = new Set(posts.map(p => p._id));
+                    const unseenPosts = data.posts.filter((p: FeedPost) => !currentIds.has(p._id));
+                    if (unseenPosts.length > 0) {
                         setNewPostsBanner(true);
                     }
                 }
@@ -90,7 +93,7 @@ const Feed: FC<FeedProps> = ({
         }, 30000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [posts]);
 
     const loadNewPosts = async () => {
         try {

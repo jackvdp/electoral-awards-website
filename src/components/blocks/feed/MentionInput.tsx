@@ -1,9 +1,16 @@
-import { FC, useState, useRef, useCallback, ChangeEvent } from 'react';
+import { FC, useState, useRef, useCallback, useEffect, ChangeEvent } from 'react';
 import UserMentionDropdown, { MentionUser } from './UserMentionDropdown';
 
+interface Mention {
+    displayText: string; // e.g. "@Tracy Capaldi Drewett"
+    userId: string;
+    name: string;
+}
+
 interface MentionInputProps {
-    value: string;
-    onChange: (value: string) => void;
+    value: string;            // display value (what the user sees)
+    onChange: (displayValue: string) => void;
+    onMentionsChange?: (mentions: Mention[]) => void;
     placeholder?: string;
     maxLength: number;
     disabled?: boolean;
@@ -14,6 +21,7 @@ interface MentionInputProps {
 const MentionInput: FC<MentionInputProps> = ({
     value,
     onChange,
+    onMentionsChange,
     placeholder,
     maxLength,
     disabled = false,
@@ -22,9 +30,18 @@ const MentionInput: FC<MentionInputProps> = ({
 }) => {
     const [mentionUsers, setMentionUsers] = useState<MentionUser[]>([]);
     const [showDropdown, setShowDropdown] = useState(false);
-    const [mentionQuery, setMentionQuery] = useState('');
+    const [mentions, setMentions] = useState<Mention[]>([]);
     const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    useEffect(() => {
+        if (onMentionsChange) onMentionsChange(mentions);
+    }, [mentions, onMentionsChange]);
+
+    // When value is cleared (e.g. after submit), clear mentions too
+    useEffect(() => {
+        if (!value) setMentions([]);
+    }, [value]);
 
     const searchMentions = useCallback(async (query: string) => {
         if (query.length < 2) {
@@ -49,7 +66,7 @@ const MentionInput: FC<MentionInputProps> = ({
         const newValue = e.target.value;
         onChange(newValue);
 
-        // Check for @mention trigger — use ref for reliable cursor position
+        // Check for @mention trigger
         const textarea = textareaRef.current;
         const cursorPos = textarea?.selectionStart ?? newValue.length;
         const textBeforeCursor = newValue.slice(0, cursorPos);
@@ -57,7 +74,6 @@ const MentionInput: FC<MentionInputProps> = ({
 
         if (mentionMatch) {
             const query = mentionMatch[1];
-            setMentionQuery(query);
 
             if (debounceRef.current) clearTimeout(debounceRef.current);
             debounceRef.current = setTimeout(() => searchMentions(query), 300);
@@ -65,6 +81,9 @@ const MentionInput: FC<MentionInputProps> = ({
             setShowDropdown(false);
             setMentionUsers([]);
         }
+
+        // Remove any mentions whose display text no longer appears in the value
+        setMentions(prev => prev.filter(m => newValue.includes(m.displayText)));
     };
 
     const handleSelectUser = (user: MentionUser) => {
@@ -75,13 +94,25 @@ const MentionInput: FC<MentionInputProps> = ({
         const textBeforeCursor = value.slice(0, cursorPos);
         const textAfterCursor = value.slice(cursorPos);
 
-        // Replace the @query with the mention token
+        // Replace the @query with a clean display name
         const mentionMatch = textBeforeCursor.match(/@(\w*)$/);
         if (!mentionMatch) return;
 
         const beforeMention = textBeforeCursor.slice(0, mentionMatch.index);
-        const mentionToken = `@[${user.firstname} ${user.lastname}](${user.id})`;
-        const newValue = `${beforeMention}${mentionToken} ${textAfterCursor}`;
+        const displayName = `@${user.firstname} ${user.lastname}`;
+        const newValue = `${beforeMention}${displayName} ${textAfterCursor}`;
+
+        // Track this mention
+        const mention: Mention = {
+            displayText: displayName,
+            userId: user.id,
+            name: `${user.firstname} ${user.lastname}`,
+        };
+        setMentions(prev => {
+            // Avoid duplicates
+            if (prev.some(m => m.userId === user.id)) return prev;
+            return [...prev, mention];
+        });
 
         onChange(newValue);
         setShowDropdown(false);
@@ -90,7 +121,7 @@ const MentionInput: FC<MentionInputProps> = ({
         // Restore focus
         setTimeout(() => {
             if (textarea) {
-                const newCursorPos = beforeMention.length + mentionToken.length + 1;
+                const newCursorPos = beforeMention.length + displayName.length + 1;
                 textarea.focus();
                 textarea.setSelectionRange(newCursorPos, newCursorPos);
             }
@@ -121,4 +152,21 @@ const MentionInput: FC<MentionInputProps> = ({
     );
 };
 
+/**
+ * Convert display text + mentions list into tokenised format for storage.
+ * e.g. "Hello @Jane Smith" + mention {displayText: "@Jane Smith", userId: "u1", name: "Jane Smith"}
+ * → "Hello @[Jane Smith](u1)"
+ */
+function tokenise(displayValue: string, mentions: Mention[]): string {
+    let result = displayValue;
+    // Sort by length descending to avoid partial replacement issues
+    const sorted = [...mentions].sort((a, b) => b.displayText.length - a.displayText.length);
+    for (const m of sorted) {
+        result = result.replaceAll(m.displayText, `@[${m.name}](${m.userId})`);
+    }
+    return result;
+}
+
+export { tokenise };
+export type { Mention };
 export default MentionInput;

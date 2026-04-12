@@ -79,6 +79,27 @@ describe('getPosts', () => {
         expect(chainMock.limit).toHaveBeenCalledWith(50);
     });
 
+    it('should use after parameter for forward pagination', async () => {
+        const after = '2026-01-01T00:00:00.000Z';
+
+        const chainMock = {
+            sort: jest.fn().mockReturnThis(),
+            limit: jest.fn().mockReturnThis(),
+            lean: jest.fn().mockResolvedValue([]),
+        };
+        (Post.find as jest.Mock).mockReturnValue(chainMock);
+
+        const req = mockReq({ after });
+        const res = mockRes();
+
+        await getPosts(req, res);
+
+        expect(Post.find).toHaveBeenCalledWith({
+            status: 'active',
+            createdAt: { $gt: new Date(after) },
+        });
+    });
+
     it('should set hasMore to true when posts match the limit', async () => {
         const posts = Array.from({ length: 20 }, (_, i) => ({ _id: `post-${i}` }));
 

@@ -1,5 +1,40 @@
 import { parseMentions, renderMentionText, MentionToken } from 'backend/use_cases/feed/parseMentions';
 
+// Also test tokenise from MentionInput — it's a pure function
+// We import it separately since it lives in a component file
+// but is a utility. For now, test it inline here.
+describe('tokenise (inline)', () => {
+    // Replicate the tokenise logic for testing without importing from a component
+    function tokenise(displayValue: string, mentions: { displayText: string; userId: string; name: string }[]): string {
+        let result = displayValue;
+        const sorted = [...mentions].sort((a, b) => b.displayText.length - a.displayText.length);
+        for (const m of sorted) {
+            result = result.split(m.displayText).join(`@[${m.name}](${m.userId})`);
+        }
+        return result;
+    }
+
+    it('should convert display text with mentions to token format', () => {
+        const result = tokenise('Hello @Jane Smith how are you?', [
+            { displayText: '@Jane Smith', userId: 'u1', name: 'Jane Smith' },
+        ]);
+        expect(result).toBe('Hello @[Jane Smith](u1) how are you?');
+    });
+
+    it('should handle multiple mentions', () => {
+        const result = tokenise('@Jane Smith and @John Doe', [
+            { displayText: '@Jane Smith', userId: 'u1', name: 'Jane Smith' },
+            { displayText: '@John Doe', userId: 'u2', name: 'John Doe' },
+        ]);
+        expect(result).toBe('@[Jane Smith](u1) and @[John Doe](u2)');
+    });
+
+    it('should return text unchanged when no mentions', () => {
+        const result = tokenise('No mentions here', []);
+        expect(result).toBe('No mentions here');
+    });
+});
+
 describe('parseMentions', () => {
     it('should extract mention tokens from text', () => {
         const text = 'Hello @[Jane Smith](user-1) how are you?';

@@ -3,7 +3,7 @@ import Post from 'backend/models/post';
 
 async function getPosts(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const { before, limit: limitParam } = req.query;
+        const { before, after, limit: limitParam } = req.query;
         const limit = Math.min(parseInt(limitParam as string) || 20, 50);
 
         const query: Record<string, any> = { status: 'active' };
@@ -11,6 +11,8 @@ async function getPosts(req: NextApiRequest, res: NextApiResponse) {
         // Cursor-based pagination
         if (before) {
             query.createdAt = { $lt: new Date(before as string) };
+        } else if (after) {
+            query.createdAt = { $gt: new Date(after as string) };
         }
 
         const posts = await Post.find(query)

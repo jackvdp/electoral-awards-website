@@ -1,5 +1,5 @@
-import { FC, useState, FormEvent } from 'react';
-import MentionInput from './MentionInput';
+import { FC, useState, useRef, FormEvent } from 'react';
+import MentionInput, { tokenise, Mention } from './MentionInput';
 import { parseMentions } from 'backend/use_cases/feed/parseMentions';
 
 interface PostComposerProps {
@@ -11,6 +11,7 @@ const PostComposer: FC<PostComposerProps> = ({ onPostCreated, userFirstname }) =
     const [content, setContent] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const mentionsRef = useRef<Mention[]>([]);
 
     const charCount = content.length;
     const maxChars = 1000;
@@ -24,13 +25,15 @@ const PostComposer: FC<PostComposerProps> = ({ onPostCreated, userFirstname }) =
         setError(null);
 
         try {
-            const { mentionIds } = parseMentions(content);
+            // Convert display text to tokenised format for storage
+            const tokenised = tokenise(content.trim(), mentionsRef.current);
+            const { mentionIds } = parseMentions(tokenised);
 
             const res = await fetch('/api/feed', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    content: content.trim(),
+                    content: tokenised,
                     mentions: mentionIds,
                 }),
             });
@@ -57,6 +60,7 @@ const PostComposer: FC<PostComposerProps> = ({ onPostCreated, userFirstname }) =
                     <MentionInput
                         value={content}
                         onChange={setContent}
+                        onMentionsChange={(m) => { mentionsRef.current = m; }}
                         placeholder={userFirstname ? `What's on your mind, ${userFirstname}?` : "What's on your mind?"}
                         maxLength={maxChars}
                         disabled={submitting}
