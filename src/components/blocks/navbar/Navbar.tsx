@@ -8,6 +8,7 @@ import SocialLinks from 'components/reuseable/links/SocialLinks';
 import ListItemLink from 'components/reuseable/links/ListItemLink';
 import DropdownToggleLink from 'components/reuseable/links/DropdownToggleLink';
 import RegisterLink from 'components/reuseable/links/RegisterLink';
+import NotificationBell from 'components/blocks/notifications/NotificationBell';
 // -------- partial header component -------- //
 import Info from './partials/Info';
 import Signin from './partials/Signin';
@@ -54,8 +55,6 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
 
                 <div className="offcanvas-body ms-lg-auto d-flex flex-column h-100">
                     <ul className="navbar-nav">
-                        <ListItemLink title={<i className="uil uil-home" />} href='/'/>
-
                         <li className="nav-item dropdown">
                             <DropdownToggleLink title="Awards" className="nav-link dropdown-toggle"/>
 
@@ -178,6 +177,13 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
                             <i className="uil uil-info-circle"/>
                         </a>
                     </li>
+
+                    {/* ============= Notification bell ============= */}
+                    {isLoggedIn && (
+                        <li className="nav-item d-none d-sm-block me-2">
+                            <NotificationBell />
+                        </li>
+                    )}
 
                     {/* ============= Join button ============= */}
                     {!isLoggedIn &&

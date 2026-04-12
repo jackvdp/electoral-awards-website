@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import Comment from 'backend/models/comment';
 import Post from 'backend/models/post';
 import { Error as MongooseError } from 'mongoose';
+import createNotification from 'backend/use_cases/notifications/createNotification';
 
 async function createComment(req: NextApiRequest, res: NextApiResponse, authorId: string) {
     try {
@@ -44,6 +45,27 @@ async function createComment(req: NextApiRequest, res: NextApiResponse, authorId
 
         // Increment commentCount on the post
         await Post.findByIdAndUpdate(postId, { $inc: { commentCount: 1 } });
+
+        // Notify the post author
+        createNotification({
+            recipientId: post.authorId,
+            type: 'comment',
+            actorId: authorId,
+            postId: postId as string,
+            commentId: newComment._id.toString(),
+        }).catch(() => {});
+
+        // Notify mentioned users in the comment
+        const mentionList: string[] = mentions || [];
+        for (const mentionedUserId of mentionList) {
+            createNotification({
+                recipientId: mentionedUserId,
+                type: 'mention',
+                actorId: authorId,
+                postId: postId as string,
+                commentId: newComment._id.toString(),
+            }).catch(() => {});
+        }
 
         res.status(201).json(newComment);
     } catch (error) {

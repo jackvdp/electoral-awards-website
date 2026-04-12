@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import Post from 'backend/models/post';
+import createNotification from 'backend/use_cases/notifications/createNotification';
 
 async function toggleLike(req: NextApiRequest, res: NextApiResponse, userId: string) {
     try {
@@ -17,6 +18,14 @@ async function toggleLike(req: NextApiRequest, res: NextApiResponse, userId: str
             await Post.findByIdAndUpdate(id, { $pull: { likes: userId } });
         } else {
             await Post.findByIdAndUpdate(id, { $addToSet: { likes: userId } });
+
+            // Notify post author on like (not on unlike)
+            createNotification({
+                recipientId: post.authorId,
+                type: 'like_post',
+                actorId: userId,
+                postId: id as string,
+            }).catch(() => {});
         }
 
         const updatedPost = await Post.findById(id).lean() as any;

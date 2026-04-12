@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import Comment from 'backend/models/comment';
+import createNotification from 'backend/use_cases/notifications/createNotification';
 
 async function toggleCommentLike(req: NextApiRequest, res: NextApiResponse, userId: string) {
     try {
@@ -17,6 +18,14 @@ async function toggleCommentLike(req: NextApiRequest, res: NextApiResponse, user
             await Comment.findByIdAndUpdate(commentId, { $pull: { likes: userId } });
         } else {
             await Comment.findByIdAndUpdate(commentId, { $addToSet: { likes: userId } });
+
+            createNotification({
+                recipientId: comment.authorId,
+                type: 'like_comment',
+                actorId: userId,
+                postId: comment.postId,
+                commentId: commentId as string,
+            }).catch(() => {});
         }
 
         const updatedComment = await Comment.findById(commentId).lean() as any;

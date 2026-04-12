@@ -66,10 +66,9 @@ const MentionInput: FC<MentionInputProps> = ({
         const newValue = e.target.value;
         onChange(newValue);
 
-        // Check for @mention trigger
-        const textarea = textareaRef.current;
-        const cursorPos = textarea?.selectionStart ?? newValue.length;
-        const textBeforeCursor = newValue.slice(0, cursorPos);
+        // Check for @mention trigger — always use full text length as cursor
+        // since selectionStart may not be updated yet in React's synthetic event
+        const textBeforeCursor = newValue;
         const mentionMatch = textBeforeCursor.match(/@(\w*)$/);
 
         if (mentionMatch) {

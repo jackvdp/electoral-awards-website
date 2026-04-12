@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import Post from 'backend/models/post';
 import { Error as MongooseError } from 'mongoose';
+import createNotification from 'backend/use_cases/notifications/createNotification';
 
 async function createPost(req: NextApiRequest, res: NextApiResponse, authorId: string) {
     try {
@@ -36,6 +37,17 @@ async function createPost(req: NextApiRequest, res: NextApiResponse, authorId: s
         });
 
         await newPost.save();
+
+        // Notify mentioned users
+        const mentionList: string[] = mentions || [];
+        for (const mentionedUserId of mentionList) {
+            createNotification({
+                recipientId: mentionedUserId,
+                type: 'mention',
+                actorId: authorId,
+                postId: newPost._id.toString(),
+            }).catch(() => {});
+        }
 
         res.status(201).json(newPost);
     } catch (error) {
