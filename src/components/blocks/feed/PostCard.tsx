@@ -1,6 +1,7 @@
 import { FC, useState, useCallback } from 'react';
 import PostActions from './PostActions';
 import PostContent from './PostContent';
+import LinkPreview from './LinkPreview';
 import CommentSection from './CommentSection';
 
 interface PostAuthor {
@@ -16,6 +17,13 @@ interface PostCardProps {
         _id: string;
         authorId: string;
         content: string;
+        type?: string;
+        linkPreview?: {
+            url: string;
+            title?: string;
+            description?: string;
+            image?: string;
+        };
         likes: string[];
         commentCount: number;
         createdAt: string;
@@ -143,6 +151,13 @@ const PostCard: FC<PostCardProps> = ({ post, author, authors, currentUserId, isA
             <div className="mb-3">
                 <PostContent text={post.content} />
             </div>
+
+            {/* Link preview */}
+            {post.linkPreview && (
+                <div className="mb-3">
+                    <LinkPreview {...post.linkPreview} />
+                </div>
+            )}
 
             {/* Actions */}
             <PostActions
