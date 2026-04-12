@@ -121,6 +121,8 @@ const NavbarICPS: FC<NavbarProps> = ({barSitsOnTop}) => {
 
                         <ListItemLink title="Articles" href='/articles'/>
 
+                        {isLoggedIn && <ListItemLink title="Feed" href='/feed'/>}
+
                         <ListItemLink title="Gallery" href='/gallery'/>
 
                         <ListItemLink title="Contact" href='/contact'/>
