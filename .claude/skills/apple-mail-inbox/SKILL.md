@@ -96,11 +96,12 @@ If the conversation clearly needs a response and the context is obvious, proacti
 **Adding recipients:** Only use `--cc` to add recipients whose email address you know for certain from the conversation. Never add placeholder addresses or guess email addresses — let the user sort those out.
 
 **Style for drafts:**
-- Professional, warm, concise — matching Jack's tone
-- British English throughout
-- Do NOT include a signature block — Jack's signature is already in Mail
-- Start with "Dear [Name]," or "Hi [Name]," as appropriate
-- Keep replies focused and to the point
+- **Tone:** warm, courteous, understated British professional. Friendly without being effusive; gracious without being apologetic; direct without being blunt. Think of a well-mannered senior civil servant writing to a respected peer — polite, considered, and human. Allow small warmth cues ("it is lovely to hear from you", "warm regards from London") but avoid gushing, over-apologising, or corporate filler.
+- British English throughout (e.g. "apologise", "organisation", "whilst", "favour").
+- **No em dashes (—).** Use commas, full stops, semicolons, or parentheses instead. This applies to both the prose and any HTML body passed to `reply.sh`.
+- Concise and focused — say the thing, then stop. One clear ask or message per reply.
+- Do NOT include a signature block — Jack's signature is already in Mail.
+- Start with "Dear [Name]," or "Hi [Name]," as appropriate; sign off with "Jack" (or "With kind regards, Jack" / "Warm regards from London, Jack" for warmer threads).
 
 ### Step 5 — Continue through the inbox
 
@@ -201,7 +202,7 @@ Thank you for your email.
 6. **Use `delay 2`** after `reply msg opening window yes with reply to all` — gives the reply window time to fully load before pasting.
 7. **Show the draft text to the user first** in a code block before opening it in Mail, so they can request changes.
 8. **Match sender by email address** for precision when replying (e.g., `"Caroline.Fawkes@vi.gov"` not just `"Caroline"`).
-9. **British English** throughout all drafted responses.
+9. **British English** throughout all drafted responses, in the warm-but-understated tone described in "Style for drafts" above. **Never use em dashes (—)** in drafts — use commas, full stops, or parentheses instead.
 10. **CC Swastee Ramsurrun** (`s.ramsurrun@parlistudies.org`) on all emails relating to electoral administration, delegate matters, awards logistics, COMELEC coordination, or Network operations. Use the "Reply with CC Recipients" template for these.
 
 ## Notes
