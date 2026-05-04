@@ -152,8 +152,9 @@ export const commsPlan2026: CommsPlanData = {
             cta: 'Register for webinar',
             audience: 'Full database, including expanded managerial-tier contacts.',
             detail: 'Dedicated invitation for The Intelligence Edge webinar (4 June, 14:00 UTC). Electoral bodies today must navigate a 24/7 news cycle — tracking legislative changes, monitoring media, identifying disinformation, and staying ahead of the information environment. This webinar explores how EMBs can build structured intelligence-gathering practices to improve decision-making, resilience, and public communication. Speakers to be confirmed. "Three months left to register for Manila — free, with accommodation provided."',
-            status: 'pending',
+            status: 'drafted',
             tags: ['webinars'],
+            templateFile: '2026-05-email-06-intelligence-edge-invitation.eml',
         },
         {
             id: 7, wc: '11 May', weekStart: '2026-05-11', phase: 2,
