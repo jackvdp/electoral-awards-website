@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ICPS / NOMOS Partnership Plan 2026</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13px;
+      color: #222;
+      background: #fff;
+      padding: 40px 50px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      border-bottom: 3px solid #005f9e;
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
+    .header-left h1 {
+      font-size: 20px;
+      color: #005f9e;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .header-left p {
+      font-size: 12px;
+      color: #555;
+    }
+    .header-badge {
+      background: #005f9e;
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 4px;
+      white-space: nowrap;
+      align-self: center;
+    }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #005f9e;
+      margin: 28px 0 12px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #d0e4f0;
+    }
+
+    .milestones {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .milestone-card {
+      border: 1px solid #d0e4f0;
+      border-radius: 6px;
+      padding: 12px;
+      background: #f7fbff;
+    }
+    .milestone-card .date {
+      font-size: 11px;
+      font-weight: 700;
+      color: #005f9e;
+      margin-bottom: 4px;
+    }
+    .milestone-card .label {
+      font-size: 12px;
+      color: #333;
+      line-height: 1.4;
+    }
+    .milestone-card.highlight {
+      background: #005f9e;
+      border-color: #005f9e;
+    }
+    .milestone-card.highlight .date,
+    .milestone-card.highlight .label {
+      color: #fff;
+    }
+
+    .gantt-wrap { overflow-x: auto; }
+
+    table.gantt {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+    }
+    table.gantt th {
+      background: #005f9e;
+      color: white;
+      text-align: center;
+      padding: 6px 4px;
+      font-weight: 600;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+    table.gantt th.label-col {
+      text-align: left;
+      padding-left: 10px;
+      width: 200px;
+    }
+    table.gantt tr:nth-child(even) td { background: #f5f9fd; }
+    table.gantt td {
+      padding: 5px 4px;
+      border-bottom: 1px solid #e5eef5;
+      text-align: center;
+      vertical-align: middle;
+    }
+    table.gantt td.label-col {
+      text-align: left;
+      padding-left: 10px;
+      font-weight: 500;
+      white-space: nowrap;
+      color: #333;
+    }
+    table.gantt td.label-col.group {
+      font-weight: 700;
+      color: #005f9e;
+      background: #eef5fb !important;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    table.gantt td.group { background: #eef5fb !important; }
+
+    .bar {
+      display: inline-block;
+      width: 90%;
+      height: 14px;
+      border-radius: 3px;
+      background: #005f9e;
+    }
+    .bar.light { background: #7ab8d9; }
+    .bar.accent { background: #e8781a; }
+    .star { font-size: 14px; color: #e8781a; }
+
+    table.deliv {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    table.deliv th {
+      background: #005f9e;
+      color: white;
+      padding: 7px 10px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 11px;
+    }
+    table.deliv td {
+      padding: 7px 10px;
+      border-bottom: 1px solid #e5eef5;
+      vertical-align: top;
+    }
+    table.deliv tr:nth-child(even) td { background: #f5f9fd; }
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .pill.icps { background: #005f9e; color: white; }
+    .pill.shared { background: #e8781a; color: white; }
+
+    .footer {
+      margin-top: 40px;
+      padding-top: 14px;
+      border-top: 1px solid #d0e4f0;
+      font-size: 11px;
+      color: #888;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    @media print {
+      body { padding: 20px 30px; }
+      .gantt-wrap { overflow: visible; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-left">
+      <h1>ICPS / NOMOS — Partnership Plan 2026</h1>
+      <p>Electoral Community Marketing &amp; Communications Campaign &nbsp;|&nbsp; April – December 2026</p>
+    </div>
+    <div class="header-badge">DRAFT</div>
+  </div>
+
+  <h2>Key Milestones</h2>
+  <div class="milestones">
+    <div class="milestone-card">
+      <div class="date">Late April 2026</div>
+      <div class="label">Data collection begins; speaker recruitment opens</div>
+    </div>
+    <div class="milestone-card highlight">
+      <div class="date">28 May 2026</div>
+      <div class="label">Webinar — The Intelligence Edge</div>
+    </div>
+    <div class="milestone-card">
+      <div class="date">June – November 2026</div>
+      <div class="label">Five awareness campaigns with follow-up</div>
+    </div>
+    <div class="milestone-card highlight">
+      <div class="date">29 Nov – 3 Dec 2026</div>
+      <div class="label">22nd International Electoral Awards — Manila</div>
+    </div>
+  </div>
+
+  <h2>Gantt Chart — Pre-Webinar Phase (April – May)</h2>
+  <div class="gantt-wrap">
+    <table class="gantt">
+      <thead>
+        <tr>
+          <th class="label-col">Activity</th>
+          <th>W/C 27 Apr</th>
+          <th>W/C 4 May</th>
+          <th>W/C 11 May</th>
+          <th>W/C 18 May</th>
+          <th>W/C 25 May</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="label-col group">Data</td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td></tr>
+        <tr>
+          <td class="label-col">Database expansion (managerial tier)</td>
+          <td><span class="bar"></span></td><td><span class="bar"></span></td><td><span class="bar"></span></td><td><span class="bar"></span></td><td><span class="bar"></span></td>
+        </tr>
+        <tr><td class="label-col group">Webinar Preparation</td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td></tr>
+        <tr>
+          <td class="label-col">Speaker recruitment</td>
+          <td><span class="bar"></span></td><td><span class="bar"></span></td><td><span class="bar"></span></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td class="label-col">Content &amp; slides development</td>
+          <td><span class="bar"></span></td><td><span class="bar"></span></td><td><span class="bar"></span></td><td><span class="bar"></span></td><td></td>
+        </tr>
+        <tr>
+          <td class="label-col">Run-sheet &amp; logistics</td>
+          <td></td><td></td><td><span class="bar light"></span></td><td><span class="bar light"></span></td><td></td>
+        </tr>
+        <tr><td class="label-col group">Recruitment Emails</td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td></tr>
+        <tr>
+          <td class="label-col">Email 1 — Save the date / announcement</td>
+          <td><span class="bar accent"></span></td><td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td class="label-col">Email 2 — Programme detail</td>
+          <td></td><td><span class="bar accent"></span></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td class="label-col">Email 3 — Final reminder</td>
+          <td></td><td></td><td></td><td><span class="bar accent"></span></td><td></td>
+        </tr>
+        <tr>
+          <td class="label-col" style="font-weight:700;color:#e8781a;">★ Webinar — 28 May</td>
+          <td></td><td></td><td></td><td></td><td><span class="star">★</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Gantt Chart — Campaign &amp; Symposium Phase (June – December)</h2>
+  <div class="gantt-wrap">
+    <table class="gantt">
+      <thead>
+        <tr>
+          <th class="label-col">Activity</th>
+          <th>Jun</th><th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="label-col group">Data</td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td></tr>
+        <tr>
+          <td class="label-col">Database expansion (ongoing)</td>
+          <td><span class="bar light"></span></td><td><span class="bar light"></span></td><td><span class="bar light"></span></td><td><span class="bar light"></span></td><td><span class="bar light"></span></td><td><span class="bar light"></span></td><td></td>
+        </tr>
+        <tr><td class="label-col group">Awareness Campaigns</td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td></tr>
+        <tr><td class="label-col">Campaign 1 — Send &amp; follow-up</td><td><span class="bar accent"></span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td class="label-col">Campaign 2 — Send &amp; follow-up</td><td></td><td><span class="bar accent"></span></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td class="label-col">Campaign 3 — Send &amp; follow-up</td><td></td><td></td><td><span class="bar accent"></span></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td class="label-col">Campaign 4 — Send &amp; follow-up</td><td></td><td></td><td></td><td><span class="bar accent"></span></td><td></td><td></td><td></td></tr>
+        <tr><td class="label-col">Campaign 5 — Send &amp; follow-up</td><td></td><td></td><td></td><td></td><td><span class="bar accent"></span></td><td></td><td></td></tr>
+        <tr><td class="label-col group">Symposium &amp; Awards</td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td><td class="group"></td></tr>
+        <tr>
+          <td class="label-col">NOMOS presentation development</td>
+          <td></td><td></td><td></td><td></td><td><span class="bar"></span></td><td><span class="bar"></span></td><td></td>
+        </tr>
+        <tr>
+          <td class="label-col">Exhibition &amp; logistics</td>
+          <td></td><td></td><td></td><td></td><td></td><td><span class="bar"></span></td><td></td>
+        </tr>
+        <tr>
+          <td class="label-col" style="font-weight:700;color:#e8781a;">★ Symposium &amp; Awards — Manila</td>
+          <td></td><td></td><td></td><td></td><td></td><td><span class="star">★</span></td><td><span class="star">★</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Deliverables by Component</h2>
+  <table class="deliv">
+    <thead>
+      <tr>
+        <th style="width:22%">Component</th>
+        <th style="width:48%">ICPS Deliverables</th>
+        <th style="width:15%">Lead</th>
+        <th style="width:15%">Target Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Data Collection</strong></td><td>Expand database to include managerial-grade electoral contacts globally</td><td><span class="pill icps">ICPS</span></td><td>From late April</td></tr>
+      <tr><td><strong>Recruitment Email 1</strong></td><td>Save-the-date / announcement email to full database</td><td><span class="pill icps">ICPS</span></td><td>~30 April</td></tr>
+      <tr><td><strong>Recruitment Email 2</strong></td><td>Programme detail and speaker spotlight</td><td><span class="pill icps">ICPS</span></td><td>~4 May</td></tr>
+      <tr><td><strong>Recruitment Email 3</strong></td><td>Final reminder with registration link</td><td><span class="pill icps">ICPS</span></td><td>~18 May</td></tr>
+      <tr><td><strong>Webinar</strong></td><td>1-hour event: speakers, facilitation, slides, run-sheet. Partner to advise on product messaging.</td><td><span class="pill shared">Joint</span></td><td>28 May</td></tr>
+      <tr><td><strong>Campaigns 1–5</strong></td><td>Editorial copy linking features to current electoral issues; follow-up calls by ICPS staff. Partner to review all copy.</td><td><span class="pill shared">Joint</span></td><td>Jun–Oct</td></tr>
+      <tr><td><strong>Symposium Presentation</strong></td><td>Fully aligned presentation in main conference programme</td><td><span class="pill shared">Joint</span></td><td>29 Nov – 3 Dec</td></tr>
+      <tr><td><strong>Exhibition Booth</strong></td><td>Prime-position booth; ICPS coordinates logistics</td><td><span class="pill icps">ICPS</span></td><td>29 Nov – 3 Dec</td></tr>
+      <tr><td><strong>Award Presenting</strong></td><td>Partner representative presents an award at the ceremony</td><td><span class="pill icps">ICPS</span></td><td>Awards night</td></tr>
+      <tr><td><strong>Advocate Syndicate Room</strong></td><td>Subject to webinar/campaign recruitment — room for advocates to present to symposium attendees</td><td><span class="pill icps">ICPS</span></td><td>TBC</td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:16px; font-size:11px; color:#555; display:flex; gap:20px;">
+    <span><span style="display:inline-block;width:14px;height:10px;background:#005f9e;border-radius:2px;margin-right:4px;"></span>Core activity</span>
+    <span><span style="display:inline-block;width:14px;height:10px;background:#7ab8d9;border-radius:2px;margin-right:4px;"></span>Ongoing / background</span>
+    <span><span style="display:inline-block;width:14px;height:10px;background:#e8781a;border-radius:2px;margin-right:4px;"></span>Campaigns / emails</span>
+    <span style="color:#e8781a;">★ Major milestone</span>
+  </div>
+
+  <div class="footer">
+    <span>ICPS — Electoral Community Partnership 2026</span>
+    <span>Prepared by ICPS &nbsp;|&nbsp; electoralnetwork.org</span>
+  </div>
+
+</body>
+</html>
