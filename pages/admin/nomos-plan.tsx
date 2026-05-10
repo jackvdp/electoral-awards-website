@@ -51,11 +51,11 @@ const campaignRows: GanttRow[] = [
     { label: 'Data', group: true, bars: ['none', 'none', 'none', 'none', 'none', 'none', 'none'] },
     { label: 'Database expansion (ongoing)', bars: ['light', 'light', 'light', 'light', 'light', 'light', 'none'] },
     { label: 'Awareness Campaigns', group: true, bars: ['none', 'none', 'none', 'none', 'none', 'none', 'none'] },
-    { label: 'Campaign 1 — Send & follow-up', bars: ['accent', 'none', 'none', 'none', 'none', 'none', 'none'] },
-    { label: 'Campaign 2 — Send & follow-up', bars: ['none', 'accent', 'none', 'none', 'none', 'none', 'none'] },
-    { label: 'Campaign 3 — Send & follow-up', bars: ['none', 'none', 'accent', 'none', 'none', 'none', 'none'] },
-    { label: 'Campaign 4 — Send & follow-up', bars: ['none', 'none', 'none', 'accent', 'none', 'none', 'none'] },
-    { label: 'Campaign 5 — Send & follow-up', bars: ['none', 'none', 'none', 'none', 'accent', 'none', 'none'] },
+    { label: 'C1 — Information Environment (w/c 15 Jun)', bars: ['accent', 'none', 'none', 'none', 'none', 'none', 'none'] },
+    { label: 'C2 — Results Management (w/c 13 Jul)', bars: ['none', 'accent', 'none', 'none', 'none', 'none', 'none'] },
+    { label: 'C3 — Inclusive Participation (w/c 10 Aug)', bars: ['none', 'none', 'accent', 'none', 'none', 'none', 'none'] },
+    { label: 'C4 — Electoral Integrity & Trust (w/c 21 Sep)', bars: ['none', 'none', 'none', 'accent', 'none', 'none', 'none'] },
+    { label: 'C5 — Pre-Symposium Engagement (w/c 19 Oct)', bars: ['none', 'none', 'none', 'none', 'accent', 'none', 'none'] },
     { label: 'Symposium & Awards', group: true, bars: ['none', 'none', 'none', 'none', 'none', 'none', 'none'] },
     { label: 'NOMOS presentation development', bars: ['none', 'none', 'none', 'none', 'full', 'full', 'none'] },
     { label: 'Exhibition & logistics', bars: ['none', 'none', 'none', 'none', 'none', 'full', 'none'] },
@@ -68,7 +68,11 @@ const deliverables = [
     { component: 'Recruitment Email 2', detail: 'Programme detail and speaker spotlight', lead: 'ICPS', target: '~11 May' },
     { component: 'Recruitment Email 3', detail: 'Final reminder with registration link', lead: 'ICPS', target: '~21 May' },
     { component: 'Webinar', detail: '1-hour event: speakers, facilitation, slides, run-sheet. NOMOS to advise on product messaging.', lead: 'Joint', target: '28 May' },
-    { component: 'Campaigns 1–5', detail: 'Editorial copy linking NOMOS features to current electoral issues; follow-up calls by ICPS staff. NOMOS to review all copy.', lead: 'Joint', target: 'Jun–Oct' },
+    { component: 'Campaign 1', detail: 'The Information Environment — challenges facing EMBs in a 24/7 news cycle: monitoring, disinformation, and structured intelligence gathering.', lead: 'Joint', target: 'w/c 15 Jun' },
+    { component: 'Campaign 2', detail: 'Results Management & Transparency — end-to-end results workflows, transparency servers, and public communication during results consolidation.', lead: 'Joint', target: 'w/c 13 Jul' },
+    { component: 'Campaign 3', detail: 'Inclusive Participation & Accessibility — voter-centred design, accessible processes, and reaching under-represented communities.', lead: 'Joint', target: 'w/c 10 Aug' },
+    { component: 'Campaign 4', detail: 'Electoral Integrity & Trust — building public confidence in electoral institutions through transparency, security, and communication.', lead: 'Joint', target: 'w/c 21 Sep' },
+    { component: 'Campaign 5', detail: 'Pre-Symposium Engagement — build anticipation for NOMOS presence at Manila: booth, presentation, and in-person delegate engagement.', lead: 'Joint', target: 'w/c 19 Oct' },
     { component: 'Symposium Presentation', detail: 'Fully aligned NOMOS presentation in main conference programme', lead: 'Joint', target: '29 Nov – 3 Dec' },
     { component: 'Exhibition Booth', detail: 'Prime-position booth; ICPS coordinates logistics', lead: 'ICPS', target: '29 Nov – 3 Dec' },
     { component: 'Award Presenting', detail: 'NOMOS representative presents an award at the ceremony', lead: 'ICPS', target: 'Awards night' },
@@ -242,6 +246,66 @@ const NomosPage: NextPage = () => {
                 </div>
                 <div className="card-body p-0">
                     <GanttTable columns={campaignMonths} rows={campaignRows} />
+                </div>
+            </div>
+
+            {/* ── Campaign Details ── */}
+            <div className="card mb-4">
+                <div className="card-header bg-white">
+                    <h5 className="mb-0">Campaign Details — June to October</h5>
+                </div>
+                <div className="card-body p-0">
+                    <table className="table table-hover mb-0" style={{ fontSize: '0.85rem' }}>
+                        <thead>
+                            <tr style={{ fontSize: '0.8rem' }}>
+                                <th style={{ width: 50, background: BLUE, color: '#fff' }}>#</th>
+                                <th style={{ width: 110, background: BLUE, color: '#fff' }}>Send date</th>
+                                <th style={{ width: 200, background: BLUE, color: '#fff' }}>Theme</th>
+                                <th style={{ background: BLUE, color: '#fff' }}>Focus & linkage</th>
+                                <th style={{ width: 90, background: BLUE, color: '#fff' }}>Lead</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style={{ fontWeight: 700, color: ORANGE }}>1</td>
+                                <td style={{ whiteSpace: 'nowrap' }}>w/c 15 Jun</td>
+                                <td style={{ fontWeight: 600 }}>The Information Environment</td>
+                                <td className="text-muted">How EMBs monitor the 24/7 news cycle, identify disinformation, and build structured intelligence-gathering practices. Follows The Intelligence Edge webinar (4 Jun).</td>
+                                <td><span className="badge" style={{ background: ORANGE, fontSize: '0.7rem' }}>Joint</span></td>
+                            </tr>
+                            <tr style={{ background: '#f8f9fa' }}>
+                                <td style={{ fontWeight: 700, color: ORANGE }}>2</td>
+                                <td style={{ whiteSpace: 'nowrap' }}>w/c 13 Jul</td>
+                                <td style={{ fontWeight: 600 }}>Results Management & Transparency</td>
+                                <td className="text-muted">End-to-end results workflows, transparency infrastructure, and public communication during results consolidation. Timed to coincide with the Speed in Election Results Transmission webinar (14 Jul).</td>
+                                <td><span className="badge" style={{ background: ORANGE, fontSize: '0.7rem' }}>Joint</span></td>
+                            </tr>
+                            <tr>
+                                <td style={{ fontWeight: 700, color: ORANGE }}>3</td>
+                                <td style={{ whiteSpace: 'nowrap' }}>w/c 10 Aug</td>
+                                <td style={{ fontWeight: 600 }}>Inclusive Participation & Accessibility</td>
+                                <td className="text-muted">Voter-centred design, accessible electoral processes, frontline staff training, and reaching under-represented communities. Timed ahead of nominations close (31 Aug).</td>
+                                <td><span className="badge" style={{ background: ORANGE, fontSize: '0.7rem' }}>Joint</span></td>
+                            </tr>
+                            <tr style={{ background: '#f8f9fa' }}>
+                                <td style={{ fontWeight: 700, color: ORANGE }}>4</td>
+                                <td style={{ whiteSpace: 'nowrap' }}>w/c 21 Sep</td>
+                                <td style={{ fontWeight: 600 }}>Electoral Integrity & Trust</td>
+                                <td className="text-muted">Building public confidence in electoral institutions through transparency, security, and strategic communications. Follows the Inclusive Elections webinar (16 Sep).</td>
+                                <td><span className="badge" style={{ background: ORANGE, fontSize: '0.7rem' }}>Joint</span></td>
+                            </tr>
+                            <tr>
+                                <td style={{ fontWeight: 700, color: ORANGE }}>5</td>
+                                <td style={{ whiteSpace: 'nowrap' }}>w/c 19 Oct</td>
+                                <td style={{ fontWeight: 600 }}>Pre-Symposium Engagement</td>
+                                <td className="text-muted">Build anticipation for the NOMOS presence at the Manila Symposium. Encourage in-person engagement at the exhibition booth, main programme presentation, and Advocate Syndicate Room.</td>
+                                <td><span className="badge" style={{ background: ORANGE, fontSize: '0.7rem' }}>Joint</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div className="card-footer bg-white" style={{ fontSize: '0.8rem', color: '#666' }}>
+                    All campaign copy drafted by ICPS editorial team. NOMOS to review and approve each send. ICPS staff follow-up calls 1–2 weeks after each send.
                 </div>
             </div>
 
