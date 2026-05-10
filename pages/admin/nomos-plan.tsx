@@ -270,7 +270,7 @@ const NomosPage: NextPage = () => {
                                 <td style={{ fontWeight: 700, color: ORANGE }}>1</td>
                                 <td style={{ whiteSpace: 'nowrap' }}>w/c 15 Jun</td>
                                 <td style={{ fontWeight: 600 }}>The Information Environment</td>
-                                <td className="text-muted">How EMBs monitor the 24/7 news cycle, identify disinformation, and build structured intelligence-gathering practices. Follows The Intelligence Edge webinar (4 Jun).</td>
+                                <td className="text-muted">How EMBs monitor the 24/7 news cycle, identify disinformation, and build structured intelligence-gathering practices. Follows the Knowledge Sharing webinar (4 Jun).</td>
                                 <td><span className="badge" style={{ background: ORANGE, fontSize: '0.7rem' }}>Joint</span></td>
                             </tr>
                             <tr style={{ background: '#f8f9fa' }}>
