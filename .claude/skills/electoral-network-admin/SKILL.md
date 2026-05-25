@@ -69,7 +69,7 @@ osascript -e 'tell application "Pages" to get name of every document'
 - Emails: `emails/` in the repo, as `YYYY-MM-<topic>.txt`
 - Other documents to keep: ICPS Dropbox folder
   `/Users/jackvanderpump/Dropbox/My Mac (Mac-Pro)/Desktop/ICPS/Electoral/`
-- Website content: edit files in `src/data/`
+- Website content: edit files in `web/src/data/`
 
 ## Responding to requests
 

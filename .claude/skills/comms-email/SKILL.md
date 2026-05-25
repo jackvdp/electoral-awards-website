@@ -15,16 +15,16 @@ The comms plan lives in two places:
 
 | File | Purpose |
 |------|---------|
-| `src/data/comms-plan-2026.ts` | Structured data — email schedule with subjects, audiences, CTAs, status, and `templateFile` references |
-| `pages/admin/comms-plan.tsx` | Admin dashboard — displays the plan and offers download links for emails that have a `templateFile` |
+| `web/src/data/comms-plan-2026.ts` | Structured data — email schedule with subjects, audiences, CTAs, status, and `templateFile` references |
+| `web/pages/admin/comms-plan.tsx` | Admin dashboard — displays the plan and offers download links for emails that have a `templateFile` |
 
-Email templates are stored as `.eml` files in the `emails/` directory. The API route at `pages/api/comms-templates/[filename].ts` serves them as downloads (admin-only).
+Email templates are stored as `.eml` files in the `emails/` directory. The API route at `web/pages/api/comms-templates/[filename].ts` serves them as downloads (admin-only).
 
 ## Steps
 
 ### 1. Identify the email
 
-Read `src/data/comms-plan-2026.ts` and find the email the user is asking about — by ID number, subject, topic, or the next pending email in sequence.
+Read `web/src/data/comms-plan-2026.ts` and find the email the user is asking about — by ID number, subject, topic, or the next pending email in sequence.
 
 Note the following fields which inform the content:
 - `primary` — the main message/purpose
@@ -62,10 +62,10 @@ Read 1-2 existing `.eml` templates in `emails/` to match the established visual 
 ### 3. Gather any additional context
 
 If the email references specific content (webinar details, speaker names, event pages), check:
-- `src/data/comms-plan-2026.ts` for the detail field
-- `src/data/schedule.ts` for programme details
-- `src/data/award-categories.ts` for category information
-- `src/data/judges.ts` for judging committee
+- `web/src/data/comms-plan-2026.ts` for the detail field
+- `web/src/data/schedule.ts` for programme details
+- `web/src/data/award-categories.ts` for category information
+- `web/src/data/judges.ts` for judging committee
 - Existing emails in `emails/` for event URLs, registration links
 
 **Key URLs:**
@@ -107,7 +107,7 @@ X-Unsent: 1
 
 ### 5. Update the comms plan data
 
-Edit `src/data/comms-plan-2026.ts` to:
+Edit `web/src/data/comms-plan-2026.ts` to:
 1. Add `templateFile: '<filename>.eml'` to the email entry
 2. Change `status` from `'pending'` to `'drafted'`
 

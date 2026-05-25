@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ICPS Launchpad
 
-## Getting Started
+Jack Vanderpump's working repo (ICPS, Head of Policy Research). Holds the **electoralnetwork.org** Next.js site alongside the skills, drafts, and notes that run the Electoral Members' Network and the International Electoral Awards programme.
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+.
+├── web/                Next.js app (electoralnetwork.org) — see web/README.md
+├── .claude/skills/     Claude Code skills (admin + website)
+├── emails/             Drafted .eml/.emltpl templates and speaker-shortlist CSVs
+├── docs/               ICPS reference docs (Horizon, webinars)
+├── projects/           Cross-cutting work
+├── scripts/            Admin AppleScripts
+├── CLAUDE.md           Routing / always-on conventions for Claude Code
+└── vercel.json         Tells Vercel to build the site from web/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Working on the website
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd web
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Full notes in [`.claude/skills/website-dev/SKILL.md`](.claude/skills/website-dev/SKILL.md) or invoke `/website-dev` in Claude Code.
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+Vercel builds from `web/` automatically. The root [`vercel.json`](vercel.json) sets `installCommand`, `buildCommand`, `outputDirectory`, and `devCommand` to cd into `web/` before running. **Do not** set a Root Directory in the Vercel dashboard — let `vercel.json` handle it.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Skills
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Run `/` in Claude Code to see all available skills. Routing table in [CLAUDE.md](CLAUDE.md).

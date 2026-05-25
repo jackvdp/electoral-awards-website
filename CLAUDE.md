@@ -1,9 +1,25 @@
-# Electoral Members' Network — Workspace
+# ICPS Launchpad — Workspace
 
 This repo is the working directory for **Jack Vanderpump** (Head of Policy Research, ICPS). It serves two purposes:
 
-1. The **electoralnetwork.org** website (Next.js — code lives here)
-2. All **Electoral Members' Network / ICPS admin work** — emails, comms, events, articles, awards programme. Drafts and notes live alongside the code.
+1. The **electoralnetwork.org** website (Next.js, in `web/`)
+2. All **Electoral Members' Network / ICPS admin work** — emails, comms, events, articles, awards programme, speaker research. Drafts, skills, and notes live at the repo root alongside `web/`.
+
+## Repo layout
+
+```
+.
+├── web/                Next.js app (electoralnetwork.org) — package.json, src/, pages/, etc.
+├── .claude/skills/     Skills (admin + website)
+├── emails/             Drafted emails (.eml/.emltpl/.txt) + speaker-shortlist CSVs
+├── docs/               ICPS reference docs (Horizon, webinars)
+├── projects/           Cross-cutting work (nomos)
+├── scripts/            Admin AppleScripts
+├── CLAUDE.md           This file
+└── vercel.json         Tells Vercel to build from web/
+```
+
+Vercel deploys from `web/` via the root `vercel.json` (`buildCommand: cd web && npm run build`). If you change Vercel project settings in the dashboard, don't set a Root Directory — the `vercel.json` does that job.
 
 
 ---
@@ -50,7 +66,10 @@ Skills load their own context when invoked — don't pre-load awards or website 
 
 Next.js 15 (Pages Router) · TypeScript · Bootstrap 5 + SASS · MongoDB (Mongoose) + Supabase auth · AWS S3 + Vercel Blob · SendGrid + Postmark.
 
+The app lives in `web/`. Run all `npm` commands from there:
+
 ```bash
+cd web
 npm run dev      # Dev server
 npm run build    # Production build
 npm run lint     # ESLint

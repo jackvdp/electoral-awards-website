@@ -26,11 +26,11 @@ Read relevant files to inform the post:
 
 | Topic | Source files |
 |-------|-------------|
-| Events / Awards | `src/data/schedule.ts`, `src/data/award-categories.ts`, CLAUDE.md |
-| Articles | `src/data/` article files, or the article page itself |
-| Winners | `src/data/winners25.ts`, `src/data/winners24.ts` |
+| Events / Awards | `web/src/data/schedule.ts`, `web/src/data/award-categories.ts`, CLAUDE.md |
+| Articles | `web/src/data/` article files, or the article page itself |
+| Winners | `web/src/data/winners25.ts`, `web/src/data/winners24.ts` |
 | Webinars | Event data in MongoDB (use `edit-event` skill's list mode) |
-| Comms plan | `src/data/comms-plan-2026.ts` |
+| Comms plan | `web/src/data/comms-plan-2026.ts` |
 
 ### 3. Draft the post
 

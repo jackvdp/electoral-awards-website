@@ -12,7 +12,7 @@ This is the website for the **International Electoral Awards & Symposium**, run 
 
 - **Framework:** Next.js 15 (**Pages Router**, not App Router)
 - **Language:** TypeScript / React 18
-- **Styling:** Bootstrap 5.2 + SASS (`src/assets/scss/` compiles to `public/css`)
+- **Styling:** Bootstrap 5.2 + SASS (`web/src/assets/scss/` compiles to `web/public/css`)
 - **Database:** MongoDB via Mongoose (events, articles, bookings, users) + Supabase (auth, SSR sessions)
 - **Storage:** AWS S3 + Vercel Blob
 - **Email:** SendGrid + Postmark
@@ -22,37 +22,40 @@ This is the website for the **International Electoral Awards & Symposium**, run 
 
 ## Project structure
 
+The Next.js app lives in `web/` at the repo root. Everything below is relative to `web/`. Run all `npm` commands from `web/` (or use the root `vercel.json` commands, which `cd web` for you).
+
 ```
-pages/
-  _app.tsx, _document.tsx, 404.tsx
-  index.tsx                 - Home
-  about.tsx, contact.tsx, gallery.tsx, account.tsx
-  register/                 - Sign-up flow
-  forgot.tsx, reset-password.tsx
-  awards/                   - Main awards pages (index, categories, schedule, submit, winners)
-    2023/, 2024/            - Archived editions
-  admin/                    - Admin dashboard (auth-gated)
-    dashboard/, articles/, bookings/, events/, images/, comms-plan.tsx
-  api/                      - API routes (send-email, users, comms-templates, etc.)
-  articles/                 - Public articles (MongoDB-backed)
-  events/                   - Public events (MongoDB-backed)
+web/
+  pages/
+    _app.tsx, _document.tsx, 404.tsx
+    index.tsx                 - Home
+    about.tsx, contact.tsx, gallery.tsx, account.tsx
+    register/                 - Sign-up flow
+    forgot.tsx, reset-password.tsx
+    awards/                   - Main awards pages (index, categories, schedule, submit, winners)
+      2023/, 2024/            - Archived editions
+    admin/                    - Admin dashboard (auth-gated)
+      dashboard/, articles/, bookings/, events/, images/, comms-plan.tsx
+    api/                      - API routes (send-email, users, comms-templates, etc.)
+    articles/                 - Public articles (MongoDB-backed)
+    events/                   - Public events (MongoDB-backed)
 
-src/
-  data/                     - Static TypeScript data files (see table below)
-  components/               - React components
-  assets/                   - SCSS source (compiled to public/css via `npm run sass`)
-  auth/                     - Supabase auth helpers
-  backend/                  - Server-side utilities (MongoDB models, API helpers)
-  helpers/                  - Shared utilities
-  hooks/                    - React hooks
-  markups/, plugins/        - Misc UI fragments and 3rd-party integrations
-  theme/                    - Theme tokens / shared styles
-  scripts/                  - One-off scripts (seeds, migrations)
+  src/
+    data/                     - Static TypeScript data files (see table below)
+    components/               - React components
+    assets/                   - SCSS source (compiled to web/public/css via `npm run sass`)
+    auth/                     - Supabase auth helpers
+    backend/                  - Server-side utilities (MongoDB models, API helpers)
+    helpers/                  - Shared utilities
+    hooks/                    - React hooks
+    markups/, plugins/        - Misc UI fragments and 3rd-party integrations
+    theme/                    - Theme tokens / shared styles
+    scripts/                  - One-off scripts (seeds, migrations)
 
-emails/                     - Drafted emails (`.txt` files, naming: YYYY-MM-<topic>.txt)
+emails/                       - Drafted emails (`.txt` files, naming: YYYY-MM-<topic>.txt) — at repo root, not under web/
 ```
 
-## Key data files (`src/data/`)
+## Key data files (`web/src/data/`)
 
 | File | Purpose |
 |------|---------|
@@ -70,7 +73,7 @@ emails/                     - Drafted emails (`.txt` files, naming: YYYY-MM-<top
 
 ## MongoDB-backed content
 
-Events, articles, bookings, and users live in **MongoDB**, not in `src/data/`. Don't try to edit them by hand:
+Events, articles, bookings, and users live in **MongoDB**, not in `web/src/data/`. Don't try to edit them by hand:
 
 | To do this | Use this skill |
 |------------|----------------|
@@ -79,16 +82,19 @@ Events, articles, bookings, and users live in **MongoDB**, not in `src/data/`. D
 | Write & publish an article | `/add-article` |
 | Draft a comms-plan email (.eml) | `/comms-email` |
 
-Mongoose models live in `src/backend/`.
+Mongoose models live in `web/src/backend/`.
 
 ## Commands
 
+All `npm` commands must be run from `web/` — the `package.json` is there, not at repo root.
+
 ```bash
+cd web
 npm run dev      # Start development server (next dev)
 npm run build    # Production build (next build)
 npm run start    # Start production server (next start)
 npm run lint     # ESLint
-npm run sass     # Compile src/assets/scss/ to public/css/
+npm run sass     # Compile web/src/assets/scss/ to web/public/css/
 ```
 
 When you edit SCSS, you (or the user) need to run `npm run sass` to see the change in the browser. The `dev` server alone doesn't recompile SCSS.
@@ -96,11 +102,11 @@ When you edit SCSS, you (or the user) need to run `npm run sass` to see the chan
 ## Conventions
 
 - **Pages Router**, not App Router. Don't introduce `app/` directory patterns. Data fetching uses `getServerSideProps` / `getStaticProps`, not server components.
-- **TypeScript everywhere.** Match existing types in `src/data/*` when extending.
+- **TypeScript everywhere.** Match existing types in `web/src/data/*` when extending.
 - **British English** in user-facing copy (page titles, button text, descriptions).
 - **Accessibility:** alt text on all images, descriptive link text, semantic HTML.
 - **Bootstrap 5 utility classes** for layout where reasonable; custom SCSS for anything beyond.
-- **Admin pages** are auth-gated via Supabase. Check `src/auth/` for the helpers before adding new admin routes.
+- **Admin pages** are auth-gated via Supabase. Check `web/src/auth/` for the helpers before adding new admin routes.
 - **API routes** that send email use SendGrid (`@sendgrid/mail`) or Postmark depending on the route - check the existing route before picking.
 
 ## Deployment

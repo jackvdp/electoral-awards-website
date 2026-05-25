@@ -151,7 +151,7 @@ Arrival and registration of delegates.
 | `Awards 2024/` | 2024 materials |
 | `Awards/` | Historical materials |
 
-### Website data files (`src/data/`)
+### Website data files (`web/src/data/`)
 | File | Purpose |
 |------|---------|
 | `award-categories.ts` | Award category definitions |

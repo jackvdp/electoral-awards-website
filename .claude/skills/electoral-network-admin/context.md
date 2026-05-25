@@ -71,7 +71,7 @@ Virtual, quarterly. Four regions: Africa, Americas, Asia-Pacific, Europe. Purpos
 
 Awards materials (Awards 2026/, Awards 2025/, etc.) are referenced from `/awards-admin`.
 
-### Website data files (`src/data/`)
+### Website data files (`web/src/data/`)
 - `comms-plan-2026.ts` - 2026 delegate-acquisition comms plan
 - `faq.ts` - FAQs
 - (Awards-specific files like `winners*.ts`, `judges.ts`, `schedule.ts` are documented in `/awards-admin`.)

@@ -24,8 +24,8 @@ import { dirname, resolve } from 'path';
 // ── Load MongoDB URI from .env.local ──────────────────────────────────────────
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const projectRoot = resolve(__dirname, '../../..');
-const envFile = readFileSync(resolve(projectRoot, '.env.local'), 'utf-8');
+const repoRoot = resolve(__dirname, '../../..');
+const envFile = readFileSync(resolve(repoRoot, 'web/.env.local'), 'utf-8');
 const MONGODB_URI = envFile.match(/MONGODB_URI=(.*)/)?.[1]?.trim();
 
 if (!MONGODB_URI) {
@@ -33,7 +33,7 @@ if (!MONGODB_URI) {
   process.exit(1);
 }
 
-// ── Define Mongoose schema (matches src/backend/models/event.ts) ─────────────
+// ── Define Mongoose schema (matches web/src/backend/models/event.ts) ─────────────
 
 const speakerSchema = new mongoose.Schema({
   name: { type: String, required: true },
