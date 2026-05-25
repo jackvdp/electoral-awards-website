@@ -21,6 +21,8 @@ This repo is the working directory for **Jack Vanderpump** (Head of Policy Resea
 | Write and publish an article | `/add-article` |
 | LinkedIn post on the Network organisation page | `/linkedin-post` |
 | Triage Apple Mail inbox / draft replies | `/apple-mail-inbox` |
+| Research and shortlist external speakers (CSV + emails) | `/find-speakers` |
+| Mail-merge a template through Outlook to a CSV list | `/send-bulk-emails` |
 | Make AI-sounding text read more human | `/humanizer` |
 
 Skills load their own context when invoked — don't pre-load awards or website detail into the conversation by reading files speculatively. Use the skill.
