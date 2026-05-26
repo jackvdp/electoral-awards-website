@@ -15,11 +15,10 @@ This repo is the working directory for **Jack Vanderpump** (Head of Policy Resea
 ├── docs/               ICPS reference docs (Horizon, webinars)
 ├── projects/           Cross-cutting work (nomos)
 ├── scripts/            Admin AppleScripts
-├── CLAUDE.md           This file
-└── vercel.json         Tells Vercel to build from web/
+└── CLAUDE.md           This file
 ```
 
-Vercel deploys from `web/` via the root `vercel.json` (`buildCommand: cd web && npm run build`). If you change Vercel project settings in the dashboard, don't set a Root Directory — the `vercel.json` does that job.
+Vercel deploys from `web/`. The project's **Root Directory** is set to `web` in the Vercel dashboard (Settings → General → Root Directory). Default Next.js commands then work unchanged. Do not add a root-level `vercel.json` — it conflicts with framework detection.
 
 
 ---

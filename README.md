@@ -10,8 +10,7 @@ Jack Vanderpump's working repo (ICPS, Head of Policy Research). Holds the **elec
 ├── docs/               ICPS reference docs (Horizon, webinars)
 ├── projects/           Cross-cutting work
 ├── scripts/            Admin AppleScripts
-├── CLAUDE.md           Routing / always-on conventions for Claude Code
-└── vercel.json         Tells Vercel to build the site from web/
+└── CLAUDE.md           Routing / always-on conventions for Claude Code
 ```
 
 ## Working on the website
@@ -26,7 +25,7 @@ Full notes in [`.claude/skills/website-dev/SKILL.md`](.claude/skills/website-dev
 
 ## Deployment
 
-Vercel builds from `web/` automatically. The root [`vercel.json`](vercel.json) sets `installCommand`, `buildCommand`, `outputDirectory`, and `devCommand` to cd into `web/` before running. **Do not** set a Root Directory in the Vercel dashboard — let `vercel.json` handle it.
+Vercel builds from `web/`. The project's **Root Directory** is set to `web` in the Vercel dashboard (Settings → General → Root Directory); default Next.js commands then work unchanged. Do not add a root-level `vercel.json` — it conflicts with framework detection.
 
 ## Skills
 
