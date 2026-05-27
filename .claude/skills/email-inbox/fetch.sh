@@ -33,7 +33,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -n "$SEARCH" ]]; then
-    cat > /tmp/apple-mail-inbox.applescript << APPLESCRIPT
+    cat > /tmp/email-inbox.applescript << APPLESCRIPT
 set searchTerm to "$SEARCH"
 set maxCount to $MAX
 set output to ""
@@ -74,7 +74,7 @@ return output
 APPLESCRIPT
 else
     START_INDEX=$((OFFSET + 1))
-    cat > /tmp/apple-mail-inbox.applescript << APPLESCRIPT
+    cat > /tmp/email-inbox.applescript << APPLESCRIPT
 set startIndex to $START_INDEX
 set maxCount to $((OFFSET + MAX))
 set output to ""
@@ -112,4 +112,4 @@ return output
 APPLESCRIPT
 fi
 
-osascript /tmp/apple-mail-inbox.applescript
+osascript /tmp/email-inbox.applescript

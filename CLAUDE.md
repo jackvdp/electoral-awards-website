@@ -35,7 +35,7 @@ Vercel deploys from `web/`. The project's **Root Directory** is set to `web` in 
 | Edit an event/webinar on the site | `/edit-event` |
 | Write and publish an article | `/add-article` |
 | LinkedIn post on the Network organisation page | `/linkedin-post` |
-| Triage Apple Mail inbox / draft replies | `/apple-mail-inbox` |
+| Triage inbox, draft replies (Apple Mail) and new composes (Outlook) | `/email-inbox` |
 | Research and shortlist external speakers (CSV + emails) | `/find-speakers` |
 | Mail-merge a template through Outlook to a CSV list | `/send-bulk-emails` |
 | Make AI-sounding text read more human | `/humanizer` |

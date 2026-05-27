@@ -16,15 +16,20 @@
  * See the SKILL.md alongside this file for full documentation.
  */
 
-import mongoose from 'mongoose';
 import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import { dirname, resolve } from 'path';
+import { createRequire } from 'module';
 
-// ── Load MongoDB URI from .env.local ──────────────────────────────────────────
+// ── Locate the Next.js app (mongoose lives in web/node_modules) ───────────────
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, '../../..');
+const require = createRequire(pathToFileURL(resolve(repoRoot, 'web/package.json')));
+const mongoose = require('mongoose');
+
+// ── Load MongoDB URI from .env.local ──────────────────────────────────────────
+
 const envFile = readFileSync(resolve(repoRoot, 'web/.env.local'), 'utf-8');
 const MONGODB_URI = envFile.match(/MONGODB_URI=(.*)/)?.[1]?.trim();
 
