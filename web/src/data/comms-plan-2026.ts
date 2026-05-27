@@ -159,13 +159,13 @@ export const commsPlan2026: CommsPlanData = {
         {
             id: 9, wc: '25 May', weekStart: '2026-05-25', phase: 2,
             primary: 'Knowledge Sharing webinar — speakers confirmed',
-            secondary: 'Webinar next Thursday (4 Jun); nominations reminder',
+            secondary: 'Webinar next Thursday (4 Jun)',
             subject: 'Speakers confirmed — Strengthening the Electoral Profession | 4 June, 14:00 UTC',
             cta: 'Register for webinar',
             audience: 'Full database (priority: non-registrants for webinar).',
-            detail: 'Announce confirmed speakers for the Knowledge Sharing webinar (4 June, 14:00 UTC): Tammy Patrick (CEO for Programs, Election Center, US National Association of Election Officials), leading the CERA professional credential programme, and Sy Mamabolo (Chief Electoral Officer, Electoral Commission of South Africa). Brief profiles, what each will bring to the discussion of knowledge sharing across electoral bodies, and the full programme with timings. Reminder: nominations open 8 June.',
+            detail: 'Announce confirmed speakers for the Knowledge Sharing webinar (4 June, 14:00 UTC): Tammy Patrick (CEO for Programs, Election Center, US National Association of Election Officials), leading the CERA professional credential programme, and Sy Mamabolo (Chief Electoral Officer, Electoral Commission of South Africa). Brief profiles, what each will bring to the discussion of knowledge sharing across electoral bodies, and the full programme with timings.',
             status: 'drafted',
-            tags: ['webinars', 'speakers', 'nominations'],
+            tags: ['webinars', 'speakers'],
             templateFile: '2026-05-email-09-knowledge-sharing-speaker-update.eml',
         },
         {

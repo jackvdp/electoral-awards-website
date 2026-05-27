@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(400).json({ error: 'Invalid filename' });
     }
 
-    const filePath = path.join(process.cwd(), 'emails', filename);
+    const filePath = path.join(process.cwd(), '..', 'emails', filename);
     if (!fs.existsSync(filePath)) {
         return res.status(404).json({ error: 'Template not found' });
     }

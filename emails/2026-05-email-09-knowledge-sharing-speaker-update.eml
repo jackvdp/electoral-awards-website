@@ -120,29 +120,6 @@ X-Unsent: 1
     </tr>
     </table>
 
-    <!-- Divider -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
-    <tr><td style="border-top:1px solid #e9ecef;"></td></tr>
-    </table>
-
-    <!-- Nominations + Manila teaser -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 24px; background-color:#f0f4f8; border-radius:6px; border-left:4px solid #1a2744;">
-    <tr><td style="padding: 20px 24px;">
-        <p style="margin:0 0 4px; color:#1a2744; font-size:16px; font-weight:700;">Nominations open 8 June</p>
-        <p style="margin:4px 0 12px; color:#555; font-size:14px;">22nd International Electoral Awards &mdash; 29 November &ndash; 3 December 2026 &nbsp;|&nbsp; The Manila Hotel, Philippines</p>
-        <p style="margin:0; color:#333; font-size:14px; line-height:1.6;">Nominations for the 2026 Awards open on Monday 8 June. If your organisation or a colleague has delivered innovative work in electoral administration, we encourage you to start preparing a submission. Attendance is free and accommodation at The Manila Hotel is covered for all delegates.</p>
-    </td></tr>
-    </table>
-
-    <!-- CTA button - Register for Awards -->
-    <table role="presentation" cellpadding="0" cellspacing="0" style="margin: 0 auto 28px;">
-    <tr>
-        <td align="center" style="background-color:#1a2744; border-radius:6px;">
-            <a href="https://www.electoralnetwork.org/events/69938de4f4f23e0fef2e3129" target="_blank" style="display:inline-block; padding:14px 36px; color:#ffffff; font-size:15px; font-weight:700; text-decoration:none; letter-spacing:0.3px;">Register for Manila</a>
-        </td>
-    </tr>
-    </table>
-
     <!-- Closing -->
     <p style="margin:0 0 18px; color:#333333; font-size:15px; line-height:1.6;">We look forward to welcoming you on 4 June.</p>
 
