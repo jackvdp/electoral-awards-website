@@ -1,0 +1,419 @@
+row,field,old_value,new_value,reason
+6,Institution,The Central Commission of the Republic of Belarus on Elections and Holding Republican Referendа,Central Election Commission of Bosnia and Herzegovina,Institution misnamed as Belarus body; email izbori.ba confirms Bosnia EMB
+12,Institution, Central Election Commission of Kazakhstan,Central Election Commission of Kazakhstan,Trimmed/typo-fixed
+16,Institution, Central Election Commission of Lithuania,Central Election Commission of Lithuania,Trimmed/typo-fixed
+22,Country,Romania,Russian Federation,Country was Romania but institution + .ru email confirm Russia
+22,Institution, Central Election Commission of the Russian Federation,Central Election Commission of the Russian Federation,Country was Romania but institution + .ru email confirm Russia
+26,Institution,ACEEEO ,ACEEEO,Trimmed/typo-fixed
+29,Institution,OSCE ,OSCE,Trimmed/typo-fixed
+31,Institution,OSCE ,OSCE,Trimmed/typo-fixed
+32,Institution,OSCE ,OSCE,Trimmed/typo-fixed
+33,Institution,OSCE ,OSCE,Trimmed/typo-fixed
+35,Institution,OSCE ,OSCE,Trimmed/typo-fixed
+36,Institution,OSCE ,OSCE,Trimmed/typo-fixed
+37,Institution,OSCE ,OSCE,Trimmed/typo-fixed
+42,Institution, ACEEEO,ACEEEO,Trimmed/typo-fixed
+43,Institution, ACEEEO,ACEEEO,Trimmed/typo-fixed
+44,Institution, ACEEEO,ACEEEO,Trimmed/typo-fixed
+45,Institution, ACEEEO,ACEEEO,Trimmed/typo-fixed
+46,Institution, ACEEEO,ACEEEO,Trimmed/typo-fixed
+47,Institution, ACEEEO,ACEEEO,Trimmed/typo-fixed
+69,Institution,OSCE ,OSCE,Trimmed/typo-fixed
+71,Institution,OSCE ,OSCE,Trimmed/typo-fixed
+87,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+107,Country,Republic of Macedonia,North Macedonia,Normalised (alias/typo/sub-national)
+110,Institution,Electoral Institute for Sustainable Democracy in Africa (EISA) ,Electoral Institute for Sustainable Democracy in Africa (EISA),Trimmed/typo-fixed
+111,Institution,Electoral Institute for Sustainable Democracy in Africa (EISA) ,Electoral Institute for Sustainable Democracy in Africa (EISA),Trimmed/typo-fixed
+112,Institution,Electoral Institute for Sustainable Democracy in Africa (EISA) ,Electoral Institute for Sustainable Democracy in Africa (EISA),Trimmed/typo-fixed
+113,Institution,Electoral Institute for Sustainable Democracy in Africa (EISA) ,Electoral Institute for Sustainable Democracy in Africa (EISA),Trimmed/typo-fixed
+114,Institution,Electoral Institute for Sustainable Democracy in Africa (EISA) ,Electoral Institute for Sustainable Democracy in Africa (EISA),Trimmed/typo-fixed
+115,Institution,Electoral Institute for Sustainable Democracy in Africa (EISA) ,Electoral Institute for Sustainable Democracy in Africa (EISA),Trimmed/typo-fixed
+116,Institution,Electoral Institute for Sustainable Democracy in Africa (EISA) ,Electoral Institute for Sustainable Democracy in Africa (EISA),Trimmed/typo-fixed
+117,Institution,Electoral Institute for Sustainable Democracy in Africa (EISA) ,Electoral Institute for Sustainable Democracy in Africa (EISA),Trimmed/typo-fixed
+118,Institution,Electoral Institute for Sustainable Democracy in Africa (EISA) ,Electoral Institute for Sustainable Democracy in Africa (EISA),Trimmed/typo-fixed
+128,Institution,Burundi National Commission,Electoral Commission of Namibia,"Institution said ""Burundi National Commission"" but email ecn.na confirms Namibia EMB"
+132,Institution,Algerian National Commission ,Algerian National Commission,Trimmed/typo-fixed
+133,Institution,Algerian National Commission ,Algerian National Commission,Trimmed/typo-fixed
+139,Institution,Independent Electoral Commission Botswana,Independent National Electoral Commission of Burundi (CENI),Institution mislabelled as Botswana EMB; burundiceni@ email confirms Burundi CENI
+141,Institution,Office of the Electoral Commisssioner ,Office of the Electoral Commisssioner,Trimmed/typo-fixed
+142,Country,Mauritius ,Mauritius,Trimmed whitespace
+142,Institution,Office of the Electoral Commisssioner ,Office of the Electoral Commisssioner,Trimmed/typo-fixed
+143,Country,Mauritius ,Mauritius,Trimmed whitespace
+161,Country,Luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+162,Country,Luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+220,Country,Republic of Macedonia,North Macedonia,Normalised (alias/typo/sub-national)
+226,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+227,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+228,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+229,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+230,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+231,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+232,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+233,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+234,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+235,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+236,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+237,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+238,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+239,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+240,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+241,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+242,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+243,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+244,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+245,Institution,The Office of the Electoral Commissioner,The Office of the Electoral Commissioner,Trimmed/typo-fixed
+267,Institution,International Relations and Coorperation ,International Relations and Coorperation,Trimmed/typo-fixed
+268,Institution,International Relations and Coorperation ,International Relations and Coorperation,Trimmed/typo-fixed
+269,Institution,International Relations and Coorperation ,International Relations and Coorperation,Trimmed/typo-fixed
+270,Institution,International Relations and Coorperation ,International Relations and Coorperation,Trimmed/typo-fixed
+271,Institution,International Relations and Coorperation ,International Relations and Coorperation,Trimmed/typo-fixed
+272,Institution,International Relations and Coorperation ,International Relations and Coorperation,Trimmed/typo-fixed
+326,Institution,Malawi Electoral Support Network (MESN) ,Malawi Electoral Support Network (MESN),Trimmed/typo-fixed
+339,Institution,National Electoral Commission (CENA) ,National Electoral Commission (CENA),Trimmed/typo-fixed
+341,Institution,National Electoral Commission (CENA) ,National Electoral Commission (CENA),Trimmed/typo-fixed
+354,Institution,Chad National Independent Electoral Commission ,Chad National Independent Electoral Commission,Trimmed/typo-fixed
+355,Institution,Chad National Independent Electoral Commission ,Chad National Independent Electoral Commission,Trimmed/typo-fixed
+361,Country,Democratic Republic of Congo,Democratic Republic of the Congo,Normalised (alias/typo/sub-national)
+362,Country,Democratic Republic of Congo,Democratic Republic of the Congo,Normalised (alias/typo/sub-national)
+363,Country,Democratic Republic of Congo ,Democratic Republic of the Congo,Normalised (alias/typo/sub-national)
+368,Country,Egypt ,Egypt,Trimmed whitespace
+374,Country,Egypt ,Egypt,Trimmed whitespace
+376,Country,Ethiopia ,Ethiopia,Trimmed whitespace
+377,Country,Ethiopia ,Ethiopia,Trimmed whitespace
+378,Country,Ethiopia ,Ethiopia,Trimmed whitespace
+379,Country,Ethiopia ,Ethiopia,Trimmed whitespace
+379,Institution,National Electoral Board ,National Electoral Board,Trimmed/typo-fixed
+380,Country,Ethiopia ,Ethiopia,Trimmed whitespace
+381,Country,Ethiopia ,Ethiopia,Trimmed whitespace
+382,Country,Gabon ,Gabon,Trimmed whitespace
+383,Country,Gabon ,Gabon,Trimmed whitespace
+384,Country,Gabon ,Gabon,Trimmed whitespace
+385,Country,Gabon ,Gabon,Trimmed whitespace
+386,Country,Gabon ,Gabon,Trimmed whitespace
+387,Country,Gabon ,Gabon,Trimmed whitespace
+388,Country,Gabon ,Gabon,Trimmed whitespace
+389,Country,Gambia ,Gambia,Trimmed whitespace
+390,Country,Gambia ,Gambia,Trimmed whitespace
+391,Country,Gambia ,Gambia,Trimmed whitespace
+392,Country,Gambia ,Gambia,Trimmed whitespace
+393,Country,Gambia ,Gambia,Trimmed whitespace
+394,Country,Gambia ,Gambia,Trimmed whitespace
+400,Country,Kenya ,Kenya,Trimmed whitespace
+401,Country,Kenya ,Kenya,Trimmed whitespace
+402,Country,Kenya ,Kenya,Trimmed whitespace
+403,Country,Kenya ,Kenya,Trimmed whitespace
+404,Country,Kenya ,Kenya,Trimmed whitespace
+405,Country,Kenya ,Kenya,Trimmed whitespace
+406,Country,Kenya ,Kenya,Trimmed whitespace
+407,Country,Kenya ,Kenya,Trimmed whitespace
+407,Institution,Independent Electoral and Boundaries Commission ,Independent Electoral and Boundaries Commission,Trimmed/typo-fixed
+408,Country,Kenya ,Kenya,Trimmed whitespace
+408,Institution,Independent Electoral and Boundaries Commission ,Independent Electoral and Boundaries Commission,Trimmed/typo-fixed
+409,Country,Kenya ,Kenya,Trimmed whitespace
+410,Country,Kenya ,Kenya,Trimmed whitespace
+411,Country,Kenya ,Kenya,Trimmed whitespace
+412,Country,Kenya ,Kenya,Trimmed whitespace
+413,Institution,Malawi Electoral Support Network (MESN) ,Malawi Electoral Support Network (MESN),Trimmed/typo-fixed
+414,Institution,Malawi Electoral Support Network (MESN) ,Malawi Electoral Support Network (MESN),Trimmed/typo-fixed
+418,Institution,Electoral Institute for Sustainable Democracy in Africa (EISA) ,Electoral Institute for Sustainable Democracy in Africa (EISA),Trimmed/typo-fixed
+420,Institution,Institute of Technology Assessment of the Austrian Academy of Sciences ,Institute of Technology Assessment of the Austrian Academy of Sciences,Trimmed/typo-fixed
+421,Institution,Institute of Technology Assessment of the Austrian Academy of Sciences ,Institute of Technology Assessment of the Austrian Academy of Sciences,Trimmed/typo-fixed
+435,Country,Luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+436,Country,Luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+437,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+438,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+439,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+440,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+441,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+442,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+443,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+444,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+445,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+446,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+447,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+448,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+449,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+450,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+451,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+452,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+453,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+454,Country,luxambourg,Luxembourg,Normalised (alias/typo/sub-national)
+456,Country,Tunisai,Tunisia,Normalised (alias/typo/sub-national)
+457,Country,Tunisai,Tunisia,Normalised (alias/typo/sub-national)
+459,Country,Russia,Russian Federation,Normalised (alias/typo/sub-national)
+465,Institution,European Center for Electoral Support  ,European Center for Electoral Support,Trimmed/typo-fixed
+469,Institution,Canadian Organisation for Democratic Elections  ,Canadian Organisation for Democratic Elections,Trimmed/typo-fixed
+478,Institution,Central Election  Commission,Central Election Commission,Trimmed/typo-fixed
+479,Institution,Central Election  Commission,Central Election Commission,Trimmed/typo-fixed
+480,Institution,Central Election  Commission,Central Election Commission,Trimmed/typo-fixed
+481,Institution,Central Election  Commission,Central Election Commission,Trimmed/typo-fixed
+482,Country,Bosnia and Herzegovina ,Bosnia and Herzegovina,Trimmed whitespace
+489,Country,Cape Verde,Cabo Verde,Normalised (alias/typo/sub-national)
+490,Country,Cape Verde,Cabo Verde,Normalised (alias/typo/sub-national)
+491,Country,Cape Verde,Cabo Verde,Normalised (alias/typo/sub-national)
+492,Country,Cape Verde,Cabo Verde,Normalised (alias/typo/sub-national)
+493,Country,Cape Verde,Cabo Verde,Normalised (alias/typo/sub-national)
+494,Country,Cape Verde,Cabo Verde,Normalised (alias/typo/sub-national)
+495,Country,Cape Verde,Cabo Verde,Normalised (alias/typo/sub-national)
+496,Country,Cape Verde,Cabo Verde,Normalised (alias/typo/sub-national)
+526,Institution,Council of Europe ,Council of Europe,Trimmed/typo-fixed
+539,Country,Romanis,Romania,Normalised (alias/typo/sub-national)
+566,Country,Macedonia,North Macedonia,Normalised (alias/typo/sub-national)
+566,Institution,State Election Commission ,State Election Commission,Trimmed/typo-fixed
+567,Country,Macedonia,North Macedonia,Normalised (alias/typo/sub-national)
+568,Country,Macedonia,North Macedonia,Normalised (alias/typo/sub-national)
+569,Country,Macedonia,North Macedonia,Normalised (alias/typo/sub-national)
+569,Institution,Organization for Security and Co-operation in Europe ,Organization for Security and Co-operation in Europe,Trimmed/typo-fixed
+580,Institution,Inter Pares ,Inter Pares,Trimmed/typo-fixed
+581,Institution,Inter Pares ,Inter Pares,Trimmed/typo-fixed
+582,Institution,Inter Pares ,Inter Pares,Trimmed/typo-fixed
+583,Institution,Inter Pares ,Inter Pares,Trimmed/typo-fixed
+584,Country,Andhra Pradesh,India,Normalised (alias/typo/sub-national)
+585,Country,Arunachal Pradesh,India,Normalised (alias/typo/sub-national)
+586,Country,Assam,India,Normalised (alias/typo/sub-national)
+587,Country,Bihar,India,Normalised (alias/typo/sub-national)
+588,Country,Chhattishgarh,India,Normalised (alias/typo/sub-national)
+589,Country,Goa,India,Normalised (alias/typo/sub-national)
+590,Country,Gujarat,India,Normalised (alias/typo/sub-national)
+591,Country,Haryana,India,Normalised (alias/typo/sub-national)
+592,Country,Himachal Pradesh,India,Normalised (alias/typo/sub-national)
+593,Country,Jharkhand,India,Normalised (alias/typo/sub-national)
+594,Country,Karnataka,India,Normalised (alias/typo/sub-national)
+595,Country,Kerala,India,Normalised (alias/typo/sub-national)
+596,Country,Madhya Pradesh,India,Normalised (alias/typo/sub-national)
+597,Country,Maharashtra,India,Normalised (alias/typo/sub-national)
+598,Country,Manipur,India,Normalised (alias/typo/sub-national)
+599,Country,Meghalaya,India,Normalised (alias/typo/sub-national)
+600,Country,Mizoram,India,Normalised (alias/typo/sub-national)
+601,Country,Nagaland,India,Normalised (alias/typo/sub-national)
+602,Country,Odisha,India,Normalised (alias/typo/sub-national)
+603,Country,Punjab,India,Normalised (alias/typo/sub-national)
+604,Country,Rajasthan,India,Normalised (alias/typo/sub-national)
+605,Country,Sikkim,India,Normalised (alias/typo/sub-national)
+606,Country,Tamil Nadu,India,Normalised (alias/typo/sub-national)
+607,Country,Tripura,India,Normalised (alias/typo/sub-national)
+608,Country,Uttar Pradesh,India,Normalised (alias/typo/sub-national)
+609,Country,Uttarakhand,India,Normalised (alias/typo/sub-national)
+610,Country,West Bengal,India,Normalised (alias/typo/sub-national)
+624,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+625,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+626,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+627,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+628,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+629,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+630,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+631,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+632,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+633,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+634,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+635,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+636,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+637,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+638,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+639,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+639,Institution,National Security Council ,National Security Council,Trimmed/typo-fixed
+640,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+640,Institution,National Security Council ,National Security Council,Trimmed/typo-fixed
+641,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+641,Institution,National Security Council ,National Security Council,Trimmed/typo-fixed
+642,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+642,Institution,National Security Council ,National Security Council,Trimmed/typo-fixed
+643,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+643,Institution,National Security Council ,National Security Council,Trimmed/typo-fixed
+644,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+644,Institution,National Security Council ,National Security Council,Trimmed/typo-fixed
+645,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+645,Institution,National Security Council ,National Security Council,Trimmed/typo-fixed
+646,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+646,Institution,National Security Council ,National Security Council,Trimmed/typo-fixed
+647,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+647,Institution,National Security Council ,National Security Council,Trimmed/typo-fixed
+648,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+648,Institution,National Security Council ,National Security Council,Trimmed/typo-fixed
+649,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+649,Institution,National Security Council ,National Security Council,Trimmed/typo-fixed
+650,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+650,Institution,National Security Council ,National Security Council,Trimmed/typo-fixed
+651,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+651,Institution,National Security Council ,National Security Council,Trimmed/typo-fixed
+652,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+652,Institution,National Security Council ,National Security Council,Trimmed/typo-fixed
+653,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+653,Institution,National Security Council ,National Security Council,Trimmed/typo-fixed
+654,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+655,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+656,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+657,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+658,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+659,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+660,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+661,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+662,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+663,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+664,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+665,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+666,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+667,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+668,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+669,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+670,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+671,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+672,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+673,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+674,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+675,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+676,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+677,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+678,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+679,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+680,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+681,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+682,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+683,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+684,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+685,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+686,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+687,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+688,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+689,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+690,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+691,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+692,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+693,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+694,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+695,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+746,Institution,Abia State Independent Electoral Commission ,Abia State Independent Electoral Commission,Trimmed/typo-fixed
+759,Institution, Minister of National Revenue,Minister of National Revenue,Trimmed/typo-fixed
+760,Institution, Minister of National Revenue,Minister of National Revenue,Trimmed/typo-fixed
+761,Institution, Minister of National Revenue,Minister of National Revenue,Trimmed/typo-fixed
+762,Institution, Minister of National Revenue,Minister of National Revenue,Trimmed/typo-fixed
+763,Institution, Minister of National Revenue,Minister of National Revenue,Trimmed/typo-fixed
+764,Institution, Minister of National Revenue,Minister of National Revenue,Trimmed/typo-fixed
+765,Institution, Minister of National Revenue,Minister of National Revenue,Trimmed/typo-fixed
+766,Institution, Minister of National Revenue,Minister of National Revenue,Trimmed/typo-fixed
+767,Institution, Minister of National Revenue,Minister of National Revenue,Trimmed/typo-fixed
+791,Institution, Ministry of Interior,Ministry of Interior,Trimmed/typo-fixed
+829,Institution, The Carter Center ,The Carter Center,Trimmed/typo-fixed
+832,Institution,ACEEEO ,ACEEEO,Trimmed/typo-fixed
+833,Institution,ACEEEO ,ACEEEO,Trimmed/typo-fixed
+836,Country,Russia,Russian Federation,Normalised (alias/typo/sub-national)
+837,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+843,Country,Bosnia & Herzegovina,Bosnia and Herzegovina,Normalised (alias/typo/sub-national)
+844,Country,Macedonia,North Macedonia,Normalised (alias/typo/sub-national)
+845,Country,Macedonia,North Macedonia,Normalised (alias/typo/sub-national)
+851,Institution,Ministry of the Interior ,Ministry of the Interior,Trimmed/typo-fixed
+859,Country,Bosnia & Herzegovina,Bosnia and Herzegovina,Normalised (alias/typo/sub-national)
+861,Country,Azerbaijian,Azerbaijan,Normalised (alias/typo/sub-national)
+870,Institution,Ministry of the Interior ,Ministry of the Interior,Trimmed/typo-fixed
+877,Country,Russia,Russian Federation,Normalised (alias/typo/sub-national)
+880,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+887,Institution,E Voting Competence Center  for Electronic Voting and Participation,E Voting Competence Center for Electronic Voting and Participation,Trimmed/typo-fixed
+893,Country,Macedonia,North Macedonia,Normalised (alias/typo/sub-national)
+893,Institution,Organization for Security and Co-operation in Europe ,Organization for Security and Co-operation in Europe,Trimmed/typo-fixed
+899,Institution,Ministry of Local Government ,Ministry of Local Government,Trimmed/typo-fixed
+916,Institution, Independent Electoral Commission,Independent Electoral Commission,Trimmed/typo-fixed
+921,Institution,Independent National Electoral Commission ,Independent National Electoral Commission,Trimmed/typo-fixed
+922,Country,FOS-Belgium,Belgium,Normalised (alias/typo/sub-national)
+923,Country,BELGIUM,Belgium,Normalised (alias/typo/sub-national)
+924,Country,USA,United States,Normalised (alias/typo/sub-national)
+925,Country,USA,United States,Normalised (alias/typo/sub-national)
+926,Country,USA,United States,Normalised (alias/typo/sub-national)
+927,Country,USA,United States,Normalised (alias/typo/sub-national)
+928,Country,USA,United States,Normalised (alias/typo/sub-national)
+929,Country,USA,United States,Normalised (alias/typo/sub-national)
+930,Country,USA,United States,Normalised (alias/typo/sub-national)
+931,Country,USA,United States,Normalised (alias/typo/sub-national)
+932,Country,USA,United States,Normalised (alias/typo/sub-national)
+933,Country,USA,United States,Normalised (alias/typo/sub-national)
+934,Country,USA,United States,Normalised (alias/typo/sub-national)
+935,Country,USA,United States,Normalised (alias/typo/sub-national)
+936,Country,USA,United States,Normalised (alias/typo/sub-national)
+937,Country,USA,United States,Normalised (alias/typo/sub-national)
+938,Country,USA,United States,Normalised (alias/typo/sub-national)
+939,Country,USA,United States,Normalised (alias/typo/sub-national)
+940,Country,USA,United States,Normalised (alias/typo/sub-national)
+941,Country,USA,United States,Normalised (alias/typo/sub-national)
+942,Country,USA,United States,Normalised (alias/typo/sub-national)
+943,Country,USA,United States,Normalised (alias/typo/sub-national)
+944,Country,USA,United States,Normalised (alias/typo/sub-national)
+945,Country,USA,United States,Normalised (alias/typo/sub-national)
+946,Country,USA,United States,Normalised (alias/typo/sub-national)
+947,Country,USA,United States,Normalised (alias/typo/sub-national)
+948,Country,USA,United States,Normalised (alias/typo/sub-national)
+949,Country,USA,United States,Normalised (alias/typo/sub-national)
+950,Country,USA,United States,Normalised (alias/typo/sub-national)
+951,Country,USA,United States,Normalised (alias/typo/sub-national)
+952,Country,USA,United States,Normalised (alias/typo/sub-national)
+953,Country,USA,United States,Normalised (alias/typo/sub-national)
+954,Country,USA,United States,Normalised (alias/typo/sub-national)
+955,Country,USA,United States,Normalised (alias/typo/sub-national)
+956,Country,USA,United States,Normalised (alias/typo/sub-national)
+957,Country,USA,United States,Normalised (alias/typo/sub-national)
+958,Country,USA,United States,Normalised (alias/typo/sub-national)
+959,Country,USA,United States,Normalised (alias/typo/sub-national)
+960,Country,USA,United States,Normalised (alias/typo/sub-national)
+961,Country,USA,United States,Normalised (alias/typo/sub-national)
+962,Country,USA,United States,Normalised (alias/typo/sub-national)
+963,Country,USA,United States,Normalised (alias/typo/sub-national)
+964,Country,USA,United States,Normalised (alias/typo/sub-national)
+965,Country,USA,United States,Normalised (alias/typo/sub-national)
+966,Country,USA,United States,Normalised (alias/typo/sub-national)
+967,Country,USA,United States,Normalised (alias/typo/sub-national)
+968,Country,USA,United States,Normalised (alias/typo/sub-national)
+969,Country,USA,United States,Normalised (alias/typo/sub-national)
+970,Country,USA,United States,Normalised (alias/typo/sub-national)
+971,Country,USA,United States,Normalised (alias/typo/sub-national)
+972,Country,USA,United States,Normalised (alias/typo/sub-national)
+973,Country,USA,United States,Normalised (alias/typo/sub-national)
+974,Country,USA,United States,Normalised (alias/typo/sub-national)
+975,Country,USA,United States,Normalised (alias/typo/sub-national)
+976,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+977,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+978,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+979,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+980,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+981,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+982,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+1032,Country,Cameron,Cameroon,Normalised (alias/typo/sub-national)
+1033,Country,Cameron,Cameroon,Normalised (alias/typo/sub-national)
+1034,Country,Cameron,Cameroon,Normalised (alias/typo/sub-national)
+1035,Country,Cameron,Cameroon,Normalised (alias/typo/sub-national)
+1055,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+1056,Country,UK,United Kingdom,Normalised (alias/typo/sub-national)
+1085,Country,Republic of Moldova,Moldova,Normalised (alias/typo/sub-national)
+1085,Institution,Ministry of Justice ,Ministry of Justice,Trimmed/typo-fixed
+1087,Country,GERMANY,Germany,Normalised (alias/typo/sub-national)
+1088,Country,GERMANY,Germany,Normalised (alias/typo/sub-national)
+1090,Country,BELARUS,Belarus,Normalised (alias/typo/sub-national)
+1091,Country,BELARUS,Belarus,Normalised (alias/typo/sub-national)
+1092,Country,BELGIUM,Belgium,Normalised (alias/typo/sub-national)
+1094,Country,BOSNIA AND HERZEGOVINA,Bosnia and Herzegovina,Normalised (alias/typo/sub-national)
+1095,Country,BULGARIA,Bulgaria,Normalised (alias/typo/sub-national)
+1097,Country,CROATIA,Croatia,Normalised (alias/typo/sub-national)
+1098,Country,CROATIA,Croatia,Normalised (alias/typo/sub-national)
+1099,Country,DENMARK,Denmark,Normalised (alias/typo/sub-national)
+1100,Country,DENMARK,Denmark,Normalised (alias/typo/sub-national)
+1111,Country,ITALY,Italy,Normalised (alias/typo/sub-national)
+1116,Country,MONTENEGRO,Montenegro,Normalised (alias/typo/sub-national)
+1119,Country,NETHERLANDS,Netherlands,Normalised (alias/typo/sub-national)
+1121,Country,POLAND,Poland,Normalised (alias/typo/sub-national)
+1127,Country,RUSSIAN FEDERATION,Russian Federation,Normalised (alias/typo/sub-national)
+1128,Country,RUSSIAN FEDERATION,Russian Federation,Normalised (alias/typo/sub-national)
+1129,Country,RUSSIAN FEDERATION,Russian Federation,Normalised (alias/typo/sub-national)
+1133,Country,SLOVAKIA,Slovakia,Normalised (alias/typo/sub-national)
+1134,Country,SLOVENIA,Slovenia,Normalised (alias/typo/sub-national)
+1139,Country,CZECH REPUBLIC,Czech Republic,Normalised (alias/typo/sub-national)
+1141,Country,CZECH REPUBLIC,Czech Republic,Normalised (alias/typo/sub-national)
+1149,Country,CROATIA,Croatia,Normalised (alias/typo/sub-national)
+1156,Country,Slovania,Slovenia,Normalised (alias/typo/sub-national)
+1157,Country,SLOVENIA,Slovenia,Normalised (alias/typo/sub-national)
+1158,Country,SLOVENIA,Slovenia,Normalised (alias/typo/sub-national)
+1158,Institution,General Director of the Directorate for Legislation on the Justice System,General Director of the Directorate for Legislation on the Justice System,Trimmed/typo-fixed
+1159,Country,SLOVENIA,Slovenia,Normalised (alias/typo/sub-national)
+1159,Institution,General Director of the Directorate for Justice Administration,General Director of the Directorate for Justice Administration,Trimmed/typo-fixed
+1160,Country,SLOVENIA,Slovenia,Normalised (alias/typo/sub-national)
+1161,Country,SLOVENIA,Slovenia,Normalised (alias/typo/sub-national)
+1162,Country,SLOVENIA,Slovenia,Normalised (alias/typo/sub-national)
+1162,Institution,Director-General of the Prison Administration of the Republic of Slovenia,Director-General of the Prison Administration of the Republic of Slovenia,Trimmed/typo-fixed
+1164,Institution,Minister for International Development Cooperation and Foreign Trade ,Minister for International Development Cooperation and Foreign Trade,Trimmed/typo-fixed
+1166,Institution,Minister for Foreign Affairs ,Minister for Foreign Affairs,Trimmed/typo-fixed

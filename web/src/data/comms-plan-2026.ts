@@ -176,8 +176,9 @@ export const commsPlan2026: CommsPlanData = {
             cta: 'Register for webinar',
             audience: 'Full database (priority: non-registrants for webinar).',
             detail: 'Final reminder for the Knowledge Sharing webinar (4 June, 14:00 UTC). Last chance to register. "Join us this Thursday — and join delegates from around the world in Manila this November."',
-            status: 'pending',
+            status: 'drafted',
             tags: ['webinars'],
+            templateFile: '2026-06-email-10-knowledge-sharing-final-reminder.eml',
         },
         {
             id: 11, wc: '29 Jun', weekStart: '2026-06-29', phase: 2,

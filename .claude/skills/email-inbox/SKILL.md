@@ -278,7 +278,7 @@ The script wraps your `--body` in this shell:
 
 So you only need to supply the **inner HTML** for the body. Use:
 
-- `<p>...</p>` for paragraphs (margin is reset, so use empty `<p>&nbsp;</p>` for blank lines if needed, though usually `<p>` siblings are enough)
+- `<p>...</p>` for paragraphs. **The wrapper sets `p { margin: 0; }`, so consecutive `<p>` siblings render with NO gap between them and the email looks like one cramped block.** To get proper spacing, put an explicit blank-line paragraph `<p>&nbsp;</p>` between every visible paragraph. Treat this as the default for any multi-paragraph email (delegate briefings, formal notices), not an optional extra.
 - `<b>...</b>` or `<strong>...</strong>` for bold
 - `<i>...</i>` or `<em>...</em>` for italic
 - `<ol><li><p>...</p></li>...</ol>` for numbered lists (wrap list item content in `<p>` to keep spacing consistent)
@@ -313,6 +313,54 @@ So you only need to supply the **inner HTML** for the body. Use:
 - Tells Outlook to create a new outgoing message with subject, body, To, and CC set as properties
 - Opens the draft window (`open newMessage`) and activates Outlook
 - **Never sends** — only opens the draft
+
+---
+
+## Template: pre-event delegate briefing (joining details)
+
+Use this for the joining-instructions email sent to registered delegates ahead of a webinar or roundtable. It is usually sent the day before the event by the admin team (e.g. Devianee, `cnithoo@parlistudies.org`), so compose it to whoever sends it out, addressed to the delegate. Note the blank-line `<p>&nbsp;</p>` paragraphs throughout to keep the spacing right in Outlook.
+
+Substitute the bracketed fields: event title, date, speaker list (name, title, organisation, one per line), start time and recommended join time, Zoom join link, Meeting ID, Passcode, and the event-page URL.
+
+```bash
+.claude/skills/email-inbox/compose.sh \
+  --to "cnithoo@parlistudies.org" \
+  --subject "Joining details: [EVENT TITLE] ([DATE])" \
+  --html \
+  --body "<p>Dear Delegate,</p>
+<p>&nbsp;</p>
+<p>Thank you for registering to attend the International Centre for Parliamentary Studies (ICPS) webinar: <b>[EVENT TITLE]</b>, taking place [DAY DATE]. This webinar is hosted online via Zoom.</p>
+<p>&nbsp;</p>
+<p>We are delighted to confirm the following speakers:</p>
+<p>&nbsp;</p>
+<p>[Speaker Name], [Title], [Organisation]<br>
+[Speaker Name], [Title], [Organisation]</p>
+<p>&nbsp;</p>
+<p>The event starts at [START TIME] BST (UTC+1), but as a caveat we advise that you join using the link provided at [JOIN TIME] BST, as this will allow us to iron out any potential IT issues before the agenda starts.</p>
+<p>&nbsp;</p>
+<p>Below are the details you will require in order to join. The link is already active, but you will be unable to join the room until the session starts.</p>
+<p>&nbsp;</p>
+<p><b>Topic:</b> [EVENT TITLE]<br>
+<b>Time:</b> [DAY DATE], [START TIME] BST (UTC+1)</p>
+<p>&nbsp;</p>
+<p><b>Join Zoom Meeting:</b> <a href='[ZOOM JOIN LINK]'>click here</a></p>
+<p>&nbsp;</p>
+<p>Meeting ID: [MEETING ID]<br>
+Passcode: [PASSCODE]</p>
+<p>&nbsp;</p>
+<p>For the full programme and session details, please see our event page: <a href='[EVENT PAGE URL]'>click here</a></p>
+<p>&nbsp;</p>
+<p>I will be present throughout the entire event to assist with any technical issues that may arise.</p>
+<p>&nbsp;</p>
+<p>If you have any questions, please do not hesitate to ask.</p>
+<p>&nbsp;</p>
+<p>Kind regards,</p>"
+```
+
+Notes:
+- A speaker line can also describe a partner or product rather than a person, e.g. `NOMOS, a news, content, and connection layer built specifically for electoral bodies.`
+- Confirm with the user when the email will actually be sent before using "tomorrow"; default to the explicit date if there is any doubt.
+- The recommended join time is normally 15 minutes before the start.
 
 ---
 
