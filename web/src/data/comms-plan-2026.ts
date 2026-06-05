@@ -181,6 +181,18 @@ export const commsPlan2026: CommsPlanData = {
             templateFile: '2026-06-email-10-knowledge-sharing-final-reminder.eml',
         },
         {
+            id: 31, wc: '5 Jun', weekStart: '2026-06-05', phase: 2,
+            primary: 'Webinar invitation: Speed in Election Results Transmission — 14 July',
+            secondary: 'Nominations open; register for Manila',
+            subject: 'Speed in Election Results Transmission: Getting Results Right, and Fast | 14 July',
+            cta: 'Register for webinar',
+            audience: 'Full database.',
+            detail: 'Dedicated invitation for the third webinar (14 July, 13:00–15:00 UTC / 14:00–16:00 BST). End-to-end results workflows, transparency servers, and public communication during results consolidation — how EMBs deliver results quickly without sacrificing accuracy or trust. Speakers to be confirmed. Reminder that attendance in Manila is free with accommodation covered.',
+            status: 'drafted',
+            tags: ['webinars'],
+            templateFile: '2026-06-email-31-speed-transmission-invitation.eml',
+        },
+        {
             id: 11, wc: '29 Jun', weekStart: '2026-06-29', phase: 2,
             primary: 'Category spotlight (remaining categories)',
             secondary: 'Knowledge Sharing webinar recap; nominations reminder',
