@@ -560,6 +560,7 @@ const ApplicationForm: React.FC = () => {
                                 className="form-control"
                                 id="nomineeOrganization"
                                 name="nomineeOrganization"
+                                autoComplete="off"
                                 value={formData.nomineeOrganization}
                                 onChange={handleInputChange}
                             />
@@ -571,6 +572,8 @@ const ApplicationForm: React.FC = () => {
                                 className={`form-control ${isInvalid('nomineeEmail') ? 'is-invalid' : ''}`}
                                 id="nomineeEmail"
                                 name="nomineeEmail"
+                                autoComplete="off"
+                                inputMode="email"
                                 value={formData.nomineeEmail}
                                 onChange={handleInputChange}
                             />
@@ -583,6 +586,8 @@ const ApplicationForm: React.FC = () => {
                                 className={`form-control ${isInvalid('nomineePhone') ? 'is-invalid' : ''}`}
                                 id="nomineePhone"
                                 name="nomineePhone"
+                                autoComplete="off"
+                                inputMode="tel"
                                 value={formData.nomineePhone}
                                 onChange={handleInputChange}
                             />
@@ -656,6 +661,7 @@ const ApplicationForm: React.FC = () => {
                                 className="form-control"
                                 id="referenceName"
                                 name="referenceName"
+                                autoComplete="off"
                                 value={formData.referenceName}
                                 onChange={handleInputChange}
                             />
@@ -668,6 +674,7 @@ const ApplicationForm: React.FC = () => {
                                 className="form-control"
                                 id="referencePosition"
                                 name="referencePosition"
+                                autoComplete="off"
                                 value={formData.referencePosition}
                                 onChange={handleInputChange}
                             />
@@ -680,6 +687,7 @@ const ApplicationForm: React.FC = () => {
                                 className="form-control"
                                 id="referenceOrganization"
                                 name="referenceOrganization"
+                                autoComplete="off"
                                 value={formData.referenceOrganization}
                                 onChange={handleInputChange}
                             />
@@ -691,6 +699,8 @@ const ApplicationForm: React.FC = () => {
                                 className={`form-control ${isInvalid('referenceEmail') ? 'is-invalid' : ''}`}
                                 id="referenceEmail"
                                 name="referenceEmail"
+                                autoComplete="off"
+                                inputMode="email"
                                 value={formData.referenceEmail}
                                 onChange={handleInputChange}
                             />
@@ -703,6 +713,8 @@ const ApplicationForm: React.FC = () => {
                                 className={`form-control ${isInvalid('referencePhone') ? 'is-invalid' : ''}`}
                                 id="referencePhone"
                                 name="referencePhone"
+                                autoComplete="off"
+                                inputMode="tel"
                                 value={formData.referencePhone}
                                 onChange={handleInputChange}
                             />
