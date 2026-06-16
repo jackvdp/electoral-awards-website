@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "name": "automating-pages",
+  "owner": "spillwavesolutions",
+  "repo": "automating-mac-apps-plugin",
+  "path": "plugins/automating-mac-apps-plugin/skills/automating-pages",
+  "branch": "main",
+  "sha": "0c07036c963c349a57106045904cfa9beb694005",
+  "source": "manual"
+}

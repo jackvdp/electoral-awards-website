@@ -39,6 +39,43 @@ const ALLOWED_FILE_TYPES = [
     'image/png'
 ];
 
+const DRAFT_KEY = 'awardFormDraft';
+const DRAFT_MAX_AGE_HRS = 24;
+
+// Word-count thresholds for the free-text fields.
+const DESC_MIN_WORDS = 50;
+const DESC_MAX_WORDS = 200;
+const EVIDENCE_MIN_WORDS = 150;
+const EVIDENCE_MAX_WORDS = 1000;
+
+const steps = 5;
+const stepTitles = ['Nominator', 'Nominee', 'Award & Description', 'Reference', 'Documents'];
+
+const emptyFormData: FormData = {
+    nominatorName: '',
+    nominatorOrganization: '',
+    nominatorPosition: '',
+    email: '',
+    nominatorPhone: '',
+    nomineeName: '',
+    nomineePosition: '',
+    nomineeOrganization: '',
+    nomineeEmail: '',
+    nomineePhone: '',
+    awardCategory: '',
+    initiativeDescription: '',
+    supportingEvidence: '',
+    referenceName: '',
+    referencePosition: '',
+    referenceOrganization: '',
+    referenceEmail: '',
+    referencePhone: '',
+    additionalDocuments: [],
+};
+
+const countWords = (text: string): number =>
+    text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+
 // Centralized error alert component
 const ErrorAlert: React.FC<{ errors: string | string[] }> = ({ errors }) => {
     const errorList = Array.isArray(errors) ? errors : [errors];
@@ -57,35 +94,34 @@ const ErrorAlert: React.FC<{ errors: string | string[] }> = ({ errors }) => {
     );
 };
 
+// Live word counter shown beneath the free-text fields.
+const WordCounter: React.FC<{ count: number; min: number; max: number }> = ({ count, min, max }) => {
+    let className = 'text-success';
+    let message = `${count} words`;
+    if (count < min) {
+        className = 'text-danger';
+        message = `${count} of ${min} words minimum`;
+    } else if (count > max) {
+        className = 'text-warning';
+        message = `${count} words (over the ${max}-word guideline)`;
+    }
+    return (
+        <div className={`small mt-1 ${className}`} aria-live="polite">
+            {message}
+        </div>
+    );
+};
+
+// Red asterisk for required field labels.
+const Required: React.FC = () => <span className="text-danger ms-1" aria-hidden="true">*</span>;
+
 const ApplicationForm: React.FC = () => {
     const [step, setStep] = useState<number>(1);
-    const steps = 5;
     const cardRef = useRef<HTMLDivElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
-
-    const [formData, setFormData] = useState<FormData>({
-        nominatorName: '',
-        nominatorOrganization: '',
-        nominatorPosition: '',
-        email: '',
-        nominatorPhone: '',
-        nomineeName: '',
-        nomineePosition: '',
-        nomineeOrganization: '',
-        nomineeEmail: '',
-        nomineePhone: '',
-        awardCategory: '',
-        initiativeDescription: '',
-        supportingEvidence: '',
-        referenceName: '',
-        referencePosition: '',
-        referenceOrganization: '',
-        referenceEmail: '',
-        referencePhone: '',
-        additionalDocuments: [],
-    });
+    const [formData, setFormData] = useState<FormData>(emptyFormData);
 
     const [errors, setErrors] = useState<FormErrors>({});
     const [attemptedNext, setAttemptedNext] = useState(false);
@@ -94,6 +130,10 @@ const ApplicationForm: React.FC = () => {
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const [progress, setProgress] = useState(0);
     const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
+
+    // Draft handling: hold any saved draft until the user chooses to restore or discard.
+    const [isHydrated, setIsHydrated] = useState(false);
+    const [pendingDraft, setPendingDraft] = useState<{ formData: FormData; currentStep: number } | null>(null);
 
     useProgressbar(submitSuccess ? 100 : progress);
 
@@ -105,6 +145,8 @@ const ApplicationForm: React.FC = () => {
             </div>
         ) : null;
     };
+
+    const isInvalid = (fieldName: string) => !!errors[fieldName] && attemptedNext;
 
     const scrollToTop = () => {
         if (cardRef.current) {
@@ -137,8 +179,8 @@ const ApplicationForm: React.FC = () => {
             validateEmail(formData.nomineeEmail) &&
             validatePhone(formData.nomineePhone) &&
             isNonEmptyString(formData.awardCategory) &&
-            isNonEmptyString(formData.initiativeDescription) &&
-            isNonEmptyString(formData.supportingEvidence);
+            countWords(formData.initiativeDescription) >= DESC_MIN_WORDS &&
+            countWords(formData.supportingEvidence) >= EVIDENCE_MIN_WORDS;
         setIsReadyToSubmit(complete && step === steps);
     }, [formData, step]);
 
@@ -147,41 +189,66 @@ const ApplicationForm: React.FC = () => {
         setProgress(((step - 1) / steps) * 100);
     }, [step]);
 
+    // Load draft on mount (defer applying it until the user decides).
     useEffect(() => {
+        try {
+            const draft = localStorage.getItem(DRAFT_KEY);
+            if (draft) {
+                const { formData: savedData, currentStep, savedAt } = JSON.parse(draft);
+                const hasData = Object.entries(savedData).some(([k, v]) =>
+                    k === 'additionalDocuments'
+                        ? Array.isArray(v) && v.length > 0
+                        : typeof v === 'string' && v.trim() !== ''
+                );
+                const ageHrs = (Date.now() - new Date(savedAt).getTime()) / (1000 * 60 * 60);
+
+                if (hasData && ageHrs < DRAFT_MAX_AGE_HRS) {
+                    setPendingDraft({
+                        formData: { ...savedData, additionalDocuments: [] },
+                        currentStep: currentStep || 1,
+                    });
+                } else if (ageHrs >= DRAFT_MAX_AGE_HRS) {
+                    localStorage.removeItem(DRAFT_KEY);
+                }
+            }
+        } catch {
+            console.error('Error loading draft');
+        }
+        setIsHydrated(true);
+    }, []);
+
+    // Autosave. Paused until hydration finishes and any pending draft is resolved,
+    // so we never overwrite a saved draft before the user acts on the restore banner.
+    useEffect(() => {
+        if (!isHydrated || pendingDraft) return;
         const timer = setTimeout(() => {
+            const hasData = Object.entries(formData).some(([k, v]) =>
+                k === 'additionalDocuments'
+                    ? Array.isArray(v) && v.length > 0
+                    : typeof v === 'string' && v.trim() !== ''
+            );
+            if (!hasData) return; // nothing worth saving yet
             localStorage.setItem(
-                'awardFormDraft',
+                DRAFT_KEY,
                 JSON.stringify({ formData, currentStep: step, savedAt: new Date().toISOString() })
             );
             setLastSaved(new Date());
         }, 1000);
         return () => clearTimeout(timer);
-    }, [formData, step]);
+    }, [formData, step, isHydrated, pendingDraft]);
 
-    // Load draft on mount
-    useEffect(() => {
-        const draft = localStorage.getItem('awardFormDraft');
-        if (!draft) return;             // nothing to restore
+    const restoreDraft = () => {
+        if (!pendingDraft) return;
+        setFormData(pendingDraft.formData);
+        setStep(pendingDraft.currentStep);
+        setPendingDraft(null);
+        scrollToTop();
+    };
 
-        try {
-            const { formData: savedData, currentStep, savedAt } = JSON.parse(draft);
-            // check that at least one field has non-empty content
-            const hasData = Object.entries(savedData).some(([k, v]) =>
-                k === 'additionalDocuments'
-                    ? Array.isArray(v) && v.length > 0
-                    : typeof v === 'string' && v.trim() !== ''
-            );
-            const ageHrs = (Date.now() - new Date(savedAt).getTime()) / (1000 * 60 * 60);
-
-            if (hasData && ageHrs < 24 && window.confirm('Restore your previous draft?')) {
-                setFormData({ ...savedData, additionalDocuments: [] });
-                setStep(currentStep);
-            }
-        } catch {
-            console.error('Error loading draft');
-        }
-    }, []);
-
+    const discardDraft = () => {
+        localStorage.removeItem(DRAFT_KEY);
+        setPendingDraft(null);
+    };
 
     // Real-time validation on input change
     const handleInputChange = (
@@ -262,8 +329,8 @@ const ApplicationForm: React.FC = () => {
         }
         if (currentStep === 3) {
             if (!formData.awardCategory) missing.push('Category');
-            if (!formData.initiativeDescription) missing.push('Initiative description');
-            if (!formData.supportingEvidence) missing.push('Supporting evidence');
+            if (countWords(formData.initiativeDescription) < DESC_MIN_WORDS) missing.push(`Initiative description (min ${DESC_MIN_WORDS} words)`);
+            if (countWords(formData.supportingEvidence) < EVIDENCE_MIN_WORDS) missing.push(`Supporting evidence (min ${EVIDENCE_MIN_WORDS} words)`);
         }
         return missing;
     };
@@ -291,7 +358,13 @@ const ApplicationForm: React.FC = () => {
             case 3:
                 if (!formData.awardCategory) newErrors.awardCategory = 'Required';
                 if (!formData.initiativeDescription) newErrors.initiativeDescription = 'Required';
+                else if (countWords(formData.initiativeDescription) < DESC_MIN_WORDS) {
+                    newErrors.initiativeDescription = `Please write at least ${DESC_MIN_WORDS} words (currently ${countWords(formData.initiativeDescription)}).`;
+                }
                 if (!formData.supportingEvidence) newErrors.supportingEvidence = 'Required';
+                else if (countWords(formData.supportingEvidence) < EVIDENCE_MIN_WORDS) {
+                    newErrors.supportingEvidence = `Please write at least ${EVIDENCE_MIN_WORDS} words (currently ${countWords(formData.supportingEvidence)}).`;
+                }
                 break;
         }
         setErrors(newErrors);
@@ -351,27 +424,9 @@ const ApplicationForm: React.FC = () => {
             }
 
             setSubmitSuccess(true);
-            setFormData({
-                nominatorName: '',
-                nominatorOrganization: '',
-                nominatorPosition: '',
-                email: '',
-                nominatorPhone: '',
-                nomineeName: '',
-                nomineePosition: '',
-                nomineeOrganization: '',
-                nomineeEmail: '',
-                nomineePhone: '',
-                awardCategory: '',
-                initiativeDescription: '',
-                supportingEvidence: '',
-                referenceName: '',
-                referencePosition: '',
-                referenceOrganization: '',
-                referenceEmail: '',
-                referencePhone: '',
-                additionalDocuments: [],
-            });
+            localStorage.removeItem(DRAFT_KEY);
+            setLastSaved(null);
+            setFormData(emptyFormData);
             setStep(1);
         } catch (err: unknown) {
             let msg = 'An unknown error occurred';
@@ -398,60 +453,67 @@ const ApplicationForm: React.FC = () => {
                         <p className="mb-5 ">Please provide complete details for the nominator. Self-nominations are
                             acceptable; the nominator and nominee may be the same individual or organization.</p>
                         <div className="mb-3">
-                            <label htmlFor="nominatorName" className="form-label">Full Name</label>
+                            <label htmlFor="nominatorName" className="form-label">Full Name<Required /></label>
                             <input
                                 type="text"
-                                className={`form-control ${errors.nominatorName && attemptedNext ? 'is-invalid' : ''}`}
+                                className={`form-control ${isInvalid('nominatorName') ? 'is-invalid' : ''}`}
                                 id="nominatorName"
                                 name="nominatorName"
+                                autoComplete="name"
                                 value={formData.nominatorName}
                                 onChange={handleInputChange}
                             />
                             {getFieldError('nominatorName')}
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="nominatorOrganization" className="form-label">Organization/Institution</label>
+                            <label htmlFor="nominatorOrganization" className="form-label">Organization/Institution<Required /></label>
                             <input
                                 type="text"
-                                className={`form-control ${errors.nominatorOrganization && attemptedNext ? 'is-invalid' : ''}`}
+                                className={`form-control ${isInvalid('nominatorOrganization') ? 'is-invalid' : ''}`}
                                 id="nominatorOrganization"
                                 name="nominatorOrganization"
+                                autoComplete="organization"
                                 value={formData.nominatorOrganization}
                                 onChange={handleInputChange}
                             />
                             {getFieldError('nominatorOrganization')}
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="nominatorPosition" className="form-label">Position/Title</label>
+                            <label htmlFor="nominatorPosition" className="form-label">Position/Title<Required /></label>
                             <input
                                 type="text"
-                                className={`form-control ${errors.nominatorPosition && attemptedNext ? 'is-invalid' : ''}`}
+                                className={`form-control ${isInvalid('nominatorPosition') ? 'is-invalid' : ''}`}
                                 id="nominatorPosition"
                                 name="nominatorPosition"
+                                autoComplete="organization-title"
                                 value={formData.nominatorPosition}
                                 onChange={handleInputChange}
                             />
                             {getFieldError('nominatorPosition')}
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="email" className="form-label">Email Address</label>
+                            <label htmlFor="email" className="form-label">Email Address<Required /></label>
                             <input
                                 type="email"
-                                className={`form-control ${errors.email && attemptedNext ? 'is-invalid' : ''}`}
+                                className={`form-control ${isInvalid('email') ? 'is-invalid' : ''}`}
                                 id="email"
                                 name="email"
+                                autoComplete="email"
+                                inputMode="email"
                                 value={formData.email}
                                 onChange={handleInputChange}
                             />
                             {getFieldError('email')}
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="nominatorPhone" className="form-label">Phone Number</label>
+                            <label htmlFor="nominatorPhone" className="form-label">Phone Number<Required /></label>
                             <input
                                 type="tel"
-                                className={`form-control ${errors.nominatorPhone && attemptedNext ? 'is-invalid' : ''}`}
+                                className={`form-control ${isInvalid('nominatorPhone') ? 'is-invalid' : ''}`}
                                 id="nominatorPhone"
                                 name="nominatorPhone"
+                                autoComplete="tel"
+                                inputMode="tel"
                                 value={formData.nominatorPhone}
                                 onChange={handleInputChange}
                             />
@@ -465,16 +527,17 @@ const ApplicationForm: React.FC = () => {
                         <h3 className="mb-3">Nominee Information</h3>
                         <div className="mb-3">
                             <label htmlFor="nomineeName" className="form-label">Full Name (Individual or
-                                Organization)</label>
+                                Organization)<Required /></label>
                             <input
                                 type="text"
-                                className="form-control"
+                                className={`form-control ${isInvalid('nomineeName') ? 'is-invalid' : ''}`}
                                 id="nomineeName"
                                 name="nomineeName"
+                                autoComplete="off"
                                 value={formData.nomineeName}
                                 onChange={handleInputChange}
-                                required
                             />
+                            {getFieldError('nomineeName')}
                         </div>
                         <div className="mb-3">
                             <label htmlFor="nomineePosition" className="form-label">Position/Title (if
@@ -484,6 +547,7 @@ const ApplicationForm: React.FC = () => {
                                 className="form-control"
                                 id="nomineePosition"
                                 name="nomineePosition"
+                                autoComplete="off"
                                 value={formData.nomineePosition}
                                 onChange={handleInputChange}
                             />
@@ -501,28 +565,28 @@ const ApplicationForm: React.FC = () => {
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="nomineeEmail" className="form-label">Email Address</label>
+                            <label htmlFor="nomineeEmail" className="form-label">Email Address<Required /></label>
                             <input
                                 type="email"
-                                className="form-control"
+                                className={`form-control ${isInvalid('nomineeEmail') ? 'is-invalid' : ''}`}
                                 id="nomineeEmail"
                                 name="nomineeEmail"
                                 value={formData.nomineeEmail}
                                 onChange={handleInputChange}
-                                required
                             />
+                            {getFieldError('nomineeEmail')}
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="nomineePhone" className="form-label">Phone Number</label>
+                            <label htmlFor="nomineePhone" className="form-label">Phone Number<Required /></label>
                             <input
                                 type="tel"
-                                className="form-control"
+                                className={`form-control ${isInvalid('nomineePhone') ? 'is-invalid' : ''}`}
                                 id="nomineePhone"
                                 name="nomineePhone"
                                 value={formData.nomineePhone}
                                 onChange={handleInputChange}
-                                required
                             />
+                            {getFieldError('nomineePhone')}
                         </div>
                     </>
                 );
@@ -531,46 +595,53 @@ const ApplicationForm: React.FC = () => {
                     <>
                         <h3 className="mb-3">Award Category and Initiative Description</h3>
                         <div className="mb-3">
-                            <label htmlFor="awardCategory" className="form-label">Award Category</label>
+                            <label htmlFor="awardCategory" className="form-label">Award Category<Required /></label>
                             <select
-                                className="form-select"
+                                className={`form-select ${isInvalid('awardCategory') ? 'is-invalid' : ''}`}
                                 id="awardCategory"
                                 name="awardCategory"
                                 value={formData.awardCategory}
                                 onChange={handleInputChange}
-                                required
                             >
                                 <option value="">Select a category</option>
                                 {categories.map((category: AwardCategory) => (
                                     <option key={category.name} value={category.name}>{category.name}</option>
                                 ))}
                             </select>
+                            {getFieldError('awardCategory')}
                         </div>
                         <div className="mb-3">
                             <label htmlFor="initiativeDescription" className="form-label">Description of the
-                                Initiative/Contribution (max 200 words)</label>
+                                Initiative/Contribution<Required /></label>
+                            <div className="form-text mb-1">
+                                A concise summary of the nominee&apos;s achievement. Minimum {DESC_MIN_WORDS} words, around {DESC_MAX_WORDS} words is ideal.
+                            </div>
                             <textarea
-                                className="form-control"
+                                className={`form-control ${isInvalid('initiativeDescription') ? 'is-invalid' : ''}`}
                                 id="initiativeDescription"
                                 name="initiativeDescription"
-                                rows={3}
+                                rows={4}
                                 value={formData.initiativeDescription}
                                 onChange={handleInputChange}
-                                required
                             ></textarea>
+                            <WordCounter count={countWords(formData.initiativeDescription)} min={DESC_MIN_WORDS} max={DESC_MAX_WORDS} />
+                            {getFieldError('initiativeDescription')}
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="supportingEvidence" className="form-label">Supporting Evidence (max 1000
-                                words)</label>
+                            <label htmlFor="supportingEvidence" className="form-label">Supporting Evidence<Required /></label>
+                            <div className="form-text mb-1">
+                                Detail the impact, results, and significance of the contribution. Minimum {EVIDENCE_MIN_WORDS} words, up to {EVIDENCE_MAX_WORDS} words.
+                            </div>
                             <textarea
-                                className="form-control"
+                                className={`form-control ${isInvalid('supportingEvidence') ? 'is-invalid' : ''}`}
                                 id="supportingEvidence"
                                 name="supportingEvidence"
-                                rows={6}
+                                rows={8}
                                 value={formData.supportingEvidence}
                                 onChange={handleInputChange}
-                                required
                             ></textarea>
+                            <WordCounter count={countWords(formData.supportingEvidence)} min={EVIDENCE_MIN_WORDS} max={EVIDENCE_MAX_WORDS} />
+                            {getFieldError('supportingEvidence')}
                         </div>
                     </>
                 );
@@ -617,23 +688,25 @@ const ApplicationForm: React.FC = () => {
                             <label htmlFor="referenceEmail" className="form-label">Email Address</label>
                             <input
                                 type="email"
-                                className="form-control"
+                                className={`form-control ${isInvalid('referenceEmail') ? 'is-invalid' : ''}`}
                                 id="referenceEmail"
                                 name="referenceEmail"
                                 value={formData.referenceEmail}
                                 onChange={handleInputChange}
                             />
+                            {getFieldError('referenceEmail')}
                         </div>
                         <div className="mb-3">
                             <label htmlFor="referencePhone" className="form-label">Phone Number</label>
                             <input
                                 type="tel"
-                                className="form-control"
+                                className={`form-control ${isInvalid('referencePhone') ? 'is-invalid' : ''}`}
                                 id="referencePhone"
                                 name="referencePhone"
                                 value={formData.referencePhone}
                                 onChange={handleInputChange}
                             />
+                            {getFieldError('referencePhone')}
                         </div>
                     </>
                 );
@@ -653,6 +726,7 @@ const ApplicationForm: React.FC = () => {
                                 multiple
                                 ref={fileInputRef}
                             />
+                            <div className="form-text">Accepted formats: PDF, DOC, DOCX, JPG, PNG. Maximum 10MB per file.</div>
                         </div>
                         {formData.additionalDocuments.length > 0 && (
                             <div className="mb-3">
@@ -666,6 +740,7 @@ const ApplicationForm: React.FC = () => {
                                                 type="button"
                                                 className="btn btn-danger btn-sm"
                                                 onClick={() => handleFileDelete(index)}
+                                                aria-label={`Remove ${file.name}`}
                                             >
                                                 <i className="bi bi-trash"></i>
                                             </button>
@@ -707,35 +782,75 @@ const ApplicationForm: React.FC = () => {
                         Thank you for your submission! We have received your application.
                     </div>
                 ) : (
-                    <form onSubmit={e => handleSubmit(e)}>
-                        {renderStep()}
-                        {errors.fileUpload && <ErrorAlert errors={errors.fileUpload} />}
-                        {submitError && <ErrorAlert errors={submitError} />}
-                        {lastSaved && (
-                            <div className="text-muted small mb-2">
-                                Last saved at {lastSaved.toLocaleTimeString()}
+                    <>
+                        {pendingDraft && (
+                            <div className="alert alert-info d-flex flex-column flex-sm-row align-items-sm-center justify-content-between" role="alert">
+                                <span>
+                                    <i className="bi bi-clock-history me-2"></i>
+                                    We found a saved draft of your nomination. Would you like to pick up where you left off?
+                                </span>
+                                <span className="mt-2 mt-sm-0 flex-shrink-0">
+                                    <button type="button" className="btn btn-primary btn-sm me-2" onClick={restoreDraft}>Restore draft</button>
+                                    <button type="button" className="btn btn-outline-secondary btn-sm" onClick={discardDraft}>Start fresh</button>
+                                </span>
                             </div>
                         )}
 
-                        {!isNonEmptyString(submitSuccess.toString()) && (
-                            <div className="text-secondary mt-2">Section {step} of {steps}</div>
-                        )}
-                        {!isReadyToSubmit && attemptedNext && (
-                            <div className="text-danger mt-2">
-                                <small>Missing required fields: {getStepValidationSummary(step).join(', ')}</small>
+                        {/* Step progress indicator */}
+                        <div className="mb-4">
+                            <div className="d-flex justify-content-between mb-2 flex-wrap gap-1">
+                                {stepTitles.map((title, idx) => {
+                                    const stepNum = idx + 1;
+                                    const active = stepNum === step;
+                                    const done = stepNum < step;
+                                    return (
+                                        <span
+                                            key={title}
+                                            className={`small fw-${active ? 'bold' : 'normal'} ${active ? 'text-primary' : done ? 'text-success' : 'text-muted'}`}
+                                        >
+                                            {done && <i className="bi bi-check-circle-fill me-1"></i>}
+                                            {stepNum}. {title}
+                                        </span>
+                                    );
+                                })}
                             </div>
-                        )}
-                        <div className="mt-4">
-                            {step > 1 && <button type="button" className="btn btn-secondary me-2" onClick={prevStep} disabled={isSubmitting}>Previous</button>}
-                            {step < steps ? (
-                                <button type="button" className="btn btn-primary" onClick={nextStep} disabled={isSubmitting}>Next</button>
-                            ) : (
-                                <button type="submit" className="btn btn-success" disabled={isSubmitting || !isReadyToSubmit}>
-                                    {isSubmitting ? 'Submitting...' : 'Submit Application'}
-                                </button>
-                            )}
+                            <div className="progress" style={{ height: '6px' }} role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={steps} aria-label="Form progress">
+                                <div className="progress-bar" style={{ width: `${(step / steps) * 100}%` }}></div>
+                            </div>
                         </div>
-                    </form>
+
+                        <form onSubmit={e => handleSubmit(e)}>
+                            {renderStep()}
+                            {errors.fileUpload && <ErrorAlert errors={errors.fileUpload} />}
+                            {submitError && <ErrorAlert errors={submitError} />}
+
+                            <div className="d-flex justify-content-between align-items-center mt-2 small text-secondary">
+                                <span>Section {step} of {steps}</span>
+                                {lastSaved && (
+                                    <span className="text-muted">
+                                        <i className="bi bi-cloud-check me-1"></i>
+                                        Draft saved at {lastSaved.toLocaleTimeString()}
+                                    </span>
+                                )}
+                            </div>
+
+                            {!isReadyToSubmit && attemptedNext && getStepValidationSummary(step).length > 0 && (
+                                <div className="text-danger mt-2">
+                                    <small>Missing required fields: {getStepValidationSummary(step).join(', ')}</small>
+                                </div>
+                            )}
+                            <div className="mt-4">
+                                {step > 1 && <button type="button" className="btn btn-secondary me-2" onClick={prevStep} disabled={isSubmitting}>Previous</button>}
+                                {step < steps ? (
+                                    <button type="button" className="btn btn-primary" onClick={nextStep} disabled={isSubmitting}>Next</button>
+                                ) : (
+                                    <button type="submit" className="btn btn-success" disabled={isSubmitting || !isReadyToSubmit}>
+                                        {isSubmitting ? 'Submitting...' : 'Submit Application'}
+                                    </button>
+                                )}
+                            </div>
+                        </form>
+                    </>
                 )}
             </div>
         </div>

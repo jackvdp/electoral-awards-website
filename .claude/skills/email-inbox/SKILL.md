@@ -126,8 +126,9 @@ If asked to "open in Mail" without further context for a *new compose*, still us
 - British English throughout (e.g. "apologise", "organisation", "whilst", "favour").
 - **No em dashes (—).** Use commas, full stops, semicolons, or parentheses instead. This applies to prose, HTML bodies, and HTML entities — do not use `&mdash;` either.
 - Concise and focused — say the thing, then stop. One clear ask or message per email.
-- Do NOT include a signature block — Jack's signature is already configured in both Apple Mail and Outlook.
-- Start with "Dear [Name]," or "Hi [Name]," as appropriate; sign off with "Jack" (or "With kind regards, Jack" / "Warm regards from London, Jack" for warmer threads).
+- Do NOT include a signature block of any kind: no name/title/organisation/phone/address lines and no closing sign-off name. End the body at "Kind regards," (or the relevant closing) and stop. Jack's signature is already configured in both Apple Mail and Outlook and is appended automatically; anything you add duplicates it.
+- **Link to the event page** whenever an email invites someone to, or references, a webinar, roundtable, or awards event. Use the live event-page URL on `electoralnetwork.org` (e.g. `https://www.electoralnetwork.org/events/<id>`), embedded with `--html` as a hyperlink on descriptive text such as "the event page" or "full details", not a bare URL. Confirm the event ID with the user or the event's `.eml`/data file if you do not already have it.
+- Start with "Dear [Name]," or "Hi [Name]," as appropriate; close with "Kind regards," (or "With kind regards," / "Warm regards from London," for warmer threads) and leave the configured signature to supply the name.
 
 ### Step 7 — Continue through the inbox
 
@@ -369,7 +370,7 @@ Notes:
 1. **NEVER send an email.** Only open draft windows for the user to review and send manually.
 2. **Always use the Exchange account** — `account "Exchange"`, mailbox `"Inbox"` (handled by the scripts).
 3. **Replies → Apple Mail via `reply.sh`. New composes → Outlook via `compose.sh`.** Do not mix.
-4. **Do not include a signature** in drafted emails — Jack's signature is already configured in both clients.
+4. **Do not include a signature or a closing sign-off name** in drafted emails — end at "Kind regards," and stop. Jack's full signature is configured in both clients and is appended automatically; adding one duplicates it.
 5. **Always reply all** — `reply.sh` uses `reply to all` so existing CC recipients are preserved. Use `--cc` only for *additional* recipients not already on the thread.
 6. **Preserve the email thread** in replies — use the clipboard-paste method with `Cmd+Up` then `Cmd+V`. Never use `set content of` (overwrites thread). Never use `Cmd+A` (selects and can replace thread).
 7. **Use `delay 2`** after `reply msg opening window yes with reply to all` — gives the reply window time to fully load before pasting.
@@ -378,6 +379,7 @@ Notes:
 10. **British English** throughout all drafted responses, in the warm-but-understated tone described in "Style for drafts". **Never use em dashes (—)** in drafts — use commas, full stops, or parentheses instead.
 11. **CC Swastee Ramsurrun** (`s.ramsurrun@parlistudies.org`) on all emails relating to electoral administration, delegate matters, awards logistics, COMELEC coordination, or Network operations.
 12. **Use `--html` in Outlook composes** for anything with structure (lists, links, bold, multiple paragraphs that need spacing). Plain text composes can render as one ugly block.
+13. **Link to the event page** in any email that invites someone to or references a webinar, roundtable, or awards event — embed the live `electoralnetwork.org/events/<id>` URL as a hyperlink on descriptive text (e.g. "the event page"), never a bare URL.
 
 ## Notes
 
