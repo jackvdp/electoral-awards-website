@@ -400,15 +400,15 @@ const ApplicationForm: React.FC = () => {
             const dataToSend = new FormData();
             Object.entries(formData).forEach(([key, val]) => {
                 if (key === 'additionalDocuments') {
-                    formData.additionalDocuments.forEach((file, i) => {
-                        dataToSend.append(`document_${i}`, file, file.name);
+                    formData.additionalDocuments.forEach((file) => {
+                        dataToSend.append('documents', file, file.name);
                     });
                 } else {
                     dataToSend.append(key, val as string);
                 }
             });
 
-            const response = await fetch('https://formspree.io/f/mqazqnnd', {
+            const response = await fetch('/api/nominations', {
                 method: 'POST',
                 body: dataToSend,
                 headers: { Accept: 'application/json' },
@@ -419,8 +419,8 @@ const ApplicationForm: React.FC = () => {
                     setTimeout(() => handleSubmit(e, retryCount + 1), 2000);
                     return;
                 }
-                const errData = await response.json();
-                throw new Error(errData.message || `Server error: ${response.status}`);
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(errData.error || errData.message || `Server error: ${response.status}`);
             }
 
             setSubmitSuccess(true);
