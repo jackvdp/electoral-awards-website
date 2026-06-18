@@ -23,15 +23,31 @@ interface BookingWithEvent {
     event: IEvent;
 }
 
+interface NominationDocumentSummary {
+    name: string;
+    url: string;
+}
+
+interface NominationSummary {
+    _id: string;
+    nomineeName: string;
+    awardCategory: string;
+    createdAt: string;
+    documents: NominationDocumentSummary[];
+}
+
 const Account: FC<AccountProps> = ({user}) => {
     const [alertStatus, setAlertStatus] = useState<'success' | 'failed' | null>(null);
     const [myBookings, setMyBookings] = useState<BookingWithEvent[]>([]);
+    const [myNominations, setMyNominations] = useState<NominationSummary[]>([]);
+    const [nominationsOpen, setNominationsOpen] = useState(false);
     const {updateUser, signout} = useAuth();
     const router = useRouter();
     const deleteModalID = 'delete-account-modal';
 
     // Define the quick-access links for the sidebar
     const quickAccssLinks = [
+        {title: 'My Nominations', url: 'my-nominations'},
         {title: 'Signed-Up Events', url: 'signed-up-events'},
         {title: 'Account Details', url: 'account-details'},
         {title: 'Change Password', url: 'change-password'},
@@ -57,6 +73,27 @@ const Account: FC<AccountProps> = ({user}) => {
         };
 
         fetchBookings();
+    }, [user]);
+
+    // Fetch nominations the user submitted in the current period
+    useEffect(() => {
+        const fetchNominations = async () => {
+            if (!user) return;
+            try {
+                const response = await fetch('/api/nominations/mine');
+                const result = await response.json();
+                if (result.success) {
+                    setMyNominations(result.data);
+                    setNominationsOpen(result.isOpen);
+                } else {
+                    console.error('Failed to fetch nominations:', result.message);
+                }
+            } catch (error) {
+                console.error('Error fetching nominations:', error);
+            }
+        };
+
+        fetchNominations();
     }, [user]);
 
     function handleSignout() {
@@ -111,6 +148,51 @@ const Account: FC<AccountProps> = ({user}) => {
                     {/* Left Column: All Main Content */}
                     <div className="col-xl-10 order-xl-2">
                         <div className="pb-8 px-8">
+                            {/* Section: My Nominations */}
+                            <section id="my-nominations" className="mb-12 ps-4">
+                                <h4 className="mb-4">Your Nominations:</h4>
+                                {myNominations.length > 0 ? (
+                                    <ul className="list-group">
+                                        {myNominations.map((nomination) => (
+                                            <li
+                                                key={nomination._id}
+                                                className="list-group-item d-flex justify-content-between align-items-start"
+                                            >
+                                                <div>
+                                                    <div className="fw-bold">{nomination.nomineeName}</div>
+                                                    <div className="text-muted">{nomination.awardCategory}</div>
+                                                    <div className="text-muted fs-sm">
+                                                        Submitted {new Date(nomination.createdAt).toLocaleDateString('en-GB', {
+                                                            day: 'numeric', month: 'long', year: 'numeric'
+                                                        })}
+                                                    </div>
+                                                    {nomination.documents.length > 0 && (
+                                                        <div className="mt-1 fs-sm">
+                                                            {nomination.documents.map((doc, i) => (
+                                                                <span key={i} className="me-2">
+                                                                    <a className="hover" href={doc.url} target="_blank" rel="noopener noreferrer">
+                                                                        📎 {doc.name}
+                                                                    </a>
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                {nominationsOpen && (
+                                                    <a className="hover text-primary flex-shrink-0" href={`/awards/submit?edit=${nomination._id}`}>
+                                                        Edit
+                                                    </a>
+                                                )}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <p>
+                                        You haven&apos;t submitted any nominations this period.{' '}
+                                        <NextLink href="/awards/submit" title="Submit a Nomination"/>
+                                    </p>
+                                )}
+                            </section>
                             {/* Section 2: Signed-Up Events */}
                             <hr className="my-8"/>
                             <section id="signed-up-events" className="mb-12 ps-4">

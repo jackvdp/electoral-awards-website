@@ -49,7 +49,7 @@ const isValidEmail = (email: string): boolean =>
 
 const isNonEmpty = (value?: string): boolean => !!value && value.trim().length > 0;
 
-function validate(input: NominationInput): void {
+export function validateNominationInput(input: NominationInput): void {
     const required: (keyof NominationInput)[] = [
         'nominatorName', 'nominatorOrganization', 'nominatorPosition', 'email', 'nominatorPhone',
         'nomineeName', 'nomineeEmail', 'nomineePhone',
@@ -74,7 +74,7 @@ function validate(input: NominationInput): void {
     }
 }
 
-async function uploadDocuments(files: UploadedFile[]): Promise<INominationDocument[]> {
+export async function uploadNominationDocuments(files: UploadedFile[]): Promise<INominationDocument[]> {
     return Promise.all(files.map(async (file) => {
         const blob = await put(
             `nominations/${Date.now()}-${file.originalname}`,
@@ -95,9 +95,9 @@ export async function createNomination(
     files: UploadedFile[] = [],
     userId?: string | null
 ): Promise<INomination> {
-    validate(input);
+    validateNominationInput(input);
 
-    const documents = files.length ? await uploadDocuments(files) : [];
+    const documents = files.length ? await uploadNominationDocuments(files) : [];
 
     const nomination = await Nomination.create({
         ...input,

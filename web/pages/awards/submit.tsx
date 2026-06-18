@@ -1,5 +1,6 @@
 import {NextPage} from 'next';
 import {Fragment} from 'react';
+import {useRouter} from 'next/router';
 // -------- custom component -------- //
 import {Navbar} from 'components/blocks/navbar';
 import {Footer} from 'components/blocks/footer';
@@ -9,6 +10,8 @@ import ApplicationForm from 'components/blocks/awards/ApplicationForm';
 import CustomHead from "../../src/components/common/CustomHead";
 
 const SubmitPage: NextPage = () => {
+    const router = useRouter();
+    const editId = typeof router.query.edit === 'string' ? router.query.edit : undefined;
 
     return (
         <Fragment>
@@ -22,11 +25,11 @@ const SubmitPage: NextPage = () => {
 
             <main className="content-wrapper">
 
-                <SimpleBanner title={"Submit Nomination for 22nd International Electoral Awards"}></SimpleBanner>
+                <SimpleBanner title={editId ? "Edit Your Nomination" : "Submit Nomination for 22nd International Electoral Awards"}></SimpleBanner>
 
                 <div
                     className="container pt-14 pt-md-16 pb-7 pt-md-8 d-flex flex-column justify-content-center align-items-center">
-                    <ApplicationForm/>
+                    <ApplicationForm editId={editId}/>
                 </div>
 
             </main>
