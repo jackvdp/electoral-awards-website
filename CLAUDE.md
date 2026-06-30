@@ -30,7 +30,7 @@ Cross-cutting work lives in `projects/`, one subfolder per project. **Each proje
 | Project | What it is | Status doc |
 |---------|-----------|------------|
 | **nomos** | ICPS / NOMOS partnership: awareness campaigns, audience build, the 22nd Awards presence | `projects/nomos/CLAUDE.md` |
-| **awards26** | 22nd International Electoral Awards (Manila, 2026): sponsors, invoices, booking forms | to create (see `/awards-admin`) |
+| **awards26** | 22nd International Electoral Awards (Manila, 2026): sponsors, invoices, booking forms | `projects/awards26/CLAUDE.md` |
 | **bsva** | BSVA survey analysis and rebuild | `projects/bsva/claude.md` |
 
 Note: `projects/` is gitignored (local working area), so its contents are not committed.
@@ -66,9 +66,10 @@ Skills load their own context when invoked — don't pre-load awards or website 
 - Dates: 17 September 2026 (Day–Month–Year)
 - Define acronyms on first use; plain language; alt text on images
 – Never use m dashes
+– Use humanizer skill for any communication/articles
 
 ### File & path quirks
-- ICPS Dropbox root: `/Users/jackvanderpump/Dropbox/My Mac (Mac-Pro)/Desktop/ICPS/Electoral/` (NOT `~/Desktop/ICPS/`)
+- Legacy docs are all here /ICPS
 - `.pages` (Apple Pages) files can't be read directly — use `.emltpl` or exported `.txt`
 - `.emltpl` files: raw email with quoted-printable encoding; plain text usually lives in lines 20–100
 - Drafted emails → `emails/` directory in this repo, named `YYYY-MM-<topic>.txt`
