@@ -13,13 +13,27 @@ This repo is the working directory for **Jack Vanderpump** (Head of Policy Resea
 ├── .claude/skills/     Skills (admin + website)
 ├── emails/             Drafted emails (.eml/.emltpl/.txt) + speaker-shortlist CSVs
 ├── docs/               ICPS reference docs (Horizon, webinars)
-├── projects/           Cross-cutting work (nomos)
+├── projects/           Cross-cutting work, one subfolder per project (each has its own CLAUDE.md)
 ├── scripts/            Admin AppleScripts
 └── CLAUDE.md           This file
 ```
 
 Vercel deploys from `web/`. The project's **Root Directory** is set to `web` in the Vercel dashboard (Settings → General → Root Directory). Default Next.js commands then work unchanged. Do not add a root-level `vercel.json` — it conflicts with framework detection.
 
+
+---
+
+## Projects
+
+Cross-cutting work lives in `projects/`, one subfolder per project. **Each project folder keeps its own `CLAUDE.md`** with the current status, an index of the folder, key people and dates, and conventions. Read that file first when picking up a project, and keep it updated as things move.
+
+| Project | What it is | Status doc |
+|---------|-----------|------------|
+| **nomos** | ICPS / NOMOS partnership: awareness campaigns, audience build, the 22nd Awards presence | `projects/nomos/CLAUDE.md` |
+| **awards26** | 22nd International Electoral Awards (Manila, 2026): sponsors, invoices, booking forms | to create (see `/awards-admin`) |
+| **bsva** | BSVA survey analysis and rebuild | `projects/bsva/claude.md` |
+
+Note: `projects/` is gitignored (local working area), so its contents are not committed.
 
 ---
 
