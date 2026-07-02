@@ -23,7 +23,7 @@ A repeatable workflow for putting together a shortlist of external speakers for 
 
 Two artefacts, every time:
 
-1. **A CSV** at `emails/<YYYY-MM>-<topic-slug>-speaker-shortlist.csv` containing one row per candidate, with the columns defined in the [CSV schema](#csv-schema).
+1. **A CSV** at `projects/<project>/<YYYY-MM>-<topic-slug>-speaker-shortlist.csv` (inside the relevant project folder, e.g. `projects/nomos/audience/`) containing one row per candidate, with the columns defined in the [CSV schema](#csv-schema).
 2. **A short top-picks summary in chat** highlighting the 3–4 strongest candidates with a one-line rationale each, plus any gaps or caveats the user should know about before they start sending invitations.
 
 The CSV is the artefact the user will actually act on (sorting, filtering, sending invites). The chat summary is the editorial layer that helps the user prioritise.
@@ -135,12 +135,13 @@ Use CSV quoting for any field containing commas, quotes, or newlines (double-quo
 
 ## File naming
 
-`emails/<YYYY-MM>-<topic-slug>-speaker-shortlist.csv` where:
+`projects/<project>/<YYYY-MM>-<topic-slug>-speaker-shortlist.csv` where:
 
+- `<project>` is the relevant project folder (e.g. `nomos/audience`, `awards26`). If the project is not obvious from the brief, ask which project folder to use.
 - `YYYY-MM` is the current year and month
 - `topic-slug` is a short kebab-case slug capturing the topic (e.g. `knowledge-sharing`, `electoral-workforce`, `disinformation-response`)
 
-The file lives in `emails/` because that is where the user's correspondence-adjacent artefacts go and it sits naturally next to the eventual invitation emails this list feeds into.
+The CSV is a data deliverable, so it lives inside the relevant project folder under `projects/`. There is no top-level `emails/` directory: draft emails are transient (composed, sent, then deleted), so a persistent contact list like this belongs with the project it serves.
 
 ## Style and tone
 

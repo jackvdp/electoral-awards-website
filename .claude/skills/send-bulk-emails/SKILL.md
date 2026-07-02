@@ -1,6 +1,6 @@
 ---
 name: send-bulk-emails
-description: Send a personalised bulk email through Microsoft Outlook from a template (.eml/.emltpl) and a CSV. Use when the user wants to mail-merge the same message to many people with each one personalised from CSV data, e.g. "send the speaker invitations", "bulk-send the workforce-webinar email", "send this template to everyone in the shortlist", "do a mail merge from emails/foo.csv". Pairs naturally with templates from /comms-email and CSVs from /find-speakers.
+description: Send a personalised bulk email through Microsoft Outlook from a template (.eml/.emltpl) and a CSV. Use when the user wants to mail-merge the same message to many people with each one personalised from CSV data, e.g. "send the speaker invitations", "bulk-send the workforce-webinar email", "send this template to everyone in the shortlist", "do a mail merge from a project-folder CSV". Pairs naturally with templates from /comms-email and CSVs from /find-speakers.
 argument-hint: [optional: template path, CSV path, or topic]
 allowed-tools: Bash, Read, Edit, Write, Glob, Grep, AskUserQuestion
 ---
@@ -36,9 +36,9 @@ The `email` cell may hold several addresses. Separators recognised: `,` `;` ` ` 
 
 If the user has not named them, ask. Reasonable defaults:
 
-- Templates live in `emails/*.eml` (drafted by `/comms-email`).
-- CSVs live in `emails/*.csv` (e.g. produced by `/find-speakers`).
-- Attachments folder is usually `emails/attachments/` or under `~/Dropbox/.../ICPS/Electoral/`.
+- Templates are drafted by `/comms-email` to a working/scratch path (email drafts are not stored in the repo).
+- CSVs live in the relevant project folder under `projects/` (e.g. produced by `/find-speakers`).
+- Attachments usually live under `~/Dropbox/.../ICPS/Electoral/` or the relevant `projects/<project>/` folder.
 
 Confirm absolute paths before continuing — the AppleScript needs POSIX paths.
 

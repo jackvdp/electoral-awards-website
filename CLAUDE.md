@@ -11,8 +11,6 @@ This repo is the working directory for **Jack Vanderpump** (Head of Policy Resea
 .
 ├── web/                Next.js app (electoralnetwork.org) — package.json, src/, pages/, etc.
 ├── .claude/skills/     Skills (admin + website)
-├── emails/             Drafted emails (.eml/.emltpl/.txt) + speaker-shortlist CSVs
-├── docs/               ICPS reference docs (Horizon, webinars)
 ├── projects/           Cross-cutting work, one subfolder per project (each has its own CLAUDE.md)
 ├── scripts/            Admin AppleScripts
 └── CLAUDE.md           This file
@@ -32,8 +30,10 @@ Cross-cutting work lives in `projects/`, one subfolder per project. **Each proje
 | **nomos** | ICPS / NOMOS partnership: awareness campaigns, audience build, the 22nd Awards presence | `projects/nomos/CLAUDE.md` |
 | **awards26** | 22nd International Electoral Awards (Manila, 2026): sponsors, invoices, booking forms | `projects/awards26/CLAUDE.md` |
 | **bsva** | BSVA survey analysis and rebuild | `projects/bsva/claude.md` |
+| **smartmatic** | Smartmatic webinar series planning (results transmission, inclusive elections) | (no status doc yet) |
+| **horizon** | EU Horizon Europe grant bid (INDEPACT): call, pitch, work packages | (no status doc yet) |
 
-Note: `projects/` is gitignored (local working area), so its contents are not committed.
+Note: `projects/` is gitignored (local working area), so its contents are not committed. Drafted emails and speaker/contact CSVs now live inside the relevant project folder (not a top-level `emails/` directory).
 
 ---
 
@@ -72,7 +72,7 @@ Skills load their own context when invoked — don't pre-load awards or website 
 - Legacy docs are all here /ICPS
 - `.pages` (Apple Pages) files can't be read directly — use `.emltpl` or exported `.txt`
 - `.emltpl` files: raw email with quoted-printable encoding; plain text usually lives in lines 20–100
-- Drafted emails → `emails/` directory in this repo, named `YYYY-MM-<topic>.txt`
+- Drafted emails are transient: compose to a scratch/working file, open or send via Outlook / Apple Mail (or run the mail-merge), then delete the file. Do not store email drafts in the repo. There is no top-level `emails/` directory. Persistent data deliverables (speaker/contact CSVs, research lists) go into the relevant `projects/<project>/` folder.
 
 ---
 

@@ -13,7 +13,7 @@ export interface CommEmail {
     status: 'drafted' | 'sent' | 'pending';
     phase: number;
     tags: string[];    // e.g. ['registration', 'nominations', 'speakers']
-    templateFile?: string; // .eml filename in emails/ directory
+    templateFile?: string; // .eml filename in web/src/data/comms-templates/
 }
 
 export interface Phase {

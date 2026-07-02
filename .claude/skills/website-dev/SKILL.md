@@ -52,7 +52,6 @@ web/
     theme/                    - Theme tokens / shared styles
     scripts/                  - One-off scripts (seeds, migrations)
 
-emails/                       - Drafted emails (`.txt` files, naming: YYYY-MM-<topic>.txt) — at repo root, not under web/
 ```
 
 ## Key data files (`web/src/data/`)
