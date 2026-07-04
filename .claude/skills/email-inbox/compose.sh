@@ -8,9 +8,11 @@
 #   --body     The email body text (required)
 #   --cc       CC recipient email address (optional, repeatable)
 #   --html     Treat --body as HTML content (wraps in full HTML document with styling)
+#   --attach   Path to a file to attach (optional, repeatable)
 
 TO_ADDRESSES=()
 CC_ADDRESSES=()
+ATTACH_PATHS=()
 SUBJECT=""
 BODY=""
 HTML_MODE=false
@@ -31,6 +33,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --cc)
             CC_ADDRESSES+=("$2")
+            shift 2
+            ;;
+        --attach)
+            ATTACH_PATHS+=("$2")
             shift 2
             ;;
         --html)
@@ -70,6 +76,18 @@ for addr in "${CC_ADDRESSES[@]}"; do
     CC_SCRIPT+="  make new cc recipient at newMessage with properties {email address:{address:\"$addr\"}}"$'\n'
 done
 
+# Build attachment AppleScript lines (resolve to absolute paths, verify each exists)
+ATTACH_SCRIPT=""
+for path in "${ATTACH_PATHS[@]}"; do
+    abs_path=$(cd "$(dirname "$path")" 2>/dev/null && printf '%s/%s' "$(pwd)" "$(basename "$path")")
+    if [[ -z "$abs_path" || ! -f "$abs_path" ]]; then
+        echo "Error: attachment not found: $path" >&2
+        exit 1
+    fi
+    ESCAPED_PATH=$(echo "$abs_path" | sed "s/\\\\/\\\\\\\\/g; s/\"/\\\\\"/g")
+    ATTACH_SCRIPT+="  make new attachment at newMessage with properties {file:(POSIX file \"$ESCAPED_PATH\" as alias)}"$'\n'
+done
+
 # Escape for AppleScript string embedding
 ESCAPED_SUBJECT=$(echo "$SUBJECT" | sed "s/\\\\/\\\\\\\\/g; s/\"/\\\\\"/g")
 
@@ -91,6 +109,7 @@ tell application "Microsoft Outlook"
 
 $TO_SCRIPT
 $CC_SCRIPT
+$ATTACH_SCRIPT
 
   open newMessage
   activate
