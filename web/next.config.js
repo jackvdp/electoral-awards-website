@@ -11,7 +11,12 @@ const nextConfig = {
             'as2.ftcdn.net',
             'images.unsplash.com'
         ],
-    }
+    },
+    // Bundle the admin-only comms-plan .eml templates (read at runtime by
+    // pages/api/comms-templates/[filename].ts) into the serverless function.
+    outputFileTracingIncludes: {
+        '/api/comms-templates/[filename]': ['./src/data/comms-templates/**'],
+    },
 }
 
 module.exports = nextConfig

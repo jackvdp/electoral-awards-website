@@ -66,7 +66,7 @@ osascript -e 'tell application "Pages" to get name of every document'
 ```
 
 ### Saving drafts
-- Emails: `emails/` in the repo, as `YYYY-MM-<topic>.txt`
+- Emails: draft transiently, send via Outlook / Apple Mail, then delete — email drafts are not stored in the repo. Persistent deliverables (CSVs, lists) go in the relevant `projects/<project>/` folder.
 - Other documents to keep: ICPS Dropbox folder
   `/Users/jackvanderpump/Dropbox/My Mac (Mac-Pro)/Desktop/ICPS/Electoral/`
 - Website content: edit files in `web/src/data/`

@@ -18,7 +18,7 @@ The comms plan lives in two places:
 | `web/src/data/comms-plan-2026.ts` | Structured data — email schedule with subjects, audiences, CTAs, status, and `templateFile` references |
 | `web/pages/admin/comms-plan.tsx` | Admin dashboard — displays the plan and offers download links for emails that have a `templateFile` |
 
-Email templates are stored as `.eml` files in the `emails/` directory. The API route at `web/pages/api/comms-templates/[filename].ts` serves them as downloads (admin-only).
+Email templates are stored as `.eml` files in `web/src/data/comms-templates/`. These are product content served on the admin dashboard, so they are the one exception to the "email drafts are not stored in the repo" rule. The API route at `web/pages/api/comms-templates/[filename].ts` serves them as downloads (admin-only).
 
 ## Steps
 
@@ -37,7 +37,7 @@ Note the following fields which inform the content:
 
 ### 2. Review existing templates for style
 
-Read 1-2 existing `.eml` templates in `emails/` to match the established visual style. The key design elements are:
+Read 1-2 existing `.eml` templates in `web/src/data/comms-templates/` to match the established visual style. The key design elements are:
 
 - **Wrapper:** Full-width `#f4f4f4` background, centred 640px white container
 - **Header banner:** `#1a2744` dark blue with white title text, `#243358` sub-banner
@@ -66,7 +66,7 @@ If the email references specific content (webinar details, speaker names, event 
 - `web/src/data/schedule.ts` for programme details
 - `web/src/data/award-categories.ts` for category information
 - `web/src/data/judges.ts` for judging committee
-- Existing emails in `emails/` for event URLs, registration links
+- Existing templates in `web/src/data/comms-templates/` for event URLs, registration links
 
 **Key URLs:**
 - Awards registration: `https://www.electoralnetwork.org/events/69938de4f4f23e0fef2e3129`
@@ -76,7 +76,7 @@ If the email references specific content (webinar details, speaker names, event 
 
 ### 4. Generate the `.eml` file
 
-Create the file at `emails/2026-XX-email-NN-<slug>.eml` where:
+Create the file at `web/src/data/comms-templates/2026-XX-email-NN-<slug>.eml` where:
 - `XX` = month number (two digits) based on the `wc` date
 - `NN` = email ID number (two digits, zero-padded)
 - `<slug>` = short kebab-case description
@@ -135,6 +135,6 @@ User: "draft email 4 for the comms plan"
 1. Read `comms-plan-2026.ts`, find email #4: "Nominations now open"
 2. Read existing `.eml` templates for style
 3. Check `award-categories.ts` for category names
-4. Generate `emails/2026-04-email-04-nominations-open.eml`
+4. Generate `web/src/data/comms-templates/2026-04-email-04-nominations-open.eml`
 5. Update comms plan: add `templateFile`, set status to `'drafted'`
-6. Report: "Created Email #4 — Nominations open. Saved to `emails/2026-04-email-04-nominations-open.eml`. Download button now available on the admin dashboard."
+6. Report: "Created Email #4 — Nominations open. Saved to `web/src/data/comms-templates/2026-04-email-04-nominations-open.eml`. Download button now available on the admin dashboard."

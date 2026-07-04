@@ -80,4 +80,4 @@ Awards materials (Awards 2026/, Awards 2025/, etc.) are referenced from `/awards
 Webinars and roundtables, when shown on the public site, are stored in MongoDB. Use `/add-event` or `/edit-event` to manage them.
 
 ### Drafted emails
-`emails/` directory in the repo, as `.txt` files named `YYYY-MM-<topic>.txt`.
+Transient: compose to a scratch/working file, send via Outlook / Apple Mail, then delete. Email drafts are not stored in the repo. Persistent deliverables (CSVs, lists) go in the relevant `projects/<project>/` folder.
