@@ -35,6 +35,9 @@ export interface INomination extends Document {
     referencePhone?: string;
     // Uploaded supporting documents
     documents: INominationDocument[];
+    // Set by mongoose via the schema's timestamps option
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 const documentSchema = new mongoose.Schema<INominationDocument>({
