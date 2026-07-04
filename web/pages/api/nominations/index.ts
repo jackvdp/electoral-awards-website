@@ -7,6 +7,7 @@ import {
     NominationValidationError,
     UploadedFile,
 } from 'backend/use_cases/nominations/createNomination';
+import { sendNominationEmails } from 'backend/use_cases/nominations/sendNominationEmails';
 
 export const config = {
     api: {
@@ -79,6 +80,10 @@ async function POST(req: NextApiRequestWithFiles, res: NextApiResponse) {
 
         await dbConnect();
         const nomination = await createNomination(req.body, uploadedFiles, userId);
+
+        // Confirmation to the nominator and notification to the administrator.
+        // Never throws, so a mail failure cannot fail the saved submission.
+        await sendNominationEmails(nomination);
 
         return res.status(201).json({ success: true, id: nomination._id });
     } catch (error) {
