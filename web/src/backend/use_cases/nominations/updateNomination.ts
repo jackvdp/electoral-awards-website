@@ -1,3 +1,4 @@
+import { del } from '@vercel/blob';
 import dbConnect from 'backend/mongo';
 import Nomination, { INomination, INominationDocument } from 'backend/models/nomination';
 import { isNominationsOpen } from 'data/awards-config';
@@ -65,15 +66,35 @@ export async function updateNomination({
 
     validateNominationInput(input);
 
+    // Resolve keepDocuments against the record: kept documents take their
+    // metadata from what is stored, so the client only chooses which URLs
+    // survive and cannot alter or inject document entries.
+    const existingDocuments = nomination.documents as INominationDocument[];
+    const keptUrls = new Set(keepDocuments.map(doc => doc.url));
+    const kept = existingDocuments.filter(doc => keptUrls.has(doc.url));
+    const removedUrls = existingDocuments.filter(doc => !keptUrls.has(doc.url)).map(doc => doc.url);
+
     const uploaded = newFiles.length ? await uploadNominationDocuments(newFiles) : [];
 
     EDITABLE_FIELDS.forEach(field => {
         // Assigning undefined leaves optional fields unchanged; cast for mongoose doc.
         (nomination as unknown as Record<string, unknown>)[field] = input[field] ?? '';
     });
-    nomination.documents = [...keepDocuments, ...uploaded];
+    nomination.documents = [...kept, ...uploaded];
 
     await nomination.save();
+
+    // Only after a successful save: blobs for documents the user removed are
+    // no longer referenced anywhere, so delete them from Vercel Blob. A
+    // leaked blob is preferable to failing an update that has already saved.
+    if (removedUrls.length) {
+        try {
+            await del(removedUrls);
+        } catch (error) {
+            console.error(`Could not delete removed document blobs for nomination ${id}:`, error);
+        }
+    }
+
     return nomination;
 }
 
