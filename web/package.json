@@ -8,6 +8,7 @@
     "build": "vitest run && next build",
     "start": "next start",
     "test": "vitest run",
+    "test:e2e": "playwright test",
     "sass": "sass --no-source-map src/assets/scss:public/css"
   },
   "dependencies": {
@@ -54,6 +55,7 @@
     "typewriter-effect": "^2.19.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@types/bootstrap": "^5.2.0",
     "@types/culori": "^4.0.1",
     "@types/isotope-layout": "^3.0.9",
