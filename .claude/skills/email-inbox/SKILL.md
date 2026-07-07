@@ -317,6 +317,12 @@ So you only need to supply the **inner HTML** for the body. Use:
 
 ---
 
+## Template: pre-event speaker briefing (logistics email to speakers)
+
+For the logistics email sent to a webinar's confirmed speakers about a week before the event (thanks, bio and slides requests, agenda with per-speaker timings, Zoom details, contact number), use the template at `.claude/skills/email-inbox/templates/speaker-briefing.md`. Read that file and substitute its bracketed fields; compose via `compose.sh` with `--html`.
+
+---
+
 ## Template: pre-event delegate briefing (joining details)
 
 Use this for the joining-instructions email sent to registered delegates ahead of a webinar or roundtable. It is usually sent the day before the event by the admin team (e.g. Devianee, `cnithoo@parlistudies.org`), so compose it to whoever sends it out, addressed to the delegate. Note the blank-line `<p>&nbsp;</p>` paragraphs throughout to keep the spacing right in Outlook.

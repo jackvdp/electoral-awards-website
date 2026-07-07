@@ -74,6 +74,9 @@ Skills load their own context when invoked — don't pre-load awards or website 
 - `.emltpl` files: raw email with quoted-printable encoding; plain text usually lives in lines 20–100
 - Drafted emails are transient: compose to a scratch/working file, open or send via Outlook / Apple Mail (or run the mail-merge), then delete the file. Do not store email drafts in the repo. There is no top-level `emails/` directory. Persistent data deliverables (speaker/contact CSVs, research lists) go into the relevant `projects/<project>/` folder.
 
+### Email templates
+- Reusable email templates live in `.claude/skills/email-inbox/templates/` (referenced from the `/email-inbox` skill). Current templates: `speaker-briefing.md` (pre-event logistics email to confirmed speakers). The pre-event delegate briefing lives inline in the skill's `SKILL.md`.
+
 ---
 
 ## Website quick-start (full context: `/website-dev`)

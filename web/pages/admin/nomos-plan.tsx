@@ -12,6 +12,10 @@ const BLUE = '#005f9e';
 const ORANGE = '#e8781a';
 const LIGHT_BLUE = '#7ab8d9';
 
+// Ideas box — creative thoughts / brainstorming for later campaigns.
+// Items dropped in carry no action; reviewed at the relevant meetings.
+const ideasBox: string[] = [];
+
 const milestones = [
     { date: 'Late April 2026', label: 'Data collection begins; speaker recruitment opens', highlight: false },
     { date: '28 May 2026', label: 'Webinar — NOMOS News & Intelligence', highlight: true },
@@ -175,6 +179,27 @@ const NomosPage: NextPage = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            {/* ── Ideas box ── */}
+            <div className="card mb-4">
+                <div className="card-header bg-white d-flex align-items-center">
+                    <h5 className="mb-0">Ideas Box</h5>
+                    <small className="text-muted ms-3">Creative thoughts for later campaigns. No action implied; reviewed at the relevant meetings.</small>
+                </div>
+                <div className="card-body">
+                    {ideasBox.length === 0 ? (
+                        <p className="text-muted mb-0" style={{ fontSize: '0.85rem', fontStyle: 'italic' }}>
+                            Nothing in the box yet.
+                        </p>
+                    ) : (
+                        <ul className="mb-0" style={{ fontSize: '0.85rem' }}>
+                            {ideasBox.map((idea, i) => (
+                                <li key={i}>{idea}</li>
+                            ))}
+                        </ul>
+                    )}
                 </div>
             </div>
 
