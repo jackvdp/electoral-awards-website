@@ -57,12 +57,29 @@ const NomosPage: NextPage = () => {
                             <div className="col-lg-6">
                                 <h2 className="display-5 mb-4">What is NOMOS?</h2>
                                 <p>
-                                    NOMOS is a knowledge and connection environment built for the electoral
-                                    sector. It brings the community into one secure space where electoral
-                                    professionals can stay informed, share what they know and keep in touch
-                                    between election cycles, with each member verified by their own
-                                    institution.
+                                    NOMOS is secure digital infrastructure built for the people who run
+                                    elections. Every member carries a professional identity verified by
+                                    their own institution, tied to their role and jurisdiction, so you
+                                    always know who you are talking to. Around that sit three things:
                                 </p>
+                                <ul className="icon-list bullet-bg bullet-soft-primary">
+                                    <li>
+                                        <i className="uil uil-check"/>
+                                        curated electoral intelligence: court rulings, policy shifts and
+                                        security alerts, filtered for your role and jurisdiction
+                                    </li>
+                                    <li>
+                                        <i className="uil uil-check"/>
+                                        training and knowledge sharing: post-election reviews, operational
+                                        templates and lessons learned, searchable and preserved when
+                                        experienced people move on
+                                    </li>
+                                    <li>
+                                        <i className="uil uil-check"/>
+                                        a verified peer community across borders, keeping the relationships
+                                        that usually only form at conferences alive between election cycles
+                                    </li>
+                                </ul>
                                 <p>
                                     It is designed to sit alongside the organisations and networks people
                                     already use, not to replace them. The International Centre for
@@ -118,7 +135,8 @@ const NomosPage: NextPage = () => {
                                 <ul className="icon-list bullet-bg bullet-soft-primary">
                                     <li>
                                         <i className="uil uil-check"/>
-                                        a verified digital identity, issued by your organisation
+                                        a verified digital identity, issued by your organisation and
+                                        auditable throughout
                                     </li>
                                     <li>
                                         <i className="uil uil-check"/>
@@ -130,10 +148,11 @@ const NomosPage: NextPage = () => {
                                     </li>
                                 </ul>
                                 <p>
-                                    You remain the issuing authority throughout. The data belongs to your
-                                    organisation, stays under your control, and is not held in any central
-                                    database. The wallet is free to Network members, credentials can be
-                                    issued within days, and there is no integration work for your IT team.
+                                    You remain the issuing authority throughout. The architecture is
+                                    federated: your organisation&apos;s data stays in your jurisdiction and
+                                    under your control, with no central database and no third-party access.
+                                    The wallet is free to Network members, credentials can be issued within
+                                    days, and there is no integration work for your IT team.
                                 </p>
                                 <p className="mb-0">
                                     The wallet stands on its own, and using it carries no obligation towards
