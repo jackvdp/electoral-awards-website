@@ -72,21 +72,48 @@ const NomosPage: NextPage = () => {
                             </div>
                         </div>
 
+                        {/* ========== the problem section ========== */}
+                        <div className="row gx-md-8 gx-xl-12 gy-6 align-items-center mb-14 mb-md-17" id="problem">
+                            <div className="col-md-8 col-lg-6 mx-auto">
+                                <div className="img-mask mask-3">
+                                    <Image
+                                        width={1600}
+                                        height={1067}
+                                        src="/img/photos/nomos-poll-worker.jpg"
+                                        alt="Polling staff overseeing a ballot box as a voter casts her vote at a polling place"
+                                        style={{width: '100%', height: 'auto'}}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="col-lg-6">
+                                <h2 className="display-5 mb-4">The problem</h2>
+                                <p>
+                                    Every electoral management body (EMB) assembles a large temporary
+                                    workforce at speed, each electoral cycle. Verifying that workforce
+                                    against tight deadlines is difficult, training completion is hard to
+                                    confirm at the point of deployment, and once staff are out in the field
+                                    there is often no direct, reliable channel back to them.
+                                </p>
+                                <p>
+                                    When something goes wrong (a worker who never completed training, a
+                                    disputed identity, a point of contact who cannot be reached), the
+                                    records that would settle it are usually spread across spreadsheets and
+                                    paper, and cannot be checked in real time. It is a recurring pressure
+                                    point across the community we work with, and it tends to surface at the
+                                    exact moment scrutiny is highest.
+                                </p>
+                            </div>
+                        </div>
+
                         {/* ========== workforce identity wallet section ========== */}
                         <div className="row mb-14 mb-md-17" id="wallet">
                             <div className="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
                                 <h2 className="display-5 mb-4 text-center">The workforce identity wallet</h2>
                                 <p>
-                                    Every electoral management body (EMB) assembles a large temporary
-                                    workforce at speed, each electoral cycle. Verifying that workforce
-                                    against tight deadlines is difficult, training completion is hard to
-                                    confirm at the point of deployment, and once staff are in the field
-                                    there is often no direct channel back to them.
-                                </p>
-                                <p>
                                     Together with NOMOS, we are making a digital identity and verification
-                                    wallet available to Network members. It gives each worker, temporary or
-                                    permanent:
+                                    wallet available to Network members that closes this gap. It gives each
+                                    worker, temporary or permanent:
                                 </p>
                                 <ul className="icon-list bullet-bg bullet-soft-primary">
                                     <li>
