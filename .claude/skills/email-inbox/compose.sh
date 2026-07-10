@@ -92,13 +92,19 @@ done
 ESCAPED_SUBJECT=$(echo "$SUBJECT" | sed "s/\\\\/\\\\\\\\/g; s/\"/\\\\\"/g")
 
 if [[ "$HTML_MODE" == true ]]; then
-    # Wrap body in full HTML document with styling
-    # Use single quotes inside HTML attributes to avoid AppleScript escaping issues
-    FULL_HTML="<!DOCTYPE html><html><head><meta charset='UTF-8'><style>p { margin: 0; }</style></head><body style='font-family: Calibri, Arial, sans-serif; font-size: 15px;'>${BODY}</body></html>"
-    ESCAPED_BODY=$(echo "$FULL_HTML" | sed "s/\\\\/\\\\\\\\/g; s/\"/\\\\\"/g")
+    # Use --body as-is (inner HTML supplied by caller)
+    INNER_HTML="$BODY"
 else
-    ESCAPED_BODY=$(echo "$BODY" | sed "s/\\\\/\\\\\\\\/g; s/\"/\\\\\"/g")
+    # Outlook's `content` property is HTML, so raw newlines collapse into one
+    # block. Escape HTML entities and convert newlines to <br> so plain-text
+    # bodies keep their line breaks and blank-line spacing.
+    INNER_HTML=$(printf '%s' "$BODY" | perl -pe 's/&/&amp;/g; s/</&lt;/g; s/>/&gt;/g' | perl -0pe 's/\n/<br>/g')
 fi
+
+# Wrap body in full HTML document with styling
+# Use single quotes inside HTML attributes to avoid AppleScript escaping issues
+FULL_HTML="<!DOCTYPE html><html><head><meta charset='UTF-8'><style>p { margin: 0; }</style></head><body style='font-family: Calibri, Arial, sans-serif; font-size: 15px;'>${INNER_HTML}</body></html>"
+ESCAPED_BODY=$(echo "$FULL_HTML" | sed "s/\\\\/\\\\\\\\/g; s/\"/\\\\\"/g")
 
 cat > /tmp/outlook-compose.applescript << APPLESCRIPT
 set emailSubject to "$ESCAPED_SUBJECT"

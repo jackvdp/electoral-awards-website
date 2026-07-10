@@ -260,7 +260,9 @@ Jack
 
 #### HTML formatting in Outlook composes
 
-**Always use `--html`** for any email with structure: lists, links, bold/italic, multiple paragraphs that need spacing. Plain text composes in Outlook can look like one ugly block.
+**Always use `--html`** for any email with structure: lists, links, bold/italic, headings. Outlook's `content` property is HTML, so plain-text bullets ("- item") and manual line breaks do NOT survive as structure — a "-" list in plain text renders as one run-on paragraph. Real structure needs real tags: `<ul><li>`, `<p>`, `<b>`, `<a>`.
+
+(Plain-text mode is safe for simple prose: `compose.sh` converts newlines to `<br>` so paragraphs and blank lines are preserved. But it never produces proper bullets or bold — use `--html` for those.)
 
 The script wraps your `--body` in this shell:
 
@@ -384,7 +386,7 @@ Notes:
 9. **Match sender by email address** for precision when replying (e.g., `"Caroline.Fawkes@vi.gov"` not just `"Caroline"`).
 10. **British English** throughout all drafted responses, in the warm-but-understated tone described in "Style for drafts". **Never use em dashes (—)** in drafts — use commas, full stops, or parentheses instead.
 11. **CC Swastee Ramsurrun** (`s.ramsurrun@parlistudies.org`) on all emails relating to electoral administration, delegate matters, awards logistics, COMELEC coordination, or Network operations.
-12. **Use `--html` in Outlook composes** for anything with structure (lists, links, bold, multiple paragraphs that need spacing). Plain text composes can render as one ugly block.
+12. **Use `--html` in Outlook composes** for anything with structure (lists, links, bold, headings). Plain-text "-" bullets render as one run-on paragraph in Outlook; bulleted emails must use `<ul><li><p>...</p></li></ul>`. Plain-text mode preserves paragraphs and blank lines only.
 13. **Link to the event page** in any email that invites someone to or references a webinar, roundtable, or awards event — embed the live `electoralnetwork.org/events/<id>` URL as a hyperlink on descriptive text (e.g. "the event page"), never a bare URL.
 
 ## Notes
