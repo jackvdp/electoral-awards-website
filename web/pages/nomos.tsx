@@ -12,7 +12,7 @@ const NomosPage: NextPage = () => {
         <Fragment>
             <CustomHead
                 title="NOMOS"
-                description="NOMOS is a verified professional network for the electoral community, convened with ICPS. Learn about the workforce identity wallet and register your interest."
+                description="Verifying a large temporary electoral workforce at speed is a recurring problem for many electoral management bodies. If your organisation recognises it, get in touch about the NOMOS workforce identity wallet."
             />
 
             <PageProgress/>
@@ -31,7 +31,8 @@ const NomosPage: NextPage = () => {
                             <div className="col-lg-8 mx-auto">
                                 <h1 className="display-1 mb-3 text-white">NOMOS</h1>
                                 <p className="lead px-lg-5 px-xxl-8">
-                                    A verified professional network for the electoral community
+                                    Verifying a temporary electoral workforce at speed is hard. If that
+                                    sounds familiar, we would like to hear from you.
                                 </p>
                             </div>
                         </div>
@@ -40,55 +41,6 @@ const NomosPage: NextPage = () => {
 
                 <div className="wrapper bg-light angled upper-end">
                     <div className="container py-14 py-md-16">
-                        {/* ========== what is NOMOS section ========== */}
-                        <div className="row gx-md-8 gx-xl-12 gy-6 align-items-center mb-14 mb-md-17">
-                            <div className="col-md-8 col-lg-6 order-lg-2 mx-auto">
-                                <div className="img-mask mask-2">
-                                    <Image
-                                        width={1600}
-                                        height={1067}
-                                        src="/img/photos/nomos-polling-station.jpg"
-                                        alt="A polling station sign on a post, with a park and voters in the background"
-                                        style={{width: '100%', height: 'auto'}}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="col-lg-6">
-                                <h2 className="display-5 mb-4">What is NOMOS?</h2>
-                                <p>
-                                    NOMOS is secure digital infrastructure built for the people who run
-                                    elections. Every member carries a professional identity verified by
-                                    their own institution, tied to their role and jurisdiction, so you
-                                    always know who you are talking to. Around that sit three things:
-                                </p>
-                                <ul className="icon-list bullet-bg bullet-soft-primary">
-                                    <li>
-                                        <i className="uil uil-check"/>
-                                        curated electoral intelligence: court rulings, policy shifts and
-                                        security alerts, filtered for your role and jurisdiction
-                                    </li>
-                                    <li>
-                                        <i className="uil uil-check"/>
-                                        training and knowledge sharing: post-election reviews, operational
-                                        templates and lessons learned, searchable and preserved when
-                                        experienced people move on
-                                    </li>
-                                    <li>
-                                        <i className="uil uil-check"/>
-                                        a verified peer community across borders, keeping the relationships
-                                        that usually only form at conferences alive between election cycles
-                                    </li>
-                                </ul>
-                                <p>
-                                    It is designed to sit alongside the organisations and networks people
-                                    already use, not to replace them. The International Centre for
-                                    Parliamentary Studies (ICPS) is a convening partner of NOMOS, as part of
-                                    our mission to improve knowledge sharing across the electoral community.
-                                </p>
-                            </div>
-                        </div>
-
                         {/* ========== the problem section ========== */}
                         <div className="row gx-md-8 gx-xl-12 gy-6 align-items-center mb-14 mb-md-17" id="problem">
                             <div className="col-md-8 col-lg-6 mx-auto">
@@ -104,21 +56,25 @@ const NomosPage: NextPage = () => {
                             </div>
 
                             <div className="col-lg-6">
-                                <h2 className="display-5 mb-4">The problem</h2>
+                                <h2 className="display-5 mb-4">A problem you may recognise</h2>
                                 <p>
-                                    Every electoral management body (EMB) assembles a large temporary
-                                    workforce at speed, each electoral cycle. Verifying that workforce
-                                    against tight deadlines is difficult, training completion is hard to
-                                    confirm at the point of deployment, and once staff are out in the field
-                                    there is often no direct, reliable channel back to them.
+                                    Every electoral cycle, an electoral management body (EMB) assembles a
+                                    large temporary workforce at speed. Verifying those staff against tight
+                                    deadlines is difficult. Training completion is hard to confirm at the
+                                    point of deployment. And once people are out in the field, there is
+                                    often no direct, reliable channel back to them.
                                 </p>
                                 <p>
                                     When something goes wrong (a worker who never completed training, a
                                     disputed identity, a point of contact who cannot be reached), the
                                     records that would settle it are usually spread across spreadsheets and
-                                    paper, and cannot be checked in real time. It is a recurring pressure
-                                    point across the community we work with, and it tends to surface at the
-                                    exact moment scrutiny is highest.
+                                    paper, and cannot be checked in real time. And it tends to surface at
+                                    the exact moment scrutiny is highest.
+                                </p>
+                                <p>
+                                    Not every EMB has this problem. Many have systems that handle it well.
+                                    But if this is how election periods feel in your organisation, get in
+                                    touch below.
                                 </p>
                             </div>
                         </div>
@@ -128,9 +84,9 @@ const NomosPage: NextPage = () => {
                             <div className="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
                                 <h2 className="display-5 mb-4 text-center">The workforce identity wallet</h2>
                                 <p>
-                                    Together with NOMOS, we are making a digital identity and verification
-                                    wallet available to Network members that closes this gap. It gives each
-                                    worker, temporary or permanent:
+                                    For EMBs that recognise this problem, we can arrange access to a digital
+                                    identity and verification wallet built by our partner NOMOS. It gives
+                                    each worker, temporary or permanent:
                                 </p>
                                 <ul className="icon-list bullet-bg bullet-soft-primary">
                                     <li>
@@ -155,19 +111,51 @@ const NomosPage: NextPage = () => {
                                     days, and there is no integration work for your IT team.
                                 </p>
                                 <p className="mb-0">
-                                    The wallet stands on its own, and using it carries no obligation towards
-                                    the wider NOMOS platform.
+                                    The wallet stands on its own. Using it carries no obligation towards the
+                                    wider NOMOS platform, and getting in touch commits you to nothing beyond
+                                    a conversation.
                                 </p>
                             </div>
                         </div>
 
-                        {/* ========== register interest section ========== */}
+                        {/* ========== about NOMOS section ========== */}
+                        <div className="row gx-md-8 gx-xl-12 gy-6 align-items-center mb-14 mb-md-17" id="about">
+                            <div className="col-md-8 col-lg-6 order-lg-2 mx-auto">
+                                <div className="img-mask mask-2">
+                                    <Image
+                                        width={1600}
+                                        height={1067}
+                                        src="/img/photos/nomos-polling-station.jpg"
+                                        alt="A polling station sign on a post, with a park and voters in the background"
+                                        style={{width: '100%', height: 'auto'}}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="col-lg-6">
+                                <h2 className="display-5 mb-4">About NOMOS</h2>
+                                <p>
+                                    NOMOS is a verified professional network for the people who run
+                                    elections. Members carry a professional identity verified by their own
+                                    institution, tied to their role and jurisdiction. The workforce wallet
+                                    is one part of the platform.
+                                </p>
+                                <p>
+                                    The International Centre for Parliamentary Studies (ICPS) is a convening
+                                    partner of NOMOS, as part of our work to improve knowledge sharing
+                                    across the electoral community. NOMOS is designed to sit alongside the
+                                    organisations and networks people already use, not to replace them.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* ========== get in touch section ========== */}
                         <div className="row" id="register">
                             <div className="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                                <h2 className="display-5 mb-3 text-center">Register your interest</h2>
+                                <h2 className="display-5 mb-3 text-center">Get in touch</h2>
                                 <p className="lead text-center mb-10">
-                                    Leave your details and we will be in touch to arrange a short
-                                    walkthrough, at a time that suits you.
+                                    Leave your details and we will arrange a short conversation about how
+                                    this problem shows up in your organisation.
                                 </p>
                                 <RegisterInterestForm/>
                             </div>
@@ -264,13 +252,13 @@ const RegisterInterestForm = () => {
                 <div className="col-12 text-center">
                     {status === 'sent' ? (
                         <div className="alert alert-success" role="alert">
-                            Thank you, your interest has been registered. We will be in touch shortly.
+                            Thank you, we have your details and will be in touch shortly.
                         </div>
                     ) : (
                         <Fragment>
                             <button type="submit" disabled={status === 'sending'}
                                     className="btn btn-primary rounded-pill btn-send mb-3">
-                                {status === 'sending' ? 'Sending...' : 'Register interest'}
+                                {status === 'sending' ? 'Sending...' : 'Get in touch'}
                             </button>
                             <p className="text-muted">
                                 <strong>*</strong> All fields except the message are required.
