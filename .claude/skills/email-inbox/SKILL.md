@@ -180,7 +180,7 @@ Thank you for your email.
 Thank you for your email.
 
 " \
-  --cc "s.ramsurrun@parlistudies.org"
+  --cc "colleague@example.com"
 
 # Multiple CC recipients
 .claude/skills/email-inbox/reply.sh \
@@ -240,7 +240,7 @@ Jack
 .claude/skills/email-inbox/compose.sh \
   --to "tracy.drewett@parlicentre.co.uk" \
   --to "cnithoo@parlistudies.org" \
-  --cc "s.ramsurrun@parlistudies.org" \
+  --cc "colleague@example.com" \
   --subject "Subject" \
   --body "Body..."
 
@@ -385,9 +385,8 @@ Notes:
 8. **Show the draft text to the user first** in a code block before opening it in Mail or Outlook, so they can request changes.
 9. **Match sender by email address** for precision when replying (e.g., `"Caroline.Fawkes@vi.gov"` not just `"Caroline"`).
 10. **British English** throughout all drafted responses, in the warm-but-understated tone described in "Style for drafts". **Never use em dashes (—)** in drafts — use commas, full stops, or parentheses instead.
-11. **CC Swastee Ramsurrun** (`s.ramsurrun@parlistudies.org`) on all emails relating to electoral administration, delegate matters, awards logistics, COMELEC coordination, or Network operations.
-12. **Use `--html` in Outlook composes** for anything with structure (lists, links, bold, headings). Plain-text "-" bullets render as one run-on paragraph in Outlook; bulleted emails must use `<ul><li><p>...</p></li></ul>`. Plain-text mode preserves paragraphs and blank lines only.
-13. **Link to the event page** in any email that invites someone to or references a webinar, roundtable, or awards event — embed the live `electoralnetwork.org/events/<id>` URL as a hyperlink on descriptive text (e.g. "the event page"), never a bare URL.
+11. **Use `--html` in Outlook composes** for anything with structure (lists, links, bold, headings). Plain-text "-" bullets render as one run-on paragraph in Outlook; bulleted emails must use `<ul><li><p>...</p></li></ul>`. Plain-text mode preserves paragraphs and blank lines only.
+12. **Link to the event page** in any email that invites someone to or references a webinar, roundtable, or awards event — embed the live `electoralnetwork.org/events/<id>` URL as a hyperlink on descriptive text (e.g. "the event page"), never a bare URL.
 
 ## Notes
 

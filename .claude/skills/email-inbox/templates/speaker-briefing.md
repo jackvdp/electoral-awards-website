@@ -2,7 +2,7 @@
 
 The logistics email sent to a webinar or roundtable's confirmed speakers about a week before the event. Structure: thanks; the things needed from them (bio, slides); agenda with per-speaker timings; Zoom log-in details; screen-sharing and slide-backup note; timings caveat; Jack's contact number; closing thanks.
 
-Compose it in Outlook via `compose.sh` with `--html`. Recipients are the speakers (Jack usually adds the addresses himself; use `placeholder@example.com` if unknown). CC Swastee Ramsurrun (`s.ramsurrun@parlistudies.org`).
+Compose it in Outlook via `compose.sh` with `--html`. Recipients are the speakers (Jack usually adds the addresses himself; use `placeholder@example.com` if unknown).
 
 Substitute the bracketed fields: event title, date, agenda slots (start–end time, speaker name, title, organisation, format note), Zoom join link, Meeting ID, Passcode, speaker join time (usually 15 minutes before start), slide deadline (usually close of business the working day before), and the event-page URL on electoralnetwork.org.
 
@@ -11,7 +11,6 @@ Times: give UTC first with BST in brackets (or the reverse for a UK-centred even
 ```bash
 .claude/skills/email-inbox/compose.sh \
   --to "placeholder@example.com" \
-  --cc "s.ramsurrun@parlistudies.org" \
   --subject "Speaker briefing: [EVENT TITLE] ([DATE])" \
   --html \
   --body "<p>Dear all,</p>
