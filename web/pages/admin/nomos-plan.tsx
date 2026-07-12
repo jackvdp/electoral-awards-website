@@ -18,7 +18,7 @@ const ideasBox: string[] = [];
 
 const milestones = [
     { date: 'Late April 2026', label: 'Data collection begins; speaker recruitment opens', highlight: false },
-    { date: '28 May 2026', label: 'Webinar — NOMOS News & Intelligence', highlight: true },
+    { date: '4 June 2026', label: 'Webinar — Strengthening the Electoral Profession', highlight: true },
     { date: 'June – November 2026', label: 'Five awareness campaigns with follow-up', highlight: false },
     { date: '29 Nov – 3 Dec 2026', label: '22nd International Electoral Awards — Manila', highlight: true },
 ];
@@ -33,20 +33,20 @@ interface GanttRow {
     bars: BarType[]; // one per column
 }
 
-const preWebinarWeeks = ['W/C 27 Apr', 'W/C 4 May', 'W/C 11 May', 'W/C 18 May', 'W/C 25 May'];
+const preWebinarWeeks = ['W/C 4 May', 'W/C 11 May', 'W/C 18 May', 'W/C 25 May', 'W/C 1 Jun'];
 
 const preWebinarRows: GanttRow[] = [
     { label: 'Data', group: true, bars: ['none', 'none', 'none', 'none', 'none'] },
     { label: 'Database expansion (managerial tier)', bars: ['full', 'full', 'full', 'full', 'full'] },
     { label: 'Webinar Preparation', group: true, bars: ['none', 'none', 'none', 'none', 'none'] },
-    { label: 'Speaker recruitment', bars: ['full', 'full', 'full', 'none', 'none'] },
-    { label: 'Content & slides development', bars: ['full', 'full', 'full', 'full', 'none'] },
-    { label: 'Run-sheet & logistics', bars: ['none', 'none', 'light', 'light', 'none'] },
+    { label: 'Speaker recruitment', bars: ['full', 'full', 'full', 'full', 'none'] },
+    { label: 'Content & slides development', bars: ['full', 'full', 'full', 'full', 'full'] },
+    { label: 'Run-sheet & logistics', bars: ['none', 'none', 'light', 'light', 'light'] },
     { label: 'Recruitment Emails', group: true, bars: ['none', 'none', 'none', 'none', 'none'] },
-    { label: 'Email 1 — Save the date / announcement', bars: ['accent', 'none', 'none', 'none', 'none'] },
-    { label: 'Email 2 — Programme detail', bars: ['none', 'none', 'accent', 'none', 'none'] },
-    { label: 'Email 3 — Final reminder', bars: ['none', 'none', 'none', 'accent', 'none'] },
-    { label: '★ Webinar — 28 May', bars: ['none', 'none', 'none', 'none', 'star'] },
+    { label: 'Email 1 — Webinar invitation', bars: ['accent', 'none', 'none', 'none', 'none'] },
+    { label: 'Email 2 — Speakers confirmed', bars: ['none', 'none', 'none', 'accent', 'none'] },
+    { label: 'Email 3 — Final reminder', bars: ['none', 'none', 'none', 'none', 'accent'] },
+    { label: '★ Webinar — 4 Jun', bars: ['none', 'none', 'none', 'none', 'star'] },
 ];
 
 const campaignMonths = ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -56,7 +56,7 @@ const campaignRows: GanttRow[] = [
     { label: 'Database expansion (ongoing)', bars: ['light', 'light', 'light', 'light', 'light', 'light', 'none'] },
     { label: 'Awareness Campaigns', group: true, bars: ['none', 'none', 'none', 'none', 'none', 'none', 'none'] },
     { label: 'C1 — Information Environment (w/c 15 Jun)', bars: ['accent', 'none', 'none', 'none', 'none', 'none', 'none'] },
-    { label: 'C2 — Results Management (w/c 13 Jul)', bars: ['none', 'accent', 'none', 'none', 'none', 'none', 'none'] },
+    { label: 'C2 — Content Providers (w/c 13 Jul)', bars: ['none', 'accent', 'none', 'none', 'none', 'none', 'none'] },
     { label: 'C3 — Inclusive Participation (w/c 10 Aug)', bars: ['none', 'none', 'accent', 'none', 'none', 'none', 'none'] },
     { label: 'C4 — Electoral Integrity & Trust (w/c 21 Sep)', bars: ['none', 'none', 'none', 'accent', 'none', 'none', 'none'] },
     { label: 'C5 — Pre-Symposium Engagement (w/c 19 Oct)', bars: ['none', 'none', 'none', 'none', 'accent', 'none', 'none'] },
@@ -68,12 +68,12 @@ const campaignRows: GanttRow[] = [
 
 const deliverables = [
     { component: 'Data Collection', detail: 'Expand database to include managerial-grade electoral contacts globally', lead: 'ICPS', target: 'From late April' },
-    { component: 'Recruitment Email 1', detail: 'Save-the-date / announcement email to full database', lead: 'ICPS', target: '~30 April' },
-    { component: 'Recruitment Email 2', detail: 'Programme detail and speaker spotlight', lead: 'ICPS', target: '~11 May' },
-    { component: 'Recruitment Email 3', detail: 'Final reminder with registration link', lead: 'ICPS', target: '~21 May' },
-    { component: 'Webinar', detail: '1-hour event: speakers, facilitation, slides, run-sheet. NOMOS to advise on product messaging.', lead: 'Joint', target: '28 May' },
+    { component: 'Recruitment Email 1', detail: 'Webinar invitation — Strengthening the Electoral Profession (Knowledge Sharing)', lead: 'ICPS', target: '~4 May' },
+    { component: 'Recruitment Email 2', detail: 'Speakers confirmed — Tammy Patrick (Election Center) and Sy Mamabolo (Electoral Commission of South Africa)', lead: 'ICPS', target: '~25 May' },
+    { component: 'Recruitment Email 3', detail: 'Final reminder with registration link', lead: 'ICPS', target: '~1 June' },
+    { component: 'Webinar', detail: 'Knowledge-sharing webinar: speakers, facilitation, slides, run-sheet, plus a NOMOS presentation.', lead: 'Joint', target: '4 June' },
     { component: 'Campaign 1', detail: 'The Information Environment — challenges facing EMBs in a 24/7 news cycle: monitoring, disinformation, and structured intelligence gathering.', lead: 'Joint', target: 'w/c 15 Jun' },
-    { component: 'Campaign 2', detail: 'Results Management & Transparency — end-to-end results workflows, transparency servers, and public communication during results consolidation.', lead: 'Joint', target: 'w/c 13 Jul' },
+    { component: 'Campaign 2', detail: 'Content Providers — expand the Network into content-producing organisations and academics, with the audience built in three tranches by ICPS.', lead: 'Joint', target: 'w/c 13 Jul' },
     { component: 'Campaign 3', detail: 'Inclusive Participation & Accessibility — voter-centred design, accessible processes, and reaching under-represented communities.', lead: 'Joint', target: 'w/c 10 Aug' },
     { component: 'Campaign 4', detail: 'Electoral Integrity & Trust — building public confidence in electoral institutions through transparency, security, and communication.', lead: 'Joint', target: 'w/c 21 Sep' },
     { component: 'Campaign 5', detail: 'Pre-Symposium Engagement — build anticipation for NOMOS presence at Manila: booth, presentation, and in-person delegate engagement.', lead: 'Joint', target: 'w/c 19 Oct' },
@@ -242,7 +242,7 @@ const NomosPage: NextPage = () => {
             {/* ── Pre-Webinar Gantt ── */}
             <div className="card mb-4">
                 <div className="card-header bg-white d-flex align-items-center gap-3">
-                    <h5 className="mb-0">Gantt — Pre-Webinar Phase (April – May)</h5>
+                    <h5 className="mb-0">Gantt — Pre-Webinar Phase (May – early June)</h5>
                     <div className="d-flex gap-3 ms-auto" style={{ fontSize: '0.75rem' }}>
                         <span className="d-flex align-items-center gap-1">
                             <span style={{ width: 14, height: 10, borderRadius: 2, background: BLUE, display: 'inline-block' }} />
@@ -301,8 +301,8 @@ const NomosPage: NextPage = () => {
                             <tr style={{ background: '#f8f9fa' }}>
                                 <td style={{ fontWeight: 700, color: ORANGE }}>2</td>
                                 <td style={{ whiteSpace: 'nowrap' }}>w/c 13 Jul</td>
-                                <td style={{ fontWeight: 600 }}>Results Management & Transparency</td>
-                                <td className="text-muted">End-to-end results workflows, transparency infrastructure, and public communication during results consolidation. Timed to coincide with the Speed in Election Results Transmission webinar (14 Jul).</td>
+                                <td style={{ fontWeight: 600 }}>Content Providers — Network Expansion</td>
+                                <td className="text-muted">Expand the Network into the organisations and academics who produce electoral content: research bodies, EMB associations, intergovernmental experts, and leading scholars. Audience built in three tranches by ICPS, from close personal contacts out to new scoping-list targets.</td>
                                 <td><span className="badge" style={{ background: ORANGE, fontSize: '0.7rem' }}>Joint</span></td>
                             </tr>
                             <tr>

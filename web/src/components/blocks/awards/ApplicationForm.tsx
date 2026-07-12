@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent, useRef, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import useProgressbar from 'hooks/useProgressbar';
 import { AwardCategory, categories } from 'data/award-categories';
 import Link from 'next/link';
@@ -115,11 +116,30 @@ const WordCounter: React.FC<{ count: number; min: number; max: number }> = ({ co
 // Red asterisk for required field labels.
 const Required: React.FC = () => <span className="text-danger ms-1" aria-hidden="true">*</span>;
 
-const ApplicationForm: React.FC = () => {
+// An existing, already-uploaded document (from a saved nomination) when editing.
+interface ExistingDocument {
+    name: string;
+    url: string;
+    size: number;
+    contentType: string;
+}
+
+interface ApplicationFormProps {
+    editId?: string;
+}
+
+const ApplicationForm: React.FC<ApplicationFormProps> = ({ editId }) => {
+    const isEditMode = !!editId;
+    const router = useRouter();
     const [step, setStep] = useState<number>(1);
     const cardRef = useRef<HTMLDivElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [lastSaved, setLastSaved] = useState<Date | null>(null);
+
+    // Edit mode: documents already saved on the record, kept unless removed here.
+    const [existingDocuments, setExistingDocuments] = useState<ExistingDocument[]>([]);
+    const [editLoading, setEditLoading] = useState<boolean>(isEditMode);
+    const [editLoadError, setEditLoadError] = useState<string | null>(null);
 
     const [formData, setFormData] = useState<FormData>(emptyFormData);
 
@@ -189,8 +209,54 @@ const ApplicationForm: React.FC = () => {
         setProgress(((step - 1) / steps) * 100);
     }, [step]);
 
-    // Load draft on mount (defer applying it until the user decides).
+    // Edit mode: fetch the existing nomination and pre-fill the form.
     useEffect(() => {
+        if (!editId) return;
+        let cancelled = false;
+        (async () => {
+            try {
+                const res = await fetch(`/api/nominations/${editId}`);
+                if (!res.ok) {
+                    throw new Error(res.status === 404
+                        ? 'We could not find that nomination, or it is not yours to edit.'
+                        : 'Could not load the nomination.');
+                }
+                const { data } = await res.json();
+                if (cancelled) return;
+                setFormData({
+                    ...emptyFormData,
+                    nominatorName: data.nominatorName ?? '',
+                    nominatorOrganization: data.nominatorOrganization ?? '',
+                    nominatorPosition: data.nominatorPosition ?? '',
+                    email: data.email ?? '',
+                    nominatorPhone: data.nominatorPhone ?? '',
+                    nomineeName: data.nomineeName ?? '',
+                    nomineePosition: data.nomineePosition ?? '',
+                    nomineeOrganization: data.nomineeOrganization ?? '',
+                    nomineeEmail: data.nomineeEmail ?? '',
+                    nomineePhone: data.nomineePhone ?? '',
+                    awardCategory: data.awardCategory ?? '',
+                    initiativeDescription: data.initiativeDescription ?? '',
+                    supportingEvidence: data.supportingEvidence ?? '',
+                    referenceName: data.referenceName ?? '',
+                    referencePosition: data.referencePosition ?? '',
+                    referenceOrganization: data.referenceOrganization ?? '',
+                    referenceEmail: data.referenceEmail ?? '',
+                    referencePhone: data.referencePhone ?? '',
+                });
+                setExistingDocuments(Array.isArray(data.documents) ? data.documents : []);
+            } catch (err) {
+                if (!cancelled) setEditLoadError(err instanceof Error ? err.message : 'Could not load the nomination.');
+            } finally {
+                if (!cancelled) setEditLoading(false);
+            }
+        })();
+        return () => { cancelled = true; };
+    }, [editId]);
+
+    // Load draft on mount (defer applying it until the user decides). Skipped when editing.
+    useEffect(() => {
+        if (isEditMode) return;
         try {
             const draft = localStorage.getItem(DRAFT_KEY);
             if (draft) {
@@ -215,12 +281,12 @@ const ApplicationForm: React.FC = () => {
             console.error('Error loading draft');
         }
         setIsHydrated(true);
-    }, []);
+    }, [isEditMode]);
 
     // Autosave. Paused until hydration finishes and any pending draft is resolved,
     // so we never overwrite a saved draft before the user acts on the restore banner.
     useEffect(() => {
-        if (!isHydrated || pendingDraft) return;
+        if (isEditMode || !isHydrated || pendingDraft) return;
         const timer = setTimeout(() => {
             const hasData = Object.entries(formData).some(([k, v]) =>
                 k === 'additionalDocuments'
@@ -235,7 +301,7 @@ const ApplicationForm: React.FC = () => {
             setLastSaved(new Date());
         }, 1000);
         return () => clearTimeout(timer);
-    }, [formData, step, isHydrated, pendingDraft]);
+    }, [formData, step, isHydrated, pendingDraft, isEditMode]);
 
     const restoreDraft = () => {
         if (!pendingDraft) return;
@@ -310,6 +376,10 @@ const ApplicationForm: React.FC = () => {
             additionalDocuments: prev.additionalDocuments.filter((_, i) => i !== idx),
         }));
         if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+
+    const handleExistingDocumentDelete = (idx: number) => {
+        setExistingDocuments(prev => prev.filter((_, i) => i !== idx));
     };
 
     // Summary of missing fields per step
@@ -400,27 +470,40 @@ const ApplicationForm: React.FC = () => {
             const dataToSend = new FormData();
             Object.entries(formData).forEach(([key, val]) => {
                 if (key === 'additionalDocuments') {
-                    formData.additionalDocuments.forEach((file, i) => {
-                        dataToSend.append(`document_${i}`, file, file.name);
+                    formData.additionalDocuments.forEach((file) => {
+                        dataToSend.append('documents', file, file.name);
                     });
                 } else {
                     dataToSend.append(key, val as string);
                 }
             });
+            // In edit mode, tell the server which already-uploaded documents to keep.
+            if (isEditMode) {
+                dataToSend.append('keepDocuments', JSON.stringify(existingDocuments));
+            }
 
-            const response = await fetch('https://formspree.io/f/mqazqnnd', {
-                method: 'POST',
-                body: dataToSend,
-                headers: { Accept: 'application/json' },
-            });
+            const response = await fetch(
+                isEditMode ? `/api/nominations/${editId}` : '/api/nominations',
+                {
+                    method: isEditMode ? 'PUT' : 'POST',
+                    body: dataToSend,
+                    headers: { Accept: 'application/json' },
+                }
+            );
 
             if (!response.ok) {
                 if (response.status >= 500 && retryCount < 2) {
                     setTimeout(() => handleSubmit(e, retryCount + 1), 2000);
                     return;
                 }
-                const errData = await response.json();
-                throw new Error(errData.message || `Server error: ${response.status}`);
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(errData.error || errData.message || `Server error: ${response.status}`);
+            }
+
+            if (isEditMode) {
+                // Updated successfully; return to the account page.
+                router.push('/account');
+                return;
             }
 
             setSubmitSuccess(true);
@@ -740,6 +823,27 @@ const ApplicationForm: React.FC = () => {
                             />
                             <div className="form-text">Accepted formats: PDF, DOC, DOCX, JPG, PNG. Maximum 10MB per file.</div>
                         </div>
+                        {existingDocuments.length > 0 && (
+                            <div className="mb-3">
+                                <h4>Previously Uploaded:</h4>
+                                <ul className="list-group">
+                                    {existingDocuments.map((doc, index) => (
+                                        <li key={doc.url}
+                                            className="list-group-item d-flex justify-content-between align-items-center">
+                                            <a href={doc.url} target="_blank" rel="noopener noreferrer">{doc.name}</a>
+                                            <button
+                                                type="button"
+                                                className="btn btn-danger btn-sm"
+                                                onClick={() => handleExistingDocumentDelete(index)}
+                                                aria-label={`Remove ${doc.name}`}
+                                            >
+                                                <i className="bi bi-trash"></i>
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                         {formData.additionalDocuments.length > 0 && (
                             <div className="mb-3">
                                 <h4>Selected Files:</h4>
@@ -772,24 +876,49 @@ const ApplicationForm: React.FC = () => {
         <div className="col-md-12">
             <div className="mb-5 text-center">
                 <div className="card p-5">
-                    <h3 className="display-4">Submit Nomination</h3>
-                    <p>
-                        We invite electoral practitioners, academics, researchers, and innovators from across the global
-                        electoral community to submit nominations for the International Electoral Awards. These
-                        accolades celebrate excellence and innovation in electoral practices worldwide.
-                    </p>
-                    <b>
-                        For a comprehensive description of all award categories, please <Link href="/awards/categories">click
-                        here</Link>.
-                    </b>
-                    <p>
-                        If you prefer to complete the application offline, you can download the <Link href="/files/submission-form.docx" target="_blank">Word version of the application form</Link>.
-                    </p>
-
+                    {isEditMode ? (
+                        <>
+                            <h3 className="display-4">Edit Your Nomination</h3>
+                            <p>
+                                Update the details of your nomination below. Your changes will replace the
+                                previously submitted information once you save.
+                            </p>
+                            <b>
+                                For a comprehensive description of all award categories, please <Link href="/awards/categories">click here</Link>.
+                            </b>
+                        </>
+                    ) : (
+                        <>
+                            <h3 className="display-4">Submit Nomination</h3>
+                            <p>
+                                We invite electoral practitioners, academics, researchers, and innovators from across the global
+                                electoral community to submit nominations for the International Electoral Awards. These
+                                accolades celebrate excellence and innovation in electoral practices worldwide.
+                            </p>
+                            <b>
+                                For a comprehensive description of all award categories, please <Link href="/awards/categories">click
+                                here</Link>.
+                            </b>
+                            <p>
+                                If you prefer to complete the application offline, you can download the <Link href="/files/submission-form.docx" target="_blank">Word version of the application form</Link>.
+                            </p>
+                        </>
+                    )}
                 </div>
             </div>
             <div className="card p-5" ref={cardRef}>
-                {submitSuccess ? (
+                {editLoading ? (
+                    <div className="text-center text-muted py-5">
+                        <div className="spinner-border text-primary mb-3" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                        <div>Loading your nomination...</div>
+                    </div>
+                ) : editLoadError ? (
+                    <div className="alert alert-danger" role="alert">
+                        {editLoadError} <Link href="/account">Return to your account</Link>.
+                    </div>
+                ) : submitSuccess ? (
                     <div className="alert alert-success" role="alert">
                         Thank you for your submission! We have received your application.
                     </div>
@@ -857,7 +986,9 @@ const ApplicationForm: React.FC = () => {
                                     <button type="button" className="btn btn-primary" onClick={nextStep} disabled={isSubmitting}>Next</button>
                                 ) : (
                                     <button type="submit" className="btn btn-success" disabled={isSubmitting || !isReadyToSubmit}>
-                                        {isSubmitting ? 'Submitting...' : 'Submit Application'}
+                                        {isEditMode
+                                            ? (isSubmitting ? 'Updating...' : 'Update Nomination')
+                                            : (isSubmitting ? 'Submitting...' : 'Submit Application')}
                                     </button>
                                 )}
                             </div>

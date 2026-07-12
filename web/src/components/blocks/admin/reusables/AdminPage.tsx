@@ -11,6 +11,7 @@ const AdminPage: React.FC<DashboardProps> = ({children, title}) => {
 
     const sidebarLinks: SidebarLink[] = [
         {title: 'Users', url: '/admin/dashboard?tab=users', icon: 'uil-users-alt'},
+        {title: 'Nominations', url: '/admin/dashboard/nominations', icon: 'uil-award'},
         {title: 'Upcoming Events', url: '/admin/dashboard?tab=future-events', icon: 'uil-calendar-alt'},
         {title: 'Past Events', url: '/admin/dashboard?tab=past-events', icon: 'uil-calendar-slash'},
         {title: 'Articles', url: '/admin/dashboard?tab=articles', icon: 'uil-document-layout-left'},
