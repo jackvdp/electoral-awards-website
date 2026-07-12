@@ -6,7 +6,7 @@ sgMail.setApiKey(process.env.SENGRID_KEY || "");
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { message } = req.body;
+    const { message, subject } = req.body;
 
     if (!message) {
       return res.status(400).json({ message: "No message provided in request body" });
@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const msg = {
       to: 'jack.vanderpump@publicpolicyexchange.co.uk',
       from: 'jack.vanderpump@publicpolicyexchange.co.uk',
-      subject: 'New Contact Form Submission',
+      subject: typeof subject === 'string' && subject.trim() ? subject.trim() : 'New Contact Form Submission',
       text: message,
     };
 
