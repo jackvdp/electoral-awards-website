@@ -1,10 +1,12 @@
-import { ServerClient } from 'postmark';
+import sgMail from '@sendgrid/mail';
 import { INomination } from 'backend/models/nomination';
 import { NOMINATIONS_PERIOD } from 'data/awards-config';
 
-const postmarkClient = new ServerClient(process.env.POSTMARK_API_TOKEN!);
+sgMail.setApiKey(process.env.SENGRID_KEY || '');
 
-const FROM_ADDRESS = 'info@electoralnetwork.org';
+// Must be a verified sender identity in SendGrid. info@electoralnetwork.org is
+// not verified there yet; the PPE address is (the contact form already uses it).
+const FROM_ADDRESS = process.env.NOMINATIONS_FROM_EMAIL || 'jack.vanderpump@publicpolicyexchange.co.uk';
 const ADMIN_EMAIL = process.env.NOMINATIONS_ADMIN_EMAIL || 'jack.vanderpump@publicpolicyexchange.co.uk';
 
 const escapeHtml = (value: string): string =>
@@ -60,16 +62,13 @@ async function sendConfirmationToNominator(nomination: INomination): Promise<voi
         'The International Centre for Parliamentary Studies',
     ].join('\n');
 
-    const response = await postmarkClient.sendEmail({
-        From: FROM_ADDRESS,
-        To: nomination.email,
-        Subject: `We have received your nomination – ${NOMINATIONS_PERIOD.edition}`,
-        HtmlBody: htmlBody,
-        TextBody: textBody,
+    await sgMail.send({
+        from: FROM_ADDRESS,
+        to: nomination.email,
+        subject: `We have received your nomination – ${NOMINATIONS_PERIOD.edition}`,
+        html: htmlBody,
+        text: textBody,
     });
-    if (response.ErrorCode) {
-        throw new Error(response.Message);
-    }
 }
 
 async function sendNotificationToAdmin(nomination: INomination): Promise<void> {
@@ -138,17 +137,14 @@ async function sendNotificationToAdmin(nomination: INomination): Promise<void> {
         `Record ID: ${nomination._id}`,
     ].join('\n');
 
-    const response = await postmarkClient.sendEmail({
-        From: FROM_ADDRESS,
-        To: ADMIN_EMAIL,
-        ReplyTo: nomination.email,
-        Subject: `New nomination: ${nomination.nomineeName} – ${nomination.awardCategory}`,
-        HtmlBody: htmlBody,
-        TextBody: textBody,
+    await sgMail.send({
+        from: FROM_ADDRESS,
+        to: ADMIN_EMAIL,
+        replyTo: nomination.email,
+        subject: `New nomination: ${nomination.nomineeName} – ${nomination.awardCategory}`,
+        html: htmlBody,
+        text: textBody,
     });
-    if (response.ErrorCode) {
-        throw new Error(response.Message);
-    }
 }
 
 /**

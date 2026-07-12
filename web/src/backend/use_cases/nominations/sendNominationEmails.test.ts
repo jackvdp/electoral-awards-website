@@ -3,16 +3,18 @@ import { sendNominationEmails } from './sendNominationEmails';
 import { INomination } from 'backend/models/nomination';
 import { NOMINATIONS_PERIOD } from 'data/awards-config';
 
-const { sendEmailMock } = vi.hoisted(() => ({ sendEmailMock: vi.fn() }));
+const { sendMock } = vi.hoisted(() => ({ sendMock: vi.fn() }));
 
-vi.mock('postmark', () => ({
-    ServerClient: class {
-        sendEmail = sendEmailMock;
+vi.mock('@sendgrid/mail', () => ({
+    default: {
+        setApiKey: vi.fn(),
+        send: sendMock,
     },
 }));
 
 const NOMINATOR_EMAIL = 'jane@example.org';
 const DEFAULT_ADMIN_EMAIL = 'jack.vanderpump@publicpolicyexchange.co.uk';
+const DEFAULT_FROM = 'jack.vanderpump@publicpolicyexchange.co.uk';
 
 const buildNomination = (overrides: Record<string, unknown> = {}): INomination => ({
     _id: 'nom-123',
@@ -32,13 +34,13 @@ const buildNomination = (overrides: Record<string, unknown> = {}): INomination =
     ...overrides,
 }) as unknown as INomination;
 
-const sentMessages = () => sendEmailMock.mock.calls.map(call => call[0]);
-const messageTo = (recipient: string) => sentMessages().find(msg => msg.To === recipient);
+const sentMessages = () => sendMock.mock.calls.map(call => call[0]);
+const messageTo = (recipient: string) => sentMessages().find(msg => msg.to === recipient);
 
 let consoleError: ReturnType<typeof vi.spyOn>;
 
 beforeEach(() => {
-    sendEmailMock.mockReset().mockResolvedValue({ ErrorCode: 0, Message: 'OK' });
+    sendMock.mockReset().mockResolvedValue([{ statusCode: 202 }, {}]);
     consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
 });
 
@@ -50,48 +52,48 @@ describe('sendNominationEmails', () => {
     it('sends a confirmation to the nominator and a notification to the administrator', async () => {
         await sendNominationEmails(buildNomination());
 
-        expect(sendEmailMock).toHaveBeenCalledTimes(2);
+        expect(sendMock).toHaveBeenCalledTimes(2);
         const confirmation = messageTo(NOMINATOR_EMAIL);
         const notification = messageTo(DEFAULT_ADMIN_EMAIL);
         expect(confirmation).toBeDefined();
         expect(notification).toBeDefined();
-        expect(confirmation.From).toBe('info@electoralnetwork.org');
-        expect(notification.From).toBe('info@electoralnetwork.org');
+        expect(confirmation.from).toBe(DEFAULT_FROM);
+        expect(notification.from).toBe(DEFAULT_FROM);
     });
 
     it('summarises the submission in the nominator confirmation', async () => {
         await sendNominationEmails(buildNomination());
 
         const confirmation = messageTo(NOMINATOR_EMAIL);
-        expect(confirmation.Subject).toContain(NOMINATIONS_PERIOD.edition);
-        expect(confirmation.HtmlBody).toContain('Testland EMB');
-        expect(confirmation.HtmlBody).toContain('Accessibility Award');
-        expect(confirmation.HtmlBody).toContain('1 July 2026');
-        expect(confirmation.HtmlBody).toContain('No supporting documents');
-        expect(confirmation.TextBody).toContain('Testland EMB');
+        expect(confirmation.subject).toContain(NOMINATIONS_PERIOD.edition);
+        expect(confirmation.html).toContain('Testland EMB');
+        expect(confirmation.html).toContain('Accessibility Award');
+        expect(confirmation.html).toContain('1 July 2026');
+        expect(confirmation.html).toContain('No supporting documents');
+        expect(confirmation.text).toContain('Testland EMB');
     });
 
     it('includes the account page link only for logged-in submitters', async () => {
         await sendNominationEmails(buildNomination({ userId: 'supabase-uid-1' }));
-        expect(messageTo(NOMINATOR_EMAIL).HtmlBody).toContain('/account');
+        expect(messageTo(NOMINATOR_EMAIL).html).toContain('/account');
 
-        sendEmailMock.mockClear();
+        sendMock.mockClear();
 
         await sendNominationEmails(buildNomination());
-        expect(messageTo(NOMINATOR_EMAIL).HtmlBody).not.toContain('/account');
+        expect(messageTo(NOMINATOR_EMAIL).html).not.toContain('/account');
     });
 
     it('gives the administrator the full submission with Reply-To set to the nominator', async () => {
         await sendNominationEmails(buildNomination());
 
         const notification = messageTo(DEFAULT_ADMIN_EMAIL);
-        expect(notification.ReplyTo).toBe(NOMINATOR_EMAIL);
-        expect(notification.Subject).toBe('New nomination: Testland EMB – Accessibility Award');
-        expect(notification.HtmlBody).toContain('Jane Smith');
-        expect(notification.HtmlBody).toContain('Electoral Commission of Testland');
-        expect(notification.HtmlBody).toContain('A description of the initiative.');
-        expect(notification.HtmlBody).toContain('Some supporting evidence.');
-        expect(notification.HtmlBody).toContain('nom-123');
+        expect(notification.replyTo).toBe(NOMINATOR_EMAIL);
+        expect(notification.subject).toBe('New nomination: Testland EMB – Accessibility Award');
+        expect(notification.html).toContain('Jane Smith');
+        expect(notification.html).toContain('Electoral Commission of Testland');
+        expect(notification.html).toContain('A description of the initiative.');
+        expect(notification.html).toContain('Some supporting evidence.');
+        expect(notification.html).toContain('nom-123');
     });
 
     it('lists uploaded documents in both emails', async () => {
@@ -101,10 +103,10 @@ describe('sendNominationEmails', () => {
             ],
         }));
 
-        expect(messageTo(NOMINATOR_EMAIL).HtmlBody).toContain('1 supporting document');
+        expect(messageTo(NOMINATOR_EMAIL).html).toContain('1 supporting document');
         const notification = messageTo(DEFAULT_ADMIN_EMAIL);
-        expect(notification.HtmlBody).toContain('https://blob.example/evidence.pdf');
-        expect(notification.HtmlBody).toContain('evidence.pdf');
+        expect(notification.html).toContain('https://blob.example/evidence.pdf');
+        expect(notification.html).toContain('evidence.pdf');
     });
 
     it('escapes HTML in user-supplied fields', async () => {
@@ -114,20 +116,20 @@ describe('sendNominationEmails', () => {
         }));
 
         for (const message of sentMessages()) {
-            expect(message.HtmlBody).not.toContain('<script>');
-            expect(message.HtmlBody).toContain('&lt;script&gt;');
+            expect(message.html).not.toContain('<script>');
+            expect(message.html).toContain('&lt;script&gt;');
         }
         const notification = messageTo(DEFAULT_ADMIN_EMAIL);
-        expect(notification.HtmlBody).toContain('Line one<br>Line &lt;b&gt;two&lt;/b&gt;');
+        expect(notification.html).toContain('Line one<br>Line &lt;b&gt;two&lt;/b&gt;');
     });
 
     it('still sends the admin notification when the nominator email fails, without throwing', async () => {
         // The nominator confirmation is dispatched first, so reject the first call only.
-        sendEmailMock.mockRejectedValueOnce(new Error('SMTP down'));
+        sendMock.mockRejectedValueOnce(new Error('sendgrid unavailable'));
 
         await expect(sendNominationEmails(buildNomination())).resolves.toBeUndefined();
 
-        expect(sendEmailMock).toHaveBeenCalledTimes(2);
+        expect(sendMock).toHaveBeenCalledTimes(2);
         expect(messageTo(DEFAULT_ADMIN_EMAIL)).toBeDefined();
         expect(consoleError).toHaveBeenCalledWith(
             expect.stringContaining('nominator confirmation'),
@@ -135,25 +137,29 @@ describe('sendNominationEmails', () => {
         );
     });
 
-    it('treats a Postmark ErrorCode response as a failure without throwing', async () => {
-        sendEmailMock.mockResolvedValue({ ErrorCode: 406, Message: 'Inactive recipient' });
+    it('logs both failures without throwing when SendGrid rejects everything', async () => {
+        sendMock.mockRejectedValue(new Error('403 Forbidden: unverified sender'));
 
         await expect(sendNominationEmails(buildNomination())).resolves.toBeUndefined();
 
         expect(consoleError).toHaveBeenCalledTimes(2);
     });
 
-    it('sends the admin notification to NOMINATIONS_ADMIN_EMAIL when set', async () => {
+    it('honours the NOMINATIONS_ADMIN_EMAIL and NOMINATIONS_FROM_EMAIL overrides', async () => {
         vi.resetModules();
         process.env.NOMINATIONS_ADMIN_EMAIL = 'awards@icps.example';
+        process.env.NOMINATIONS_FROM_EMAIL = 'info@electoralnetwork.org';
         try {
             const freshModule = await import('./sendNominationEmails');
             await freshModule.sendNominationEmails(buildNomination());
 
-            expect(messageTo('awards@icps.example')).toBeDefined();
+            const notification = messageTo('awards@icps.example');
+            expect(notification).toBeDefined();
+            expect(notification.from).toBe('info@electoralnetwork.org');
             expect(messageTo(DEFAULT_ADMIN_EMAIL)).toBeUndefined();
         } finally {
             delete process.env.NOMINATIONS_ADMIN_EMAIL;
+            delete process.env.NOMINATIONS_FROM_EMAIL;
             vi.resetModules();
         }
     });
