@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Navbar } from 'components/blocks/navbar';
 import AdminSidebar, {SidebarLink} from 'components/blocks/admin/reusables/AdminSidebar';
 
 interface DashboardProps {
@@ -22,13 +23,8 @@ const AdminPage: React.FC<DashboardProps> = ({children, title}) => {
 
     return (
         <div className="wrapper bg-light">
+            <Navbar/>
             <div className="py-8 py-md-10 px-4 px-lg-8">
-                <div className="row mb-8">
-                    <div className="col-12">
-                        <h1 className="display-6 mb-0">{title}</h1>
-                    </div>
-                </div>
-
                 <div className="row gy-12">
                     {/* Sidebar */}
                     <div
