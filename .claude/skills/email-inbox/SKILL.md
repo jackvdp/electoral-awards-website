@@ -1,6 +1,6 @@
 ---
 name: email-inbox
-description: Email assistant for Jack's Exchange inbox. Reads mail in Apple Mail, walks through conversations, drafts replies in Apple Mail, and drafts new composes in Microsoft Outlook. Use when the user wants to triage their inbox, reply to messages, or send a new email.
+description: Email assistant for Jack's Exchange inbox. Reads mail in Apple Mail, searches filed mail across Exchange mailboxes (BSVA, Awards, Sent Items, etc.), walks through conversations, drafts replies in Apple Mail, and drafts new composes in Microsoft Outlook. Use when the user wants to triage their inbox, search past correspondence, reply to messages, or send a new email.
 argument-hint: [optional: number of emails, search term, or "next" to continue]
 allowed-tools: Bash, Read, Write
 ---
@@ -16,6 +16,7 @@ The skill uses **two mail clients** because of AppleScript constraints on macOS:
 | Action | Client | Script |
 |--------|--------|--------|
 | **Read** inbox / fetch messages | Apple Mail | `fetch.sh` |
+| **Search filed mail** across Exchange mailboxes (incl. Sent Items) | Apple Mail | `mailboxes.sh` |
 | **Reply** to a message (reply-all) | Apple Mail | `reply.sh` |
 | **Compose** a new email | Microsoft Outlook | `compose.sh` |
 
@@ -47,6 +48,41 @@ Fetch all messages from the **Exchange** account inbox using the `fetch.sh` scri
 - `--max N` — maximum emails to fetch (default: 30)
 - `--search "term"` — filter by subject or sender
 - `--offset N` — skip the first N messages (for pagination)
+
+### Step 1b — Search beyond the inbox (filed mail) — `mailboxes.sh`
+
+`fetch.sh` only reads the Exchange **Inbox**. Jack files most mail into topic mailboxes (e.g. `BSVA`, `Nomos`, and the awards mailboxes nested under `Electoral`, such as `Electoral/Awards 26 Sponsors`). When the user asks to find past correspondence, check what was agreed, search "all my mailboxes", or look for something not in the inbox, use `mailboxes.sh`:
+
+```bash
+# Discover mailboxes (full nested path + message count)
+.claude/skills/email-inbox/mailboxes.sh --list
+.claude/skills/email-inbox/mailboxes.sh --list --filter "Awards 26"
+
+# Browse a mailbox (most recent first, headers only — fast)
+.claude/skills/email-inbox/mailboxes.sh --mailbox "Awards 26 Sponsors" --max 30
+
+# Search a mailbox by subject or sender
+.claude/skills/email-inbox/mailboxes.sh --mailbox "BSVA" --search "workshop"
+
+# Read matching bodies
+.claude/skills/email-inbox/mailboxes.sh --mailbox "BSVA" --search "workshop" --full
+
+# Search sent mail (works fast even though Sent Items holds ~25k messages)
+.claude/skills/email-inbox/mailboxes.sh --mailbox "Sent Items" --search "Symposium Review"
+```
+
+**Arguments:**
+- `--list` — list every Exchange mailbox with nested path and message count; combine with `--filter "term"` to narrow by name
+- `--mailbox "Name"` — target a mailbox by name only (nesting is resolved automatically; all same-named mailboxes are covered)
+- `--search "term"` — match subject or sender
+- `--max N` — cap results (default: 20)
+- `--preview` / `--full` — include the first 300 / 3000 characters of each body (default is headers only; fetching bodies is the slow part, so scan headers first and pull bodies only for the messages that matter)
+
+**Rules for mailbox searching:**
+- **Exchange account only.** The script is hard-scoped to the Exchange account. Never search Jack's personal accounts (Personal, Pumpy, Tech) — do not write ad-hoc AppleScript to reach them.
+- **Never browse `Sent Items` or `Deleted Items` bare** — they hold 10k–25k messages; always pair them with `--search`.
+- A typical hunt: `--list --filter` to find candidate mailboxes, browse headers, then re-run with `--search`/`--full` on the promising ones.
+- Useful landmarks: awards mailboxes live under `Electoral` (`Awards 26`, `Awards 26 Delegates/Speakers/Sponsors`, plus `Awards 24/25` equivalents); partner mailboxes `BSVA`, `Buzzmint`, `Nomos` are top-level; webinar traffic is under `Electoral Webinar*` and `Smartmatic Webinar`.
 
 ### Step 2 — Group into conversations
 
@@ -145,6 +181,7 @@ All scripts are in `.claude/skills/email-inbox/`.
 | Script | Purpose | Mail client |
 |--------|---------|-------------|
 | `fetch.sh` | Fetch inbox emails (with optional search, pagination) | Apple Mail |
+| `mailboxes.sh` | List and search Exchange mailboxes beyond the inbox (filed mail, Sent Items) | Apple Mail |
 | `reply.sh` | Open a reply-all draft | Apple Mail |
 | `compose.sh` | Open a new compose draft | Microsoft Outlook |
 
