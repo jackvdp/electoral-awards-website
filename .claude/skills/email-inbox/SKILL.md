@@ -294,6 +294,7 @@ Jack
 - `--body` (required) — email body (plain text or HTML, see below)
 - `--cc` (optional, repeatable) — CC recipient
 - `--html` (optional) — treat `--body` as HTML
+- `--attach` (optional, repeatable) — path to a file to attach (quote paths with spaces)
 
 #### HTML formatting in Outlook composes
 
