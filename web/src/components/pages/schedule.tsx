@@ -8,7 +8,7 @@ import CustomHead from "components/common/CustomHead";
 import {Day} from "data/schedule";
 import EventSignupButton from "components/blocks/awards/EventSignupButton";
 
-const Schedule= ({ schedule, headTitle, dates, eventId  }: { schedule: Day[], headTitle: string, dates: string, eventId?: string | null}) => {
+const Schedule= ({ schedule, headTitle, dates, eventId, intro  }: { schedule: Day[], headTitle: string, dates: string, eventId?: string | null, intro?: string}) => {
     return (
         <Fragment>
             <CustomHead
@@ -24,6 +24,7 @@ const Schedule= ({ schedule, headTitle, dates, eventId  }: { schedule: Day[], he
             <main className="content-wrapper">
                 <section className="container wrapper bg-light px-2 py-md-10 py-5 ">
                     <h2 className="mb-5 text-center">{dates}</h2>
+                    {intro && <p className="lead text-center mb-6 px-md-10">{intro}</p>}
                     {eventId && (
                         <div className="text-center mb-8">
                             <EventSignupButton eventId={eventId}/>
