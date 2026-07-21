@@ -261,6 +261,17 @@ export const commsPlan2026: CommsPlanData = {
             templateFile: '2026-07-email-16-nominations-six-weeks.eml',
         },
         {
+            id: 32, wc: '27 Jul', weekStart: '2026-07-27', phase: 3,
+            primary: 'Workshops debut — BSVA election workforce workshop',
+            secondary: 'Delegate acquisition: reserve a workshop place; register for Manila',
+            subject: 'New for Manila: hands-on workshops — reserve your place',
+            cta: 'Put your name down / Register',
+            audience: 'Full database (emphasis on registered delegates and interested non-registered contacts).',
+            detail: 'First-time introduction of hands-on workshops at the symposium, led with the BSVA-ICPS session "Who\'s Trained, Who\'s Cleared? Trusted Records for the Election Workforce": a two-hour interactive working session on vetting, training records, and verifying election workforce status, with delegates leaving with a one-page solution sketch for their own jurisdiction. Ask recipients to put their name down now to avoid disappointment from oversubscription. Mauritius team follow-up. Proposed by Tracy 20 July; slotted into the free week between the six-week and final-call nominations pushes.',
+            status: 'pending',
+            tags: ['registration', 'partnership'],
+        },
+        {
             id: 17, wc: '3 Aug', weekStart: '2026-08-03', phase: 3,
             primary: 'Nominations final call',
             secondary: 'Speaker/programme highlights',
