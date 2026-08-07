@@ -28,6 +28,7 @@ Cross-cutting work lives in `projects/`, one subfolder per project. **Each proje
 | Project | What it is | Status doc |
 |---------|-----------|------------|
 | **nomos** | ICPS / NOMOS partnership: awareness campaigns, audience build, the 22nd Awards presence | `projects/nomos/CLAUDE.md` |
+| **nomos-consultancy** | Jack's private, independent consultancy for NOMOS/Buzzmint. Separate from the ICPS partnership; keep confidential and out of partnership documents | `projects/nomos-consultancy/CLAUDE.md` |
 | **awards26** | 22nd International Electoral Awards (Manila, 2026): sponsors, invoices, booking forms | `projects/awards26/CLAUDE.md` |
 | **bsva** | BSVA survey analysis and rebuild | `projects/bsva/claude.md` |
 | **smartmatic** | Smartmatic webinar series planning (results transmission, inclusive elections) | (no status doc yet) |
