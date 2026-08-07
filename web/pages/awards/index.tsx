@@ -66,6 +66,9 @@ const AboutAwards: NextPage = () => {
                                     </li>
                                 )}
                                 <li>
+                                    <Link className="text-decoration-none" href="/awards/workshops">Hands-on workshops</Link>
+                                </li>
+                                <li>
                                     <Link className="text-decoration-none" href="/awards/schedule">View the provisional schedule</Link>
                                 </li>
                                 <li>
@@ -78,6 +81,22 @@ const AboutAwards: NextPage = () => {
                                     <Link className="text-decoration-none" href="/awards/submit">Submit a Nomination</Link>
                                 </li>
                             </ul>
+
+                            <h3 className="mt-10 mb-5">Hands-On Workshops</h3>
+                            <p className="mb-5">
+                                Also new for 2026 are <strong>hands-on workshops</strong>: two-hour working
+                                sessions where you tackle a real electoral problem alongside peers from other
+                                jurisdictions, and leave with material you can use at home. The first, designed
+                                by ICPS with our partner BSVA, is <strong>Who&rsquo;s Trained, Who&rsquo;s
+                                Cleared? Trusted Records for the Election Workforce</strong>, on recording and
+                                verifying the training, qualification and clearance of the election workforce.
+                            </p>
+                            <p className="mb-5">
+                                Places at each session are limited and we expect them to be oversubscribed.
+                            </p>
+                            <Link className="btn btn-primary rounded-pill" href="/awards/workshops">
+                                View the workshops
+                            </Link>
 
                             <h3 className="mt-10 mb-5">Previous Years</h3>
                             <ul>
