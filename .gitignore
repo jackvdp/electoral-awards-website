@@ -15,3 +15,5 @@ projects/bsva
 projects/
 
 /emails
+# Local symlink to web/.env.local (used by .claude/skills seed scripts)
+.env.local
