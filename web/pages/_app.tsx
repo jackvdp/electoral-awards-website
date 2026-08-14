@@ -3,8 +3,10 @@ import {useRouter} from 'next/router';
 import type {AppProps} from 'next/app';
 import {Fragment, useEffect} from 'react';
 import dynamic from 'next/dynamic';
+import {Analytics} from '@vercel/analytics/react';
 import ThemeProvider from 'theme/ThemeProvider';
 import {AuthProvider} from 'auth/AuthProvider';
+import {trackError} from 'helpers/analytics';
 
 const ChatWidget = dynamic(() => import('components/common/ChatWidget'), { ssr: false });
 
@@ -69,6 +71,22 @@ function MyApp({Component, pageProps}: AppProps) {
         }
     }, []);
 
+    // Report uncaught browser errors and unhandled promise rejections
+    useEffect(() => {
+        const onError = (event: ErrorEvent) => {
+            trackError('window', event.error ?? event.message, {page: window.location.pathname});
+        };
+        const onRejection = (event: PromiseRejectionEvent) => {
+            trackError('unhandledrejection', event.reason, {page: window.location.pathname});
+        };
+        window.addEventListener('error', onError);
+        window.addEventListener('unhandledrejection', onRejection);
+        return () => {
+            window.removeEventListener('error', onError);
+            window.removeEventListener('unhandledrejection', onRejection);
+        };
+    }, []);
+
     // scroll animation added
     useEffect(() => {
         (async () => {
@@ -85,6 +103,7 @@ function MyApp({Component, pageProps}: AppProps) {
                     <div className="page-loader"/>
                     <Component {...pageProps} />
                     <ChatWidget />
+                    <Analytics />
                 </ThemeProvider>
             </AuthProvider>
         </Fragment>

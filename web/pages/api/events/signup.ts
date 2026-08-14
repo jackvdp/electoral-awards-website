@@ -3,6 +3,7 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 import dbConnect from "backend/mongo";
 import {ObjectId} from 'mongodb';
 import mongoose from 'mongoose';
+import {trackApiError} from 'helpers/serverAnalytics';
 
 interface SignupRequestBody {
     eventId: string;
@@ -56,6 +57,7 @@ async function signup(req: NextApiRequest, res: NextApiResponse) {
         return res.status(200).json({message: 'Successfully signed up for the event'});
     } catch (error: any) {
         console.error('Error signing up for event:', error);
+        trackApiError('/api/events/signup', error, {eventId});
         return res.status(500).json({error: error.message});
     }
 }

@@ -4,6 +4,7 @@ import useProgressbar from 'hooks/useProgressbar';
 import { AwardCategory, categories } from 'data/award-categories';
 import Link from 'next/link';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { trackEvent, trackError } from 'helpers/analytics';
 
 interface FormData {
     nominatorName: string;
@@ -502,10 +503,12 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ editId }) => {
 
             if (isEditMode) {
                 // Updated successfully; return to the account page.
+                trackEvent('Nomination Updated', { category: formData.awardCategory });
                 router.push('/account');
                 return;
             }
 
+            trackEvent('Nomination Submitted', { category: formData.awardCategory });
             setSubmitSuccess(true);
             localStorage.removeItem(DRAFT_KEY);
             setLastSaved(null);
@@ -521,6 +524,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ editId }) => {
                 msg = err.message;
             }
             setSubmitError(msg);
+            trackEvent('Nomination Failed', { category: formData.awardCategory, reason: msg, mode: isEditMode ? 'edit' : 'new' });
+            trackError('nomination-submit', err, { category: formData.awardCategory });
             console.error(err);
         } finally {
             setIsSubmitting(false);

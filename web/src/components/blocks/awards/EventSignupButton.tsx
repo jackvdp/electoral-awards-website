@@ -3,6 +3,7 @@ import Link from 'next/link';
 import {useAuth} from 'auth/useAuth';
 import {createMutableUserData} from 'backend/models/user';
 import {createBookingAPI} from 'backend/use_cases/bookings/api/createBooking+SendConfirmation';
+import {trackEvent, trackError} from 'helpers/analytics';
 
 interface EventSignupButtonProps {
     eventId: string;
@@ -61,11 +62,15 @@ const EventSignupButton: React.FC<EventSignupButtonProps> = ({eventId}) => {
             if (result) {
                 setSignupStatus('success');
                 setHasBooking(true);
+                trackEvent('Event Registration', {eventId, eventTitle: event.title, source: 'awards-page'});
             } else {
                 setSignupStatus('failed');
+                trackEvent('Event Registration Failed', {eventId, eventTitle: event.title, source: 'awards-page', reason: 'empty-result'});
             }
-        } catch {
+        } catch (error) {
             setSignupStatus('failed');
+            trackEvent('Event Registration Failed', {eventId, eventTitle: event.title, source: 'awards-page', reason: error instanceof Error ? error.message : 'unknown'});
+            trackError('awards-signup', error, {eventId});
         }
     };
 
