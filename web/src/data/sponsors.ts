@@ -46,3 +46,28 @@ export const sponsors: Array<Sponsor> = [
         page: "/img/sponsors/pages/rayudu.png"
     }
 ]
+
+// 22nd International Electoral Awards & Symposium (Manila, 2026).
+// Only sponsors whose logos we hold are listed; add the rest as artwork arrives.
+export const sponsors2026: Array<Sponsor> = [
+    {
+        name: "Gravity Group / Toppan",
+        logo: "/img/sponsors/toppan.png"
+    },
+    {
+        name: "Al Ghurair Printing & Publishing",
+        logo: "/img/sponsors/al-ghurair.png"
+    },
+    {
+        name: "Laxton",
+        logo: "/img/sponsors/laxton.jpg"
+    },
+    {
+        name: "BioRugged",
+        logo: "/img/sponsors/biorugged.png"
+    },
+    {
+        name: "Rayudu",
+        logo: "/img/sponsors/rayudu.jpg"
+    }
+]
