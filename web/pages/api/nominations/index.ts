@@ -8,6 +8,7 @@ import {
     UploadedFile,
 } from 'backend/use_cases/nominations/createNomination';
 import { sendNominationEmails } from 'backend/use_cases/nominations/sendNominationEmails';
+import { isNominationsOpen } from 'data/awards-config';
 import { trackApiError } from 'helpers/serverAnalytics';
 
 export const config = {
@@ -53,6 +54,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 async function POST(req: NextApiRequestWithFiles, res: NextApiResponse) {
     try {
+        if (!isNominationsOpen()) {
+            return res.status(403).json({ error: 'Nominations for the 22nd International Electoral Awards have now closed.' });
+        }
+
         await runMiddleware(req, res, upload.array('documents'));
 
         const files = (req.files ?? []) as Express.Multer.File[];

@@ -21,7 +21,7 @@ export const FAQs = [
     no: 'Four',
     expand: true,
     heading: 'How can I submit a nomination for the Awards?',
-    body: `Nominations for the 22nd International Electoral Awards are now open. You can submit a nomination through our [online form](/awards/submit). For guidance on categories and criteria, please visit the [award categories](/awards/categories) page.`
+    body: `Nominations for the 22nd International Electoral Awards are open until 15 September 2026. You can submit a nomination through our [online form](/awards/submit). For guidance on categories and criteria, please visit the [award categories](/awards/categories) page.`
   },
   {
     no: 'Five',

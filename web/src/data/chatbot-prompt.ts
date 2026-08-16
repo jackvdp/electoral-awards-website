@@ -49,6 +49,7 @@ Location: The Manila Hotel, Manila, Philippines
 Co-hosts: ICPS and the Commission on Elections of the Philippines (COMELEC)
 Core themes: disinformation and electoral trust; inclusive participation; reflections on the Philippines' 2026 General Elections
 Accommodation is provided for all delegates at the venue.
+Nominations close on 15 September 2026 (submitted via /awards/submit).
 
 CONTACT:
 Email: ${contactInfo.email}
