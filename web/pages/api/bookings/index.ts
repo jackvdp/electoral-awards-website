@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {createBookingAndSendConfirmation} from "backend/use_cases/bookings/createBooking+SendConfirmation";
 import dbConnect from "backend/mongo";
+import {trackApiError} from "helpers/serverAnalytics";
 
 export default async function handler(
     req: NextApiRequest,
@@ -29,6 +30,7 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
         return res.status(200).json(result);
     } catch (error) {
         console.error('Error in createBooking:', error);
+        trackApiError('/api/bookings', error, { eventId: req.body?.event?._id ?? 'unknown' });
         return res.status(500).json({ error: 'Internal server error' });
     }
 }

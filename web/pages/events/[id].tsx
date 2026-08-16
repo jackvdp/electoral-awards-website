@@ -20,6 +20,7 @@ import {IBooking} from "backend/models/booking";
 import {createClient} from "backend/supabase/server-props";
 import {getUserBookings} from "backend/use_cases/bookings/getUserBookings";
 import {useRouter} from "next/router";
+import {trackEvent, trackError} from "helpers/analytics";
 
 interface EventPageProps {
     event: IEvent;
@@ -36,6 +37,10 @@ const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: in
     const { responseStatus, response, message } = router.query;
     const [showResponseMessage, setShowResponseMessage] = useState(false);
     const [hasReloaded, setHasReloaded] = useState(false);
+
+    useEffect(() => {
+        trackEvent('Event Viewed', {eventId: String(event._id), eventTitle: event.title});
+    }, [event._id, event.title]);
 
     useEffect(() => {
         if (userBooking?.eventId === event._id) {
@@ -70,11 +75,15 @@ const EventPage: NextPage<EventPageProps> = ({event, userBooking, isLoggedIn: in
             if (result) {
                 setSignupStatus('success');
                 setBooking(result);
+                trackEvent('Event Registration', {eventId: String(event._id), eventTitle: event.title, source: 'event-page'});
             } else {
                 setSignupStatus('failed');
+                trackEvent('Event Registration Failed', {eventId: String(event._id), eventTitle: event.title, source: 'event-page', reason: 'empty-result'});
             }
         } catch (error) {
             setSignupStatus('failed');
+            trackEvent('Event Registration Failed', {eventId: String(event._id), eventTitle: event.title, source: 'event-page', reason: error instanceof Error ? error.message : 'unknown'});
+            trackError('event-signup', error, {eventId: String(event._id)});
         }
     };
 

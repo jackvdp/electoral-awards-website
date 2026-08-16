@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import ReusableForm, {InputItem} from 'components/reuseable/Form';
 import {CreateUserData} from 'backend/models/user';
 import {useAuth} from 'auth/useAuth';
+import {trackEvent} from 'helpers/analytics';
 
 interface RegisterProps {
     heading?: string;
@@ -27,8 +28,10 @@ const Register: React.FC<RegisterProps> = ({ heading, description, onSuccess }) 
         const create = async () => {
             const success = await createUser(userModel);
             if (success) {
+                trackEvent('Account Signup', {page: heading || 'Become a member'});
                 onSuccess?.();
             } else {
+                trackEvent('Account Signup Failed', {page: heading || 'Become a member'});
                 setShowAlert(true);
             }
         }

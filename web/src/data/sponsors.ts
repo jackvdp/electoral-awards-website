@@ -1,6 +1,6 @@
 export type Sponsor = {
     name: string;
-    logo: string;
+    logo?: string;
     page?: string;
 }
 
@@ -44,5 +44,45 @@ export const sponsors: Array<Sponsor> = [
         name: "Rayudu",
         logo: "/img/sponsors/rayudu.jpg",
         page: "/img/sponsors/pages/rayudu.png"
+    }
+]
+
+// 22nd International Electoral Awards & Symposium (Manila, 2026).
+// Sponsors without a logo file render as a placeholder card; add artwork as it arrives.
+export const sponsors2026: Array<Sponsor> = [
+    {
+        name: "NOMOS"
+    },
+    {
+        name: "BSV Association"
+    },
+    {
+        name: "Gravity Group / Toppan",
+        logo: "/img/sponsors/toppan.png"
+    },
+    {
+        name: "Al Ghurair Printing & Publishing",
+        logo: "/img/sponsors/al-ghurair.png"
+    },
+    {
+        name: "Laxton",
+        logo: "/img/sponsors/laxton.jpg"
+    },
+    {
+        name: "BioRugged",
+        logo: "/img/sponsors/biorugged.png"
+    },
+    {
+        name: "Neuvote"
+    },
+    {
+        name: "A. Daga Steel"
+    },
+    {
+        name: "Mantratec"
+    },
+    {
+        name: "Rayudu",
+        logo: "/img/sponsors/rayudu.jpg"
     }
 ]

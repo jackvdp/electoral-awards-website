@@ -10,6 +10,7 @@ import CustomHead from 'components/common/CustomHead';
 import {AWARDS_EVENT_ID} from 'data/awards-config';
 import {createMutableUserData} from 'backend/models/user';
 import {createBookingAPI} from 'backend/use_cases/bookings/api/createBooking+SendConfirmation';
+import {trackEvent, trackError} from 'helpers/analytics';
 
 const RegisterAwardsPage: NextPage = () => {
     const router = useRouter();
@@ -41,8 +42,11 @@ const RegisterAwardsPage: NextPage = () => {
                     user: createMutableUserData(currentUser),
                     event,
                 });
-            } catch {
+                trackEvent('Event Registration', {eventId: String(AWARDS_EVENT_ID), source: 'register-awards-page'});
+            } catch (error) {
                 // Booking failed — still redirect to account
+                trackEvent('Event Registration Failed', {eventId: String(AWARDS_EVENT_ID), source: 'register-awards-page', reason: error instanceof Error ? error.message : 'unknown'});
+                trackError('awards-auto-signup', error, {eventId: String(AWARDS_EVENT_ID)});
             }
             router.push('/account');
         };

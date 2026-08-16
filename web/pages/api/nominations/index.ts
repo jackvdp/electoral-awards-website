@@ -9,6 +9,7 @@ import {
 } from 'backend/use_cases/nominations/createNomination';
 import { sendNominationEmails } from 'backend/use_cases/nominations/sendNominationEmails';
 import { isNominationsOpen } from 'data/awards-config';
+import { trackApiError } from 'helpers/serverAnalytics';
 
 export const config = {
     api: {
@@ -102,6 +103,7 @@ async function POST(req: NextApiRequestWithFiles, res: NextApiResponse) {
             return res.status(400).json({ error: message });
         }
         console.error('Error creating nomination:', error);
+        trackApiError('/api/nominations', error);
         return res.status(500).json({ error: 'Internal server error' });
     }
 }
