@@ -19,8 +19,12 @@ export const SponsorCard: FC<SponsorCardProps> = (props) => {
       style={{ cursor: sponsor.page ? 'pointer' : 'default' }}
     >
       <div className="card-body">
-        <div className="d-flex justify-content-center align-items-center mb-4">
-          <Image width={200} height={200} alt="Sponsor" src={sponsor.logo} objectFit="contain" />
+        <div className="d-flex justify-content-center align-items-center mb-4" style={{ height: 200 }}>
+          {sponsor.logo ? (
+            <Image width={200} height={200} alt={`${sponsor.name} logo`} src={sponsor.logo} objectFit="contain" />
+          ) : (
+            <i className="uil uil-building display-3 text-muted" />
+          )}
         </div>
         <h4 className="mb-1 text-center">{sponsor.name}</h4>
       </div>

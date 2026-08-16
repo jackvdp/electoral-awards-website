@@ -75,6 +75,9 @@ const AboutAwards: NextPage = () => {
                                     <Link className="text-decoration-none" href="/awards/categories">Explore award categories</Link>
                                 </li>
                                 <li>
+                                    <Link className="text-decoration-none" href="/awards/sponsors">Meet our sponsors</Link>
+                                </li>
+                                <li>
                                     <Link className="text-decoration-none" href="#faq">FAQs</Link>
                                 </li>
                                 <li>
