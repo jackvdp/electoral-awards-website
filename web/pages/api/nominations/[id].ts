@@ -16,7 +16,10 @@ export const config = {
     },
 };
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+// The platform rejects any request body over 4.5MB before this route runs, so
+// these are the effective ceilings. Keep them in step with ApplicationForm.tsx.
+const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4MB per file
+const MAX_TOTAL_UPLOAD_SIZE = 4 * 1024 * 1024; // 4MB across all attachments
 const ALLOWED_FILE_TYPES = [
     'application/pdf',
     'application/msword',
@@ -93,6 +96,11 @@ async function PUT(req: NextApiRequestWithFiles, res: NextApiResponse) {
             return res.status(400).json({ error: `Invalid file type: ${invalid.originalname}. Allowed: PDF, DOC, DOCX, JPG, PNG.` });
         }
 
+        const totalSize = files.reduce((sum, f) => sum + f.size, 0);
+        if (totalSize > MAX_TOTAL_UPLOAD_SIZE) {
+            return res.status(413).json({ error: 'Your attached documents exceed the 4.0MB total limit. Please remove some and try again.' });
+        }
+
         const newFiles: UploadedFile[] = files.map(f => ({
             buffer: f.buffer,
             originalname: f.originalname,
@@ -131,7 +139,7 @@ async function PUT(req: NextApiRequestWithFiles, res: NextApiResponse) {
         }
         if (error instanceof multer.MulterError) {
             const message = error.code === 'LIMIT_FILE_SIZE'
-                ? 'A file exceeds the 10MB limit.'
+                ? 'A file exceeds the 4.0MB limit.'
                 : `Upload error: ${error.message}`;
             return res.status(400).json({ error: message });
         }

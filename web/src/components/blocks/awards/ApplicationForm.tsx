@@ -32,7 +32,13 @@ interface FormErrors {
     [key: string]: string;
 }
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+// The whole submission travels as one request, and the platform rejects any
+// request body over 4.5MB before our API route ever runs. Attachments therefore
+// have to fit inside that, with room left for the form's text fields and the
+// multipart overhead. Keep these in step with the limits in the API routes.
+const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4MB per file
+const MAX_TOTAL_UPLOAD_SIZE = 4 * 1024 * 1024; // 4MB across all attachments
+const SUPPORT_EMAIL = 'info@electoralnetwork.org';
 const ALLOWED_FILE_TYPES = [
     'application/pdf',
     'application/msword',
@@ -77,6 +83,37 @@ const emptyFormData: FormData = {
 
 const countWords = (text: string): number =>
     text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+
+const formatBytes = (bytes: number): string =>
+    bytes < 1024 * 1024
+        ? `${Math.max(1, Math.round(bytes / 1024))}KB`
+        : `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
+
+// Failed requests come back in more than one shape. Our own API routes send
+// { error: 'a sentence' }, but a request rejected by the hosting platform before
+// it reaches them sends a nested { error: { code, message } }. Dig out the first
+// string we can find, so an object never reaches the page as "[object Object]".
+const readErrorMessage = (payload: unknown): string | null => {
+    if (typeof payload === 'string') return payload.trim() || null;
+    if (!payload || typeof payload !== 'object') return null;
+    const source = payload as Record<string, unknown>;
+    for (const candidate of [source.error, source.message, source.detail]) {
+        const message = readErrorMessage(candidate);
+        if (message) return message;
+    }
+    return null;
+};
+
+// Turn a failed response into something the nominator can act on.
+const describeResponseError = (status: number, payload: unknown): string => {
+    if (status === 413) {
+        return `Your attached documents are too large to send. Please keep them under ${formatBytes(MAX_TOTAL_UPLOAD_SIZE)} in total, then submit again. If you need to send larger files, submit the nomination without them and email them to ${SUPPORT_EMAIL}.`;
+    }
+    return (
+        readErrorMessage(payload) ||
+        `Your nomination could not be submitted (error ${status}). Please try again, and email ${SUPPORT_EMAIL} if the problem continues.`
+    );
+};
 
 // Centralized error alert component
 const ErrorAlert: React.FC<{ errors: string | string[] }> = ({ errors }) => {
@@ -157,6 +194,10 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ editId }) => {
     const [pendingDraft, setPendingDraft] = useState<{ formData: FormData; currentStep: number } | null>(null);
 
     useProgressbar(submitSuccess ? 100 : progress);
+
+    // Only newly selected files are uploaded; in edit mode the documents already
+    // stored are passed by reference, so they do not count towards the limit.
+    const totalUploadSize = formData.additionalDocuments.reduce((sum, file) => sum + file.size, 0);
 
     // Show specific field errors
     const getFieldError = (fieldName: string) => {
@@ -339,27 +380,30 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ editId }) => {
         }
     };
 
-    // File upload with size/type checks
+    // File upload with type, per-file size and total-size checks. Files that pass
+    // are kept even if others fail, so one bad file does not discard the rest.
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.length) {
             const newFiles = Array.from(e.target.files);
             const valid: File[] = [];
             const fileErrors: string[] = [];
+            let runningTotal = totalUploadSize;
 
             newFiles.forEach(file => {
                 if (!ALLOWED_FILE_TYPES.includes(file.type)) {
-                    fileErrors.push(`${file.name}: Invalid file type. Allowed: PDF, DOC, DOCX, JPG, PNG`);
+                    fileErrors.push(`${file.name}: invalid file type. Allowed: PDF, DOC, DOCX, JPG, PNG.`);
                 } else if (file.size > MAX_FILE_SIZE) {
-                    fileErrors.push(`${file.name}: File too large. Max size: 10MB`);
+                    fileErrors.push(`${file.name} is ${formatBytes(file.size)}, over the ${formatBytes(MAX_FILE_SIZE)} limit for a single file.`);
+                } else if (runningTotal + file.size > MAX_TOTAL_UPLOAD_SIZE) {
+                    fileErrors.push(`${file.name} (${formatBytes(file.size)}) would take your attachments over the ${formatBytes(MAX_TOTAL_UPLOAD_SIZE)} total. Remove another file, or email it to ${SUPPORT_EMAIL} instead.`);
                 } else {
+                    runningTotal += file.size;
                     valid.push(file);
                 }
             });
 
-            if (fileErrors.length) {
-                setErrors(prev => ({ ...prev, fileUpload: fileErrors.join('\n') }));
-            } else {
-                setErrors(prev => ({ ...prev, fileUpload: '' }));
+            setErrors(prev => ({ ...prev, fileUpload: fileErrors.join('\n') }));
+            if (valid.length) {
                 setFormData(prev => ({
                     ...prev,
                     additionalDocuments: [...prev.additionalDocuments, ...valid],
@@ -376,6 +420,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ editId }) => {
             ...prev,
             additionalDocuments: prev.additionalDocuments.filter((_, i) => i !== idx),
         }));
+        // Removing a file may be what the previous warning asked for.
+        setErrors(prev => ({ ...prev, fileUpload: '' }));
         if (fileInputRef.current) fileInputRef.current.value = '';
     };
 
@@ -497,8 +543,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ editId }) => {
                     setTimeout(() => handleSubmit(e, retryCount + 1), 2000);
                     return;
                 }
-                const errData = await response.json().catch(() => ({}));
-                throw new Error(errData.error || errData.message || `Server error: ${response.status}`);
+                const errData = await response.json().catch(() => null);
+                throw new Error(describeResponseError(response.status, errData));
             }
 
             if (isEditMode) {
@@ -826,7 +872,17 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ editId }) => {
                                 multiple
                                 ref={fileInputRef}
                             />
-                            <div className="form-text">Accepted formats: PDF, DOC, DOCX, JPG, PNG. Maximum 10MB per file.</div>
+                            <div className="form-text">
+                                Accepted formats: PDF, DOC, DOCX, JPG, PNG. Maximum {formatBytes(MAX_FILE_SIZE)} per file
+                                and {formatBytes(MAX_TOTAL_UPLOAD_SIZE)} in total. If your documents are larger than this,
+                                submit the nomination without them and email them to{' '}
+                                <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.
+                            </div>
+                            {totalUploadSize > 0 && (
+                                <div className="form-text" aria-live="polite">
+                                    Attachments: {formatBytes(totalUploadSize)} of {formatBytes(MAX_TOTAL_UPLOAD_SIZE)} used.
+                                </div>
+                            )}
                         </div>
                         {existingDocuments.length > 0 && (
                             <div className="mb-3">
@@ -856,7 +912,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ editId }) => {
                                     {formData.additionalDocuments.map((file, index) => (
                                         <li key={index}
                                             className="list-group-item d-flex justify-content-between align-items-center">
-                                            {file.name}
+                                            <span>{file.name} <span className="text-muted small">({formatBytes(file.size)})</span></span>
                                             <button
                                                 type="button"
                                                 className="btn btn-danger btn-sm"
@@ -967,7 +1023,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ editId }) => {
 
                         <form onSubmit={e => handleSubmit(e)}>
                             {renderStep()}
-                            {errors.fileUpload && <ErrorAlert errors={errors.fileUpload} />}
+                            {errors.fileUpload && <ErrorAlert errors={errors.fileUpload.split('\n')} />}
                             {submitError && <ErrorAlert errors={submitError} />}
 
                             <div className="d-flex justify-content-between align-items-center mt-2 small text-secondary">
