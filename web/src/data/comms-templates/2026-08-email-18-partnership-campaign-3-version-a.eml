@@ -24,7 +24,7 @@ X-Unsent: 1
 <tr>
 <td style="background-color:#1a2744; padding: 28px 40px; text-align:center;">
     <h1 style="margin:0; color:#ffffff; font-size:20px; font-weight:700; letter-spacing:0.3px;">An Invitation to Share Your Work</h1>
-    <p style="margin:8px 0 0; color:#b0c4de; font-size:14px;">Thought partners &middot; ICPS Electoral Members&rsquo; Network</p>
+    <p style="margin:8px 0 0; color:#b0c4de; font-size:14px;">Knowledge sharing &middot; ICPS Electoral Network</p>
 </td>
 </tr>
 
@@ -41,20 +41,15 @@ X-Unsent: 1
 
     <p style="margin:0 0 18px; color:#333333; font-size:15px; line-height:1.6;">Dear {{first_name}},</p>
 
-    <p style="margin:0 0 18px; color:#333333; font-size:15px; line-height:1.6;">I am writing to ask whether {{organisation}} would share its published work with our network of electoral professionals.</p>
+    <p style="margin:0 0 18px; color:#333333; font-size:15px; line-height:1.6;">I am writing to ask whether {{organisation}} would kindly share its published work with the ICPS Electoral Network for the benefit of the electoral community.</p>
 
-    <p style="margin:0 0 18px; color:#333333; font-size:15px; line-height:1.6;">The ICPS Electoral Members&rsquo; Network connects over 2,000 electoral professionals and works to improve knowledge sharing across the field. ICPS is a convening partner of NOMOS, a professional network for electoral officials and public servants where members are verified by their own institution. We are asking a small number of organisations and academics to contribute to it as thought partners.</p>
+    <p style="margin:0 0 18px; color:#333333; font-size:15px; line-height:1.6;">The ICPS Electoral Network connects over 2,000 electoral professionals and works to improve knowledge sharing across the field. We are inviting a select number of organisations and academics to contribute relevant research, analysis and guidance that may be useful to practitioners.</p>
 
-    <p style="margin:0 0 18px; color:#333333; font-size:15px; line-height:1.6;">The reason for asking is straightforward. A good deal of useful research on electoral administration never reaches the officials who could use it.</p>
+    <p style="margin:0 0 18px; color:#333333; font-size:15px; line-height:1.6;">Our studies have shown that a good deal of valuable research on electoral administration never reaches the officials who could use it to improve their own systems.</p>
 
-    <p style="margin:0 0 18px; color:#333333; font-size:15px; line-height:1.6;"><strong>How does it work?</strong> It costs nothing, and published output can be fed through automatically. You can also write something specifically for our members. We run an editorial schedule across the year and would welcome pieces against it. ICPS contributes editorial on the same basis.</p>
+    <p style="margin:0 0 18px; color:#333333; font-size:15px; line-height:1.6;">Existing published output can be shared with the Network automatically. You can also write something specifically for our members. We run an editorial schedule across the year and would welcome pieces against it. ICPS contributes editorial content on the same basis.</p>
 
-    <!-- Clarification box -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 24px; background-color:#f0f4f8; border-radius:6px; border-left:4px solid #1a2744;">
-    <tr><td style="padding: 18px 24px;">
-        <p style="margin:0; color:#333333; font-size:15px; line-height:1.6;">NOMOS is not a marketplace and thought partners are not sponsors. The contribution is research and guidance rather than products or services.</p>
-    </td></tr>
-    </table>
+    <p style="margin:0 0 18px; color:#333333; font-size:15px; line-height:1.6;">Content published through the ICPS Electoral Network may also be made available on NOMOS, a separate professional network for electoral officials and public servants, where members are verified by their own institution. NOMOS provides an additional means for relevant professional and academic material to reach practitioners in the field.</p>
 
     <p style="margin:0 0 24px; color:#333333; font-size:15px; line-height:1.6;">If publishing or communications sits with a colleague, please pass this on. Otherwise, please reply and we will arrange a short call.</p>
 
