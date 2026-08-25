@@ -10,7 +10,7 @@ const Programme: NextPage = () => {
             schedule={schedule}
             headTitle={"Schedule – 22nd International Electoral Awards"}
             dates={"Sunday, 29th November – Thursday, 3rd December 2026"}
-            intro={"The symposium programme will cover core themes including disinformation and electoral trust, inclusive participation, and reflections on the Philippines' 2026 General Elections."}
+            intro={"Session themes, titles and speakers are still being confirmed and will be announced as the programme develops."}
             eventId={AWARDS_EVENT_ID}
         />
     );
