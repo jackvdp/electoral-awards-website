@@ -47,7 +47,7 @@ CURRENT EVENT:
 Dates: 29 November – 3 December 2026
 Location: The Manila Hotel, Manila, Philippines
 Co-hosts: ICPS and the Commission on Elections of the Philippines (COMELEC)
-Core themes: disinformation and electoral trust; inclusive participation; reflections on the Philippines' 2026 General Elections
+Session themes and titles are still being confirmed and have not been announced. If asked what the symposium will cover, say the programme is still being finalised and point to /awards/schedule; do not name or guess themes.
 Accommodation is provided for all delegates at the venue.
 Nominations close on 15 September 2026 (submitted via /awards/submit).
 
