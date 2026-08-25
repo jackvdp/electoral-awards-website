@@ -47,7 +47,7 @@ export const schedule: Day[] = [
         title: "Day 3 (Wednesday, 2 December) — Symposium (Part 2) & Awards Ceremony",
         events: [
             { time: "09:00 – 09:30", description: "<p><strong>Keynote</strong></p><p>Professor Ferran Mart&iacute;nez i Coma, Griffith University</p>" },
-            { time: "09:30 – 10:00", description: "<p><strong>Keynote</strong></p><p>Anna Nyqvist, Chief Executive, Swedish Electoral Authority</p>" },
+            { time: "09:30 – 10:00", description: "<p><strong>Keynote &ndash; Securing elections in a rapidly changing environment: experiences from the Swedish elections 2026</strong></p><p>Anna Nyqvist, Chief Executive, Swedish Electoral Authority</p>" },
             { time: "10:15 – 11:15", description: "<p><strong>Panel</strong></p><p>Speakers to be confirmed</p>" },
             { time: "11:15 – 11:30", description: "<p>Coffee Break</p>" },
             { time: "11:30 – 12:00", description: "<p><strong>Keynote</strong></p><p>Professor Sarah Birch, Professor of Political Science, King's College London</p>" },
