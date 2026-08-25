@@ -47,7 +47,7 @@ export const schedule: Day[] = [
         title: "Day 3 (Wednesday, 2 December) — Symposium (Part 2) & Awards Ceremony: Strengthening Public Trust & Combating Disinformation",
         events: [
             { time: "09:00 – 09:30", description: "<p><strong>Keynote — public confidence in elections</strong></p><p>Professor Ferran Mart&iacute;nez i Coma, Griffith University, on how public confidence in elections should be defined and what the Australian record from 2000 to 2025 shows</p>" },
-            { time: "09:30 – 10:00", description: "<p><strong>In conversation — election security and electoral trust</strong></p><p>Speakers to be confirmed</p>" },
+            { time: "09:30 – 10:00", description: "<p><strong>In conversation — election security and electoral trust</strong></p><p>Anna Nyqvist, Chief Executive, Swedish Electoral Authority</p>" },
             { time: "10:15 – 11:15", description: "<p><strong>Panel — combating disinformation</strong></p><p>Speakers to be confirmed</p>" },
             { time: "11:15 – 11:30", description: "<p>Coffee Break</p>" },
             { time: "11:30 – 12:00", description: "<p><strong>Keynote — natural hazards, climate change and elections</strong></p><p>Professor Sarah Birch, Professor of Political Science, King's College London</p>" },
