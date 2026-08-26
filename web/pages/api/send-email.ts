@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMail } from 'backend/services/email/mailer';
 
-const CONTACT_ADDRESS = 'jack.vanderpump@publicpolicyexchange.co.uk';
+const CONTACT_ADDRESS = 'info@electoralnetwork.org';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
@@ -14,7 +14,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       await sendMail({
         to: CONTACT_ADDRESS,
-        from: CONTACT_ADDRESS,
         subject: typeof subject === 'string' && subject.trim() ? subject.trim() : 'New Contact Form Submission',
         text: message,
       });
