@@ -20,6 +20,30 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
+## Email (SMTP)
+
+All transactional email (contact form, booking confirmations, invitations,
+cancellations and nomination emails) is sent over SMTP through SMTP.com, using
+the shared transport in `src/backend/services/email/mailer.ts`.
+
+Set these in `.env.local` for development and in the Vercel project settings for
+preview and production:
+
+| Variable | Purpose | Default |
+|----------|---------|---------|
+| `SMTP_HOST` | SMTP server | `send.smtp.com` |
+| `SMTP_PORT` | SMTP port | `587` |
+| `SMTP_USER` | SMTP username | none, required |
+| `SMTP_PASSWORD` | SMTP password | none, required |
+| `SMTP_FROM` | Default sender address | `info@electoralnetwork.org` |
+
+Port 587 uses STARTTLS: the connection opens in the clear and is upgraded before
+authentication. Implicit SSL on port 587 does not work, so `secure` stays false
+and `requireTLS` stays true in the transport.
+
+Email bodies are rendered in the app, in `src/backend/services/email/templates/`,
+rather than by the mail provider.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

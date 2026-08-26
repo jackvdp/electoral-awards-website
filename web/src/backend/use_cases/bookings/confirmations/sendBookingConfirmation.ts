@@ -1,7 +1,6 @@
-import { ServerClient } from "postmark";
-import {BookingConfirmationData} from "./confirmationData";
-
-const postmarkClient = new ServerClient(process.env.POSTMARK_API_TOKEN!);
+import { sendMail } from "backend/services/email/mailer";
+import { renderBookingConfirmation } from "backend/services/email/templates/bookingEmails";
+import { BookingConfirmationData } from "./confirmationData";
 
 export async function sendBookingConfirmation(data: BookingConfirmationData): Promise<{ success: boolean; message: string }> {
     try {
@@ -20,24 +19,15 @@ export async function sendBookingConfirmation(data: BookingConfirmationData): Pr
         }
 
         const isWebinar = event_location.toLowerCase().includes('webinar') || event_name.toLowerCase().includes('webinar');
-        const templateAlias = isWebinar ? "webinar-confirmation" : "event-confirmation";
+        const { subject, html, text } = renderBookingConfirmation({
+            name,
+            event_name,
+            event_date,
+            event_location,
+            agenda_url,
+        }, isWebinar);
 
-        const response = await postmarkClient.sendEmailWithTemplate({
-            From: 'info@electoralnetwork.org',
-            To: email,
-            TemplateAlias: templateAlias,
-            TemplateModel: {
-                name,
-                event_name,
-                event_date,
-                event_location,
-                agenda_url
-            },
-        });
-
-        if (response.ErrorCode) {
-            throw new Error(response.Message);
-        }
+        await sendMail({ to: email, subject, html, text });
 
         return {
             success: true,

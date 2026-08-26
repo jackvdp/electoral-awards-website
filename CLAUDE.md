@@ -82,7 +82,7 @@ Skills load their own context when invoked — don't pre-load awards or website 
 
 ## Website quick-start (full context: `/website-dev`)
 
-Next.js 15 (Pages Router) · TypeScript · Bootstrap 5 + SASS · MongoDB (Mongoose) + Supabase auth · AWS S3 + Vercel Blob · SendGrid + Postmark.
+Next.js 15 (Pages Router) · TypeScript · Bootstrap 5 + SASS · MongoDB (Mongoose) + Supabase auth · AWS S3 + Vercel Blob · SMTP (SMTP.com via Nodemailer).
 
 The app lives in `web/`. Run all `npm` commands from there:
 

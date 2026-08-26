@@ -1,7 +1,6 @@
-import { ServerClient } from "postmark";
+import { sendMail } from "backend/services/email/mailer";
+import { renderBookingInvitation } from "backend/services/email/templates/bookingEmails";
 import { BookingConfirmationData } from "./confirmationData";
-
-const postmarkClient = new ServerClient(process.env.POSTMARK_API_TOKEN!);
 
 export async function sendInvitationConfirmation(data: BookingConfirmationData): Promise<{ success: boolean; message: string }> {
     try {
@@ -22,30 +21,22 @@ export async function sendInvitationConfirmation(data: BookingConfirmationData):
         }
 
         const isWebinar = event_location.toLowerCase().includes('webinar') || event_name.toLowerCase().includes('webinar');
-        const templateAlias = isWebinar ? "webinar-invitation" : "event-invitation";
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
         const eventPageUrl = `${baseUrl}/events/${eventId}`;
         const accept_url = `${baseUrl}/api/bookings/respond?bookingId=${bookingId}&response=accepted&redirectUrl=${encodeURIComponent(eventPageUrl)}`;
         const decline_url = `${baseUrl}/api/bookings/respond?bookingId=${bookingId}&response=rejected&redirectUrl=${encodeURIComponent(eventPageUrl)}`;
 
-        const response = await postmarkClient.sendEmailWithTemplate({
-            From: 'info@electoralnetwork.org',
-            To: email,
-            TemplateAlias: templateAlias,
-            TemplateModel: {
-                name,
-                event_name,
-                event_date,
-                event_location,
-                agenda_url,
-                accept_url,
-                decline_url,
-            },
-        });
+        const { subject, html, text } = renderBookingInvitation({
+            name,
+            event_name,
+            event_date,
+            event_location,
+            agenda_url,
+            accept_url,
+            decline_url,
+        }, isWebinar);
 
-        if (response.ErrorCode) {
-            throw new Error(response.Message);
-        }
+        await sendMail({ to: email, subject, html, text });
 
         return {
             success: true,

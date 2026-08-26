@@ -1,8 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import sgMail from '@sendgrid/mail';
+import { sendMail } from 'backend/services/email/mailer';
 
-// Set SendGrid API Key
-sgMail.setApiKey(process.env.SENGRID_KEY || "");
+const CONTACT_ADDRESS = 'jack.vanderpump@publicpolicyexchange.co.uk';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
@@ -12,15 +11,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ message: "No message provided in request body" });
     }
 
-    const msg = {
-      to: 'jack.vanderpump@publicpolicyexchange.co.uk',
-      from: 'jack.vanderpump@publicpolicyexchange.co.uk',
-      subject: typeof subject === 'string' && subject.trim() ? subject.trim() : 'New Contact Form Submission',
-      text: message,
-    };
-
     try {
-      await sgMail.send(msg);
+      await sendMail({
+        to: CONTACT_ADDRESS,
+        from: CONTACT_ADDRESS,
+        subject: typeof subject === 'string' && subject.trim() ? subject.trim() : 'New Contact Form Submission',
+        text: message,
+      });
       res.status(200).json({ message: 'Email sent successfully' });
     } catch (error) {
       console.error('Email not sent:', error);
