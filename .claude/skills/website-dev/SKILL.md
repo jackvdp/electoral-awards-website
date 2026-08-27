@@ -15,7 +15,7 @@ This is the website for the **International Electoral Awards & Symposium**, run 
 - **Styling:** Bootstrap 5.2 + SASS (`web/src/assets/scss/` compiles to `web/public/css`)
 - **Database:** MongoDB via Mongoose (events, articles, bookings, users) + Supabase (auth, SSR sessions)
 - **Storage:** AWS S3 + Vercel Blob
-- **Email:** SendGrid + Postmark
+- **Email:** SMTP (SMTP.com) via Nodemailer
 - **Image processing:** Sharp
 - **AI:** `@ai-sdk/anthropic` + `ai` SDK
 - **Other UI:** Swiper, GLightbox, Isotope, ScrollCue, react-markdown, react-countup
@@ -106,7 +106,7 @@ When you edit SCSS, you (or the user) need to run `npm run sass` to see the chan
 - **Accessibility:** alt text on all images, descriptive link text, semantic HTML.
 - **Bootstrap 5 utility classes** for layout where reasonable; custom SCSS for anything beyond.
 - **Admin pages** are auth-gated via Supabase. Check `web/src/auth/` for the helpers before adding new admin routes.
-- **API routes** that send email use SendGrid (`@sendgrid/mail`) or Postmark depending on the route - check the existing route before picking.
+- **Email** goes through the shared SMTP transport in `src/backend/services/email/mailer.ts` (`sendMail`). Bodies are rendered in `src/backend/services/email/templates/`, not by the provider. Config: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM`.
 
 ## Deployment
 

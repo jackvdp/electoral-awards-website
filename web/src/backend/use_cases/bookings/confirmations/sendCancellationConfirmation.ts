@@ -1,9 +1,8 @@
-import { ServerClient } from "postmark";
-import {BookingConfirmationData} from "./confirmationData";
+import { sendMail } from "backend/services/email/mailer";
+import { renderBookingCancellation } from "backend/services/email/templates/bookingEmails";
+import { BookingConfirmationData } from "./confirmationData";
 
 export async function sendBookingCancellation(data: BookingConfirmationData): Promise<{ success: boolean; message: string }> {
-    const postmarkClient = new ServerClient(process.env.POSTMARK_API_TOKEN!);
-
     try {
         const {
             name,
@@ -19,22 +18,15 @@ export async function sendBookingCancellation(data: BookingConfirmationData): Pr
             throw new Error('Missing required fields');
         }
 
-        const response = await postmarkClient.sendEmailWithTemplate({
-            From: 'info@electoralnetwork.org',
-            To: email,
-            TemplateAlias: "event-cancellation",
-            TemplateModel: {
-                name,
-                event_name,
-                event_date,
-                event_location,
-                agenda_url
-            },
+        const { subject, html, text } = renderBookingCancellation({
+            name,
+            event_name,
+            event_date,
+            event_location,
+            agenda_url,
         });
 
-        if (response.ErrorCode) {
-            throw new Error(response.Message);
-        }
+        await sendMail({ to: email, subject, html, text });
 
         return {
             success: true,

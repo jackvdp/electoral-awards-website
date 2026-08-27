@@ -1,21 +1,10 @@
-import { ServerClient } from 'postmark';
 import { INomination } from 'backend/models/nomination';
+import { sendMail } from 'backend/services/email/mailer';
+import { escapeHtml, toHtmlParagraph } from 'backend/services/email/templates/layout';
 import { NOMINATIONS_PERIOD } from 'data/awards-config';
-
-const postmarkClient = new ServerClient(process.env.POSTMARK_API_TOKEN!);
 
 const FROM_ADDRESS = 'info@electoralnetwork.org';
 const ADMIN_EMAIL = process.env.NOMINATIONS_ADMIN_EMAIL || 'jack.vanderpump@publicpolicyexchange.co.uk';
-
-const escapeHtml = (value: string): string =>
-    value
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-
-const toHtmlParagraph = (value: string): string =>
-    escapeHtml(value).replace(/\n/g, '<br>');
 
 const formatDate = (date: Date): string =>
     date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -60,16 +49,13 @@ async function sendConfirmationToNominator(nomination: INomination): Promise<voi
         'The International Centre for Parliamentary Studies',
     ].join('\n');
 
-    const response = await postmarkClient.sendEmail({
-        From: FROM_ADDRESS,
-        To: nomination.email,
-        Subject: `We have received your nomination – ${NOMINATIONS_PERIOD.edition}`,
-        HtmlBody: htmlBody,
-        TextBody: textBody,
+    await sendMail({
+        from: FROM_ADDRESS,
+        to: nomination.email,
+        subject: `We have received your nomination – ${NOMINATIONS_PERIOD.edition}`,
+        html: htmlBody,
+        text: textBody,
     });
-    if (response.ErrorCode) {
-        throw new Error(response.Message);
-    }
 }
 
 async function sendNotificationToAdmin(nomination: INomination): Promise<void> {
@@ -138,17 +124,14 @@ async function sendNotificationToAdmin(nomination: INomination): Promise<void> {
         `Record ID: ${nomination._id}`,
     ].join('\n');
 
-    const response = await postmarkClient.sendEmail({
-        From: FROM_ADDRESS,
-        To: ADMIN_EMAIL,
-        ReplyTo: nomination.email,
-        Subject: `New nomination: ${nomination.nomineeName} – ${nomination.awardCategory}`,
-        HtmlBody: htmlBody,
-        TextBody: textBody,
+    await sendMail({
+        from: FROM_ADDRESS,
+        to: ADMIN_EMAIL,
+        replyTo: nomination.email,
+        subject: `New nomination: ${nomination.nomineeName} – ${nomination.awardCategory}`,
+        html: htmlBody,
+        text: textBody,
     });
-    if (response.ErrorCode) {
-        throw new Error(response.Message);
-    }
 }
 
 /**
