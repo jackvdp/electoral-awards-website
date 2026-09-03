@@ -17,3 +17,6 @@ projects/
 /emails
 # Local symlink to web/.env.local (used by .claude/skills seed scripts)
 .env.local
+
+# edit-doc skill: local python venv
+.claude/skills/edit-doc/.venv/

@@ -1,6 +1,6 @@
 ---
 name: send-bulk-emails
-description: Send a personalised bulk email through Microsoft Outlook from a template (.eml/.emltpl) and a CSV. Use when the user wants to mail-merge the same message to many people with each one personalised from CSV data, e.g. "send the speaker invitations", "bulk-send the workforce-webinar email", "send this template to everyone in the shortlist", "do a mail merge from a project-folder CSV". Pairs naturally with templates from /comms-email and CSVs from /find-speakers.
+description: Send a personalised bulk email through Microsoft Outlook from a template (.eml/.emltpl) and a CSV. Use when the user wants to mail-merge the same message to many people with each one personalised from CSV data, e.g. "send the speaker invitations", "bulk-send the workforce-webinar email", "send this template to everyone in the shortlist", "do a mail merge from a project-folder CSV". Pairs naturally with templates from /comms-email and CSVs from /find-speakers or /find-bulk-contacts.
 argument-hint: [optional: template path, CSV path, or topic]
 allowed-tools: Bash, Read, Edit, Write, Glob, Grep, AskUserQuestion
 ---

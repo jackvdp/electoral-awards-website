@@ -85,8 +85,18 @@ for path in "${ATTACH_PATHS[@]}"; do
         exit 1
     fi
     ESCAPED_PATH=$(echo "$abs_path" | sed "s/\\\\/\\\\\\\\/g; s/\"/\\\\\"/g")
-    ATTACH_SCRIPT+="  make new attachment at newMessage with properties {file:(POSIX file \"$ESCAPED_PATH\" as alias)}"$'\n'
+    # `make new attachment at newMessage ...` silently no-ops in Outlook: the call
+    # succeeds, osascript exits 0, and the draft opens with nothing attached.
+    # Addressing the message directly with `tell` is the form that actually works.
+    ATTACH_SCRIPT+="  tell newMessage to make new attachment with properties {file:POSIX file \"$ESCAPED_PATH\"}"$'\n'
 done
+
+# Fail loudly if an attachment did not take, rather than opening a draft that
+# looks complete but has nothing attached.
+ATTACH_VERIFY=""
+if [[ ${#ATTACH_PATHS[@]} -gt 0 ]]; then
+    ATTACH_VERIFY="  if (count of attachments of newMessage) is not ${#ATTACH_PATHS[@]} then error \"Attachment failed: expected ${#ATTACH_PATHS[@]}\""
+fi
 
 # Escape for AppleScript string embedding
 ESCAPED_SUBJECT=$(echo "$SUBJECT" | sed "s/\\\\/\\\\\\\\/g; s/\"/\\\\\"/g")
@@ -103,7 +113,13 @@ fi
 
 # Wrap body in full HTML document with styling
 # Use single quotes inside HTML attributes to avoid AppleScript escaping issues
-FULL_HTML="<!DOCTYPE html><html><head><meta charset='UTF-8'><style>p { margin: 0; }</style></head><body style='font-family: Calibri, Arial, sans-serif; font-size: 15px;'>${INNER_HTML}</body></html>"
+#
+# Paragraph spacing: `p { margin: 0 }` used to be set here. It is inert for plain-text
+# bodies (those become <br>-separated, with no <p> tags at all) but in --html mode it
+# collapsed every paragraph against the next, so drafts arrived as one solid block.
+# Give <p> a bottom margin instead, and zero the top margin so the first line still sits
+# flush. Callers writing --html do not need inline margins.
+FULL_HTML="<!DOCTYPE html><html><head><meta charset='UTF-8'><style>p { margin: 0 0 14px 0; } p:last-child { margin-bottom: 0; } ul, ol { margin: 0 0 14px 0; padding-left: 22px; } li { margin: 0 0 4px 0; }</style></head><body style='font-family: Calibri, Arial, sans-serif; font-size: 15px;'>${INNER_HTML}</body></html>"
 ESCAPED_BODY=$(echo "$FULL_HTML" | sed "s/\\\\/\\\\\\\\/g; s/\"/\\\\\"/g")
 
 cat > /tmp/outlook-compose.applescript << APPLESCRIPT
@@ -116,6 +132,7 @@ tell application "Microsoft Outlook"
 $TO_SCRIPT
 $CC_SCRIPT
 $ATTACH_SCRIPT
+$ATTACH_VERIFY
 
   open newMessage
   activate

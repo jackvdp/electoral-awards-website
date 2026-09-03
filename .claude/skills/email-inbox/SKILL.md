@@ -166,6 +166,85 @@ If asked to "open in Mail" without further context for a *new compose*, still us
 - **Link to the event page** whenever an email invites someone to, or references, a webinar, roundtable, or awards event. Use the live event-page URL on `electoralnetwork.org` (e.g. `https://www.electoralnetwork.org/events/<id>`), embedded with `--html` as a hyperlink on descriptive text such as "the event page" or "full details", not a bare URL. Confirm the event ID with the user or the event's `.eml`/data file if you do not already have it.
 - Start with "Dear [Name]," or "Hi [Name]," as appropriate; close with "Kind regards," (or "With kind regards," / "Warm regards from London," for warmer threads) and leave the configured signature to supply the name.
 
+#### How Jack actually writes
+
+The tone note above is the floor. The habits below are what make a draft sound like Jack rather than like a competent stranger. Match them.
+
+**React first, business second.** He opens by responding to the person, not by restating the thread. "Oh fantastic! Yes, it would be interesting to..." or "Glad you'll be there." One short line, then the substance. Never open with "I hope this email finds you well" or a summary of what they just said.
+
+**Warm and slightly informal with people he knows.** "Hi [Name]," almost always, not "Dear". "Best," as the sign-off for anyone he has a relationship with; "Kind regards," for first contact or formal correspondence. An exclamation mark is fine where he genuinely means it ("it would be great if you can meet face to face!"), roughly one per email at most.
+
+**Enthusiasm, not positioning.** When someone offers something good, react to it plainly: "that would be fantastic", "Oh fantastic!", "Glad you'll be there." Do not convert the reaction into an institutional judgement. "Natural hazards and elections is the one I would most like to programme" is ranking a menu; "natural hazards and elections would be fantastic" is a person responding. The understated register in the tone note governs *claims*, not *warmth*: be modest about what we assert, generous about what we welcome.
+
+**Hedge your own judgements in the first person.** Opinions get "I don't think", "I'm not sure", "I suspect", not flat assertion. "It is not a subject that gets much of an airing" states a fact about the world; "a topic that I don't think often gets explored" owns it as his view. The second is what he writes, and it is also more honest, because it is an impression rather than a finding.
+
+**Do not build the case.** This is the habit most often broken. Having made a point, the temptation is to add the sentence explaining why it is a good point. Jack cuts that sentence. He will say a topic would be fantastic and stop, rather than going on to explain that it will land well with a particular audience for a particular reason. One clause of justification at most, and usually none. If a draft has a sentence beginning "It is not..." or "That takes..." or "Given...", it is probably the sentence he would delete.
+
+**Soft-pedal the ask.** Requests are floated rather than pressed: "Just a thought, but would you like us to...", "it may be worth...", "do try and find half an hour together if you can". He gives the other person an easy way to decline. He does not stack reasons or sell.
+
+**Hand over and step back.** He sets things up and then gets out of the way: "I'll leave the three of you to liaise." No offers to schedule, no follow-up-chasing language, no "let me know if you need anything".
+
+**Short paragraphs, two to four sentences.** Contractions throughout ("you'll", "they'd", "I'd", "we'd"). Plain words: "the sort of thing", "a short précis", "get a sense of". Not "leverage", "circle back", "touch base", "as per".
+
+**British idiom, lightly.** "That links to my next question", "do try and", "have a look", "worth doing". British spelling throughout.
+
+**Introductions run both ways.** When connecting two people, introduce each to the other in their own paragraph, with a one-line description of who they are and why the other should care. Address the copied party directly: "Sean/Charles, please also meet Dr Bridgett King, Associate Professor of Political Science at the University of Kentucky." Do not leave one side unexplained.
+
+**Descriptions must be verifiable.** Titles, roles and programme claims in an introduction get checked before they go in. If a claim cannot be confirmed, use a narrower one that can. Jack would rather be accurate than impressive, and an inflated title in front of the person it describes is the worst place to be wrong.
+
+**Avoid template symmetry.** When drafting two emails in one sitting, vary the openers, the transitions and the closing line. Two messages built on the same skeleton read as mail merge, and the recipients may well compare notes.
+
+#### A worked correction
+
+Jack's edit to a drafted paragraph, August 2026. The draft was to Professor Sarah Birch, who had offered four possible symposium topics.
+
+Drafted:
+
+> On the topic, natural hazards, climate change and elections is the one I would most like to programme. It is not a subject that gets much of an airing at these events, and it will land particularly well in Manila given what the commission there has to plan around. Trust in electoral administration would be my second choice if you would rather stay on firmer ground.
+
+Sent:
+
+> On the topic, natural hazards, climate change and elections would be fantastic, and a topic that I don't think often gets explored in the spaces. Trust in electoral administration would be my second choice if you would rather stay on firmer ground!
+
+Three sentences became two, and roughly forty words went. What changed:
+
+- "is the one I would most like to programme" became "would be fantastic". Warm reaction in place of institutional ranking.
+- The whole Manila justification was cut. The point had been made; the argument for it was not wanted.
+- "It is not a subject that gets much of an airing" became "a topic that I don't think often gets explored". Hedged, first person, and contracted.
+- An exclamation mark closes the light, slightly teasing line about firmer ground. That is where his exclamation marks go: on the warm line, never on the business one.
+
+The draft was not wrong, it was stiff and over-argued. When a paragraph feels well made, that is usually the signal to cut its middle sentence.
+
+Reference samples in his own voice, both intros written to connect people at a conference:
+
+```
+Hi Paul,
+
+Glad you'll be there. And thank you for the LEO Survey link, I hadn't seen the 2024 report. Just a thought, but would you like us to put it on the Network site? It could sit on our articles page here, with a short précis and a link through to the full report.
+
+That report also links to my next question. You may remember Sean Evins and Charles Symons of NOMOS, both copied in, from the June webinar. Your survey work is just the sort of thing they'd want to share on their platform.
+
+They're at the conference this week, so if you have time it would be great to meet them face to face. I'll leave the three of you to liaise.
+
+Best,
+```
+
+```
+Hi Bridgett,
+
+Oh fantastic! Yes, it would be interesting to get a sense of the election climate after the EAC announcement.
+
+As you're there, could I also introduce Sean Evins and Charles Symons of NOMOS, who are cc'd. ICPS is a convening partner. They're building a verified professional network and knowledge-sharing platform for electoral officials and bodies, and are looking for thought leaders to contribute to it. You may know Sean already, who has been in the US election space for years, on the Hill and then at Twitter and Meta.
+
+Sean/Charles, please also meet Dr Bridgett King, Associate Professor of Political Science at the University of Kentucky. Bridgett researches election administration and the voting experience, leads a track at the Elections and Voting Information Center, and has spoken on several of our webinars over the years.
+
+As you're all at the conference this week, it would be great if you can meet face to face!
+
+Best,
+```
+
+**Run the drafts through `/humanizer` before showing them.** Jack asks for this routinely. The tells that keep surfacing in his mail: generic positive closers ("it would be worth doing", "I think you'd all get something from it"), copula avoidance ("will have a presence at" for "is at"), brochure phrasing in partner descriptions, and the same sentence skeleton reused across two emails.
+
 ### Step 7 — Continue through the inbox
 
 After each conversation is handled (replied or skipped), move to the next one. Keep a running count so the user knows their progress.
@@ -229,6 +308,7 @@ Thank you for your email.
 
 **Arguments:**
 - `--sender` (required) — email address or name to match the message to reply to
+- `--subject` (optional) — subject text to narrow the match. The script replies to the **first** message matching the sender, which is the most recent one, so pass a subject fragment whenever the sender has more than one thread in the inbox (Tracy usually does)
 - `--body` (required) — the reply text to paste into the message (supports multiline)
 - `--cc` (optional, repeatable) — CC recipient email address
 - `--html` (optional) — treat `--body` as HTML content, enabling rich text with clickable links, bold, etc.
@@ -309,7 +389,12 @@ The script wraps your `--body` in this shell:
 <html>
 <head>
   <meta charset='UTF-8'>
-  <style>p { margin: 0; }</style>
+  <style>
+    p { margin: 0 0 14px 0; }
+    p:last-child { margin-bottom: 0; }
+    ul, ol { margin: 0 0 14px 0; padding-left: 22px; }
+    li { margin: 0 0 4px 0; }
+  </style>
 </head>
 <body style='font-family: Calibri, Arial, sans-serif; font-size: 15px;'>
   <!-- your --body goes here -->
@@ -319,11 +404,11 @@ The script wraps your `--body` in this shell:
 
 So you only need to supply the **inner HTML** for the body. Use:
 
-- `<p>...</p>` for paragraphs. **The wrapper sets `p { margin: 0; }`, so consecutive `<p>` siblings render with NO gap between them and the email looks like one cramped block.** To get proper spacing, put an explicit blank-line paragraph `<p>&nbsp;</p>` between every visible paragraph. Treat this as the default for any multi-paragraph email (delegate briefings, formal notices), not an optional extra.
+- `<p>...</p>` for paragraphs. **Paragraph spacing is handled by the wrapper**, so just write consecutive `<p>` siblings and they render with a proper gap. Do **not** add `<p>&nbsp;</p>` spacers or inline `style='margin...'`, because the wrapper already supplies the margin and those extras double it up. (This wrapper previously set `p { margin: 0 }`, which collapsed multi-paragraph drafts into one solid block; fixed 17 Aug 2026. If you ever see a cramped draft again, check that rule first rather than papering over it with spacers.)
 - `<b>...</b>` or `<strong>...</strong>` for bold
 - `<i>...</i>` or `<em>...</em>` for italic
-- `<ol><li><p>...</p></li>...</ol>` for numbered lists (wrap list item content in `<p>` to keep spacing consistent)
-- `<ul><li><p>...</p></li>...</ul>` for bullet lists
+- `<ol><li>...</li>...</ol>` for numbered lists
+- `<ul><li>...</li>...</ul>` for bullet lists (do not wrap `<li>` content in `<p>`; the wrapper spaces list items already)
 - `<a href='https://...'>link text</a>` for links (use single quotes inside HTML attributes to avoid AppleScript escape issues)
 - `<br>` for a soft line break inside a paragraph
 - `&amp;` for `&`, `&lt;` and `&gt;` for angle brackets, `&nbsp;` for non-breaking space
@@ -363,9 +448,14 @@ For the logistics email sent to a webinar's confirmed speakers about a week befo
 
 ---
 
+## Template: sponsor welcome (first logistics email to a new sponsor)
+
+For the first email to a newly signed sponsor or exhibitor (point-of-contact introduction plus package recap), use `.claude/skills/email-inbox/templates/sponsor-welcome.md`. Substitute the package bullets from the booking form or the electoral dashboard; compose via `compose.sh --html`.
+
 ## Template: pre-event delegate briefing (joining details)
 
-Use this for the joining-instructions email sent to registered delegates ahead of a webinar or roundtable. It is usually sent the day before the event by the admin team (e.g. Devianee, `cnithoo@parlistudies.org`), so compose it to whoever sends it out, addressed to the delegate. Note the blank-line `<p>&nbsp;</p>` paragraphs throughout to keep the spacing right in Outlook.
+Use this for the joining-instructions email sent to registered delegates ahead of a webinar or roundtable. It is usually sent the day before the event by the admin team (e.g. Devianee, `cnithoo@parlistudies.org`), so compose it to whoever sends it out, addressed to the delegate. Note the blank-line `
+` paragraphs throughout to keep the spacing right in Outlook.
 
 Substitute the bracketed fields: event title, date, speaker list (name, title, organisation, one per line), start time and recommended join time, Zoom join link, Meeting ID, Passcode, and the event-page URL.
 
@@ -375,32 +465,20 @@ Substitute the bracketed fields: event title, date, speaker list (name, title, o
   --subject "Joining details: [EVENT TITLE] ([DATE])" \
   --html \
   --body "<p>Dear Delegate,</p>
-<p>&nbsp;</p>
 <p>Thank you for registering to attend the International Centre for Parliamentary Studies (ICPS) webinar: <b>[EVENT TITLE]</b>, taking place [DAY DATE]. This webinar is hosted online via Zoom.</p>
-<p>&nbsp;</p>
 <p>We are delighted to confirm the following speakers:</p>
-<p>&nbsp;</p>
 <p>[Speaker Name], [Title], [Organisation]<br>
 [Speaker Name], [Title], [Organisation]</p>
-<p>&nbsp;</p>
 <p>The event starts at [START TIME] BST (UTC+1), but as a caveat we advise that you join using the link provided at [JOIN TIME] BST, as this will allow us to iron out any potential IT issues before the agenda starts.</p>
-<p>&nbsp;</p>
 <p>Below are the details you will require in order to join. The link is already active, but you will be unable to join the room until the session starts.</p>
-<p>&nbsp;</p>
 <p><b>Topic:</b> [EVENT TITLE]<br>
 <b>Time:</b> [DAY DATE], [START TIME] BST (UTC+1)</p>
-<p>&nbsp;</p>
 <p><b>Join Zoom Meeting:</b> <a href='[ZOOM JOIN LINK]'>click here</a></p>
-<p>&nbsp;</p>
 <p>Meeting ID: [MEETING ID]<br>
 Passcode: [PASSCODE]</p>
-<p>&nbsp;</p>
 <p>For the full programme and session details, please see our event page: <a href='[EVENT PAGE URL]'>click here</a></p>
-<p>&nbsp;</p>
 <p>I will be present throughout the entire event to assist with any technical issues that may arise.</p>
-<p>&nbsp;</p>
 <p>If you have any questions, please do not hesitate to ask.</p>
-<p>&nbsp;</p>
 <p>Kind regards,</p>"
 ```
 
@@ -422,7 +500,7 @@ Notes:
 7. **Use `delay 2`** after `reply msg opening window yes with reply to all` — gives the reply window time to fully load before pasting.
 8. **Show the draft text to the user first** in a code block before opening it in Mail or Outlook, so they can request changes.
 9. **Match sender by email address** for precision when replying (e.g., `"Caroline.Fawkes@vi.gov"` not just `"Caroline"`).
-10. **British English** throughout all drafted responses, in the warm-but-understated tone described in "Style for drafts". **Never use em dashes (—)** in drafts — use commas, full stops, or parentheses instead.
+10. **British English** throughout all drafted responses, in the warm-but-understated tone described in "Style for drafts". Read **"How Jack actually writes"** in that section before drafting anything: react first, soft-pedal the ask, hand over and step back, and vary the skeleton between emails written in the same sitting. **Never use em dashes (—)** in drafts — use commas, full stops, or parentheses instead.
 11. **Use `--html` in Outlook composes** for anything with structure (lists, links, bold, headings). Plain-text "-" bullets render as one run-on paragraph in Outlook; bulleted emails must use `<ul><li><p>...</p></li></ul>`. Plain-text mode preserves paragraphs and blank lines only.
 12. **Link to the event page** in any email that invites someone to or references a webinar, roundtable, or awards event — embed the live `electoralnetwork.org/events/<id>` URL as a hyperlink on descriptive text (e.g. "the event page"), never a bare URL.
 

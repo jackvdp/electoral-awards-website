@@ -19,6 +19,8 @@ Use the built-in `WebSearch` and `WebFetch` only as a last resort if all three M
 
 A repeatable workflow for putting together a shortlist of external speakers for an event, including direct emails and a written rationale for each pick.
 
+**Wrong skill?** This one produces 8-12 curated names with a per-person rationale, for hand-written invitations. If the user wants volume instead - a few hundred contacts to fill a course, an event audience, a campaign list, anything destined for a mail merge - use `/find-bulk-contacts`, which handles bulk harvesting, per-organisation relevance rules and deliverability at scale.
+
 ## What this skill produces
 
 Two artefacts, every time:

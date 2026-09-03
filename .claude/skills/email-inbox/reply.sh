@@ -4,6 +4,8 @@
 #
 # Arguments:
 #   --sender  Email address or name to match the message to reply to (required)
+#   --subject Subject text to narrow the match (optional, use when a sender has
+#             several threads in the inbox)
 #   --body    The reply text to paste into the message (required)
 #             For plain text: pass the text directly
 #             For HTML: pass HTML string and add --html flag
@@ -11,6 +13,7 @@
 #   --html    Treat --body as HTML content (enables rich text with links, bold, etc.)
 
 SENDER=""
+SUBJECT=""
 BODY=""
 CC_ADDRESSES=()
 HTML_MODE=false
@@ -19,6 +22,10 @@ while [[ $# -gt 0 ]]; do
     case "$1" in
         --sender)
             SENDER="$2"
+            shift 2
+            ;;
+        --subject)
+            SUBJECT="$2"
             shift 2
             ;;
         --body)
@@ -54,6 +61,13 @@ done
 # Escape body for AppleScript string embedding
 ESCAPED_BODY=$(echo "$BODY" | sed 's/\\/\\\\/g; s/"/\\"/g')
 
+# Optional subject filter, for senders with more than one thread in the inbox
+SUBJECT_CONDITION=""
+if [[ -n "$SUBJECT" ]]; then
+    ESCAPED_SUBJECT=$(printf '%s' "$SUBJECT" | sed 's/\\/\\\\/g; s/"/\\"/g')
+    SUBJECT_CONDITION=" and subject of msg contains \"$ESCAPED_SUBJECT\""
+fi
+
 if [[ "$HTML_MODE" == true ]]; then
     # HTML mode: use NSPasteboard to put HTML on clipboard (preserves links, formatting)
     cat > /tmp/mail-reply.applescript << APPLESCRIPT
@@ -67,7 +81,7 @@ tell application "Mail"
     set inboxMessages to messages of inboxMailbox
 
     repeat with msg in inboxMessages
-        if sender of msg contains "$SENDER" then
+        if sender of msg contains "$SENDER"$SUBJECT_CONDITION then
             set replyMsg to reply msg opening window yes with reply to all
             delay 2
 
@@ -104,7 +118,7 @@ tell application "Mail"
     set inboxMessages to messages of inboxMailbox
 
     repeat with msg in inboxMessages
-        if sender of msg contains "$SENDER" then
+        if sender of msg contains "$SENDER"$SUBJECT_CONDITION then
             set replyMsg to reply msg opening window yes with reply to all
             delay 2
 

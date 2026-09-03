@@ -43,6 +43,7 @@ Note: `projects/` is gitignored (local working area), so its contents are not co
 | Task | Skill |
 |------|-------|
 | Awards programme: nominations, judging, ceremony, winners, post-event close-out, categories, venue/co-host details | `/awards-admin` |
+| Pick and execute the most timely Awards 26 to-do item (TODO.md + Philippines dashboard) | `/awards-task` |
 | General ICPS / Network admin: emails, invitations, briefs, press releases, training proposals, webinars, roundtables | `/electoral-network-admin` |
 | Website development (Next.js, MongoDB, components, project structure) | `/website-dev` |
 | Email for the 2026 delegate-acquisition comms plan | `/comms-email` |
@@ -51,7 +52,9 @@ Note: `projects/` is gitignored (local working area), so its contents are not co
 | Write and publish an article | `/add-article` |
 | LinkedIn post on the Network organisation page | `/linkedin-post` |
 | Triage inbox, draft replies (Apple Mail) and new composes (Outlook) | `/email-inbox` |
+| Edit a Pages/Word document, build a letter from a template, export a PDF | `/edit-doc` |
 | Research and shortlist external speakers (CSV + emails) | `/find-speakers` |
+| Build a large audience/delegate contact list (100-500) for a mail merge | `/find-bulk-contacts` |
 | Mail-merge a template through Outlook to a CSV list | `/send-bulk-emails` |
 | Make AI-sounding text read more human | `/humanizer` |
 
@@ -76,7 +79,7 @@ Skills load their own context when invoked — don't pre-load awards or website 
 - Drafted emails are transient: compose to a scratch/working file, open or send via Outlook / Apple Mail (or run the mail-merge), then delete the file. Do not store email drafts in the repo. There is no top-level `emails/` directory. Persistent data deliverables (speaker/contact CSVs, research lists) go into the relevant `projects/<project>/` folder.
 
 ### Email templates
-- Reusable email templates live in `.claude/skills/email-inbox/templates/` (referenced from the `/email-inbox` skill). Current templates: `speaker-briefing.md` (pre-event logistics email to confirmed speakers). The pre-event delegate briefing lives inline in the skill's `SKILL.md`.
+- Reusable email templates live in `.claude/skills/email-inbox/templates/` (referenced from the `/email-inbox` skill). Current templates: `speaker-briefing.md` (pre-event logistics email to confirmed speakers); `sponsor-welcome.md` (first logistics email to a newly signed sponsor/exhibitor). The pre-event delegate briefing lives inline in the skill's `SKILL.md`.
 
 ---
 
