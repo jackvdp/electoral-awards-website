@@ -51,6 +51,7 @@ Note: `projects/` is gitignored (local working area), so its contents are not co
 | Edit an event/webinar on the site | `/edit-event` |
 | Write and publish an article | `/add-article` |
 | LinkedIn post on the Network organisation page | `/linkedin-post` |
+| Social/promo graphics: LinkedIn carousels, post images, event visuals (design canvas + PDF/PNG render) | `/social-graphics` |
 | Triage inbox, draft replies (Apple Mail) and new composes (Outlook) | `/email-inbox` |
 | Edit a Pages/Word document, build a letter from a template, export a PDF | `/edit-doc` |
 | Research and shortlist external speakers (CSV + emails) | `/find-speakers` |

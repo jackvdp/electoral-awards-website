@@ -9,6 +9,8 @@ allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 
 Draft and publish LinkedIn posts to the ICPS / Electoral Members' Network **organisation page**.
 
+If the post needs visuals (a carousel, a post image, an event graphic), use `/social-graphics` for those — this skill handles the text post and its link attachment only. The publish script cannot upload images; posts with visuals are published manually by Jack.
+
 ## Workflow
 
 ### 1. Understand the brief
