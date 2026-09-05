@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Client-independent token helper for Zoom MCP servers.
+// Token helper for the Claude Code zoom-plugin (Zoom MCP servers).
 //
 // Zoom's MCP servers don't support the automatic OAuth that Claude Code uses,
 // so the plugin expects a bearer token in ZOOM_MCP_ACCESS_TOKEN. Zoom access

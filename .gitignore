@@ -15,13 +15,8 @@ projects/bsva
 projects/
 
 /emails
-# Local symlink to web/.env.local (used by .agents/skills seed scripts)
+# Local symlink to web/.env.local (used by .claude/skills seed scripts)
 .env.local
 
 # edit-doc skill: local python venv
-.agents/skills/edit-doc/.venv/
-
-# Client-specific local configuration and credentials
-.claude/settings.local.json
-.codex/config.toml
-.mcp.json
+.claude/skills/edit-doc/.venv/
