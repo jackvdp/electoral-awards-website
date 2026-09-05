@@ -442,50 +442,18 @@ So you only need to supply the **inner HTML** for the body. Use:
 
 ---
 
-## Template: pre-event speaker briefing (logistics email to speakers)
+## Email templates
 
-For the logistics email sent to a webinar's confirmed speakers about a week before the event (thanks, bio and slides requests, agenda with per-speaker timings, Zoom details, contact number), use the template at `.claude/skills/email-inbox/templates/speaker-briefing.md`. Read that file and substitute its bracketed fields; compose via `compose.sh` with `--html`.
+Reusable email templates live in the relevant `projects/<project>/templates/` folder, not in this skill. Read the template file, substitute its bracketed fields, and compose via `compose.sh --html`.
 
----
+| Template | Purpose | Location |
+|---|---|---|
+| Speaker briefing | Logistics email to a webinar's confirmed speakers, about a week out (thanks, bio and slides requests, agenda with per-speaker timings, Zoom details) | `projects/webinars/templates/speaker-briefing.md` |
+| Delegate briefing | Joining-details email to registered delegates, usually sent the day before by the admin team (e.g. Devianee, cnithoo@parlistudies.org) | `projects/webinars/templates/delegate-briefing.md` |
+| Sponsor welcome | First logistics email to a newly signed sponsor/exhibitor (point-of-contact intro plus package recap) | `projects/awards26/templates/sponsor-welcome.md` |
+| Sponsor nominations ask | Asking a sponsor to nominate the partner commissions they work with ahead of a nominations deadline (never themselves) | `projects/awards26/templates/sponsor-nominations.md` |
 
-## Template: sponsor welcome (first logistics email to a new sponsor)
-
-For the first email to a newly signed sponsor or exhibitor (point-of-contact introduction plus package recap), use `.claude/skills/email-inbox/templates/sponsor-welcome.md`. Substitute the package bullets from the booking form or the electoral dashboard; compose via `compose.sh --html`.
-
-## Template: pre-event delegate briefing (joining details)
-
-Use this for the joining-instructions email sent to registered delegates ahead of a webinar or roundtable. It is usually sent the day before the event by the admin team (e.g. Devianee, `cnithoo@parlistudies.org`), so compose it to whoever sends it out, addressed to the delegate. Note the blank-line `
-` paragraphs throughout to keep the spacing right in Outlook.
-
-Substitute the bracketed fields: event title, date, speaker list (name, title, organisation, one per line), start time and recommended join time, Zoom join link, Meeting ID, Passcode, and the event-page URL.
-
-```bash
-.claude/skills/email-inbox/compose.sh \
-  --to "cnithoo@parlistudies.org" \
-  --subject "Joining details: [EVENT TITLE] ([DATE])" \
-  --html \
-  --body "<p>Dear Delegate,</p>
-<p>Thank you for registering to attend the International Centre for Parliamentary Studies (ICPS) webinar: <b>[EVENT TITLE]</b>, taking place [DAY DATE]. This webinar is hosted online via Zoom.</p>
-<p>We are delighted to confirm the following speakers:</p>
-<p>[Speaker Name], [Title], [Organisation]<br>
-[Speaker Name], [Title], [Organisation]</p>
-<p>The event starts at [START TIME] BST (UTC+1), but as a caveat we advise that you join using the link provided at [JOIN TIME] BST, as this will allow us to iron out any potential IT issues before the agenda starts.</p>
-<p>Below are the details you will require in order to join. The link is already active, but you will be unable to join the room until the session starts.</p>
-<p><b>Topic:</b> [EVENT TITLE]<br>
-<b>Time:</b> [DAY DATE], [START TIME] BST (UTC+1)</p>
-<p><b>Join Zoom Meeting:</b> <a href='[ZOOM JOIN LINK]'>click here</a></p>
-<p>Meeting ID: [MEETING ID]<br>
-Passcode: [PASSCODE]</p>
-<p>For the full programme and session details, please see our event page: <a href='[EVENT PAGE URL]'>click here</a></p>
-<p>I will be present throughout the entire event to assist with any technical issues that may arise.</p>
-<p>If you have any questions, please do not hesitate to ask.</p>
-<p>Kind regards,</p>"
-```
-
-Notes:
-- A speaker line can also describe a partner or product rather than a person, e.g. `NOMOS, a news, content, and connection layer built specifically for electoral bodies.`
-- Confirm with the user when the email will actually be sent before using "tomorrow"; default to the explicit date if there is any doubt.
-- The recommended join time is normally 15 minutes before the start.
+Awards/sponsor templates travel with the current edition's project folder; webinar templates are cross-series and live in `projects/webinars/`.
 
 ---
 
