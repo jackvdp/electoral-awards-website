@@ -5,12 +5,14 @@ Jack Vanderpump's working repo (ICPS, Head of Policy Research). Holds the **elec
 ```
 .
 ├── web/                Next.js app (electoralnetwork.org) — see web/README.md
-├── .claude/skills/     Claude Code skills (admin + website)
-├── emails/             Drafted .eml/.emltpl templates and speaker-shortlist CSVs
+├── .agents/skills/     Shared skills (admin + website)
+├── .claude/skills/     Compatibility symlinks to shared skills
+├── agent-support/     Agent setup and MCP inventory
 ├── docs/               ICPS reference docs (Horizon, webinars)
 ├── projects/           Cross-cutting work
 ├── scripts/            Admin AppleScripts
-└── CLAUDE.md           Routing / always-on conventions for Claude Code
+├── AGENTS.md           Shared routing and conventions
+└── CLAUDE.md           Imports AGENTS.md for Claude Code
 ```
 
 ## Working on the website
@@ -21,7 +23,7 @@ npm install
 npm run dev
 ```
 
-Full notes in [`.claude/skills/website-dev/SKILL.md`](.claude/skills/website-dev/SKILL.md) or invoke `/website-dev` in Claude Code.
+Full notes in [`.agents/skills/website-dev/SKILL.md`](.agents/skills/website-dev/SKILL.md) or invoke `$website-dev` in Codex / `/website-dev` in Claude Code.
 
 ## Deployment
 
@@ -29,4 +31,4 @@ Vercel builds from `web/`. The project's **Root Directory** is set to `web` in t
 
 ## Skills
 
-Run `/` in Claude Code to see all available skills. Routing table in [CLAUDE.md](CLAUDE.md).
+The 17 repository skills live in `.agents/skills`; Claude Code discovers the same files through symlinks. See [AGENTS.md](AGENTS.md) for routing and [agent setup](agent-support/README.md) for fresh checkouts, worktrees, private project migration and [MCP configuration](agent-support/mcp.md).

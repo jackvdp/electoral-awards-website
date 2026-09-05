@@ -1,0 +1,49 @@
+{
+  "mcpServers": {
+    "exa": {
+      "type": "http",
+      "url": "https://mcp.exa.ai/mcp"
+    },
+    "hunter": {
+      "type": "http",
+      "url": "https://mcp.hunter.io/mcp",
+      "headers": {
+        "X-API-KEY": "${HUNTER_API_KEY}"
+      }
+    },
+    "firecrawl": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "firecrawl-mcp"
+      ],
+      "env": {
+        "FIRECRAWL_API_KEY": "${FIRECRAWL_API_KEY}"
+      }
+    },
+    "mongodb": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mongodb-mcp-server@latest"
+      ],
+      "env": {
+        "MDB_MCP_CONNECTION_STRING": "${MDB_MCP_CONNECTION_STRING}"
+      }
+    },
+    "neon": {
+      "type": "http",
+      "url": "https://mcp.neon.tech/mcp"
+    },
+    "Canva": {
+      "type": "http",
+      "url": "https://mcp.canva.com/mcp"
+    },
+    "cloudflare-dns-analytics": {
+      "type": "http",
+      "url": "https://dns-analytics.mcp.cloudflare.com/mcp"
+    }
+  }
+}
