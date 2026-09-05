@@ -1,0 +1,23 @@
+#!/bin/sh
+
+repo_root=$(git rev-parse --show-toplevel) || exit 1
+cd "$repo_root" || exit 1
+
+# Older branches may not contain the checker yet.
+if [ -f scripts/sync-agent-instructions.py ]; then
+    python3 scripts/sync-agent-instructions.py --pre-push || {
+        echo "Instruction-link check stopped the push. Review the output above."
+        exit 1
+    }
+fi
+
+echo "Running build check before push..."
+cd "$repo_root/web" || exit 1
+npm run build
+
+if [ $? -ne 0 ]; then
+    echo "Build failed. Push aborted."
+    exit 1
+fi
+
+echo "Build succeeded. Pushing..."
