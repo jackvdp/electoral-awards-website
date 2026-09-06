@@ -25,7 +25,9 @@ The scan covers only these known personal paths. It does not search the whole ho
 
 `--home /path/to/test-home` inspects an isolated home directory. `--codex-home /path` overrides the personal instruction destination. No files change in `--check` mode; it returns 1 for proposed changes or review items, and 0 when the checked paths need no changes.
 
-`--pre-push` prompts through `/dev/tty`, never Git's stdin. It stops after applying changes for review, and stops if no terminal is available or review items remain. This standalone script is not automatically added to the repository hook; run it when you want to share personal configuration.
+The repository's `.githooks/pre-push` runs this script with `--pre-push` after the repository instruction check and before MCP sync and the website build. It prompts through `/dev/tty`, never Git's stdin. It stops after applying changes for review, and stops if no terminal is available or review items remain.
+
+To install the tracked hook in another checkout, review any existing local hook, then run `cp .githooks/pre-push .git/hooks/pre-push` from the repo root.
 
 Validation:
 
