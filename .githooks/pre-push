@@ -11,6 +11,13 @@ if [ -f scripts/sync-agent-instructions.py ]; then
     }
 fi
 
+if [ -f scripts/sync-claude-mcp.py ]; then
+    python3 scripts/sync-claude-mcp.py --pre-push || {
+        echo "MCP sync check stopped the push. Review the output above."
+        exit 1
+    }
+fi
+
 echo "Running build check before push..."
 cd "$repo_root/web" || exit 1
 npm run build

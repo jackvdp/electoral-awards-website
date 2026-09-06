@@ -43,7 +43,11 @@ URLs, argument lists and headers can contain credentials. The preview hides thei
 
 OAuth sessions are not copied. Restart Codex, trust the project if using project configuration, and inspect `/mcp`. For servers requiring OAuth, run `codex mcp login SERVER_NAME` from the project directory. Configured does not necessarily mean authenticated or connected.
 
-No Git hook is installed. `--check` returns 1 when additions or review items exist, and 0 when everything matches. A confirmed import returns 0 even if other entries still need manual review; inspect the summary.
+The repository's `.githooks/pre-push` runs this script with `--pre-push` after the instruction-link check and before the website build. To install the tracked hook in a checkout, run `cp .githooks/pre-push .git/hooks/pre-push` from the repo root (review any existing local hook before replacing it).
+
+In hook mode, confirmation comes from `/dev/tty`, leaving Git's ref-update input untouched. Missing servers prompt for import; cancellation, unavailable terminal access or manual review items stop the push. Deliberately disabled Claude servers are skipped in hook mode. A successful import also stops the push so you can review the private local configuration before pushing again. If everything matches, the hook continues to the build.
+
+`--check` returns 1 when additions or review items exist, and 0 when everything matches. Outside hook mode, a confirmed import returns 0 even if other entries still need manual review; inspect the summary.
 
 Validation:
 

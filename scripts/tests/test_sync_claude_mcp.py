@@ -1,5 +1,6 @@
 """Run with Python 3.11+: python3 -m unittest discover -s scripts/tests."""
 import importlib.util
+import io
 import json
 import os
 from pathlib import Path
@@ -137,6 +138,42 @@ class ScriptTests(unittest.TestCase):
                 with self.assertRaisesRegex(sync.ReviewError, 'changed during review'):
                     sync.main()
         self.assertFalse(self.destination.exists())
+
+    def test_pre_push_without_terminal_does_not_read_git_input(self):
+        with patch.dict(os.environ, self.env), patch('sys.argv', [str(SCRIPT),
+                '--project', str(self.root), '--claude-config', str(self.claude), '--pre-push']), \
+                patch('builtins.open', side_effect=OSError('No terminal')), \
+                patch('builtins.input') as stdin, patch('builtins.print'):
+            self.assertEqual(sync.main(), 1)
+            stdin.assert_not_called()
+        self.assertFalse(self.destination.exists())
+
+    def test_pre_push_skips_deliberately_disabled_servers(self):
+        data = json.loads(self.claude.read_text())
+        data['projects'] = {str(self.root): {'disabledMcpServers': ['sample']}}
+        self.claude.write_text(json.dumps(data))
+        result = self.run_script('--pre-push')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('SKIP: disabled', result.stdout)
+        self.assertFalse(self.destination.exists())
+
+    def test_pre_push_import_stops_then_matching_config_passes(self):
+        terminal = unittest.mock.MagicMock()
+        terminal.__enter__.return_value = terminal
+        terminal.readline.return_value = 'yes\n'
+        output = io.StringIO()
+        with patch.dict(os.environ, self.env), patch('sys.argv', [str(SCRIPT),
+                '--project', str(self.root), '--claude-config', str(self.claude), '--pre-push']), \
+                patch('builtins.open', return_value=terminal) as tty, \
+                patch('builtins.input') as stdin, patch('sys.stdout', output):
+            self.assertEqual(sync.main(), 1)
+            tty.assert_called_once_with('/dev/tty', 'r+')
+            stdin.assert_not_called()
+            self.assertTrue(self.destination.exists())
+            tty.reset_mock()
+            self.assertEqual(sync.main(), 0)
+            tty.assert_not_called()
+        self.assertIn('Push stopped', output.getvalue())
 
 
 if __name__ == '__main__':

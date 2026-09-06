@@ -182,6 +182,8 @@ def main():
     parser.add_argument('--claude-config', type=Path, default=Path.home() / '.claude.json')
     parser.add_argument('--target', choices=['project', 'user'], default='project')
     parser.add_argument('--check', action='store_true', help='Preview only; exit 1 when additions or review items exist')
+    parser.add_argument('--pre-push', action='store_true',
+                        help='Prompt via the terminal, then stop the push after imports for review')
     args = parser.parse_args()
     root = args.project.resolve()
     if not root.is_dir():
@@ -223,6 +225,9 @@ def main():
             print('     Overrides: ' + ', '.join(item['shadowed']))
         transport = server.get('type', 'stdio') if isinstance(server, dict) else 'invalid'
         print('     Transport: ' + repr(transport))
+        if item['disabled'] and args.pre_push:
+            print('     SKIP: disabled in Claude settings\n')
+            continue
         try:
             if not NAME.fullmatch(name):
                 raise ReviewError('Server name needs manual normalisation for Codex')
@@ -292,7 +297,19 @@ def main():
         print('\nPreview only; no files changed.')
         return 1
     try:
-        answer = input(paint('\nAdd these servers to Codex? [y/N] ', '1')).strip().lower()
+        prompt = paint('\nAdd these servers to Codex? [y/N] ', '1')
+        if args.pre_push:
+            # Git owns stdin: ref updates must never be treated as confirmation.
+            try:
+                with open('/dev/tty', 'r+') as terminal:
+                    terminal.write(prompt)
+                    terminal.flush()
+                    answer = terminal.readline().strip().lower()
+            except OSError:
+                print('\nCannot prompt here. Run python3 scripts/sync-claude-mcp.py in a terminal, then retry the push.')
+                return 1
+        else:
+            answer = input(prompt).strip().lower()
     except (EOFError, KeyboardInterrupt):
         answer = ''
     if answer not in {'y', 'yes'}:
@@ -313,6 +330,9 @@ def main():
     print(paint(f'\nAdded {len(additions)} servers to {short(destination)}.', '32'))
     print('Restart Codex. Trust this project for project-scoped config, then check /mcp.')
     print('For OAuth services, authenticate separately with: codex mcp login SERVER_NAME')
+    if args.pre_push:
+        print('\nServers imported. Push stopped so you can review the local configuration, then push again.')
+        return 1
     return 0
 
 
