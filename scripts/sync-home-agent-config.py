@@ -11,6 +11,34 @@ class ReviewError(Exception):
     pass
 
 
+def colour(text, code):
+    if sys.stdout.isatty() and 'NO_COLOR' not in os.environ and os.environ.get('TERM') != 'dumb':
+        return f'\033[{code}m{text}\033[0m'
+    return text
+
+
+def short_path(path, home):
+    if path == home:
+        return '~'
+    try:
+        return '~/' + str(path.relative_to(home))
+    except ValueError:
+        return str(path)
+
+
+def describe(plan, home, number):
+    kind, claude, codex, backup = plan
+    print(colour(f'  {number}. {short_path(claude, home)}', '1;36'))
+    if kind == 'reverse':
+        print(colour(f'     Remove   {short_path(claude, home)} (reverse symlink)', '33'))
+    if kind in {'promote', 'reverse'}:
+        print(colour(f'     Move     {short_path(codex, home)} -> {short_path(claude, home)}', '33'))
+    if backup:
+        print(colour(f'     Back up  {short_path(codex, home)} -> {short_path(backup, home)}', '33'))
+    print(colour(f'     Link     {short_path(codex, home)} -> {short_path(claude, home)}', '32'))
+    print()
+
+
 def exists(path):
     return os.path.lexists(path)
 
@@ -164,28 +192,33 @@ def main():
     if not home.is_dir():
         raise ReviewError('Home directory does not exist')
     plans, problems = scan(home, codex_home)
-    print('\nPersonal Claude / Codex instructions and skills')
-    print(f'  Home: {home}')
-    for kind, claude, codex, backup in plans:
-        if kind in {'promote', 'reverse'}:
-            print(f'  MOVE {codex} → {claude}')
-        if kind == 'reverse':
-            print(f'  REMOVE reverse link {claude}')
-        if backup:
-            print(f'  BACK UP {codex} → {backup}')
-        print(f'  LINK {codex} → {claude}')
-    for problem in problems:
-        print(f'  REVIEW: {problem}')
-    print(f'{len(plans)} changes · {len(problems)} review items')
+    print(colour('\nPersonal agent instruction and skill links', '1'))
+    print(f'  Home: {short_path(home, home)}')
+    print(colour('  Checks personal instructions and skills; skips system skills and plugin caches.', '2'))
+    print()
+    if problems:
+        print(colour(f'Manual review needed ({len(problems)})', '1;33'))
+        for problem in problems:
+            print('  ! ' + problem.replace(str(home) + '/', '~/'))
+        print()
     if not plans:
+        print(colour('No automatic fixes needed.', '32' if not problems else '33'))
         return int(bool(problems))
-    print('Files on the Claude side become canonical. Existing conflicts are not overwritten.')
+    print(colour(f'Proposed changes ({len(plans)} location{"s" if len(plans) != 1 else ""})\n', '1'))
+    for number, plan in enumerate(plans, 1):
+        describe(plan, home, number)
+    backups = sum(plan[3] is not None for plan in plans)
+    summary = f'{len(plans)} symlink{"s" if len(plans) != 1 else ""} to create'
+    if backups:
+        summary += f' · {backups} existing item(s) to back up'
+    print(colour(summary, '1'))
+    print('Existing contents will be preserved. Nothing will be staged or committed.')
     before = snapshot(plans)
     if args.check:
-        print('Preview only; no files changed.')
+        print(colour('\nPreview only; no changes made.', '2'))
         return 1
     try:
-        prompt = '\nApply these home-directory changes? [y/N] '
+        prompt = colour('\nApply these changes? [y/N] ', '1')
         if args.pre_push:
             try:
                 with open('/dev/tty', 'r+') as terminal:
@@ -193,22 +226,24 @@ def main():
                     terminal.flush()
                     answer = terminal.readline().strip().lower()
             except OSError:
-                print('Cannot prompt here. Run python3 scripts/sync-home-agent-config.py in a terminal, then retry the push.')
+                print('\nCannot prompt here. Run python3 scripts/sync-home-agent-config.py in a terminal, then retry the push.')
                 return 1
         else:
             answer = input(prompt).strip().lower()
     except (EOFError, KeyboardInterrupt):
-        answer = ''
+        print('\nCancelled; no changes made.')
+        return 1
     if answer not in {'y', 'yes'}:
-        print('Cancelled; no files changed.')
+        print('Cancelled; no changes made.')
         return 1
     if scan(home, codex_home) != (plans, problems) or snapshot(plans) != before:
         raise ReviewError('Files changed during review; rerun for a fresh preview')
     for plan in plans:
         apply(plan)
-    print('Personal links updated. Restart Claude and Codex to reload them.')
+        print(colour(f'  Fixed {short_path(plan[2], home)}', '32'))
+    print('\nPersonal links updated. Restart Claude and Codex to reload them.')
     if args.pre_push:
-        print('Push stopped so you can review the changes, then push again.')
+        print('\nPush stopped so you can review the changes, then push again.')
         return 1
     return int(bool(problems))
 
