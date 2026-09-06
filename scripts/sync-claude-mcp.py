@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Preview Claude MCP definitions and optionally add missing servers to Codex."""
+"""Preview and confirm missing MCP imports between Claude and Codex."""
 import argparse
 import json
 import os
@@ -113,6 +113,63 @@ def convert(server, root, environment):
     return result
 
 
+def to_claude(server, root, target):
+    """Convert only settings whose behaviour can be preserved in Claude."""
+    if not isinstance(server, dict):
+        raise ReviewError('Server definition is not an object')
+    stdio = 'command' in server
+    allowed = ({'command', 'args', 'env', 'cwd'} if stdio else
+               {'url', 'http_headers', 'env_http_headers', 'bearer_token_env_var'}) | {'enabled'}
+    if set(server) - allowed:
+        raise ReviewError('Codex-specific settings need manual conversion (tool restrictions, OAuth, timeouts or environment forwarding)')
+    if 'enabled' in server and not isinstance(server['enabled'], bool):
+        raise ReviewError('Invalid enabled setting')
+    def literal(value):
+        if not isinstance(value, str) or '${' in value:
+            raise ReviewError('Non-string or literal environment placeholder needs manual conversion')
+        return value
+    def variable(value):
+        if not isinstance(value, str) or not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', value):
+            raise ReviewError('Invalid environment variable name')
+        return '${' + value + '}'
+    if stdio:
+        cwd = server.get('cwd')
+        # Claude has no documented cwd field. Project-local imports may use the
+        # same project directory; never silently discard a custom working path.
+        if cwd is not None and (target == 'user' or Path(literal(cwd)) != root):
+            raise ReviewError('Custom working directory requires a Claude launcher; configure manually')
+        args, env = server.get('args', []), server.get('env', {})
+        if not isinstance(args, list) or not isinstance(env, dict):
+            raise ReviewError('Invalid args or env')
+        result = {'type': 'stdio', 'command': literal(server['command']),
+                  'args': [literal(v) for v in args]}
+        if not result['command']:
+            raise ReviewError('Missing command')
+        if env:
+            result['env'] = {k: literal(v) for k, v in env.items()}
+        return result
+    url = literal(server.get('url'))
+    if not url.startswith(('https://', 'http://')):
+        raise ReviewError('Invalid HTTP URL')
+    result = {'type': 'http', 'url': url}
+    headers = {}
+    def header(name, value):
+        if not isinstance(name, str) or name.lower() in {k.lower() for k in headers}:
+            raise ReviewError('Conflicting HTTP header settings require manual review')
+        headers[name] = value
+    for field in ('http_headers', 'env_http_headers'):
+        values = server.get(field, {})
+        if not isinstance(values, dict):
+            raise ReviewError('Invalid headers')
+        for name, value in values.items():
+            header(name, variable(value) if field == 'env_http_headers' else literal(value))
+    if 'bearer_token_env_var' in server:
+        header('Authorization', 'Bearer ' + variable(server['bearer_token_env_var']))
+    if headers:
+        result['headers'] = headers
+    return result
+
+
 def entries(config):
     result = config.get('mcpServers', {})
     if not isinstance(result, dict):
@@ -180,17 +237,27 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--project', type=Path, default=Path(__file__).resolve().parent.parent)
     parser.add_argument('--claude-config', type=Path, default=Path.home() / '.claude.json')
+    parser.add_argument('--direction', choices=['both', 'to-codex', 'to-claude'], default='both')
     parser.add_argument('--target', choices=['project', 'user'], default='project')
     parser.add_argument('--check', action='store_true', help='Preview only; exit 1 when additions or review items exist')
     parser.add_argument('--pre-push', action='store_true',
                         help='Prompt via the terminal, then stop the push after imports for review')
     args = parser.parse_args()
+    directions = ['to-codex', 'to-claude'] if args.direction == 'both' else [args.direction]
+    results = [sync_direction(args, direction) for direction in directions]
+    return max(results)
+
+
+def sync_direction(args, direction):
+    reverse = direction == 'to-claude'
+    recipient = 'Claude' if reverse else 'Codex'
     root = args.project.resolve()
     if not root.is_dir():
         raise ReviewError('Project directory does not exist')
     codex_home = Path(os.environ.get('CODEX_HOME', str(Path.home() / '.codex'))).expanduser()
     global_path, project_path = codex_home / 'config.toml', root / '.codex/config.toml'
-    destination = project_path if args.target == 'project' else global_path
+    destination = (args.claude_config.expanduser() if reverse else
+                   project_path if args.target == 'project' else global_path)
     sources = [args.claude_config.expanduser(), root / '.mcp.json',
                Path.home() / '.claude/settings.json', root / '.claude/settings.json',
                root / '.claude/settings.local.json', global_path, project_path]
@@ -210,7 +277,13 @@ def main():
     user_servers = configs[global_path].get('mcp_servers', {})
     repo_servers = configs[project_path].get('mcp_servers', {})
     existing = {**user_servers, **repo_servers}
-    print(paint('\nClaude MCPs → Codex', '1'))
+    claude_names = {item['name'] for item in servers}
+    if reverse:
+        servers = [{'name': name, 'server': server,
+                    'scope': 'project' if name in repo_servers else 'user',
+                    'shadowed': [], 'disabled': isinstance(server, dict) and server.get('enabled') is False}
+                   for name, server in sorted(existing.items()) if name not in claude_names]
+    print(paint('\nCodex MCPs → Claude' if reverse else '\nClaude MCPs → Codex', '1'))
     print(f'  Project:     {short(root)}\n  Destination: {short(destination)} ({args.target} scope)')
     print('  Saved definitions only; connections and OAuth logins are not tested.')
     print('  Plugin, managed-policy, CLI-only and claude.ai connections are outside this scan.')
@@ -219,23 +292,31 @@ def main():
     for number, item in enumerate(servers, 1):
         name, server = item['name'], item['server']
         print(paint(f'  {number}. {name!r} [{item["scope"]}]', '1;36'))
-        source = sources[1] if item['scope'] == 'project' else sources[0]
+        source = ((project_path if item['scope'] == 'project' else global_path) if reverse else
+                  sources[1] if item['scope'] == 'project' else sources[0])
         print(f'     Source: {short(source)}')
         if item['shadowed']:
             print('     Overrides: ' + ', '.join(item['shadowed']))
-        transport = server.get('type', 'stdio') if isinstance(server, dict) else 'invalid'
+        transport = (('http' if 'url' in server else 'stdio') if reverse else
+                     server.get('type', 'stdio')) if isinstance(server, dict) else 'invalid'
         print('     Transport: ' + repr(transport))
-        if item['disabled'] and args.pre_push:
-            print('     SKIP: disabled in Claude settings\n')
+        if item['disabled'] and (args.pre_push or reverse):
+            print('     SKIP: disabled in source settings\n')
             continue
         try:
             if not NAME.fullmatch(name):
                 raise ReviewError('Server name needs manual normalisation for Codex')
             if item['disabled']:
                 raise ReviewError('Disabled in Claude settings; not offered for import')
-            converted = convert(server, root, os.environ)
-            if name in existing:
-                same = all(existing[name].get(k) == v for k, v in converted.items())
+            if reverse and name in disabled | disabled_project:
+                raise ReviewError('Disabled in Claude settings; not offered for import')
+            converted = to_claude(server, root, args.target) if reverse else convert(server, root, os.environ)
+            if not reverse and name in existing:
+                comparison = dict(existing[name])
+                if 'command' in comparison:
+                    comparison.setdefault('args', [])
+                    comparison.setdefault('cwd', str(root))
+                same = all(comparison.get(k) == v for k, v in converted.items())
                 status = 'Already configured' if same else 'Already configured; settings differ'
                 if existing[name].get('enabled') is False:
                     status += '; disabled in Codex'
@@ -246,13 +327,13 @@ def main():
                 review += int(not same or existing[name].get('enabled') is False)
             else:
                 additions.append((name, converted))
-                print(paint('     ADD: missing from Codex', '32'))
+                print(paint(f'     ADD: missing from {recipient}', '32'))
                 if converted.get('env_http_headers') or converted.get('bearer_token_env_var'):
-                    print('     Auth: environment references retained; Codex needs those variables at launch.')
+                    print(f'     Auth: environment references retained; {recipient} needs those variables at launch.')
                 elif converted.get('http_headers'):
                     print('     Auth: configured headers copied privately (values hidden).')
                 elif 'url' in converted:
-                    print('     Auth: separate Codex login may be needed.')
+                    print(f'     Auth: separate {recipient} login may be needed.')
                 if 'command' in converted:
                     print('     Launch: command, arguments and environment copied; project working directory retained.')
         except ReviewError as exc:
@@ -260,12 +341,23 @@ def main():
             print(paint(f'     REVIEW: {exc}', '33'))
         print()
     if not servers:
-        print('No saved Claude MCP definitions found in these scopes.')
-    print(paint(f'{len(additions)} to add · {review} to review · existing Codex entries will not be replaced', '1'))
+        print('No missing Codex servers to import into Claude.' if reverse else
+              'No saved Claude MCP definitions found in these scopes.')
+    print(paint(f'{len(additions)} to add · {review} to review · existing entries will not be replaced', '1'))
     if not additions:
         return int(bool(review))
     original = snapshots[destination]
-    output = render(original, additions)
+    if reverse:
+        updated = json.loads(json.dumps(configs[destination]))
+        section = updated
+        if args.target == 'project':
+            projects = updated.setdefault('projects', {})
+            key = next((key for key in projects if Path(key).resolve() == root), str(root))
+            section = projects.setdefault(key, {})
+        section.setdefault('mcpServers', {}).update(dict(additions))
+        output = (json.dumps(updated, indent=2, ensure_ascii=False) + '\n').encode()
+    else:
+        output = render(original, additions)
     backup = destination.with_name(destination.name + '.before-mcp-sync')
     i = 1
     while os.path.lexists(backup):
@@ -273,7 +365,7 @@ def main():
         i += 1
     exclude = None
     exclude_before = b''
-    if args.target == 'project':
+    if args.target == 'project' and not reverse:
         repo = git(root, 'rev-parse', '--show-toplevel')
         if repo.returncode or Path(repo.stdout.strip()).resolve() != root:
             raise ReviewError('--project must be a Git repository root so private config can be excluded correctly')
@@ -289,15 +381,16 @@ def main():
     print(f'  {"UPDATE" if original else "CREATE"} {short(destination)} (owner-only permissions)')
     if original:
         print(f'  BACK UP {short(destination)} → {short(backup)} (owner-only permissions)')
-    print('  Private credentials may be copied from Claude settings into the destination.')
-    print('  OAuth sessions are not copied. Claude configuration is unchanged.')
+    print('  Private credentials may be copied into the destination. OAuth sessions are not copied.')
+    if reverse and args.target == 'project':
+        print('  Claude destination: private local scope for this project inside .claude.json.')
     if args.target == 'user':
-        print(paint('  These servers will be available across Codex projects.', '33'))
+        print(paint(f'  These servers will be available across {recipient} projects.', '33'))
     if args.check:
         print('\nPreview only; no files changed.')
         return 1
     try:
-        prompt = paint('\nAdd these servers to Codex? [y/N] ', '1')
+        prompt = paint(f'\nAdd these servers to {recipient}? [y/N] ', '1')
         if args.pre_push:
             # Git owns stdin: ref updates must never be treated as confirmation.
             try:
@@ -328,8 +421,7 @@ def main():
             stream.write(original)
     atomic_write(destination, output)
     print(paint(f'\nAdded {len(additions)} servers to {short(destination)}.', '32'))
-    print('Restart Codex. Trust this project for project-scoped config, then check /mcp.')
-    print('For OAuth services, authenticate separately with: codex mcp login SERVER_NAME')
+    print(f'Restart {recipient}, then check /mcp and authenticate separately if needed.')
     if args.pre_push:
         print('\nServers imported. Push stopped so you can review the local configuration, then push again.')
         return 1

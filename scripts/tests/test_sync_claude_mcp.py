@@ -56,7 +56,7 @@ class ScriptTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
-        self.home = Path(self.temp.name)
+        self.home = Path(self.temp.name).resolve()
         self.root = self.home / 'repo'
         self.root.mkdir()
         subprocess.run(['git', 'init', '-q', str(self.root)], check=True)
@@ -138,6 +138,105 @@ class ScriptTests(unittest.TestCase):
                 with self.assertRaisesRegex(sync.ReviewError, 'changed during review'):
                     sync.main()
         self.assertFalse(self.destination.exists())
+
+    def codex_only(self, definition, name='reverse'):
+        self.claude.write_text('{"unrelated": {"keep": true}}')
+        (self.codex / 'config.toml').write_bytes(sync.render(b'', [(name, definition)]))
+
+    def test_reverse_http_preserves_references_backup_and_other_settings(self):
+        self.codex_only({'url': 'https://example.com/' + self.secret,
+                         'bearer_token_env_var': 'TOKEN', 'env_http_headers': {'X-Key': 'KEY'}})
+        before = self.claude.read_bytes()
+        result = self.run_script('--direction', 'to-claude', answer='yes\n')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(self.claude.read_text())
+        server = data['projects'][str(self.root)]['mcpServers']['reverse']
+        self.assertEqual(server['headers'], {'Authorization': 'Bearer ${TOKEN}', 'X-Key': '${KEY}'})
+        self.assertTrue(data['unrelated']['keep'])
+        self.assertEqual(self.claude.with_name('.claude.json.before-mcp-sync').read_bytes(), before)
+        self.assertEqual(self.claude.stat().st_mode & 0o777, 0o600)
+        self.assertEqual(self.run_script('--check').returncode, 0)
+
+    def test_reverse_preview_and_cancellation_leave_both_sides_untouched(self):
+        self.codex_only({'url': 'https://example.com/' + self.secret})
+        before = self.claude.read_bytes()
+        config = (self.codex / 'config.toml').read_bytes()
+        for args in (('--check',), ()):
+            self.assertEqual(self.run_script(*args, answer='no\n').returncode, 1)
+            self.assertEqual(self.claude.read_bytes(), before)
+            self.assertEqual((self.codex / 'config.toml').read_bytes(), config)
+            self.assertFalse(self.claude.with_name('.claude.json.before-mcp-sync').exists())
+
+    def test_reverse_user_scope_and_stdio_roundtrip(self):
+        self.codex_only({'command': 'npx', 'args': ['sample']})
+        self.assertEqual(self.run_script('--target', 'user', answer='yes\n').returncode, 0)
+        self.assertEqual(json.loads(self.claude.read_text())['mcpServers']['reverse']['command'], 'npx')
+        self.assertEqual(self.run_script('--check').returncode, 0)
+
+    def test_reverse_project_stdio_cwd_roundtrip(self):
+        self.codex_only({'command': 'npx', 'cwd': str(self.root), 'env': {'TOKEN': self.secret}})
+        self.assertEqual(self.run_script(answer='yes\n').returncode, 0)
+        self.assertEqual(self.run_script('--check').returncode, 0)
+
+    def test_reverse_disabled_codex_server_is_not_enabled_in_claude(self):
+        self.codex_only({'url': 'https://example.com'})
+        config = self.codex / 'config.toml'
+        config.write_text(config.read_text() + 'enabled = false\n')
+        before = self.claude.read_bytes()
+        self.assertEqual(self.run_script('--pre-push').returncode, 0)
+        self.assertEqual(self.claude.read_bytes(), before)
+
+    def test_reverse_hook_uses_terminal_and_stops_after_import(self):
+        self.codex_only({'url': 'https://example.com'})
+        terminal = unittest.mock.MagicMock()
+        terminal.__enter__.return_value = terminal
+        terminal.readline.return_value = 'yes\n'
+        with patch.dict(os.environ, self.env), patch('sys.argv', [str(SCRIPT), '--project', str(self.root),
+                '--claude-config', str(self.claude), '--pre-push']), patch('builtins.print'), \
+                patch('builtins.open', return_value=terminal) as tty, patch('builtins.input') as stdin:
+            self.assertEqual(sync.main(), 1)
+            tty.assert_called_once_with('/dev/tty', 'r+')
+            stdin.assert_not_called()
+        self.assertEqual(self.run_script('--pre-push').returncode, 0)
+
+    def test_reverse_custom_cwd_and_restrictions_require_review(self):
+        for definition in ({'command': 'npx', 'cwd': '/other'},
+                           {'url': 'https://example.com', 'disabled_tools': ['delete']},
+                           {'url': 'https://example.com/${LITERAL}'},
+                           {'command': 'npx', 'env_vars': ['SECRET']}):
+            self.codex_only(definition)
+            before = self.claude.read_bytes()
+            result = self.run_script(answer='yes\n')
+            self.assertEqual(result.returncode, 1)
+            self.assertIn('REVIEW', result.stdout)
+            self.assertEqual(self.claude.read_bytes(), before)
+
+    def test_reverse_respects_disabled_claude_name_without_definition(self):
+        self.codex_only({'url': 'https://example.com'})
+        self.claude.write_text(json.dumps({'projects': {str(self.root): {'disabledMcpServers': ['reverse']}}}))
+        before = self.claude.read_bytes()
+        self.assertEqual(self.run_script(answer='yes\n').returncode, 1)
+        self.assertEqual(self.claude.read_bytes(), before)
+
+    def test_reverse_concurrent_edit_aborts(self):
+        self.codex_only({'url': 'https://example.com'})
+        with patch.dict(os.environ, self.env), patch('sys.argv', [str(SCRIPT), '--project', str(self.root),
+                '--claude-config', str(self.claude), '--direction', 'to-claude']), patch('builtins.print'):
+            def edit(_):
+                self.claude.write_text('{"new": true}')
+                return 'yes'
+            with patch('builtins.input', side_effect=edit):
+                with self.assertRaisesRegex(sync.ReviewError, 'changed during review'):
+                    sync.main()
+        self.assertEqual(json.loads(self.claude.read_text()), {'new': True})
+
+    def test_both_directions_add_missing_names_without_replacing(self):
+        (self.codex / 'config.toml').write_bytes(sync.render(b'', [('reverse', {'url': 'https://example.org'})]))
+        result = self.run_script(answer='yes\nyes\n')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('sample', tomllib.loads(self.destination.read_text())['mcp_servers'])
+        self.assertIn('reverse', json.loads(self.claude.read_text())['projects'][str(self.root)]['mcpServers'])
+        self.assertEqual(self.run_script('--check').returncode, 0)
 
     def test_pre_push_without_terminal_does_not_read_git_input(self):
         with patch.dict(os.environ, self.env), patch('sys.argv', [str(SCRIPT),
