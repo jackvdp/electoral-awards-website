@@ -20,3 +20,6 @@ projects/
 
 # edit-doc skill: local python venv
 .claude/skills/edit-doc/.venv/
+
+# sync-claude-mcp.py: personal list of MCP servers to leave alone
+.mcp-sync-ignore

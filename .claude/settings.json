@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git log *)",
+      "Read(//Users/jackvanderpump/Dropbox/My Mac \\\\\\(Mac-Pro\\\\\\)/Desktop/ICPS/projects/awards26/**)"
+    ]
+  }
+}

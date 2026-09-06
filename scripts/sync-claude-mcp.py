@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Preview and confirm missing MCP imports between Claude and Codex."""
 import argparse
+from datetime import date
 import json
 import os
 from pathlib import Path
@@ -233,6 +234,102 @@ def git(root, *args):
     return subprocess.run(['git', '-C', str(root), *args], text=True, capture_output=True)
 
 
+IGNORE_HEADER = ('# MCP servers that scripts/sync-claude-mcp.py should neither offer to import\n'
+                 '# nor flag for review. One server name per line; # starts a comment.\n')
+
+
+def load_ignored(path):
+    """Server names listed in the ignore file (missing file means none)."""
+    if not path.exists():
+        return set()
+    names = set()
+    for line in path.read_text().splitlines():
+        line = line.split('#', 1)[0].strip()
+        if line:
+            names.add(line)
+    return names
+
+
+def record_ignored(path, names, label):
+    """Append names to the ignore file, creating it with a short header if needed."""
+    existing = path.read_text() if path.exists() else ''
+    text = '' if existing else IGNORE_HEADER
+    if existing and not existing.endswith('\n'):
+        text += '\n'
+    text += f'\n# {label}\n' + ''.join(f'{name}\n' for name in names)
+    with path.open('a') as stream:
+        stream.write(text)
+
+
+class Prompter:
+    """Ask questions on the terminal; in hook mode use /dev/tty so Git's stdin is never read."""
+
+    def __init__(self, pre_push):
+        self.pre_push = pre_push
+        self.terminal = None
+
+    def open(self):
+        if self.pre_push:
+            # Git owns stdin: ref updates must never be treated as confirmation.
+            self.terminal = open('/dev/tty', 'r+')
+
+    def ask(self, prompt):
+        try:
+            if self.terminal is not None:
+                self.terminal.write(prompt)
+                self.terminal.flush()
+                return self.terminal.readline().strip().lower()
+            return input(prompt).strip().lower()
+        except (EOFError, KeyboardInterrupt):
+            return ''
+
+    def close(self):
+        if self.terminal is not None:
+            self.terminal.close()
+            self.terminal = None
+
+
+def choose(args, ignore_path, direction, additions, review):
+    """Ask about each server in turn: import it, ignore it from now on, or leave it.
+
+    Returns (additions to import, count left unresolved), or None when no terminal is available.
+    """
+    recipient = 'Claude' if direction == 'to-claude' else 'Codex'
+    prompter = Prompter(args.pre_push)
+    try:
+        prompter.open()
+    except OSError:
+        print('\nCannot prompt here. Run python3 scripts/sync-claude-mcp.py in a terminal, then retry the push.')
+        return None
+    chosen, ignored, remaining = [], [], 0
+    try:
+        for name, converted in additions:
+            answer = prompter.ask(paint(f'\nAdd {name!r} to {recipient}? [y]es / [i]gnore from now on / [N]o ', '1'))
+            if answer in {'y', 'yes'}:
+                chosen.append((name, converted))
+            elif answer in {'i', 'ignore'}:
+                ignored.append(name)
+            else:
+                remaining += 1
+        for name, reason in review:
+            answer = prompter.ask(paint(f'\nIgnore {name!r} from now on? ({reason}) [y/N] ', '1'))
+            if answer in {'y', 'yes'}:
+                ignored.append(name)
+            else:
+                remaining += 1
+    finally:
+        prompter.close()
+    if ignored:
+        label = f'Ignored {date.today():%-d %B %Y} ({"Codex → Claude" if direction == "to-claude" else "Claude → Codex"})'
+        record_ignored(ignore_path, ignored, label)
+        print(paint(f'\nIgnoring {", ".join(repr(n) for n in ignored)} from now on; '
+                    f'listed in {short(ignore_path)}. Delete the line to reconsider.', '32'))
+    if not chosen:
+        print(f'\n{remaining} left for another time; no config changed.' if remaining else
+              '\nNo config changed.')
+    return chosen, remaining
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--project', type=Path, default=Path(__file__).resolve().parent.parent)
@@ -242,6 +339,8 @@ def main():
     parser.add_argument('--check', action='store_true', help='Preview only; exit 1 when additions or review items exist')
     parser.add_argument('--pre-push', action='store_true',
                         help='Prompt via the terminal, then stop the push after imports for review')
+    parser.add_argument('--ignore-file', type=Path,
+                        help='Server names to leave alone, one per line (default: <project>/.mcp-sync-ignore)')
     args = parser.parse_args()
     directions = ['to-codex', 'to-claude'] if args.direction == 'both' else [args.direction]
     results = [sync_direction(args, direction) for direction in directions]
@@ -283,15 +382,22 @@ def sync_direction(args, direction):
                     'scope': 'project' if name in repo_servers else 'user',
                     'shadowed': [], 'disabled': isinstance(server, dict) and server.get('enabled') is False}
                    for name, server in sorted(existing.items()) if name not in claude_names]
+    ignore_path = (args.ignore_file.expanduser() if args.ignore_file else root / '.mcp-sync-ignore')
+    ignored_names = load_ignored(ignore_path)
     print(paint('\nCodex MCPs → Claude' if reverse else '\nClaude MCPs → Codex', '1'))
     print(f'  Project:     {short(root)}\n  Destination: {short(destination)} ({args.target} scope)')
+    print(f'  Ignore list: {short(ignore_path)} ({len(ignored_names)} listed)')
     print('  Saved definitions only; connections and OAuth logins are not tested.')
     print('  Plugin, managed-policy, CLI-only and claude.ai connections are outside this scan.')
     print('  Credential values, URL paths and launch arguments are hidden.\n')
-    additions, review = [], 0
+    additions, review, skipped = [], [], 0
     for number, item in enumerate(servers, 1):
         name, server = item['name'], item['server']
         print(paint(f'  {number}. {name!r} [{item["scope"]}]', '1;36'))
+        if name in ignored_names:
+            skipped += 1
+            print(f'     IGNORE: listed in {short(ignore_path)}\n')
+            continue
         source = ((project_path if item['scope'] == 'project' else global_path) if reverse else
                   sources[1] if item['scope'] == 'project' else sources[0])
         print(f'     Source: {short(source)}')
@@ -324,7 +430,8 @@ def sync_direction(args, direction):
                 print(paint(f'     KEEP: {status} in {short(location)}', '33'))
                 if args.target == 'user' and name in repo_servers and name not in user_servers:
                     print('     Available only in this project; global import needs manual review.')
-                review += int(not same or existing[name].get('enabled') is False)
+                if not same or existing[name].get('enabled') is False:
+                    review.append((name, status))
             else:
                 additions.append((name, converted))
                 print(paint(f'     ADD: missing from {recipient}', '32'))
@@ -337,27 +444,22 @@ def sync_direction(args, direction):
                 if 'command' in converted:
                     print('     Launch: command, arguments and environment copied; project working directory retained.')
         except ReviewError as exc:
-            review += 1
+            review.append((name, str(exc)))
             print(paint(f'     REVIEW: {exc}', '33'))
         print()
     if not servers:
         print('No missing Codex servers to import into Claude.' if reverse else
               'No saved Claude MCP definitions found in these scopes.')
-    print(paint(f'{len(additions)} to add · {review} to review · existing entries will not be replaced', '1'))
+    print(paint(f'{len(additions)} to add · {len(review)} to review · {skipped} ignored'
+                ' · existing entries will not be replaced', '1'))
+    if not additions and not review:
+        return 0
     if not additions:
-        return int(bool(review))
+        if args.check:
+            return 1
+        outcome = choose(args, ignore_path, direction, [], review)
+        return 1 if outcome is None else int(bool(outcome[1]))
     original = snapshots[destination]
-    if reverse:
-        updated = json.loads(json.dumps(configs[destination]))
-        section = updated
-        if args.target == 'project':
-            projects = updated.setdefault('projects', {})
-            key = next((key for key in projects if Path(key).resolve() == root), str(root))
-            section = projects.setdefault(key, {})
-        section.setdefault('mcpServers', {}).update(dict(additions))
-        output = (json.dumps(updated, indent=2, ensure_ascii=False) + '\n').encode()
-    else:
-        output = render(original, additions)
     backup = destination.with_name(destination.name + '.before-mcp-sync')
     i = 1
     while os.path.lexists(backup):
@@ -389,25 +491,23 @@ def sync_direction(args, direction):
     if args.check:
         print('\nPreview only; no files changed.')
         return 1
-    try:
-        prompt = paint(f'\nAdd these servers to {recipient}? [y/N] ', '1')
-        if args.pre_push:
-            # Git owns stdin: ref updates must never be treated as confirmation.
-            try:
-                with open('/dev/tty', 'r+') as terminal:
-                    terminal.write(prompt)
-                    terminal.flush()
-                    answer = terminal.readline().strip().lower()
-            except OSError:
-                print('\nCannot prompt here. Run python3 scripts/sync-claude-mcp.py in a terminal, then retry the push.')
-                return 1
-        else:
-            answer = input(prompt).strip().lower()
-    except (EOFError, KeyboardInterrupt):
-        answer = ''
-    if answer not in {'y', 'yes'}:
-        print('\nCancelled; no files changed.')
+    outcome = choose(args, ignore_path, direction, additions, review)
+    if outcome is None:
         return 1
+    additions, remaining = outcome
+    if not additions:
+        return int(bool(remaining))
+    if reverse:
+        updated = json.loads(json.dumps(configs[destination]))
+        section = updated
+        if args.target == 'project':
+            projects = updated.setdefault('projects', {})
+            key = next((key for key in projects if Path(key).resolve() == root), str(root))
+            section = projects.setdefault(key, {})
+        section.setdefault('mcpServers', {}).update(dict(additions))
+        output = (json.dumps(updated, indent=2, ensure_ascii=False) + '\n').encode()
+    else:
+        output = render(original, additions)
     if any(read(p) != data for p, data in snapshots.items()) or os.path.lexists(backup):
         raise ReviewError('Configuration changed during review; rerun for a fresh preview')
     if exclude:

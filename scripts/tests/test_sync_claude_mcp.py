@@ -206,7 +206,7 @@ class ScriptTests(unittest.TestCase):
                            {'command': 'npx', 'env_vars': ['SECRET']}):
             self.codex_only(definition)
             before = self.claude.read_bytes()
-            result = self.run_script(answer='yes\n')
+            result = self.run_script(answer='n\n')
             self.assertEqual(result.returncode, 1)
             self.assertIn('REVIEW', result.stdout)
             self.assertEqual(self.claude.read_bytes(), before)
@@ -215,7 +215,7 @@ class ScriptTests(unittest.TestCase):
         self.codex_only({'url': 'https://example.com'})
         self.claude.write_text(json.dumps({'projects': {str(self.root): {'disabledMcpServers': ['reverse']}}}))
         before = self.claude.read_bytes()
-        self.assertEqual(self.run_script(answer='yes\n').returncode, 1)
+        self.assertEqual(self.run_script(answer='n\n').returncode, 1)
         self.assertEqual(self.claude.read_bytes(), before)
 
     def test_reverse_concurrent_edit_aborts(self):
@@ -273,6 +273,88 @@ class ScriptTests(unittest.TestCase):
             self.assertEqual(sync.main(), 0)
             tty.assert_not_called()
         self.assertIn('Push stopped', output.getvalue())
+
+
+class IgnoreTests(ScriptTests):
+    def setUp(self):
+        super().setUp()
+        self.ignore = self.root / '.mcp-sync-ignore'
+
+    def test_ignore_answer_records_name_and_unblocks_push(self):
+        result = self.run_script(answer='i\n')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('Ignoring', result.stdout)
+        self.assertFalse(self.destination.exists())
+        lines = [l for l in self.ignore.read_text().splitlines() if l and not l.startswith('#')]
+        self.assertEqual(lines, ['sample'])
+        self.assertTrue(self.ignore.read_text().startswith('# MCP servers'))
+        self.assertEqual(self.run_script('--check').returncode, 0)
+        listing = self.run_script('--pre-push')
+        self.assertEqual(listing.returncode, 0, listing.stderr)
+        self.assertIn('IGNORE: listed in', listing.stdout)
+        self.assertNotIn('ADD:', listing.stdout)
+
+    def test_review_item_can_be_ignored(self):
+        p = self.codex / 'config.toml'
+        p.write_text('[mcp_servers.sample]\nurl = "https://different.example.com"\n')
+        self.assertEqual(self.run_script('--check').returncode, 1)
+        result = self.run_script(answer='y\n')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('settings differ', result.stdout)
+        self.assertEqual(self.run_script('--check').returncode, 0)
+        self.assertEqual(self.run_script('--pre-push').returncode, 0)
+
+    def test_declining_to_ignore_review_item_still_blocks(self):
+        p = self.codex / 'config.toml'
+        p.write_text('[mcp_servers.sample]\nurl = "https://different.example.com"\n')
+        self.assertEqual(self.run_script(answer='n\n').returncode, 1)
+        self.assertFalse(self.ignore.exists())
+
+    def test_ignore_file_comments_and_custom_path_are_honoured(self):
+        custom = self.home / 'names.txt'
+        custom.write_text('# comment line\n  sample   # trailing note\n\nother\n')
+        result = self.run_script('--check', '--ignore-file', str(custom))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('IGNORE: listed in', result.stdout)
+        self.assertIn('1 ignored', result.stdout)
+        self.assertFalse(self.ignore.exists())
+
+    def test_ignore_appends_to_existing_file_and_applies_both_directions(self):
+        self.ignore.write_text('keep-me')
+        (self.codex / 'config.toml').write_bytes(sync.render(b'', [('reverse', {'url': 'https://example.org'})]))
+        result = self.run_script(answer='i\ni\n')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        text = self.ignore.read_text()
+        self.assertTrue(text.startswith('keep-me\n'))
+        self.assertEqual(sync.load_ignored(self.ignore), {'keep-me', 'sample', 'reverse'})
+        self.assertFalse(self.destination.exists())
+        self.assertNotIn('mcpServers', json.loads(self.claude.read_text()).get('projects', {}).get(str(self.root), {}))
+        self.assertEqual(self.run_script('--check').returncode, 0)
+
+    def test_pre_push_ignore_uses_terminal_once_and_continues(self):
+        terminal = unittest.mock.MagicMock()
+        terminal.readline.return_value = 'i\n'
+        with patch.dict(os.environ, self.env), patch('sys.argv', [str(SCRIPT),
+                '--project', str(self.root), '--claude-config', str(self.claude), '--pre-push']), \
+                patch('builtins.open', return_value=terminal) as tty, \
+                patch('builtins.input') as stdin, patch('builtins.print'):
+            self.assertEqual(sync.main(), 0)
+            tty.assert_called_once_with('/dev/tty', 'r+')
+            stdin.assert_not_called()
+            terminal.close.assert_called_once()
+        self.assertEqual(sync.load_ignored(self.ignore), {'sample'})
+        self.assertFalse(self.destination.exists())
+
+    def test_mixed_answers_import_some_and_ignore_others(self):
+        data = json.loads(self.claude.read_text())
+        data['mcpServers']['second'] = {'type': 'http', 'url': 'https://example.net'}
+        self.claude.write_text(json.dumps(data))
+        result = self.run_script('--direction', 'to-codex', answer='y\ni\n')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        servers = tomllib.loads(self.destination.read_text())['mcp_servers']
+        self.assertEqual(set(servers), {'sample'})
+        self.assertEqual(sync.load_ignored(self.ignore), {'second'})
+        self.assertEqual(self.run_script('--check').returncode, 0)
 
 
 if __name__ == '__main__':
