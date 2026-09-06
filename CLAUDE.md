@@ -32,7 +32,6 @@ Cross-cutting work lives in `projects/`, one subfolder per project. **Each proje
 | **awards26** | 22nd International Electoral Awards (Manila, 2026): sponsors, invoices, booking forms | `projects/awards26/CLAUDE.md` |
 | **bsva** | BSVA survey analysis and rebuild | `projects/bsva/claude.md` |
 | **smartmatic** | Smartmatic webinar series planning (results transmission, inclusive elections) | (no status doc yet) |
-| **webinars** | Cross-series webinar comms templates (speaker briefing, delegate joining details) | `projects/webinars/CLAUDE.md` |
 | **horizon** | EU Horizon Europe grant bid (INDEPACT): call, pitch, work packages | (no status doc yet) |
 
 Note: `projects/` is gitignored (local working area), so its contents are not committed. Drafted emails and speaker/contact CSVs now live inside the relevant project folder (not a top-level `emails/` directory).
@@ -81,7 +80,7 @@ Skills load their own context when invoked — don't pre-load awards or website 
 - Drafted emails are transient: compose to a scratch/working file, open or send via Outlook / Apple Mail (or run the mail-merge), then delete the file. Do not store email drafts in the repo. There is no top-level `emails/` directory. Persistent data deliverables (speaker/contact CSVs, research lists) go into the relevant `projects/<project>/` folder.
 
 ### Email templates
-- Reusable email templates live in the relevant `projects/<project>/templates/` folder (indexed and referenced from the `/email-inbox` skill). Webinar templates in `projects/webinars/templates/`: `speaker-briefing.md` (pre-event logistics email to confirmed speakers), `delegate-briefing.md` (joining details to registered delegates). Awards/sponsor templates in `projects/awards26/templates/`: `sponsor-welcome.md` (first logistics email to a newly signed sponsor/exhibitor), `sponsor-nominations.md` (asking sponsors to nominate partner commissions ahead of a nominations deadline).
+- Reusable email templates live in the `/email-inbox` skill at `.claude/skills/email-inbox/templates/` (index and conventions in its `README.md`). Webinar templates in `templates/webinars/`: `speaker-briefing.md` (pre-event logistics email to confirmed speakers), `delegate-briefing.md` (joining details to registered delegates). Awards templates in `templates/awards/`: `sponsor-welcome.md` (first logistics email to a newly signed sponsor/exhibitor), `sponsor-nominations.md` (asking sponsors to nominate partner commissions ahead of a nominations deadline). Edition-specific notes sit at the end of each awards template under their own heading.
 
 ---
 

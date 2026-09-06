@@ -1,6 +1,6 @@
 ---
 name: email-inbox
-description: Email assistant for Jack's Exchange inbox. Reads mail in Apple Mail, searches filed mail across Exchange mailboxes (BSVA, Awards, Sent Items, etc.), walks through conversations, drafts replies in Apple Mail, and drafts new composes in Microsoft Outlook. Use when the user wants to triage their inbox, search past correspondence, reply to messages, or send a new email.
+description: Email assistant for Jack's Exchange inbox. Reads mail in Apple Mail, searches filed mail across Exchange mailboxes (BSVA, Awards, Sent Items, etc.), walks through conversations, drafts replies in Apple Mail, and drafts new composes in Microsoft Outlook. Use when the user wants to triage their inbox, search past correspondence, reply to messages, send a new email, or compose one of the standard emails from a template (speaker briefing, delegate joining details, sponsor welcome, sponsor nominations ask).
 argument-hint: [optional: number of emails, search term, or "next" to continue]
 allowed-tools: Bash, Read, Write
 ---
@@ -155,6 +155,17 @@ When the user wants to start a **new conversation** (not a reply), or explicitly
 4. **Open the draft** in Outlook using `compose.sh`. For anything with structure (lists, links, headings, bold), use `--html` (see below).
 
 If asked to "open in Mail" without further context for a *new compose*, still use Outlook — that is the right tool for composes. Clarify if unsure.
+
+### Step 5b — Compose from a template
+
+Some emails recur and have a standard shape. When the request matches one of the templates in `.claude/skills/email-inbox/templates/` (see the index in that folder's `README.md` and the table under "Email templates" below), start from the template rather than drafting from scratch:
+
+1. Read the template file. It gives the recipients, subject, the bracketed fields to fill, and a ready-to-run `compose.sh --html` command.
+2. Gather the field values from the user, the event's data file, or the relevant `projects/<project>/` folder. Leave nothing bracketed.
+3. Show the filled body in a code block and ask before opening it in Outlook.
+4. Run the template's `compose.sh` command.
+
+The wording is a starting point, not a script: adjust it to the recipient and, when drafting several from one template in a sitting, vary the skeleton.
 
 ### Step 6 — Style for drafts
 
@@ -444,16 +455,16 @@ So you only need to supply the **inner HTML** for the body. Use:
 
 ## Email templates
 
-Reusable email templates live in the relevant `projects/<project>/templates/` folder, not in this skill. Read the template file, substitute its bracketed fields, and compose via `compose.sh --html`.
+Reusable emails live in `.claude/skills/email-inbox/templates/`, one file per template, grouped by area. `templates/README.md` holds the index, the shared conventions, and how to add a new one. Each file follows the same skeleton: when to use, recipients, subject, fields to substitute, a `compose.sh --html` body, notes, and (for awards) edition-specific notes under their own heading.
 
-| Template | Purpose | Location |
+| Template | Use it when | File |
 |---|---|---|
-| Speaker briefing | Logistics email to a webinar's confirmed speakers, about a week out (thanks, bio and slides requests, agenda with per-speaker timings, Zoom details) | `projects/webinars/templates/speaker-briefing.md` |
-| Delegate briefing | Joining-details email to registered delegates, usually sent the day before by the admin team (e.g. Devianee, cnithoo@parlistudies.org) | `projects/webinars/templates/delegate-briefing.md` |
-| Sponsor welcome | First logistics email to a newly signed sponsor/exhibitor (point-of-contact intro plus package recap) | `projects/awards26/templates/sponsor-welcome.md` |
-| Sponsor nominations ask | Asking a sponsor to nominate the partner commissions they work with ahead of a nominations deadline (never themselves) | `projects/awards26/templates/sponsor-nominations.md` |
+| Speaker briefing | Sending confirmed webinar or roundtable speakers their logistics about a week out (thanks, bio and slides requests, agenda with per-speaker timings, Zoom details) | `templates/webinars/speaker-briefing.md` |
+| Delegate briefing | Sending registered delegates their joining details, usually the day before, via the admin team (Devianee, cnithoo@parlistudies.org) | `templates/webinars/delegate-briefing.md` |
+| Sponsor welcome | First logistics email to a newly signed Awards sponsor or exhibitor (point-of-contact intro plus package recap) | `templates/awards/sponsor-welcome.md` |
+| Sponsor nominations ask | Asking a sponsor to nominate the partner commissions they work with ahead of a nominations deadline (never themselves) | `templates/awards/sponsor-nominations.md` |
 
-Awards/sponsor templates travel with the current edition's project folder; webinar templates are cross-series and live in `projects/webinars/`.
+See Step 5b for the workflow.
 
 ---
 
